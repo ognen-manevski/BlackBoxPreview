@@ -14,9 +14,10 @@ import type {
   SupportedMaterial,
 } from "./types";
 
-const MODEL_URL = "/models/shelf-label/Label-optimized.gltf";
-const WOOD_TEXTURE_URL = "/models/shelf-label/wood.png";
-const VIDEO_URL = "/videos/shelf-labels/product-features-loop.mp4";
+const BASE_URL = import.meta.env.BASE_URL;
+const MODEL_URL = `${BASE_URL}models/shelf-label/Label-optimized.gltf`;
+const WOOD_TEXTURE_URL = `${BASE_URL}models/shelf-label/wood.png`;
+const VIDEO_URL = `${BASE_URL}videos/shelf-labels/product-features-loop.mp4`;
 const MODEL_ROTATION_X = THREE.MathUtils.degToRad(86);
 const VIDEO_ASPECT = 1000 / 700;
 const EMITTER_BLINK_SPEED = 0.5;
@@ -142,7 +143,7 @@ export function initShelfLabelViewer(
   controls.rotateSpeed = 0.7;
   controls.target.set(0, 0, 0);
 
-  dracoLoader.setDecoderPath("/draco/");
+  dracoLoader.setDecoderPath(`${BASE_URL}draco/`);
   loader.setDRACOLoader(dracoLoader);
   loader.setMeshoptDecoder(MeshoptDecoder);
 

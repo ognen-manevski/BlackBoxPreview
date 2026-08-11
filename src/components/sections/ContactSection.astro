@@ -19,7 +19,7 @@ const { content } = Astro.props;
     preload="metadata"
     aria-hidden="true"
   >
-    <source src="/videos/gradients/dark/base-gradient-1.mp4" type="video/mp4" />
+    <source src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-1.mp4`} type="video/mp4" />
   </video>
   <div class="contact__bg-overlay" aria-hidden="true"></div>
 

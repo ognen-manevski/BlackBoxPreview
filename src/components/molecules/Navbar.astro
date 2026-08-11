@@ -12,8 +12,9 @@ interface Props {
 const { currentLang = 'en' } = Astro.props;
 const t = getTranslations(commonTranslations, currentLang).navigation;
 const href = (path: string) => getLocalizedPath(path, currentLang);
+const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg`;
 ---
-<nav class="navbar" role="navigation" aria-label={t.ariaLabel} id="navbar">
+<nav class="navbar" role="navigation" aria-label={t.ariaLabel} id="navbar" style={`--navbar-logo-mask: url('${brandLogoPath}')`}>
   <div class="container">
 
     <a href={href('/')} class="navbar__brand" aria-label={t.homeAriaLabel}>
@@ -131,8 +132,8 @@ const href = (path: string) => getLocalizedPath(path, currentLang);
     width: 9rem;
     height: 2rem;
     background-color: currentColor;
-    -webkit-mask: url('/brand/logo/logo-horizontal.svg') no-repeat left center / contain;
-    mask: url('/brand/logo/logo-horizontal.svg') no-repeat left center / contain;
+    -webkit-mask: var(--navbar-logo-mask) no-repeat left center / contain;
+    mask: var(--navbar-logo-mask) no-repeat left center / contain;
     flex-shrink: 0;
   }
 

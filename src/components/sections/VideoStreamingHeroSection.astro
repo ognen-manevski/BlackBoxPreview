@@ -15,7 +15,7 @@ import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interfa
         <video
             class="vs-intro__loop-video"
             data-vs-loop-video
-            src="/videos/video-streaming/video-section2-bg-loop.mp4"
+            src={`${import.meta.env.BASE_URL}videos/video-streaming/video-section2-bg-loop.mp4`}
             muted
             loop
             playsinline
@@ -30,11 +30,11 @@ import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interfa
             poster={heroPoster.src}
         >
             <source
-                src="/videos/video-streaming/video-hero-onscroll-scroll-v3.webm"
+                src={`${import.meta.env.BASE_URL}videos/video-streaming/video-hero-onscroll-scroll-v3.webm`}
                 type="video/webm"
             />
             <source
-                src="/videos/video-streaming/video-hero-onscroll-scroll-v3.mp4"
+                src={`${import.meta.env.BASE_URL}videos/video-streaming/video-hero-onscroll-scroll-v3.mp4`}
                 type="video/mp4"
             />
         </video>

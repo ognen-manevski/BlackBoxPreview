@@ -22,7 +22,7 @@ export default defineConfig({
   },
 
   base: isGitHubPages
-    ? `/${repoName}`
+    ? `/${repoName}/`
     : "/",
 
   integrations: [sitemap()],

@@ -9,7 +9,7 @@ const { content } = Astro.props;
   <div class="technology__bg" aria-hidden="true">
     <video
       class="technology__bg-video technology__bg-video--dark"
-      src="/videos/bg-videos/orb.mp4"
+      src={`${import.meta.env.BASE_URL}videos/bg-videos/orb.mp4`}
       autoplay
       muted
       loop
@@ -18,7 +18,7 @@ const { content } = Astro.props;
     ></video>
     <video
       class="technology__bg-video technology__bg-video--light"
-      src="/videos/bg-videos/orb-white.mp4"
+      src={`${import.meta.env.BASE_URL}videos/bg-videos/orb-white.mp4`}
       autoplay
       muted
       loop

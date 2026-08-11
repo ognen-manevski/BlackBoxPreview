@@ -1,0 +1,210 @@
+<svg class="sd-frontend-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="1400" height="1200" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1400 1200">
+  <defs>
+    <style>
+
+      .sd-frontend-icon {
+        --fill-color: var(--icon-bg);
+        --stroke-color: var(--color-brand);
+      }
+
+      .cls-1-frontend, .cls-2-frontend, .cls-3-frontend {
+        fill: none;
+      }
+
+      .cls-2-frontend {
+        fill-rule: evenodd;
+      }
+
+      .cls-2-frontend, .cls-3-frontend {
+        stroke: var(--stroke-color);
+        stroke-miterlimit: 10;
+        stroke-width: 5px;
+      }
+
+      .cls-4-frontend {
+        clip-path: url(#sd-frontend-clippath);
+      }
+
+
+      #cursor-frontend{
+        transition: transform 0.5s ease;
+        fill: var(--fill-color);
+      }
+
+      .sd-service-card:hover .sd-frontend-icon #cursor-frontend{
+        transform: translate(-50px, -100px);
+      }
+
+      .sd-service-card:hover .sd-frontend-icon #arrow-frontend{
+        transform: translate(20px, 0px);
+        animation: arrow-frontend-anim 1.4s ease infinite;
+      }
+
+      .sd-service-card:hover .sd-frontend-icon #arrow-frontend-2{
+        animation: arrow-frontend-2-anim 1.4s ease infinite;
+      }
+
+      @keyframes arrow-frontend-anim {
+        0% {
+          transform: translate(0px, 0px);
+        }
+        50% {
+          transform: translate(20px, 0px);
+        }
+        100% {
+          transform: translate(0px, 0px);
+        }
+      }
+
+      @keyframes arrow-frontend-2-anim {
+        0% {
+          transform: translate(0px, 0px);
+        }
+        50% {
+          transform: translate(-20px, 0px);
+        }
+        100% {
+          transform: translate(0px, 0px);
+        }
+      }
+
+      #sun, #mountain {
+        transition: transform 0.5s ease;
+        transform-origin: left center;
+      }
+
+
+      .sd-service-card:hover .sd-frontend-icon #sun,
+      .sd-service-card:hover .sd-frontend-icon #mountain {
+        transform: translate(-20px, 0px) scale(1.05);
+      }
+
+
+      #text-line {
+        --x: 745.79211px;
+        --width: 385.42105px;
+        --dist: 30px;
+        --delay: 0s;
+      }
+
+      #text-line-2 {
+        --x: 903.79047px;
+        --width: 227.42269px;
+        --dist: 30px;
+        --delay: 0.6s;
+      }
+
+      #text-line-3 {
+        --x: 903.79047px;
+        --width: 227.42269px;
+        --dist: 30px;
+        --delay: 0.2s;
+      }
+
+      #text-line-4 {
+        --x: 903.79047px;
+        --width: 227.42269px;
+        --dist: 30px;
+        --delay: 0.4s;
+      }
+
+      .sd-service-card:hover .sd-frontend-icon #text-line,
+      .sd-service-card:hover .sd-frontend-icon #text-line-2,
+      .sd-service-card:hover .sd-frontend-icon #text-line-3,
+      .sd-service-card:hover .sd-frontend-icon #text-line-4 {
+        animation: text-line-anim 1.4s ease infinite;
+        animation-delay: var(--delay);
+      }
+
+      @keyframes text-line-anim {
+        0%,
+        100% {
+          x: var(--x);
+          width: var(--width);
+        }
+
+        50% {
+          x: calc(var(--x) + var(--dist));
+          width: calc(var(--width) - var(--dist));
+        }
+      }
+
+
+      #_1-fronted {
+        --delay: 0s;
+      }
+      #_2-fronted {
+        --delay: 0.1s;
+      }
+      #_3-fronted {
+        --delay: 0.2s;
+      }
+
+      .sd-service-card:hover .sd-frontend-icon #_1-fronted,
+      .sd-service-card:hover .sd-frontend-icon #_2-fronted,
+      .sd-service-card:hover .sd-frontend-icon #_3-fronted {
+        animation: dots-blink 1s step-start infinite;
+        animation-delay: var(--delay);
+      }
+
+      @keyframes dots-blink {
+        0%,
+        100%{
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0;
+        }
+      }
+
+
+    </style>
+    <clipPath id="sd-frontend-clippath">
+      <rect class="cls-1-frontend" x="239.15068" y="285.24917" width="447.37974" height="264.72438"/>
+    </clipPath>
+  </defs>
+  <g >
+    <g>
+      <rect class="cls-3-frontend" x="237.81579" y="576.61914" width="447.37629" height="264.72107"/>
+      <g>
+        <path id="arrow-frontend" class="cls-3-frontend" d="M607.21808,710.26446l-64.75001,62.31993-21.58078-20.77085,43.16158-41.54906-43.16921-41.54906,21.58078-20.77086,64.75763,62.31992h0Z"/>
+        <polygon id="arrow-frontend-2" data-name="arrow-frontend" class="cls-3-frontend" points="315.78979 710.26446 380.53979 647.94454 402.12058 668.7154 358.959 710.26446 402.12821 751.81352 380.54742 772.58439 315.78979 710.26446 315.78979 710.26446"/>
+        <path id="slash" class="cls-3-frontend" d="M461.64256,615.45751l-27.58666,185.85955,27.30942,3.75437,27.58666-185.85906-27.30942-3.75486Z"/>
+      </g>
+    </g>
+    <g>
+      <rect class="cls-3-frontend" x="239.15068" y="285.24917" width="447.37974" height="264.72438"/>
+      <g class="cls-4-frontend">
+        <polyline id="mountain" class="cls-3-frontend" points="190.16995 467.25 300.16651 365.33641 444.98078 507.15347 546.26402 409.82442 734.39624 595.02371"/>
+      </g>
+      <ellipse id="sun" class="cls-3-frontend" cx="608.5937" cy="354.08245" rx="36.64377" ry="35.26852"/>
+    </g>
+    <g data-id="tx">
+      <rect id="text-line" class="cls-3-frontend" x="745.79211" y="782.71408" width="385.42105" height="27.58602"/>
+      <rect id="text-line-2" data-name="text-line" class="cls-3-frontend" x="903.79047" y="724.36247" width="227.42269" height="27.58602"/>
+      <rect id="text-line-3" data-name="text-line" class="cls-3-frontend" x="903.79047" y="666.01085" width="227.42269" height="27.58602"/>
+      <rect id="text-line-4" data-name="text-line" class="cls-3-frontend" x="903.79047" y="607.65923" width="227.42269" height="27.58602"/>
+      <polygon id="T" class="cls-2-frontend" points="877.67504 607.65923 877.67504 635.24526 826.07092 635.24526 826.07092 751.94849 797.39623 751.94849 797.39623 635.24526 745.79211 635.24526 745.79211 607.65923 877.67504 607.65923"/>
+      <rect class="cls-3-frontend" x="714.81449" y="576.61914" width="447.37629" height="264.72107"/>
+    </g>
+    <g data-id="x">
+      <rect class="cls-3-frontend" x="714.81449" y="285.25083" width="447.37629" height="264.72107"/>
+      <line class="cls-3-frontend" x1="714.81449" y1="285.25083" x2="1162.19079" y2="549.97189"/>
+      <line class="cls-3-frontend" x1="1162.19079" y1="285.25083" x2="714.81449" y2="549.97189"/>
+    </g>
+  </g>
+  <g data-id="static">
+    <rect class="cls-3-frontend" x="166.49995" y="136.75" width="1067" height="783"/>
+    <rect class="cls-3-frontend" x="200.99995" y="172.25" width="998" height="712"/>
+    <line class="cls-3-frontend" x1="1200.16995" y1="252.25" x2="202.16995" y2="252.25"/>
+    <rect class="cls-3-frontend" x="597.00003" y="919.75" width="206" height="99.5"/>
+    <rect class="cls-3-frontend" x="414.66995" y="1019.25" width="570.66003" height="44"/>
+  </g>
+  <g data-id="dots">
+    <circle id="_1-fronted" data-name="1" class="cls-3-frontend" cx="249.16995" cy="210.75" r="15"/>
+    <circle id="_2-fronted" data-name="2" class="cls-3-frontend" cx="314.16995" cy="210.75" r="15"/>
+    <circle id="_3-fronted" data-name="3" class="cls-3-frontend" cx="379.16995" cy="210.75" r="15"/>
+  </g>
+  <path id="cursor-frontend" class="cls-3-frontend" d="M1109.73643,985.80649l27.31446,57.75992c-.37143,1.15054-40.00919,20.56266-41.48039,19.65258l-28.73535-56.17212-49.16519,33.88831.88473-183.77258c.00372-.7723.89245-1.20405,1.50184-.72961l142.34534,110.82138-52.66544,18.55212Z"/>
+</svg>

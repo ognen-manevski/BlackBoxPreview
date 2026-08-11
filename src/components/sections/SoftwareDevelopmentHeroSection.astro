@@ -1,0 +1,188 @@
+---
+import codeDarkPoster from '../../assets/images/services/development/code-dark-loop-poster.jpg';
+import codeWhitePoster from '../../assets/images/services/development/code-wh-loop-poster.jpg';
+import type { SoftwareDevelopmentContent } from '../../i18n/pages/software-development';
+interface Props { content: SoftwareDevelopmentContent['hero'] } const { content } = Astro.props;
+---
+<section class="sd-hero" aria-label={content.ariaLabel}>
+    <div class="sd-hero__media" aria-hidden="true">
+        <!--
+        <video
+            class="sd-hero__video sd-hero__video--dark"
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="auto"
+            src="/videos/gradients/dark/base-gradient-1.mp4"></video>
+        <video
+            class="sd-hero__video sd-hero__video--light"
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="auto"
+            src="/videos/gradients/dark/base-gradient-1.mp4"></video>
+        -->
+        <video
+            class="sd-hero__video sd-hero__video--dark"
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="auto"
+            poster={codeDarkPoster.src}>
+            <source src="/videos/development/code-dark-2-loop.webm" type="video/webm" />
+            <source src="/videos/development/code-dark-2-loop.mp4" type="video/mp4" />
+        </video>
+        <video
+            class="sd-hero__video sd-hero__video--light"
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="auto"
+            poster={codeWhitePoster.src}>
+            <source src="/videos/development/code-wh-2-loop.webm" type="video/webm" />
+            <source src="/videos/development/code-wh-2-loop.mp4" type="video/mp4" />
+        </video>
+    </div>
+
+    <div class="container sd-hero__inner">
+        <div class="sd-hero__content">
+            <h1 class="sd-hero__title section-headline section-headline--hero larger-title">
+                {content.titleStart}
+                <strong class="hero-highlight hero-highlight--animated"
+                        style="--hero-highlight-delay: 0s;">{content.highlight}</strong>
+                {content.titleEnd}
+            </h1>
+            
+
+            <p class="sd-hero__lead section-copy">
+                {content.paragraphs[0]}
+            </p>
+            <p class="sd-hero__lead section-copy">
+                {content.paragraphs[1]}
+            </p>
+        </div>
+    </div>
+</section>
+
+<style>
+    .sd-hero {
+        position: relative;
+        background: var(--bg);
+        overflow: clip;
+        width: 100%;
+        padding-top: var(--navbar-height);
+        min-height: clamp(28rem, 68svh, 46rem);
+    }
+
+    .sd-hero__inner {
+        position: relative;
+        z-index: 2;
+        min-height: 100%;
+        padding-top: calc(var(--navbar-height) + var(--sp-8));
+        padding-bottom: var(--sp-8);
+        display: grid;
+        align-items: center;
+        justify-items: start;
+    }
+
+    .sd-hero__content {
+        max-width: 46rem;
+        display: grid;
+        gap: var(--sp-4);
+        text-align: left;
+    }
+
+    .sd-hero__title,
+    .sd-hero__lead {
+        margin: 0;
+        text-align: left;
+    }
+
+    .sd-hero__title strong {
+        font-weight: var(--weight-display);
+    }
+
+    .sd-hero__lead {
+        max-width: 68ch;
+    }
+
+
+/* 
+    .larger-title{
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        line-height: clamp(3rem, 6.5vw, 4.5rem);
+    } */
+
+
+    .sd-hero__media {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background:  var(--bg);
+    }
+
+    .sd-hero__media::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--bg) 80%, transparent) 0%,
+            color-mix(in srgb, var(--bg) 50%, transparent) 50%,
+            color-mix(in srgb, var(--color-brand) 30%, transparent) 100%
+        );
+    }
+
+    .sd-hero__video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .sd-hero__video--light {
+        display: none;
+    }
+
+    :global([data-theme="light"]) .sd-hero__video--dark {
+        display: none;
+    }
+
+    :global([data-theme="light"]) .sd-hero__video--light {
+        display: block;
+    }
+
+    @media (max-width: 1024px) {
+        .sd-hero__inner {
+            padding-top: calc(var(--navbar-height) + var(--sp-6));
+            padding-bottom: var(--sp-7);
+        }
+
+        .sd-hero__content {
+            max-width: 40rem;
+            gap: var(--sp-3);
+        }
+    }
+
+    @media (max-width: 720px) {
+        .sd-hero {
+            min-height: clamp(24rem, 64svh, 38rem);
+        }
+
+        .sd-hero__inner {
+            padding-top: calc(var(--navbar-height) + var(--sp-5));
+            padding-bottom: var(--sp-6);
+        }
+    }
+</style>

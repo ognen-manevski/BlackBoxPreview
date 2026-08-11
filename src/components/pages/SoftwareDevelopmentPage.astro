@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SoftwareDevelopmentHeroSection from '../sections/SoftwareDevelopmentHeroSection.astro';
+import SoftwareDevelopmentTechnologySection from '../sections/SoftwareDevelopmentTechnologySection.astro';
+import SoftwareDevelopmentServicesSection from '../sections/SoftwareDevelopmentServicesSection.astro';
+import BookDemoSection from '../sections/BookDemoSection.astro';
+import { softwareDevelopmentContent } from '../../i18n/pages/software-development';
+import { getTranslations } from '../../i18n/utils'; import type { Lang } from '../../i18n/types';
+interface Props { lang: Lang } const { lang } = Astro.props; const c = getTranslations(softwareDevelopmentContent, lang);
+---
+<BaseLayout lang={lang} title={c.seo.title} description={c.seo.description}><SoftwareDevelopmentHeroSection content={c.hero}/><SoftwareDevelopmentTechnologySection content={c.technology}/><SoftwareDevelopmentServicesSection content={c.services}/><BookDemoSection lang={lang} defaultService={c.demoService}/></BaseLayout>

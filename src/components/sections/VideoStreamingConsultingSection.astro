@@ -1,0 +1,325 @@
+---
+import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interface Props{content:VideoStreamingContent['consulting']}const{content}=Astro.props;const consultingCards=content.cards;
+---
+
+<section class="section vs-consulting" aria-labelledby="vs-consulting-heading">
+  <div class="container vs-consulting__inner">
+    <div class="vs-consulting__content-wrap">
+      <div class="vs-consulting__content">
+        <p class="section-label">{content.label}</p>
+        <h2
+          class="section-headline vs-consulting__headline"
+          id="vs-consulting-heading"
+        >
+          {content.heading}
+        </h2>
+        <p class="section-copy vs-consulting__copy">
+          {content.copy}
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="vs-consulting__cards"
+      aria-label={content.ariaLabel}
+    >
+      {
+        consultingCards.map((card, index) => (
+          <article
+            class="vs-consulting__card u-border-interactive"
+            style={`--vs-card-z:${index + 1};`}
+            tabindex="0"
+          >
+            <div class="vs-consulting__card-media">
+              <video
+                class="vs-consulting__card-video"
+                src={card.video}
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                aria-hidden="true"
+              />
+              <div class="vs-consulting__card-overlay" />
+            </div>
+
+            <div class="vs-consulting__card-content">
+              <p class="vs-consulting__card-number" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </p>
+
+              <div class="vs-consulting__card-body">
+                <h3 class="vs-consulting__card-title">{card.title}</h3>
+                <p class="vs-consulting__card-copy">{card.copy}</p>
+              </div>
+
+              <ul
+                class="vs-consulting__card-points"
+                aria-label={`${card.title} ${content.highlightsSuffix}`}
+              >
+                {card.points.map((point) => (
+                  <li>{point}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const cards = document.querySelectorAll(".vs-consulting__card");
+
+  cards.forEach((card) => {
+    const video = card.querySelector("video");
+
+    if (!video) {
+      return;
+    }
+
+    const playVideo = () => {
+      video.play().catch(() => {});
+    };
+
+    const pauseVideo = () => {
+      video.pause();
+      video.currentTime = 0;
+    };
+
+    pauseVideo();
+    card.addEventListener("mouseenter", playVideo);
+    card.addEventListener("mouseleave", pauseVideo);
+    card.addEventListener("focusin", playVideo);
+    card.addEventListener("focusout", pauseVideo);
+  });
+</script>
+
+<style>
+  .vs-consulting {
+    background: var(--bg);
+    padding-top: var(--sp-10);
+    padding-bottom: var(--sp-10);
+  }
+
+  .vs-consulting__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--sp-8);
+    align-items: start;
+  }
+
+  .vs-consulting__content-wrap {
+    position: sticky;
+    top: calc(var(--navbar-height) + var(--sp-8));
+    align-self: start;
+  }
+
+  .vs-consulting__content {
+    display: grid;
+    gap: var(--sp-3);
+    align-content: start;
+    /* padding-bottom: calc(var(--sp-10) * 2); */
+    padding-bottom: calc(var(--sp-10) * 2.2); /* extra padding to account for the sticky card height */
+  }
+
+  .vs-consulting__headline,
+  .vs-consulting__copy {
+    margin: 0;
+  }
+
+  .vs-consulting__headline {
+    max-width: 23ch;
+  }
+
+  .vs-consulting__copy {
+    max-width: 54ch;
+  }
+
+  .vs-consulting__cards {
+    display: flex;
+    flex-direction: column;
+    --mingap: calc(var(--sp-10) * 2);
+    gap: var(--mingap);
+    /* padding-top: var(--sp-1); */
+    /* padding-bottom: 45svh; */
+  }
+
+  .vs-consulting__card {
+    position: sticky;
+    top: calc(var(--navbar-height) + var(--sp-8));
+    min-height: 0;
+    /* border: 1px solid var(--border-color); */
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface);
+    z-index: var(--vs-card-z);
+    isolation: isolate;
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+
+  .vs-consulting__card-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-bottom: 1px solid var(--border-color);
+    background: color-mix(in srgb, var(--surface) 88%, black 12%);
+  }
+
+  .vs-consulting__card-video {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    filter: saturate(0.8);
+  }
+
+  .vs-consulting__card-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        180deg,
+        transparent 10%,
+        color-mix(in srgb, black 35%, transparent) 100%
+      ),
+      linear-gradient(
+        110deg,
+        color-mix(in srgb, var(--bg) 24%, transparent) 0%,
+        transparent 100%
+      );
+    pointer-events: none;
+  }
+
+  .vs-consulting__card-content {
+    display: grid;
+    grid-template-columns: auto minmax(0, 2fr) minmax(12rem, 1fr);
+    align-items: start;
+    gap: var(--sp-6);
+    padding: var(--sp-5);
+    background: var(--surface);
+  }
+
+  .vs-consulting__card-number {
+    margin: 0;
+    font-family: var(--font-mono);
+    color: var(--color-brand);
+    font-size: clamp(1rem, 0.9rem + 0.35vw, 1.25rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.08em;
+  }
+
+  .vs-consulting__card-body {
+    display: grid;
+    gap: var(--sp-2);
+    min-width: 0;
+  }
+
+  .vs-consulting__card-title,
+  .vs-consulting__card-copy,
+  .vs-consulting__card-points {
+    margin: 0;
+  }
+
+  .vs-consulting__card-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 1.18rem + 0.65vw, 1.8rem);
+    font-weight: var(--weight-display);
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  .vs-consulting__card-copy {
+    font-family: var(--font-body);
+    /* color: color-mix(in srgb, var(--text-primary) 84%, var(--text-secondary) 16%); */
+    color: var(--text-secondary);
+    font-size: var(--text-base);
+    line-height: 1.6;
+  }
+
+  .vs-consulting__card-points {
+    list-style: none;
+    display: grid;
+    gap: max(var(--sp-2), 0.5rem);
+    padding: 0;
+    /* margin-top: var(--sp-3); */
+    align-content: center;
+    height: 100%;
+  }
+
+  .vs-consulting__card-points li {
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-body);
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .vs-consulting__card-points li::before {
+    content: "";
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  .vs-consulting__card:focus-within {
+    outline: 2px solid color-mix(in srgb, var(--color-brand) 65%, white 35%);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vs-consulting__card-video {
+      display: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .vs-consulting {
+      padding-top: var(--sp-8);
+      padding-bottom: var(--sp-8);
+    }
+
+    .vs-consulting__inner {
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+
+    .vs-consulting__content-wrap,
+    .vs-consulting__card {
+      position: static;
+      top: auto;
+    }
+
+    .vs-consulting__cards {
+      padding-top: var(--sp-2);
+      padding-bottom: 0;
+      gap: var(--sp-3);
+    }
+
+    .vs-consulting__card {
+      min-height: auto;
+    }
+
+    .vs-consulting__card-content {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--sp-3);
+    }
+
+    .vs-consulting__card-points {
+      grid-column: 2;
+    }
+
+    .vs-consulting__copy {
+      max-width: none;
+    }
+  }
+</style>

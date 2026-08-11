@@ -1,0 +1,54 @@
+---
+interface Props {
+    value: string;
+    label: string;
+}
+
+const { value, label } = Astro.props as Props;
+---
+
+<li class="metric-chip u-border-interactive">
+    <article class="metric-chip__inner">
+        <span class="metric-chip__value">{value}</span>
+        <span class="metric-chip__label">{label}</span>
+    </article>
+</li>
+
+<style>
+    .metric-chip {
+        min-height: 5.5rem;
+        border-radius: var(--radius);
+        background: color-mix(in srgb, var(--bg-secondary) 86%, var(--bg));
+    }
+
+    .metric-chip__inner {
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: start;
+        gap: var(--sp-2);
+        padding: var(--sp-4);
+    }
+
+    .metric-chip__value {
+        font-family: var(--font-display);
+        font-size: var(--text-md);
+        line-height: 1;
+        letter-spacing: 0.02em;
+        color: var(--color-brand);
+        font-weight: var(--weight-bold);
+        white-space: nowrap;
+    }
+
+    .metric-chip__label {
+        font-size: var(--text-xs);
+        line-height: 1.5;
+        color: var(--text-secondary);
+    }
+
+    @media (max-width: 600px) {
+        .metric-chip__inner {
+            gap: var(--sp-1);
+        }
+    }
+</style>

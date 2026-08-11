@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DigitalSignageHeroSection from '../sections/DigitalSignageHeroSection.astro';
+import DigitalSignageNeoSlideSection from '../sections/DigitalSignageNeoSlideSection.astro';
+import DigitalSignageHowItWorksSection from '../sections/DigitalSignageHowItWorksSection.astro';
+import DigitalSignageDashboardSection from '../sections/DigitalSignageDashboardSection.astro';
+import DigitalSignageRealtimeContentSection from '../sections/DigitalSignageRealtimeContentSection.astro';
+import DigitalSignageIndustrySolutionsSection from '../sections/DigitalSignageIndustrySolutionsSection.backup.astro';
+import DigitalSignageAnyScreenSection from '../sections/DigitalSignageAnyScreenSection.astro';
+import DigitalSignageDisplayTypesSection from '../sections/DigitalSignageDisplayTypesSection.astro';
+import BookDemoSection from '../sections/BookDemoSection.astro';
+import { digitalSignageContent } from '../../i18n/pages/digital-signage';
+import { getTranslations } from '../../i18n/utils'; import type { Lang } from '../../i18n/types';
+interface Props { lang: Lang } const { lang } = Astro.props; const c = getTranslations(digitalSignageContent, lang);
+---
+<BaseLayout lang={lang} title={c.seo.title} description={c.seo.description}>
+  <DigitalSignageHeroSection content={c.hero} /><DigitalSignageNeoSlideSection content={c.neoSlide} /><DigitalSignageHowItWorksSection content={c.howItWorks} />
+  <DigitalSignageDashboardSection content={c.dashboard} /><DigitalSignageRealtimeContentSection content={c.realtime} /><DigitalSignageIndustrySolutionsSection content={c.industries} />
+  <DigitalSignageDisplayTypesSection content={c.displayTypes} /><DigitalSignageAnyScreenSection content={c.anyScreen} /><BookDemoSection lang={lang} defaultService={c.demoService} />
+</BaseLayout>

@@ -1,0 +1,32 @@
+<svg id="a" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="260" height="200" viewBox="0 0 260 200">
+  <defs>
+    <style>
+      .b {
+        fill: none;
+        stroke: var(--color-brand);
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <line class="b" x1="142.6" y1="35.78051" x2="87.52" y2="35.78051"/>
+  <polyline class="b" points="157.5 35.78051 182.69 35.78051 182.69 111.14051"/>
+  <polyline class="b" points="72.62 35.78051 47.43 35.78051 47.43 160.50051 145.21 160.50051"/>
+  <line class="b" x1="182.69165" y1="67.03051" x2="47.43165" y2="67.03051"/>
+  <rect class="b" x="72.61999" y="18.78054" width="14.90002" height="33.84998"/>
+  <rect class="b" x="142.60003" y="18.78054" width="14.89996" height="33.84998"/>
+  <g>
+    <g>
+      <rect class="b" x="142.59849" y="89.82997" width="14.90526" height="14.9053"/>
+      <rect class="b" x="107.60902" y="89.82997" width="14.90526" height="14.9053"/>
+      <rect class="b" x="72.61954" y="89.82997" width="14.90526" height="14.9053"/>
+    </g>
+    <g>
+      <rect class="b" x="107.60902" y="121.66155" width="14.90526" height="14.9053"/>
+      <rect class="b" x="72.61954" y="121.66155" width="14.90526" height="14.9053"/>
+    </g>
+  </g>
+  <g>
+    <circle class="b" cx="177.32789" cy="145.97735" r="35.24211"/>
+    <polyline class="b" points="177.06474 126.66157 177.06474 146.1142 192.72789 146.1142"/>
+  </g>
+</svg>

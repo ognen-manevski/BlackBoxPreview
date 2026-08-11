@@ -1,0 +1,416 @@
+---
+import neoslideDark from '../../assets/images/home/neoslide-dark.jpg';
+import neoslideLight from '../../assets/images/home/neoslide-wh.jpg';
+import shelfLabelsDark from '../../assets/images/home/labels-dark.jpg';
+import shelfLabelsLight from '../../assets/images/home/labels-wh.jpg';
+import videoStreamingDark from '../../assets/images/home/video-dark.jpg';
+import videoStreamingLight from '../../assets/images/home/video-wh.jpg';
+import softwareDevelopmentDark from '../../assets/images/home/code-dark.jpg';
+import softwareDevelopmentLight from '../../assets/images/home/code-wh.jpg';
+import type { HomePageContent } from '../../i18n/pages/home';
+
+interface Props { content: HomePageContent['services']; }
+const { content } = Astro.props;
+const images = [
+  { dark: neoslideDark, light: neoslideLight }, { dark: shelfLabelsDark, light: shelfLabelsLight },
+  { dark: videoStreamingDark, light: videoStreamingLight }, { dark: softwareDevelopmentDark, light: softwareDevelopmentLight },
+];
+const services = content.items.map((item, index) => ({ ...item, image: images[index] }));
+---
+
+<section class="section services-section" id="services" aria-labelledby="services-heading">
+  <div class="container">
+    <header class="services-section__header section__header">
+      <p class="section-label">{content.label}</p>
+      <h2 class="section-headline services-section__headline" id="services-heading">
+        {content.heading}
+      </h2>
+      <p class="services-section__lead">
+        {content.intro}
+        <br />
+        {content.copy}
+      </p>
+    </header>
+
+    <div class="services-grid" data-services-grid>
+      {services.map((service, index) => (
+        <article
+          class={`services-card u-border-interactive ${index === 0 ? 'is-active' : ''}`}
+          data-services-card
+          data-card-index={index}
+        >
+          <div class="services-card__media" aria-hidden="true">
+            <img
+              class="services-card__image services-card__image--dark"
+              src={service.image.dark.src}
+              alt=""
+              loading={index === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+            <img
+              class="services-card__image services-card__image--light"
+              src={service.image.light.src}
+              alt=""
+              loading={index === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+            <div class="services-card__gradient"></div>
+          </div>
+
+          <div class="services-card__content">
+            <p class="services-card__counter">{service.counter}</p>
+            <h3 class="services-card__title">{service.title}</h3>
+
+            <div class="services-card__details" aria-hidden={index === 0 ? 'false' : 'true'}>
+              <div class="services-card__details-inner">
+                <p class="services-card__description">{service.description}</p>
+                <a class="services-card__cta" href={service.href}>
+                  {content.learnMore}
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <a class="services-card__hitarea" href={service.href} aria-label={`${content.openPrefix} ${service.title}`}></a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const servicesGrid = document.querySelector('[data-services-grid]');
+
+  if (servicesGrid) {
+    const cards = Array.from(servicesGrid.querySelectorAll<HTMLElement>('[data-services-card]'));
+
+    const setActive = (nextCard: HTMLElement) => {
+      cards.forEach((card) => {
+        const isActive = card === nextCard;
+        card.classList.toggle('is-active', isActive);
+
+        const details = card.querySelector('.services-card__details');
+        if (details) {
+          details.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+        }
+      });
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener('pointerenter', () => {
+        setActive(card);
+      });
+
+      card.addEventListener('focusin', () => {
+        setActive(card);
+      });
+
+      card.addEventListener('click', (event) => {
+        const active = card.classList.contains('is-active');
+        const target = event.target;
+        const clickedLink = target instanceof Element && target.closest('a');
+
+        if (!active) {
+          event.preventDefault();
+          setActive(card);
+          return;
+        }
+
+        if (!clickedLink) {
+          const hitarea = card.querySelector('.services-card__hitarea');
+          if (hitarea instanceof HTMLAnchorElement) {
+            hitarea.click();
+          }
+        }
+      });
+    });
+  }
+</script>
+
+<style>
+  .services-section {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .services-section__header {
+    max-width: 70ch;
+  }
+
+  .services-section__headline {
+    max-width: 22ch;
+    margin-bottom: var(--sp-4);
+  }
+
+  .services-section__lead {
+    color: var(--text-secondary);
+    max-width: 70ch;
+    font-size: var(--text-base);
+  }
+
+  .services-grid {
+    --card-height: clamp(26rem, 52vw, 34rem);
+    --card-floor: 22%;
+    --card-pad: var(--sp-5);
+    --services-transition: 0.56s cubic-bezier(0.22, 0.61, 0.36, 1);
+
+    display: flex;
+    gap: var(--sp-2);
+  }
+
+  .services-card {
+    --card-grow: 1;
+
+    position: relative;
+    isolation: isolate;
+    min-height: var(--card-height);
+    flex: var(--card-grow) 1 0%;
+    border-radius: var(--radius-lg);
+    background: var(--bg);
+    overflow: clip;
+    transition:
+      flex-grow var(--services-transition),
+      background var(--t-base);
+  }
+
+  .services-card.is-active {
+    --card-grow: 3;
+    background: var(--bg);
+  }
+
+  .services-card__media {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .services-card__image {
+    --img-shift-x: 0;
+    --img-scale: 1;
+
+    position: absolute;
+    left: var(--card-pad);
+    top: auto;
+    bottom: var(--card-pad);
+    width: calc(100% - (var(--card-pad) * 2));
+    height: 52%;
+    object-fit: cover;
+    object-position: center bottom;
+    border-radius: var(--radius);
+    opacity: 0.92;
+    transform-origin: bottom center;
+    transform: translateX(var(--img-shift-x)) scale(var(--img-scale));
+    transition:
+      transform var(--services-transition),
+      left var(--services-transition),
+      width var(--services-transition),
+      top var(--services-transition),
+      bottom var(--services-transition),
+      height var(--services-transition),
+      opacity var(--t-base);
+  }
+
+  :global([data-theme='dark']) .services-card__image--light,
+  :global([data-theme='light']) .services-card__image--dark {
+    opacity: 0;
+  }
+
+  .services-card__gradient {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: var(--card-pad);
+    height: 52%;
+    border-radius: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--bg-secondary) 100%, transparent) 0%,
+      color-mix(in srgb, var(--bg-secondary) 100%, transparent) 10%,
+      transparent 100%
+    );
+    transition:
+      left var(--services-transition),
+      width var(--services-transition),
+      top var(--services-transition),
+      bottom var(--services-transition),
+      height var(--services-transition),
+      opacity var(--t-base);
+  }
+
+  .services-card__content {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    padding: var(--card-pad);
+    min-height: var(--card-floor);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--sp-2);
+    background: linear-gradient(to top, var(--bg-secondary) 0%, transparent 48%);
+    transition: justify-content var(--services-transition);
+  }
+
+  .services-card__counter {
+    font-family: var(--font-mono);
+    color: var(--color-brand);
+    font-size: clamp(2rem, 1.6vw + 1.4rem, 3rem);
+    letter-spacing: 0.01em;
+    line-height: 1;
+    font-weight: var(--weight-semibold);
+  }
+
+  .services-card__title {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    font-weight: var(--weight-display);
+    line-height: 1.25;
+    max-width: 22ch;
+    color: var(--text-primary);
+    transition: font-size var(--services-transition);
+  }
+
+  .services-card__details {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--services-transition);
+  }
+
+  .services-card__details-inner {
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    max-width: 56ch;
+    padding-top: 0;
+    transition: padding-top var(--services-transition);
+  }
+
+  .services-card__description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .services-card__cta {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #fff;
+    background: var(--color-brand);
+    border: 1px solid var(--color-brand);
+    border-radius: var(--radius);
+    padding: var(--sp-2) var(--sp-4);
+    transition: background var(--t-base), border-color var(--t-base), color var(--t-base);
+  }
+
+  .services-card__cta:hover,
+  .services-card__cta:focus-visible {
+    background: var(--color-brand-dark);
+    border-color: var(--color-brand-dark);
+  }
+
+  .services-card__cta svg {
+    transition: transform var(--t-base);
+  }
+
+  .services-card__cta:hover svg,
+  .services-card__cta:focus-visible svg {
+    transform: translateX(0.22rem);
+  }
+
+  .services-card__hitarea {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    transform-origin: bottom;
+    transform: scaleY(0);
+    pointer-events: none;
+    transition: transform var(--services-transition);
+  }
+
+  .services-card:not(.is-active) .services-card__details {
+    visibility: hidden;
+  }
+
+  .services-card.is-active .services-card__details {
+    grid-template-rows: 1fr;
+    visibility: visible;
+  }
+
+  .services-card.is-active .services-card__details-inner {
+    padding-top: var(--sp-3);
+  }
+
+  .services-card.is-active .services-card__content {
+    justify-content: flex-end;
+  }
+
+  .services-card.is-active .services-card__title {
+    font-size: var(--text-lg);
+  }
+
+  .services-card.is-active .services-card__hitarea {
+    transform: scaleY(1);
+    pointer-events: auto;
+  }
+
+  .services-card.is-active .services-card__image {
+    --img-shift-x: -50%;
+
+    left: 50%;
+    width: 50%;
+    top: var(--card-pad);
+    bottom: calc(var(--card-pad) + var(--card-floor));
+    height: calc(100% - (var(--card-pad) * 2) - var(--card-floor));
+    object-position: center top;
+    transform-origin: top center;
+  }
+
+  .services-card.is-active .services-card__gradient {
+    top: var(--card-pad);
+    bottom: calc(var(--card-pad) + var(--card-floor));
+    height: calc(100% - (var(--card-pad) * 2) - var(--card-floor));
+    right: 0;
+  }
+
+  .services-card:is(:hover, :focus-within) .services-card__image {
+    --img-scale: 1.04;
+  }
+
+  @media (max-width: 1080px) {
+    .services-grid {
+      --card-height: clamp(22rem, 74vw, 27rem);
+      flex-wrap: wrap;
+    }
+
+    .services-card,
+    .services-card.is-active {
+      --card-grow: 1;
+      flex-basis: calc(50% - (var(--sp-2) / 2));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .services-card,
+    .services-card.is-active {
+      min-height: clamp(21rem, 94vw, 28rem);
+      flex-basis: 100%;
+    }
+
+    .services-section__lead br {
+      display: none;
+    }
+  }
+</style>

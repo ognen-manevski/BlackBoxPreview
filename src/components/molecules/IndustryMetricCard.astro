@@ -1,0 +1,66 @@
+---
+interface Props {
+    value: string;
+    label: string;
+}
+
+const { value, label } = Astro.props as Props;
+---
+
+<li class="industry-metric-card u-border-interactive">
+    <article class="industry-metric-card__inner">
+        <p class="industry-metric-card__value">{value}</p>
+        <p class="industry-metric-card__label">{label}</p>
+    </article>
+</li>
+
+<style>
+    .industry-metric-card {
+        min-height: 10.5rem;
+        border-radius: var(--radius);
+        background: linear-gradient(
+            90deg,
+            var(--bg-secondary) 0%,
+            color-mix(in srgb, var(--bg-secondary) 65%, var(--bg)) 100%
+        );
+    }
+
+    .industry-metric-card__inner {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: var(--sp-1);
+        padding: var(--sp-4);
+        transform: scale(1);
+        transition: transform 0.2s ease;
+    }
+
+    .industry-metric-card:is(:hover, :focus-within) .industry-metric-card__inner {
+        transform: scale(1.03);
+    }
+
+    .industry-metric-card__value {
+        font-family: var(--font-mono);
+        font-size: clamp(1.9rem, 2vw + 0.9rem, 3.2rem);
+        line-height: 1;
+        letter-spacing: 0.02em;
+        color: var(--color-brand);
+        font-weight: var(--weight-bold);
+    }
+
+    .industry-metric-card__label {
+        font-size: var(--text-base);
+        line-height: 1.35;
+        color: var(--text-secondary);
+        white-space: pre-line;
+    }
+
+    @media (max-width: 600px) {
+        .industry-metric-card {
+            min-height: 8.5rem;
+        }
+    }
+</style>

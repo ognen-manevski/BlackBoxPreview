@@ -1,0 +1,65 @@
+---
+import TechnologyGrid from "../molecules/TechnologyGrid.astro";
+import type { SoftwareDevelopmentContent } from '../../i18n/pages/software-development';
+interface Props { content: SoftwareDevelopmentContent['technology'] } const { content } = Astro.props;
+---
+
+<section
+  class="section technology"
+  id="technology"
+  aria-labelledby="technology-heading"
+>
+  <div class="container technology__inner">
+    <header class="technology__header section__header">
+      <p class="section-label">{content.label}</p>
+      <div class="section__header-inner">
+        <h2
+          class="section-headline technology__headline"
+          id="technology-heading"
+        >
+          {content.heading}
+        </h2>
+        <p class="section-copy technology__copy">
+          {content.copy}
+        </p>
+      </div>
+    </header>
+
+    <TechnologyGrid content={content.grid} />
+  </div>
+</section>
+
+<style>
+  .section__header-inner {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-3);
+  }
+
+  .technology {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .technology__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .technology__header {
+    /* max-width: 74ch; */
+    margin-bottom: var(--sp-6);
+  }
+
+  .technology__headline {
+    max-width: 23ch;
+    margin-bottom: var(--sp-3);
+  }
+
+  .technology__copy {
+    max-width: 70ch;
+  }
+</style>

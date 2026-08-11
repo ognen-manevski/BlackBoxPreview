@@ -1,0 +1,43 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'span'> {
+  bordered?: boolean;
+}
+
+const { bordered = true, class: className = '', ...rest } = Astro.props;
+---
+
+<span class:list={['icon-badge', bordered && 'icon-badge--framed', className]} {...rest}>
+  <slot />
+</span>
+
+<style>
+  .icon-badge {
+    --icon-badge-size: 2.25rem;
+    --icon-badge-radius: var(--radius);
+    --icon-badge-border: var(--border-color);
+    --icon-badge-bg: transparent;
+    --icon-badge-color: var(--text-muted);
+
+    width: var(--icon-badge-size);
+    height: var(--icon-badge-size);
+    border-radius: var(--icon-badge-radius);
+    color: var(--icon-badge-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .icon-badge--framed {
+    border: 1px solid var(--icon-badge-border);
+    background: var(--icon-badge-bg);
+  }
+
+  .icon-badge :global(svg) {
+    width: 1rem;
+    height: 1rem;
+    display: block;
+  }
+</style>

@@ -1,0 +1,133 @@
+---
+interface Props {
+  number: string;
+  title: string;
+  excerpt: string;
+  href: string;
+  thumbnailSrc: string;
+  thumbnailAlt: string;
+  ctaLabel: string;
+}
+
+const {
+  number,
+  title,
+  excerpt,
+  href,
+  thumbnailSrc,
+  thumbnailAlt,
+  ctaLabel,
+} = Astro.props as Props;
+---
+
+<a class="case-study-card" href={href}>
+  <p class="case-study-card__number">{number}</p>
+
+  <div class="case-study-card__content">
+    <h3 class="case-study-card__title">{title}</h3>
+    <p class="case-study-card__excerpt">{excerpt}</p>
+    <span class="btn btn--primary case-study-card__cta">
+      {ctaLabel}
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"></path>
+      </svg>
+    </span>
+  </div>
+
+  <div class="case-study-card__thumb-wrap" aria-hidden="true">
+    <img
+      class="case-study-card__thumb"
+      src={thumbnailSrc}
+      alt={thumbnailAlt}
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+</a>
+
+<style>
+  .case-study-card {
+    display: grid;
+    grid-template-columns: min-content minmax(0, 1fr) minmax(12rem, 18rem);
+    gap: var(--sp-4);
+    align-items: stretch;
+    padding: var(--sp-5);
+    min-height: 13.5rem;
+    height: 100%;
+    background: linear-gradient(90deg, var(--bg-secondary) 0%, color-mix(in srgb, var(--bg-secondary) 70%, var(--bg)) 100%);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .case-study-card__number {
+    font-family: var(--font-mono);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    color: var(--color-brand);
+    line-height: 1;
+    align-self: start;
+    margin-top: 0.1em;
+  }
+
+  .case-study-card__content {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    row-gap: var(--sp-3);
+    min-width: 0;
+  }
+
+  .case-study-card__title {
+    font-size: clamp(1.25rem, 0.4vw + 1.1rem, 1.5rem);
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  .case-study-card__excerpt {
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 34ch;
+  }
+
+  .case-study-card__cta {
+    justify-self: start;
+  }
+
+  .case-study-card__thumb-wrap {
+    display: block;
+    width: 100%;
+    align-self: center;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .case-study-card__thumb {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.25s ease;
+  }
+
+  .case-study-card:is(:hover, :focus-within) .case-study-card__thumb {
+    transform: scale(1.03);
+  }
+
+  @media (max-width: 1200px) {
+    .case-study-card {
+      grid-template-columns: min-content minmax(0, 1fr) minmax(10rem, 14rem);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .case-study-card {
+      grid-template-columns: min-content minmax(0, 1fr);
+      gap: var(--sp-3);
+      padding: var(--sp-4);
+      min-height: auto;
+    }
+
+    .case-study-card__thumb-wrap {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

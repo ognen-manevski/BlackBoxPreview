@@ -1,0 +1,76 @@
+---
+import ClientLogoCell from '../atoms/ClientLogoCell.astro';
+import ContentGrid from '../molecules/ContentGrid.astro';
+import { clientLogos } from '../../data/clientLogos';
+import type { HomePageContent } from '../../i18n/pages/home';
+interface Props { content: HomePageContent['partners']; }
+const { content } = Astro.props;
+
+const partnerGridCells = Array.from(
+  { length: 12 },
+  (_, index) => {
+    const partner = clientLogos[index % clientLogos.length];
+
+    return {
+      component: ClientLogoCell,
+      props: {
+        name: partner.name,
+        href: partner.href,
+        src: partner.src,
+        loading: index < 6 ? 'eager' : 'lazy',
+      },
+      ariaLabel: partner.name,
+    };
+  },
+);
+---
+
+<section class="section partners" id="partners" aria-labelledby="partners-heading">
+  <div class="container partners__inner">
+    <header class="partners__header">
+      <p class="section-label">{content.label}</p>
+      <h2 class="section-headline partners__headline" id="partners-heading">
+        {content.heading}
+      </h2>
+      <p class="section-copy partners__copy">
+        {content.copy}
+      </p>
+    </header>
+
+    <ContentGrid cellContent={partnerGridCells} ariaLabel={content.gridAriaLabel} />
+  </div>
+</section>
+
+<style>
+  .partners {
+    background: var(--bg);
+  }
+
+  .partners__inner {
+    display: grid;
+    gap: var(--sp-7);
+  }
+
+  .partners__header {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: var(--sp-2);
+    max-width: 56rem;
+    margin: 0 auto;
+  }
+
+  .partners__headline {
+    max-width: 24ch;
+  }
+
+  .partners__copy {
+    max-width: 52ch;
+  }
+
+  @media (max-width: 900px) {
+    .partners__inner {
+      gap: var(--sp-5);
+    }
+  }
+</style>

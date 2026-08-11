@@ -1,0 +1,200 @@
+  ---
+  import hotelRoomBackground from "../../assets/images/services/video-streaming/modern-hotel-room.jpg";
+  import hospitalityFeaturedImage from "../../assets/images/services/video-streaming/hospitality-featured2.jpg";
+  import hotelServicesConnectorSvg from "../../assets/vectors/icons/bento-grid-hotel-services/connector-01.svg?raw";
+  import VideoStreamingHotelBentoGrid from "../molecules/VideoStreamingHotelBentoGrid.astro";
+  import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interface Props{content:VideoStreamingContent['hotel'];bentoContent:VideoStreamingContent['bento']}const{content,bentoContent}=Astro.props;
+
+  const hotelServicesConnectorMarkup = hotelServicesConnectorSvg as string;
+  ---
+
+  <section
+    class="section vs-scale"
+    aria-labelledby="vs-scale-heading"
+    style={`--vs-scale-bg:url(${hotelRoomBackground.src});`}
+  >
+    <div class="container vs-scale__inner">
+      <div class="vs-scale__content">
+        <p class="section-label">{content.label}</p>
+        <h2 class="section-headline vs-scale__headline" id="vs-scale-heading">
+          {content.heading}
+        </h2>
+        <p class="section-copy vs-scale__copy">
+          {content.copy}
+        </p>
+      </div>
+
+      <div class="vs-scale__lower">
+        <div
+          class="vs-scale__media"
+          aria-label={content.interfaceAriaLabel}
+        >
+          <VideoStreamingHotelBentoGrid content={bentoContent} />
+        </div>
+      </div>
+
+      <div class="vs-scale__features" aria-hidden="true">
+        <span class="vs-scale__features-graphic" set:html={hotelServicesConnectorMarkup}></span>
+      </div>
+
+      <div
+        class="vs-scale__media"
+        aria-label={content.featuredAriaLabel}
+      >
+        <img
+          class="vs-scale__featured-image"
+          src={hospitalityFeaturedImage.src}
+          alt={content.featuredAlt}
+        />
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .vs-scale {
+      position: relative;
+      background: var(--bg);
+      isolation: isolate;
+      overflow: clip;
+    }
+
+    .vs-scale::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: var(--vs-scale-bg) center / cover no-repeat;
+      opacity: 0.5;
+    }
+
+    .vs-scale::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      --brand-opacity: color-mix(in srgb, var(--color-brand) 12%, transparent);
+      --dark-transparent-1: color-mix(in srgb, var(--bg) 40%, transparent);
+      --dark-transparent-2: color-mix(in srgb, var(--bg) 80%, transparent);
+      background:
+        radial-gradient(
+          circle at 72% 42%,
+          var(--brand-opacity) 0%,
+          transparent 44%
+        ),
+        linear-gradient(to left, transparent 50%, var(--bg) 100%),
+        linear-gradient(
+          180deg,
+          var(--dark-transparent-1) 0%,
+          var(--dark-transparent-2) 100%
+        );
+    }
+
+    .vs-scale__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--sp-6);
+      align-items: start;
+      position: relative;
+      z-index: 1;
+      margin-block: var(--sp-6);
+    }
+
+    .vs-scale__content {
+      width: 100%;
+      display: grid;
+      gap: var(--sp-3);
+      align-content: start;
+    }
+
+    .vs-scale__headline,
+    .vs-scale__copy {
+      margin: 0;
+      text-align: left;
+    }
+
+    .vs-scale__headline {
+      max-width: 23ch;
+    }
+
+    .vs-scale__copy {
+      max-width: 60ch;
+    }
+
+    .vs-scale__lower {
+      /* rowspan: 2; */
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+      align-items: start;
+      width: 100%;
+    }
+
+    .vs-scale__features {
+      width: 100%;
+      min-width: 0;
+      align-self: center;
+    }
+
+    .vs-scale__features-graphic {
+      display: block;
+      width: 100%;
+    }
+
+    .vs-scale__features-graphic :global(svg) {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+
+
+    .vs-scale__media {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      align-self: start;
+    }
+
+    .vs-scale__media {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      align-self: start;
+    }
+
+    .vs-scale__featured-image {
+      width: 100%;
+      height: auto;
+      /* aspect-ratio: 4/1.5; */
+      display: block;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+    }
+
+    @media (max-width: 900px) {
+      .vs-scale__inner {
+        grid-template-columns: 1fr;
+        gap: var(--sp-4);
+      }
+
+      .vs-scale__copy {
+        max-width: none;
+      }
+
+      .vs-scale__lower {
+        grid-template-columns: 1fr;
+      }
+
+      .vs-scale__features {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .vs-scale__headline,
+      .vs-scale__copy {
+        max-width: 48ch;
+      }
+    }
+  </style>

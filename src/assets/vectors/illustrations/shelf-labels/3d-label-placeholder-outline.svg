@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+  <defs>
+    <style>
+      .stroke-clr {
+        fill: none;
+        stroke: var(--color-brand);
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <rect class="stroke-clr" x="164.90526" y="180.04211" width="1206.18947" height="663.91579" rx="37.61053" ry="37.61053"/>
+  <rect class="stroke-clr" x="300.94737" y="234.61053" width="934.10526" height="554.77895" rx="23.02105" ry="23.02105"/>
+  <rect class="stroke-clr" x="331.64211" y="259.81053" width="872.71579" height="504.37895" rx="12.12632" ry="12.12632"/>
+  <rect class="stroke-clr" x="208.86316" y="259.36842" width="49.26316" height="49.26316" rx="5.03158" ry="5.03158"/>
+  <circle class="stroke-clr" cx="233.49474" cy="284" r="19.65068"/>
+  <circle class="stroke-clr" cx="233.49474" cy="284" r="9.33407"/>
+</svg>

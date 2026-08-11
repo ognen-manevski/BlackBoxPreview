@@ -1,0 +1,663 @@
+---
+import IconBadge from "../atoms/IconBadge.astro";
+import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:DemoContent['page']}const{content}=Astro.props;
+---
+
+<section
+    class="section book-demo"
+    id="book-demo"
+    aria-labelledby="book-demo-heading"
+>
+    <video
+        class="book-demo__bg-video"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="metadata"
+        aria-hidden="true"
+    >
+        <source
+            src="/videos/gradients/dark/base-gradient-1.mp4"
+            type="video/mp4"
+        />
+    </video>
+    <div class="book-demo__bg-overlay" aria-hidden="true"></div>
+
+    <div class="container book-demo__inner">
+        <div class="book-demo__content">
+            <p class="section-label">{content.label}</p>
+            <h1
+                class="section-headline book-demo__headline"
+                id="book-demo-heading"
+            >
+                {content.heading}
+            </h1>
+            <p class="section-copy book-demo__copy">
+                {content.copy}
+            </p>
+            <p class="book-demo__supporting-copy">
+                {content.supportingCopy}
+            </p>
+
+            <div class="book-demo__expectations">
+                <p class="book-demo__subhead">
+                    {content.expectationsHeading}
+                </p>
+
+                <ul class="book-demo__expectation-list" role="list">
+                    <li class="book-demo__expectation-item">
+                        <span class="book-demo__expectation-counter" aria-hidden="true">01</span>
+                        <div class="book-demo__expectation-text">
+                            <span class="book-demo__expectation-title"
+                                >{content.expectations[0].title}</span
+                            >
+                            <span class="book-demo__expectation-copy"
+                                >{content.expectations[0].copy}</span
+                            >
+                        </div>
+                    </li>
+                    <li class="book-demo__expectation-item">
+                        <span class="book-demo__expectation-counter" aria-hidden="true">02</span>
+                        <div class="book-demo__expectation-text">
+                            <span class="book-demo__expectation-title"
+                                >{content.expectations[1].title}</span
+                            >
+                            <span class="book-demo__expectation-copy"
+                                >{content.expectations[1].copy}</span
+                            >
+                        </div>
+                    </li>
+                    <li class="book-demo__expectation-item">
+                        <span class="book-demo__expectation-counter" aria-hidden="true">03</span>
+                        <div class="book-demo__expectation-text">
+                            <span class="book-demo__expectation-title"
+                                >{content.expectations[2].title}</span
+                            >
+                            <span class="book-demo__expectation-copy"
+                                >{content.expectations[2].copy}</span
+                            >
+                        </div>
+                    </li>
+                    <li class="book-demo__expectation-item">
+                        <span class="book-demo__expectation-counter" aria-hidden="true">04</span>
+                        <div class="book-demo__expectation-text">
+                            <span class="book-demo__expectation-title"
+                                >{content.expectations[3].title}</span
+                            >
+                            <span class="book-demo__expectation-copy"
+                                >{content.expectations[3].copy}</span
+                            >
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="book-demo__reassurance-block">
+                <p class="book-demo__subhead">
+                    {content.exploringHeading}
+                </p>
+                <p class="book-demo__reassurance-copy">
+                    {content.exploringCopy}
+                </p>
+            </div>
+
+            <ul
+                class="book-demo__reassurance-list"
+                aria-label={content.reassurancesAriaLabel}
+            >
+                <li class="book-demo__reassurance-item">
+                    <IconBadge
+                        class="book-demo__reassurance-icon"
+                        style="--icon-badge-size: 1.5rem; --icon-badge-border: var(--border-color); --icon-badge-bg: color-mix(in srgb, var(--bg-secondary) 75%, var(--bg)); --icon-badge-color: var(--color-brand);"
+                    >
+                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path
+                                d="M3.5 8.3 6.5 11.3 12.5 5.3"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg>
+                    </IconBadge>
+                    <span>{content.reassurances[0]}</span>
+                </li>
+                <li class="book-demo__reassurance-item">
+                    <IconBadge
+                        class="book-demo__reassurance-icon"
+                        style="--icon-badge-size: 1.5rem; --icon-badge-border: var(--border-color); --icon-badge-bg: color-mix(in srgb, var(--bg-secondary) 75%, var(--bg)); --icon-badge-color: var(--color-brand);"
+                    >
+                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path
+                                d="M3.5 8.3 6.5 11.3 12.5 5.3"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg>
+                    </IconBadge>
+                    <span>{content.reassurances[1]}</span>
+                </li>
+                <li class="book-demo__reassurance-item">
+                    <IconBadge
+                        class="book-demo__reassurance-icon"
+                        style="--icon-badge-size: 1.5rem; --icon-badge-border: var(--border-color); --icon-badge-bg: color-mix(in srgb, var(--bg-secondary) 75%, var(--bg)); --icon-badge-color: var(--color-brand);"
+                    >
+                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path
+                                d="M3.5 8.3 6.5 11.3 12.5 5.3"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg>
+                    </IconBadge>
+                    <span>{content.reassurances[2]}</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="book-demo__form-wrap u-border-interactive">
+            <h2 class="book-demo__form-title">{content.formHeading}</h2>
+            <p class="book-demo__form-copy">
+                {content.formCopy}
+            </p>
+
+            <form class="book-demo__form" action="#" method="post">
+                <label class="book-demo__field">
+                    <span>{content.name}</span>
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder={content.namePlaceholder}
+                        autocomplete="name"
+                        required
+                    />
+                </label>
+
+                <label class="book-demo__field">
+                    <span>{content.email}</span>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder={content.emailPlaceholder}
+                        autocomplete="email"
+                        required
+                    />
+                </label>
+
+                <label class="book-demo__field">
+                    <span>{content.company}</span>
+                    <input
+                        type="text"
+                        name="company"
+                        placeholder={content.companyPlaceholder}
+                        autocomplete="organization"
+                    />
+                </label>
+
+                <label class="book-demo__field">
+                    <span>{content.phone}</span>
+                    <input
+                        type="tel"
+                        name="phone"
+                        placeholder={content.phonePlaceholder}
+                        autocomplete="tel"
+                    />
+                </label>
+
+                <fieldset class="book-demo__services">
+                    <legend>{content.serviceLegend}</legend>
+                    <div class="book-demo__service-options">
+                        <label
+                            class="book-demo__service-option u-border-interactive"
+                        >
+                            <input
+                                type="checkbox"
+                                name="solutions"
+                                value={content.services[0]}
+                            />
+                            <span class="book-demo__check" aria-hidden="true">
+                                <svg viewBox="0 0 16 16" fill="none">
+                                    <path
+                                        d="M3.5 8.3 6.5 11.3 12.5 5.3"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
+                            <span>{content.services[0]}</span>
+                        </label>
+
+                        <label
+                            class="book-demo__service-option u-border-interactive"
+                        >
+                            <input
+                                type="checkbox"
+                                name="solutions"
+                                value={content.services[1]}
+                            />
+                            <span class="book-demo__check" aria-hidden="true">
+                                <svg viewBox="0 0 16 16" fill="none">
+                                    <path
+                                        d="M3.5 8.3 6.5 11.3 12.5 5.3"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
+                            <span>{content.services[1]}</span>
+                        </label>
+
+                        <label
+                            class="book-demo__service-option u-border-interactive"
+                        >
+                            <input
+                                type="checkbox"
+                                name="solutions"
+                                value={content.services[2]}
+                            />
+                            <span class="book-demo__check" aria-hidden="true">
+                                <svg viewBox="0 0 16 16" fill="none">
+                                    <path
+                                        d="M3.5 8.3 6.5 11.3 12.5 5.3"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
+                            <span>{content.services[2]}</span>
+                        </label>
+
+                        <label
+                            class="book-demo__service-option u-border-interactive"
+                        >
+                            <input
+                                type="checkbox"
+                                name="solutions"
+                                value={content.services[3]}
+                            />
+                            <span class="book-demo__check" aria-hidden="true">
+                                <svg viewBox="0 0 16 16" fill="none">
+                                    <path
+                                        d="M3.5 8.3 6.5 11.3 12.5 5.3"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
+                            <span>{content.services[3]}</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <label class="book-demo__field">
+                    <span>{content.project}</span>
+                    <em
+                        >{content.projectHelp}</em
+                    >
+                    <textarea
+                        name="projectDetails"
+                        placeholder={content.projectPlaceholder}
+                        rows="5"
+                        required></textarea>
+                </label>
+
+                <div class="book-demo__actions">
+                    <button class="btn btn--primary" type="submit"
+                        >{content.submit}</button
+                    >
+                    <button class="btn btn--outline" type="reset"
+                        >{content.reset}</button
+                    >
+                </div>
+
+                <p class="book-demo__footnote">
+                    {content.footnote}
+                </p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<style>
+    .book-demo {
+        position: relative;
+        overflow: clip;
+        background: var(--bg);
+    }
+
+    .book-demo__bg-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    .book-demo__bg-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--bg) 70%, transparent) 0%,
+            color-mix(in srgb, var(--bg) 24%, transparent) 70%,
+            color-mix(in srgb, var(--bg) 35%, transparent) 100%
+        );
+        z-index: 1;
+    }
+
+    .book-demo__inner {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+        gap: var(--sp-8);
+        align-items: start;
+    }
+
+    .book-demo__content {
+        display: grid;
+        gap: var(--sp-5);
+        max-width: 44rem;
+    }
+
+    .book-demo__headline {
+        text-wrap: balance;
+    }
+
+    .book-demo__copy,
+    .book-demo__supporting-copy,
+    .book-demo__reassurance-copy {
+        max-width: 62ch;
+    }
+
+    .book-demo__supporting-copy {
+        margin: 0;
+        color: var(--text-secondary);
+        line-height: 1.7;
+    }
+
+    .book-demo__expectations,
+    .book-demo__reassurance-block {
+        display: grid;
+        gap: var(--sp-4);
+    }
+
+    .book-demo__subhead {
+        margin: 0;
+        color: var(--text-primary);
+        font-size: var(--text-md);
+        font-weight: 600;
+    }
+
+    .book-demo__expectation-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: var(--sp-3);
+    }
+
+    .book-demo__expectation-item {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: var(--sp-4);
+        padding: var(--sp-4);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        background: color-mix(in srgb, var(--bg-secondary) 82%, var(--bg));
+        align-items: start;
+    }
+
+    .book-demo__expectation-counter {
+        font-family: var(--font-mono);
+        color: var(--color-brand);
+        font-size: clamp(1rem, 0.9rem + 0.35vw, 1.25rem);
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 0.08em;
+    }
+
+    .book-demo__expectation-text {
+        display: grid;
+        gap: var(--sp-2);
+    }
+
+    .book-demo__expectation-title {
+        color: var(--text-primary);
+        font-size: var(--text-base);
+        font-weight: 600;
+    }
+
+    .book-demo__expectation-copy {
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .book-demo__reassurance-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: var(--sp-3);
+        padding-top: var(--sp-2);
+    }
+
+    .book-demo__reassurance-item {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--sp-3);
+        color: var(--text-primary);
+        font-size: var(--text-base);
+    }
+
+    .book-demo__reassurance-icon {
+        flex-shrink: 0;
+    }
+
+    .book-demo__form-wrap {
+        border-radius: var(--radius-lg);
+        background: var(--bg-secondary);
+        padding: var(--sp-6);
+        display: grid;
+        gap: var(--sp-5);
+    }
+
+    .book-demo__form-wrap {
+        align-self: start;
+    }
+
+    .book-demo__form-title {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: var(--text-lg);
+        line-height: 1.25;
+    }
+
+    .book-demo__form-copy {
+        margin: 0;
+        color: var(--text-secondary);
+        line-height: 1.65;
+    }
+
+    .book-demo__form {
+        display: grid;
+        gap: var(--sp-4);
+    }
+
+    .book-demo__field {
+        display: grid;
+        gap: var(--sp-2);
+    }
+
+    .book-demo__field > span,
+    .book-demo__services legend {
+        font-size: var(--text-sm);
+        color: var(--text-primary);
+    }
+
+    .book-demo__field em {
+        font-style: normal;
+        color: var(--text-muted);
+        font-size: var(--text-xs);
+        line-height: 1.5;
+    }
+
+    .book-demo__field :is(input, textarea) {
+        width: 100%;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        background: color-mix(in srgb, var(--bg-secondary) 82%, var(--bg));
+        color: var(--text-primary);
+        font-family: var(--font-ui);
+        font-size: var(--text-sm);
+        line-height: 1.5;
+        padding: var(--sp-3) var(--sp-4);
+        transition:
+            border-color var(--t-fast),
+            background var(--t-fast);
+    }
+
+    .book-demo__field textarea {
+        resize: vertical;
+        min-height: 6rem;
+    }
+
+    .book-demo__field :is(input, textarea)::placeholder {
+        color: var(--text-muted);
+    }
+
+    .book-demo__field :is(input, textarea):is(:focus, :focus-visible) {
+        border-color: var(--color-brand);
+        outline: none;
+    }
+
+    .book-demo__services {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        display: grid;
+        gap: var(--sp-3);
+    }
+
+    .book-demo__service-options {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--sp-2);
+    }
+
+    .book-demo__service-option {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--sp-3);
+        border-radius: var(--radius);
+        background: color-mix(in srgb, var(--bg-secondary) 82%, var(--bg));
+        padding: var(--sp-2) var(--sp-3);
+        cursor: pointer;
+        font-size: var(--text-sm);
+        color: var(--text-secondary);
+    }
+
+    .book-demo__service-option input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .book-demo__check {
+        width: 1.2rem;
+        height: 1.2rem;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        color: transparent;
+        background: color-mix(in srgb, var(--bg-secondary) 70%, var(--bg));
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+            border-color var(--t-fast),
+            background var(--t-fast),
+            color var(--t-fast);
+        flex-shrink: 0;
+    }
+
+    .book-demo__check svg {
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+
+    .book-demo__service-option input:checked + .book-demo__check {
+        color: var(--color-brand);
+        border-color: var(--color-brand);
+        background: var(--color-brand-bg);
+    }
+
+    .book-demo__service-option input:focus-visible + .book-demo__check {
+        outline: 2px solid var(--color-brand);
+        outline-offset: 2px;
+    }
+
+    .book-demo__service-option input:checked ~ span:last-child {
+        color: var(--text-primary);
+    }
+
+    .book-demo__actions {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: var(--sp-3);
+        gap: var(--sp-3);
+    }
+
+    .book-demo__actions .btn {
+        justify-content: center;
+    }
+
+    .book-demo__footnote {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: var(--text-xs);
+        line-height: 1.6;
+    }
+
+    .book-demo__form-wrap {
+        position: sticky;
+        top: calc(var(--sp-6) + var(--navbar-height));
+    }
+
+    @media (max-width: 1024px) {
+        .book-demo__inner {
+            grid-template-columns: 1fr;
+            gap: var(--sp-6);
+        }
+
+        .book-demo__form-wrap {
+            position: static;
+            top: auto;
+        }
+
+        .book-demo__headline {
+            max-width: 20ch;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .book-demo__form-wrap {
+            padding: var(--sp-5);
+        }
+
+        .book-demo__actions {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .book-demo__service-options {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

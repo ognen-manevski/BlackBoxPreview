@@ -1,0 +1,108 @@
+<section class="section vs-scale" aria-labelledby="vs-scale-heading">
+  <div class="vs-scale__media" aria-hidden="true">
+    <video
+      class="vs-scale__video"
+      data-vs-scale-loop-video
+      src="/videos/video-streaming/video-section2-bg-loop.mp4"
+      muted
+      loop
+      playsinline
+      preload="metadata"
+    ></video>
+    <div class="vs-scale__veil"></div>
+  </div>
+
+  <div class="container vs-scale__inner">
+    <div class="vs-scale__content">
+      <p class="section-label">NEXT-GEN STREAMING</p>
+      <h2 class="section-headline vs-scale__headline" id="vs-scale-heading">
+        Built for every screen. Engineered for scale.
+      </h2>
+      <p class="section-copy vs-scale__copy">
+        Behind every seamless viewing experience is a reliable OTT platform. We build scalable streaming solutions that support Live, VoD, DVR, Smart TVs, browsers, mobile devices, and hospitality systems. Every solution is designed for reliable performance, secure delivery, and effortless growth.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .vs-scale {
+    position: relative;
+    overflow: clip;
+    background: #000;
+  }
+
+  .vs-scale__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .vs-scale__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .vs-scale__veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--bg) 64%, transparent) 0%,
+        color-mix(in srgb, var(--bg) 42%, transparent) 24%,
+        color-mix(in srgb, var(--bg) 72%, transparent) 100%
+      ),
+      radial-gradient(
+        circle at center,
+        color-mix(in srgb, black 14%, transparent) 0%,
+        color-mix(in srgb, black 76%, transparent) 100%
+      );
+    pointer-events: none;
+  }
+
+  .vs-scale__inner {
+    position: relative;
+    z-index: 1;
+    min-height: clamp(34rem, 88svh, 52rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-6);
+    align-items: center;
+  }
+
+  .vs-scale__content {
+    display: grid;
+    gap: var(--sp-3);
+    align-content: start;
+    max-width: 56rem;
+  }
+
+  .vs-scale__headline,
+  .vs-scale__copy {
+    margin: 0;
+  }
+
+  .vs-scale__headline{
+    max-width: 23ch;
+  }
+
+  .vs-scale__copy {
+    max-width: 58ch;
+  }
+
+  @media (max-width: 900px) {
+    .vs-scale__inner {
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+      min-height: clamp(30rem, 82svh, 46rem);
+    }
+
+    .vs-scale__copy {
+      max-width: none;
+    }
+  }
+</style>

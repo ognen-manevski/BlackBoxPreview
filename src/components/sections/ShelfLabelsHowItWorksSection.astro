@@ -1,0 +1,97 @@
+---
+import howItWorksIllustration from "../../assets/vectors/illustrations/shelf-labels/how-it-works.svg?raw";
+import type{ShelfLabelsContent}from'../../i18n/pages/shelf-labels'; interface Props{content:ShelfLabelsContent['howItWorks']} const{content}=Astro.props;
+
+const illustrationMarkup = howItWorksIllustration as string;
+---
+
+<section
+  class="section sl-how"
+  aria-labelledby="sl-how-heading"
+>
+  <div class="container sl-how__container">
+    <div class="sl-how__content">
+      <p class="section-label">{content.label}</p>
+      <h2 class="section-headline sl-how__headline" id="sl-how-heading">
+        {content.heading}
+      </h2>
+      <p class="section-copy sl-how__lead">
+        {content.copy}
+      </p>
+    </div>
+
+    <div class="sl-how__visual" aria-label={content.visualAriaLabel}>
+      <div
+        class="sl-how__illustration"
+        role="img"
+        aria-label={content.illustrationAriaLabel}
+        set:html={illustrationMarkup}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .sl-how {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .sl-how__container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-6);
+    align-items: center;
+  }
+
+  .sl-how__content {
+    display: grid;
+    gap: var(--sp-3);
+  }
+
+
+  .sl-how__headline {
+    max-width: 30ch;
+  }
+
+  .sl-how__headline,
+  .sl-how__lead {
+    margin: 0;
+  }
+
+  .sl-how__lead {
+    max-width: 56ch;
+  }
+
+  .sl-how__visual {
+    width: 100%;
+    min-height: clamp(16rem, 36vw, 28rem);
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+  }
+
+  .sl-how__illustration {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+  }
+
+  .sl-how__illustration :global(svg) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @media (max-width: 1024px) {
+    .sl-how__container {
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+      align-items: start;
+    }
+
+    .sl-how__visual {
+      min-height: clamp(14rem, 56vw, 22rem);
+    }
+  }
+</style>

@@ -1,0 +1,131 @@
+---
+import sizeTotem4Sides from '../../assets/images/services/neoslide/sizes/01-4-sides-totem.png';
+import sizePortrait from '../../assets/images/services/neoslide/sizes/02-portrait.png';
+import sizeTotem from '../../assets/images/services/neoslide/sizes/03-totem.png';
+import sizeBillboard from '../../assets/images/services/neoslide/sizes/04-builboard.png';
+import sizeSmallKiosk from '../../assets/images/services/neoslide/sizes/05-small-kiosk.png';
+import sizeLargeKiosk from '../../assets/images/services/neoslide/sizes/06-large-kiosk.png';
+import type { DigitalSignageContent } from '../../i18n/pages/digital-signage';
+interface Props { content: DigitalSignageContent['anyScreen'] } const { content } = Astro.props;
+
+const sizeImages = [
+    { asset: sizeTotem4Sides, layer: 1 },
+    { asset: sizePortrait, layer: 2 },
+    { asset: sizeTotem, layer: 7 },
+    { asset: sizeBillboard, layer: 4 },
+    { asset: sizeSmallKiosk, layer: 5 },
+    { asset: sizeLargeKiosk, layer: 6 },
+];
+---
+
+<section class="section ds-any-screen" aria-labelledby="ds-any-screen-heading">
+    <div class="container ds-any-screen__inner">
+        <div class="ds-any-screen__content">
+            <p class="section-label">{content.label}</p>
+            <h2 class="section-headline ds-any-screen__headline" id="ds-any-screen-heading">
+                {content.heading}
+            </h2>
+            <div class="ds-any-screen__copy-wrap">
+                <p class="section-copy ds-any-screen__copy">
+                    {content.paragraphs[0]}
+                </p>
+                <p class="section-copy ds-any-screen__copy">
+                    {content.paragraphs[1]}
+                </p>
+            </div>
+        </div>
+
+        <figure class="ds-any-screen__media" aria-hidden="true">
+            {
+                sizeImages.map((image) => (
+                    <img
+                        class="ds-any-screen__image"
+                        src={image.asset.src}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        style={`--ds-size-layer: ${image.layer};`}
+                    />
+                ))
+            }
+        </figure>
+    </div>
+</section>
+
+<style>
+    .ds-any-screen {
+        background: var(--bg);
+        /* border-bottom: 1px solid var(--border-color); */
+    }
+
+    .ds-any-screen__inner {
+        display: grid;
+        gap: var(--sp-6);
+    }
+
+    .ds-any-screen__headline {
+        margin-bottom: var(--sp-3);
+    }
+
+    .ds-any-screen__content {
+        position: sticky;
+        --ds-any-screen-bonus-height: 9svh;
+        top: calc(var(--navbar-height) + var(--ds-any-screen-bonus-height));
+        align-self: start;
+        padding-bottom: 42rem;
+        z-index: 2;
+    }
+
+    .ds-any-screen__copy-wrap {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--sp-8);
+    }
+
+    .ds-any-screen__copy {
+        max-width: none;
+    }
+
+    @media (max-width: 900px) {
+        .ds-any-screen__copy-wrap {
+            grid-template-columns: 1fr;
+            gap: var(--sp-3);
+        }
+    }
+
+    .ds-any-screen__media {
+        margin: var(--sp-4) 0 0;
+        width: 100%;
+        padding-top: var(--sp-4);
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        isolation: isolate;
+    }
+
+    .ds-any-screen__image {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: contain;
+        position: sticky;
+        top: calc(var(--navbar-height) + 16svh + var(--sp-8));
+        z-index: var(--ds-size-layer, 0);
+        margin-top: 0;
+    }
+
+    .ds-any-screen__image + .ds-any-screen__image {
+        margin-top: -30%;
+    }
+
+    @media (max-width: 900px) {
+        .ds-any-screen__content {
+            position: static;
+        }
+
+        .ds-any-screen__media {
+            padding-top: var(--sp-3);
+        }
+    }
+</style>

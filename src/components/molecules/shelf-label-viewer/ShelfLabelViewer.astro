@@ -1,0 +1,90 @@
+---
+interface Props {
+  initialColor?: "white" | "black" | "wood";
+  content: { ariaLabel: string; loadingLabel: string };
+}
+
+const { initialColor = "white", content } = Astro.props;
+import placeholderOutlineSvg from "../../../assets/vectors/illustrations/shelf-labels/3d-label-placeholder-outline.svg?raw";
+---
+
+<div
+  class="shelf-label-viewer"
+  data-shelf-label-viewer
+  data-initial-color={initialColor}
+>
+  <div class="shelf-label-viewer__blue-glow" aria-hidden="true"></div>
+  <canvas aria-label={content.ariaLabel}></canvas>
+
+  <div class="shelf-label-viewer__loading" data-model-loading>
+    <div
+      class="shelf-label-viewer__placeholder"
+      aria-hidden="true"
+      set:html={placeholderOutlineSvg}
+    ></div>
+    <p class="shelf-label-viewer__status" data-model-status>{content.loadingLabel}</p>
+  </div>
+</div>
+
+<script>
+  import { mountShelfLabelViewers } from "./lifecycle";
+
+  mountShelfLabelViewers();
+</script>
+
+<style>
+  .shelf-label-viewer {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    overflow: visible;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .shelf-label-viewer:active {
+    cursor: grabbing;
+  }
+
+  .shelf-label-viewer canvas {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .shelf-label-viewer__loading {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    place-items: center;
+    pointer-events: none;
+  }
+
+  .shelf-label-viewer__placeholder,
+  .shelf-label-viewer__status {
+    grid-area: 1 / 1;
+  }
+
+  .shelf-label-viewer__placeholder {
+    width: min(100%, 72rem);
+    height: auto;
+  }
+
+  .shelf-label-viewer__placeholder :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .shelf-label-viewer__status {
+    z-index: 1;
+    margin: 0;
+    color: var(--text-secondary);
+    pointer-events: none;
+  }
+</style>

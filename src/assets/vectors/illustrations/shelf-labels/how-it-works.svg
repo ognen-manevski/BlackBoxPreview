@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="732" height="633" viewBox="0 0 732 633">
+  <defs>
+    <style>
+
+      .d-demo-chart {
+        stroke: var(--border-color);
+        fill: var(--bg-secondary);
+        vector-effect: non-scaling-stroke;
+      }
+
+      .e-demo-chart {
+        stroke: var(--color-brand);
+        fill: none;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .ico-border {
+        stroke: var(--color-brand);
+        fill: var(--icon-bg);
+        vector-effect: non-scaling-stroke;
+      }
+
+      .path-demo-chart {
+        fill: none;
+        stroke-width: 1px;
+        stroke: var(--color-brand);
+        stroke-dasharray: 4px 2px;
+        vector-effect: non-scaling-stroke;
+        animation: connector-flow-dchart 3s linear infinite;
+      }
+
+      @keyframes connector-flow-dchart {
+        0% {
+          stroke-dashoffset: 0;
+        }
+        100% {
+          stroke-dashoffset: -20;
+        }
+      }
+
+      .f-demo-chart {
+        fill: var(--text-secondary);
+        font-family: Roboto-Regular, Roboto;
+        font-size: 13px;
+      }
+
+      .i-demo-chart {
+        font-size: 18px;
+      }
+
+      .j-demo-chart {
+        font-size: 16px;
+      }
+
+      .i-demo-chart, .j-demo-chart {
+        fill: var(--text-primary);
+        font-family: Roboto-Bold, Roboto;
+        font-weight: 700;
+      }
+
+      .b-demo-chart {
+        fill: url(#chart-gradient);
+      }
+
+    </style>
+
+    <radialGradient id="chart-gradient" cx="50%" cy="50%" r="50%">
+      <stop
+      offset="0%"
+      stop-color="var(--color-brand)"
+      stop-opacity="1"
+      />
+      <stop
+        offset="80%"
+        stop-color="var(--color-brand)"
+        stop-opacity="0" />
+    </radialGradient>
+
+  </defs>
+
+    <path id="track" class="path-demo-chart" d="M366.00003 63.45129 L366.00003 403.12758"/>
+    <path id="p-1" class="path-demo-chart" d="M337.79861,428.12498v58.18945c0,6.34839-5.14636,11.49475-11.49469,11.49475h-64.82941c-6.34833,0-11.49469,5.14636-11.49469,11.49475v54.17535"/>
+    <path id="p-2" class="path-demo-chart" d="M395.20138,428.12498v58.18945c0,6.34839,5.14636,11.49475,11.49475,11.49475h64.82935c6.34839,0,11.49475,5.14636,11.49475,11.49475v54.17535"/>
+    <path id="p-3" class="path-demo-chart" d="M340.10415 418.90034 L114.70779 418.90034"/>
+    <path id="p-4" class="path-demo-chart" d="M391.83047 418.90034 L617.22692 418.90034"/>
+
+  <circle class="b-demo-chart" cx="0" cy="0" r="12">
+    <animateMotion
+      dur="3s"
+      repeatCount="indefinite">
+      <mpath href="#track"/>
+    </animateMotion>
+  </circle>
+    <circle class="b-demo-chart" cx="0" cy="0" r="12">
+    <animateMotion
+      dur="3s"
+      repeatCount="indefinite">
+      <mpath href="#p-1"/>
+    </animateMotion>
+  </circle>
+    <circle class="b-demo-chart" cx="0" cy="0" r="12">
+    <animateMotion
+      dur="3s"
+      repeatCount="indefinite">
+      <mpath href="#p-2"/>
+    </animateMotion>
+  </circle>
+    <circle class="b-demo-chart" cx="0" cy="0" r="12">
+    <animateMotion
+      dur="3s"
+      repeatCount="indefinite">
+      <mpath href="#p-3"/>
+    </animateMotion>
+  </circle>
+    <circle class="b-demo-chart" cx="0" cy="0" r="12">
+    <animateMotion
+      dur="3s"
+      repeatCount="indefinite">
+      <mpath href="#p-4"/>
+    </animateMotion>
+  </circle>
+
+  <g>
+    <rect class="d-demo-chart" x="25.38297" y="379.95995" width="173.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="j-demo-chart" transform="translate(108.34274 414.3918)"><tspan x="0" y="0">S</tspan><tspan class="k" x="9.85156" y="0">t</tspan><tspan x="15.05469" y="0">o</tspan><tspan class="h" x="24.08594" y="0">r</tspan><tspan x="29.79688" y="0">e A</tspan></text>
+      <text class="f-demo-chart" transform="translate(108.34286 433.57368)"><tspan x="0" y="0">1500 labels</tspan></text>
+    </g>
+    <g>
+      <rect class="ico-border" x="36.82592" y="391.76858" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <g>
+        <polyline class="e-demo-chart" points="77.59271 416.4315 77.59271 432.80344 50.32176 432.80344 50.32176 416.4315"/>
+        <g>
+          <path class="e-demo-chart" d="M80.68466,413.02913v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <path class="e-demo-chart" d="M73.99405,413.02913v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <line class="e-demo-chart" x1="67.30343" y1="413.02913" x2="60.61282" y2="413.02913"/>
+          <line class="e-demo-chart" x1="67.30254" y1="413.02598" x2="66.85427" y2="404.99724"/>
+          <line class="e-demo-chart" x1="61.0602" y1="404.99724" x2="60.61193" y2="413.02598"/>
+          <path class="e-demo-chart" d="M67.30343,413.02913v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <path class="e-demo-chart" d="M60.61282,413.02913v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <g>
+            <line class="e-demo-chart" x1="54.81786" y1="404.99724" x2="53.92131" y2="413.02598"/>
+            <line class="e-demo-chart" x1="73.99316" y1="413.02598" x2="73.09661" y2="404.99724"/>
+            <path class="e-demo-chart" d="M53.9222,413.02913v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          </g>
+        </g>
+        <polyline class="e-demo-chart" points="80.68377 413.02598 78.2417 404.99724 49.67277 404.99724 47.2307 413.02598"/>
+        <rect class="e-demo-chart" x="59.52138" y="421.26811" width="8.87172" height="11.53531"/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <rect class="d-demo-chart" x="164.29217" y="539.62587" width="173.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="j-demo-chart" transform="translate(247.25198 574.05772)"><tspan x="0" y="0">S</tspan><tspan class="k" x="9.85156" y="0">t</tspan><tspan x="15.05469" y="0">o</tspan><tspan class="h" x="24.08594" y="0">r</tspan><tspan x="29.79688" y="0">e B</tspan></text>
+      <text class="f-demo-chart" transform="translate(247.25207 593.23958)"><tspan x="0" y="0">1000 labels</tspan></text>
+    </g>
+    <g>
+      <rect class="ico-border" x="175.73512" y="551.4345" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <g>
+        <polyline class="e-demo-chart" points="216.5019 576.09742 216.5019 592.46936 189.23096 592.46936 189.23096 576.09742"/>
+        <g>
+          <path class="e-demo-chart" d="M219.59386,572.69505v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <path class="e-demo-chart" d="M212.90324,572.69505v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <line class="e-demo-chart" x1="206.21263" y1="572.69505" x2="199.52201" y2="572.69505"/>
+          <line class="e-demo-chart" x1="206.21174" y1="572.6919" x2="205.76347" y2="564.66316"/>
+          <line class="e-demo-chart" x1="199.9694" y1="564.66316" x2="199.52112" y2="572.6919"/>
+          <path class="e-demo-chart" d="M206.21263,572.69505v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <path class="e-demo-chart" d="M199.52201,572.69505v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <g>
+            <line class="e-demo-chart" x1="193.72705" y1="564.66316" x2="192.83051" y2="572.6919"/>
+            <line class="e-demo-chart" x1="212.90235" y1="572.6919" x2="212.00581" y2="564.66316"/>
+            <path class="e-demo-chart" d="M192.8314,572.69505v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          </g>
+        </g>
+        <polyline class="e-demo-chart" points="219.59297 572.6919 217.15089 564.66316 188.58197 564.66316 186.1399 572.6919"/>
+        <rect class="e-demo-chart" x="198.43058" y="580.93403" width="8.87172" height="11.53531"/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <rect class="d-demo-chart" x="395.20137" y="539.62587" width="173.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="j-demo-chart" transform="translate(478.16115 574.05771)"><tspan x="0" y="0">S</tspan><tspan class="k" x="9.85156" y="0">t</tspan><tspan x="15.05469" y="0">o</tspan><tspan class="h" x="24.08594" y="0">r</tspan><tspan x="29.79688" y="0">e C</tspan></text>
+      <text class="f-demo-chart" transform="translate(478.16128 593.23958)"><tspan x="0" y="0">1800 labels</tspan></text>
+    </g>
+    <g>
+      <rect class="ico-border" x="406.64431" y="551.4345" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <g>
+        <polyline class="e-demo-chart" points="447.4111 576.09742 447.4111 592.46936 420.14016 592.46936 420.14016 576.09742"/>
+        <g>
+          <path class="e-demo-chart" d="M450.50305,572.69505v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <path class="e-demo-chart" d="M443.81244,572.69505v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <line class="e-demo-chart" x1="437.12182" y1="572.69505" x2="430.43121" y2="572.69505"/>
+          <line class="e-demo-chart" x1="437.12093" y1="572.6919" x2="436.67266" y2="564.66316"/>
+          <line class="e-demo-chart" x1="430.87859" y1="564.66316" x2="430.43032" y2="572.6919"/>
+          <path class="e-demo-chart" d="M437.12182,572.69505v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <path class="e-demo-chart" d="M430.43121,572.69505v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <g>
+            <line class="e-demo-chart" x1="424.63625" y1="564.66316" x2="423.73971" y2="572.6919"/>
+            <line class="e-demo-chart" x1="443.81155" y1="572.6919" x2="442.91501" y2="564.66316"/>
+            <path class="e-demo-chart" d="M423.74059,572.69505v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          </g>
+        </g>
+        <polyline class="e-demo-chart" points="450.50216 572.6919 448.06009 564.66316 419.49117 564.66316 417.04909 572.6919"/>
+        <rect class="e-demo-chart" x="429.33978" y="580.93403" width="8.87172" height="11.53531"/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <rect class="d-demo-chart" x="249.93182" y="379.95995" width="232.13636" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="j-demo-chart" transform="translate(330.89157 406.59131)"><tspan x="0" y="0">Secu</tspan><tspan class="h" x="35.78906" y="0">r</tspan><tspan x="41.5" y="0">e Gatew</tspan><tspan class="m" x="99.39062" y="0">a</tspan><tspan x="107.83594" y="0">y</tspan></text>
+      <text class="f-demo-chart" transform="translate(330.89169 425.77318)"><tspan x="0" y="0">Wi</tspan><tspan class="h" x="14.69482" y="0">r</tspan><tspan x="18.97949" y="0">eless</tspan><tspan x="0" y="15.59961">communication </tspan></text>
+    </g>
+    <g>
+      <rect class="ico-border" x="261.37477" y="391.76858" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <g>
+        <path class="e-demo-chart" d="M281.01298,426.10756c1.91757-1.91749,4.56741-3.10258,7.49683-3.10258,2.92959,0,5.57276,1.18509,7.49017,3.10258"/>
+        <path class="e-demo-chart" d="M291.83878,430.26876c-.85215-.85223-2.03062-1.3782-3.32896-1.3782-1.30493,0-2.47673.52596-3.33563,1.3782"/>
+        <path class="e-demo-chart" d="M276.13942,421.23395c3.16918-3.16918,7.53674-5.12661,12.3704-5.12661s9.2013,1.95743,12.37048,5.12661"/>
+        <path class="e-demo-chart" d="M291.83878,430.26876c-.85215-.85223-2.03062-1.3782-3.32896-1.3782-1.30493,0-2.47673.52596-3.33563,1.3782"/>
+        <path class="e-demo-chart" d="M270.07405,415.16858c4.72053-4.72049,11.23192-7.63667,18.43577-7.63667,7.19726,0,13.7154,2.91618,18.42918,7.63667"/>
+        <path class="e-demo-chart" d="M291.83878,430.26876c-.85215-.85223-2.03062-1.3782-3.32896-1.3782-1.30493,0-2.47673.52596-3.33563,1.3782"/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <rect class="d-demo-chart" x="248.8201" y="153.63191" width="234.3598" height="166.21053" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="i-demo-chart" transform="translate(286.99824 270.36238)"><tspan x="0" y="0">Cloud Management</tspan><tspan x="33.19629" y="21.59961">Dashboa</tspan><tspan class="h" x="103.77246" y="21.59961">r</tspan><tspan x="110.19727" y="21.59961">d </tspan></text>
+      <g>
+        <rect class="ico-border" x="334.1587" y="176.63418" width="63.68294" height="63.68293" rx="4" ry="4"/>
+        <g>
+          <path class="e-demo-chart" d="M375.81017,217.45511h3.05c1.94,0,3.58-.67,4.92-2,1.34-1.34,2.01-2.98,2.01-4.92,0-1.9-.64-3.51-1.93-4.84-1.28-1.33-2.87-2.03-4.77-2.09h-1.22v-1.98c0-3.3-1.15-6.1-3.46-8.41-2.3-2.31-5.11-3.46-8.41-3.46-2.93,0-5.5.94-7.71,2.82-2.2,1.88-3.53,4.26-3.97,7.14-2.31.13-4.23,1.08-5.78,2.83-1.55,1.76-2.33,3.77-2.33,6.04,0,2.47.87,4.57,2.6,6.29,1.74,1.72,3.84,2.58,6.31,2.58h.59"/>
+          <rect class="e-demo-chart" x="355.7074" y="207.38969" width="20.10612" height="15.73971"/>
+          <g>
+            <line class="e-demo-chart" x1="360.77625" y1="216.2892" x2="360.77625" y2="220.51744"/>
+            <line class="e-demo-chart" x1="365.76046" y1="213.43083" x2="365.76046" y2="220.51744"/>
+            <line class="e-demo-chart" x1="370.74467" y1="210.00165" x2="370.74467" y2="220.51744"/>
+          </g>
+          <line class="e-demo-chart" x1="365.76046" y1="227.19617" x2="365.76046" y2="223.12617"/>
+          <line class="e-demo-chart" x1="358.74993" y1="227.19196" x2="372.77098" y2="227.19196"/>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g>
+    <rect class="d-demo-chart" x="248.74677" y="15.49335" width="234.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="j-demo-chart" transform="translate(329.70655 42.12489)"><tspan x="0" y="0">POS / ERP</tspan></text>
+      <text class="f-demo-chart" transform="translate(329.70667 61.30675)"><tspan x="0" y="0">Existing</tspan><tspan class="h" x="0" y="15.59961">r</tspan><tspan x="4.28467" y="15.59961">etail system</tspan></text>
+    </g>
+    <g>
+      <rect class="ico-border" x="260.18971" y="27.30198" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <g>
+        <g>
+          <g>
+            <polyline class="e-demo-chart" points="292.96967 54.95046 282.32578 54.95046 280.86303 43.81898 278.29348 43.81898"/>
+            <g>
+              <circle class="e-demo-chart" cx="284.85376" cy="57.04526" r="1.32417"/>
+              <circle class="e-demo-chart" cx="290.62261" cy="57.04526" r="1.32417"/>
+            </g>
+          </g>
+          <g>
+            <rect class="e-demo-chart" x="270.7519" y="39.31795" width="33.13915" height="22.30726"/>
+            <line class="e-demo-chart" x1="291.44421" y1="66.68307" x2="291.44421" y2="61.62283"/>
+            <line class="e-demo-chart" x1="283.19725" y1="66.68307" x2="283.19725" y2="61.62283"/>
+            <rect class="e-demo-chart" x="275.90569" y="66.68367" width="22.83157" height="2.86586"/>
+          </g>
+        </g>
+        <polyline class="e-demo-chart" points="282.00534 52.50703 293.65534 52.50703 295.21534 47.04703 281.28534 47.04703 281.23534 47.04703"/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <rect class="d-demo-chart" x="533.11056" y="379.95995" width="173.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="j-demo-chart" transform="translate(616.07032 414.3918)"><tspan x="0" y="0">S</tspan><tspan class="k" x="9.85156" y="0">t</tspan><tspan x="15.05469" y="0">o</tspan><tspan class="h" x="24.08594" y="0">r</tspan><tspan x="29.79688" y="0">e D</tspan></text>
+      <text class="f-demo-chart" transform="translate(616.07046 433.57366)"><tspan x="0" y="0">1200 labels</tspan></text>
+    </g>
+    <g>
+      <rect class="ico-border" x="544.55351" y="391.76858" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <g>        
+        <polyline class="e-demo-chart" points="585.32029 416.4315 585.32029 432.80344 558.04935 432.80344 558.04935 416.4315"/>
+
+          <path class="e-demo-chart" d="M588.41225,413.02913v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <path class="e-demo-chart" d="M581.72163,413.02913v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <line class="e-demo-chart" x1="575.03102" y1="413.02913" x2="568.3404" y2="413.02913"/>
+          <line class="e-demo-chart" x1="575.03013" y1="413.02598" x2="574.58186" y2="404.99724"/>
+          <line class="e-demo-chart" x1="568.78779" y1="404.99724" x2="568.33952" y2="413.02598"/>
+          <path class="e-demo-chart" d="M575.03102,413.02913v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <path class="e-demo-chart" d="M568.3404,413.02913v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+          <line class="e-demo-chart" x1="562.54544" y1="404.99724" x2="561.6489" y2="413.02598"/>
+          <line class="e-demo-chart" x1="581.72074" y1="413.02598" x2="580.8242" y2="404.99724"/>
+          <path class="e-demo-chart" d="M561.64979,413.02913v.07359c0,1.85331-1.49869,3.34531-3.34531,3.34531s-3.34531-1.49199-3.34531-3.34531v-.07359h6.69061Z"/>
+        </g>
+        <polyline class="e-demo-chart" points="588.41136 413.02598 585.96928 404.99724 557.40036 404.99724 554.95829 413.02598"/>
+        <rect class="e-demo-chart" x="567.24897" y="421.26811" width="8.87172" height="11.53531"/>
+      </g>
+    </g>
+  </g>
+</svg>

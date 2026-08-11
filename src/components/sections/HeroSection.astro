@@ -1,0 +1,612 @@
+---
+import ArrowButton from "../atoms/ArrowButton.astro";
+import neoslideDark from '../../assets/images/home/neoslide-dark.jpg';
+import neoslideLight from '../../assets/images/home/neoslide-wh.jpg';
+import shelfLabelsDark from '../../assets/images/home/labels-dark.jpg';
+import shelfLabelsLight from '../../assets/images/home/labels-wh.jpg';
+import videoStreamingDark from '../../assets/images/home/video-dark.jpg';
+import videoStreamingLight from '../../assets/images/home/video-wh.jpg';
+import softwareDevelopmentDark from '../../assets/images/home/code-dark.jpg';
+import softwareDevelopmentLight from '../../assets/images/home/code-wh.jpg';
+import type { HomePageContent } from '../../i18n/pages/home';
+interface Props { content: HomePageContent['hero']; }
+const { content } = Astro.props;
+const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${content.slides.length}: ${label}`;
+---
+
+<section class="hero" id="hero" aria-label={content.ariaLabel}>
+  <div class="hero__background" aria-hidden="true">
+    <video
+      class="hero__bg-video hero__bg-video--dark"
+      src="/videos/gradients/dark/base-gradient-2.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+    ></video>
+    <video
+      class="hero__bg-video hero__bg-video--light"
+      src="/videos/gradients/light/base-gradient-2.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+    ></video>
+  </div>
+
+  <div class="hero__inner container">
+    <!-- ========== LEFT: CONTENT ========== -->
+    <div class="hero__content">
+      <!-- Trust badge -->
+      <div class="hero__trust">
+        <span class="hero__trust-rating" aria-hidden="true">
+          <span class="hero__trust-score">{content.rating}</span>
+          <span class="hero__trust-stars">{content.stars}</span>
+        </span>
+        <span class="hero__trust-divider" aria-hidden="true"></span>
+        <span class="hero__trust-clients">
+          <strong class="hero__trust-count">{content.trustedCount}</strong>
+          <span class="hero__trust-label">{content.trustedLabel}<br />{content.trustedLabelSecondLine}</span>
+        </span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="hero__headline section-headline section-headline--hero">
+        <span class="hero__headline-static"
+          >{content.headlineStart}
+        </span>
+        <span class="hero-highlight-group">
+          <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: 0s;">{content.highlights[0]}</span>&#32;
+          <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: -1.67s;">{content.highlights[1]}</span>&#32; {content.conjunction} <span
+            class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: -3.33s;">{content.highlights[2]}</span
+          >
+        </span>
+      </h1>
+
+      <!-- Lead -->
+      <p class="hero__lead">
+        {content.lead}
+      </p>
+
+      <!-- CTAs -->
+      <div class="hero__actions">
+        <div class="hero__cta-group">
+          <ArrowButton href="/book-a-free-demo/" variant="primary"
+            >{content.primaryCta}</ArrowButton
+          >
+          <a href="/#about" class="btn btn--ghost">{content.secondaryCta}</a>
+        </div>
+        <div class="hero__cta-note">{content.ctaNote}</div>
+      </div>
+    </div>
+
+    <!-- ========== RIGHT: CAROUSEL ========== -->
+    <div
+      class="hero__carousel"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={content.carouselAriaLabel}
+    >
+      <div class="carousel__viewport" id="carouselViewport">
+        <div class="carousel__track" id="heroCarouselTrack">
+          <div
+            class="carousel__slide"
+            role="group"
+            aria-roledescription={content.slideRole}
+            aria-label={slideAriaLabel(0, content.slides[0])}
+          >
+            <img class="carousel__media carousel__media--dark" src={neoslideDark.src} alt="" loading="eager" decoding="async" />
+            <img class="carousel__media carousel__media--light" src={neoslideLight.src} alt="" loading="eager" decoding="async" />
+            <div class="carousel__slide-overlay"></div>
+            <span class="carousel__slide-label">{content.slides[0]}</span>
+          </div>
+
+          <div
+            class="carousel__slide"
+            role="group"
+            aria-roledescription={content.slideRole}
+            aria-label={slideAriaLabel(1, content.slides[1])}
+          >
+            <img class="carousel__media carousel__media--dark" src={shelfLabelsDark.src} alt="" loading="lazy" decoding="async" />
+            <img class="carousel__media carousel__media--light" src={shelfLabelsLight.src} alt="" loading="lazy" decoding="async" />
+            <div class="carousel__slide-overlay"></div>
+            <span class="carousel__slide-label">{content.slides[1]}</span>
+          </div>
+
+          <div
+            class="carousel__slide"
+            role="group"
+            aria-roledescription={content.slideRole}
+            aria-label={slideAriaLabel(2, content.slides[2])}
+          >
+            <img class="carousel__media carousel__media--dark" src={videoStreamingDark.src} alt="" loading="lazy" decoding="async" />
+            <img class="carousel__media carousel__media--light" src={videoStreamingLight.src} alt="" loading="lazy" decoding="async" />
+            <div class="carousel__slide-overlay"></div>
+            <span class="carousel__slide-label">{content.slides[2]}</span>
+          </div>
+
+          <div
+            class="carousel__slide"
+            role="group"
+            aria-roledescription={content.slideRole}
+            aria-label={slideAriaLabel(3, content.slides[3])}
+          >
+            <img class="carousel__media carousel__media--dark" src={softwareDevelopmentDark.src} alt="" loading="lazy" decoding="async" />
+            <img class="carousel__media carousel__media--light" src={softwareDevelopmentLight.src} alt="" loading="lazy" decoding="async" />
+            <div class="carousel__slide-overlay"></div>
+            <span class="carousel__slide-label">{content.slides[3]}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel__dots" role="tablist" aria-label={content.slideIndicators}>
+        <button
+          class="carousel__dot"
+          type="button"
+          role="tab"
+          data-index="0"
+          aria-label={content.slides[0]}
+          aria-selected="true"></button>
+        <button
+          class="carousel__dot"
+          type="button"
+          role="tab"
+          data-index="1"
+          aria-label={content.slides[1]}
+          aria-selected="false"></button>
+        <button
+          class="carousel__dot"
+          type="button"
+          role="tab"
+          data-index="2"
+          aria-label={content.slides[2]}
+          aria-selected="false"></button>
+        <button
+          class="carousel__dot"
+          type="button"
+          role="tab"
+          data-index="3"
+          aria-label={content.slides[3]}
+          aria-selected="false"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+
+  /* ---- Section shell ---- */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    background: var(--hero-background);
+    color: var(--text-primary);
+    min-height: calc(100dvh - 6rem);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero__background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .hero__bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+    transition: opacity var(--t-base);
+  }
+
+  .hero__bg-video--dark {
+    opacity: 1;
+  }
+
+  .hero__bg-video--light {
+    opacity: 0;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.08) 100%);
+    pointer-events: none;
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-9);
+    align-items: center;
+    padding-top: var(--sp-9);
+    padding-bottom: var(--sp-9);
+  }
+
+  /* ---- Trust badge ---- */
+  .hero__trust {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-4);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: var(--sp-2) var(--sp-5);
+    /* margin-bottom: var(--sp-6); */
+    width: fit-content;
+  }
+
+  .hero__trust-rating {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .hero__trust-score {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .hero__trust-stars {
+    font-size: var(--text-sm);
+    letter-spacing: var(--letter-spacing-label);
+  }
+
+  .hero__trust-divider {
+    display: block;
+    width: 1px;
+    height: 1.75rem;
+    background: var(--border-color);
+    flex-shrink: 0;
+  }
+
+  .hero__trust-clients {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .hero__trust-count {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+
+  .hero__trust-label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+
+  /* ---- Lead ---- */
+
+  /* ---- CTAs ---- */
+  .hero__actions {
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-end; */
+    gap: var(--sp-4);
+    flex-wrap: wrap;
+  }
+
+  .hero__cta-group {
+    display: flex;
+    flex-direction: row;
+    gap: var(--sp-3);
+  }
+
+  .hero__cta-note {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    padding-left: var(--sp-1);
+  }
+
+  /* ---- Carousel ---- */
+  .hero__carousel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    background: transparent;
+  }
+
+  .carousel__viewport {
+    overflow: hidden;
+    border-radius: 0;
+    touch-action: pan-y;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .carousel__viewport:active {
+    cursor: grabbing;
+  }
+
+  .carousel__track {
+    display: flex;
+    will-change: transform;
+    transition: transform 0.5s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel__track {
+      transition: none;
+    }
+  }
+
+  .carousel__slide {
+    position: relative;
+    min-width: 100%;
+    aspect-ratio: 4 / 3;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--sp-5);
+    flex-shrink: 0;
+    overflow: hidden;
+    box-shadow: none;
+  }
+
+  .carousel__media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    background: transparent;
+    transition: opacity var(--t-base);
+  }
+
+  .carousel__media--dark {
+    opacity: 1;
+  }
+
+  .carousel__media--light {
+    opacity: 0;
+  }
+
+  .carousel__slide-overlay {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  .carousel__slide-label {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+    text-shadow: none;
+  }
+
+  :global([data-theme='light']) .carousel__media--dark {
+    opacity: 0;
+  }
+
+  :global([data-theme='light']) .carousel__media--light {
+    opacity: 1;
+  }
+
+  :global([data-theme='light']) .hero__bg-video--dark {
+    opacity: 0;
+  }
+
+  :global([data-theme='light']) .hero__bg-video--light {
+    opacity: 1;
+  }
+
+  /* Dot indicators */
+  .carousel__dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--sp-2);
+    height: 1rem;
+  }
+
+  .carousel__dot {
+    height: 6px;
+    width: 6px;
+    border-radius: var(--radius-full);
+    background: var(--text-secondary);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition:
+      background var(--t-base),
+      width var(--t-base);
+  }
+
+  .carousel__dot[aria-selected="true"] {
+    background: var(--color-brand);
+    width: 1.5rem;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 1024px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+      gap: var(--sp-8);
+    }
+
+    .hero {
+      min-height: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero__inner {
+      padding-top: var(--sp-7);
+      padding-bottom: var(--sp-7);
+    }
+
+    .hero__lead {
+      font-size: var(--text-base);
+    }
+
+    .hero__actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+
+<script>
+  const viewport = document.getElementById(
+    "carouselViewport",
+  ) as HTMLElement | null;
+  const track = document.getElementById(
+    "heroCarouselTrack",
+  ) as HTMLElement | null;
+  const dots = Array.from(
+    document.querySelectorAll<HTMLButtonElement>(".carousel__dot"),
+  );
+
+  if (viewport && track) {
+    const slides = Array.from(
+      track.querySelectorAll<HTMLElement>(".carousel__slide"),
+    );
+    const total = slides.length;
+
+    if (total > 1) {
+      // Clone last before first, first after last for infinite loop
+      const firstClone = slides[0].cloneNode(true) as HTMLElement;
+      const lastClone = slides[total - 1].cloneNode(true) as HTMLElement;
+      firstClone.setAttribute("aria-hidden", "true");
+      lastClone.setAttribute("aria-hidden", "true");
+      track.appendChild(firstClone);
+      track.insertBefore(lastClone, slides[0]);
+
+      let current = 1; // 0 = lastClone, 1..total = real slides, total+1 = firstClone
+      let startX = 0;
+      let dragDiff = 0;
+      let dragging = false;
+      let timer = 0;
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const w = () => viewport.offsetWidth;
+
+      function moveTo(idx: number, animated = true) {
+        if (!track) return;
+        track.style.transition = animated ? "transform 0.5s ease" : "none";
+        track.style.transform = `translateX(${-idx * w()}px)`;
+      }
+
+      function syncDots(idx: number) {
+        const real = (((idx - 1) % total) + total) % total;
+        dots.forEach((d, i) =>
+          d.setAttribute("aria-selected", String(i === real)),
+        );
+      }
+
+      // After transition: silently jump from clone to real slide
+      track.addEventListener("transitionend", () => {
+        if (current === 0) {
+          current = total;
+          moveTo(current, false);
+        } else if (current === total + 1) {
+          current = 1;
+          moveTo(current, false);
+        }
+      });
+
+      // Dot clicks
+      dots.forEach((dot, i) => {
+        dot.addEventListener("click", () => {
+          current = i + 1;
+          moveTo(current);
+          syncDots(current);
+          resetAutoplay();
+        });
+      });
+
+      function tick() {
+        current++;
+        moveTo(current);
+        syncDots(current);
+      }
+
+      function startAutoplay() {
+        if (reduced) return;
+        timer = window.setInterval(tick, 4500);
+      }
+
+      function resetAutoplay() {
+        clearInterval(timer);
+        startAutoplay();
+      }
+
+      // Drag / swipe via Pointer Events
+      viewport.addEventListener("pointerdown", (e) => {
+        dragging = true;
+        startX = e.clientX;
+        dragDiff = 0;
+        track.style.transition = "none";
+        viewport.setPointerCapture(e.pointerId);
+        clearInterval(timer);
+      });
+
+      viewport.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        dragDiff = e.clientX - startX;
+        track.style.transform = `translateX(${-current * w() + dragDiff}px)`;
+      });
+
+      viewport.addEventListener("pointerup", () => {
+        if (!dragging) return;
+        dragging = false;
+        const threshold = w() * 0.18;
+        if (dragDiff < -threshold) current++;
+        else if (dragDiff > threshold) current--;
+        moveTo(current);
+        syncDots(current);
+        startAutoplay();
+      });
+
+      // Pause autoplay on hover
+      viewport.addEventListener("mouseenter", () => clearInterval(timer));
+      viewport.addEventListener("mouseleave", () => {
+        if (!dragging) startAutoplay();
+      });
+
+      // Init
+      moveTo(current, false);
+      syncDots(current);
+      startAutoplay();
+
+      window.addEventListener("resize", () => moveTo(current, false), {
+        passive: true,
+      });
+    }
+  }
+</script>

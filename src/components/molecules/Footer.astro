@@ -1,0 +1,469 @@
+---
+import PhoneIcon from '../icons/PhoneIcon.astro';
+import MailIcon from '../icons/MailIcon.astro';
+import MapPinIcon from '../icons/MapPinIcon.astro';
+import LinkedInIcon from '../icons/LinkedInIcon.astro';
+import InstagramIcon from '../icons/InstagramIcon.astro';
+import FacebookIcon from '../icons/FacebookIcon.astro';
+import SubscribeField from '../atoms/SubscribeField.astro';
+import ContactDetailItem from '../atoms/ContactDetailItem.astro';
+import { commonTranslations } from '../../i18n/common';
+import { getLocalizedPath, getTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/types';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const common = getTranslations(commonTranslations, lang);
+const t = common.footer;
+const href = (path: string) => getLocalizedPath(path, lang);
+---
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+
+    <div class="footer__grid">
+
+      <!-- LEFT: Brand + Contact -->
+      <div class="footer__left">
+        <div class="footer__brand">
+          <strong class="footer__brand-name">BlackBox Solutions</strong>
+          <p>{t.description}</p>
+        </div>
+
+        <div class="footer__contact-block">
+          <p class="footer__col-head">{t.contact}</p>
+          <ul class="footer__contact-list">
+            <li>
+              <ContactDetailItem
+                label={t.phone}
+                value="+389 75 444 908"
+                href="tel:+38975444908"
+                framedIcon={false}
+              >
+                <PhoneIcon slot="icon" />
+              </ContactDetailItem>
+            </li>
+            <li>
+              <ContactDetailItem
+                label={t.email}
+                value="contact@blackboxsolutions.mk"
+                href="mailto:contact@blackboxsolutions.mk"
+                framedIcon={false}
+              >
+                <MailIcon slot="icon" />
+              </ContactDetailItem>
+            </li>
+            <li>
+              <ContactDetailItem
+                label={t.office}
+                value={t.officeAddress}
+                framedIcon={false}
+              >
+                <MapPinIcon slot="icon" />
+              </ContactDetailItem>
+            </li>
+          </ul>
+
+          <!-- Map: 0-saturation iframe. TODO: upgrade to Maps JS API for custom dark tile colors with colored pin -->
+          <div class="footer__map">
+            <iframe
+              src="https://maps.google.com/maps?q=Klenoec+61,+Skopje,+Macedonia&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              title={t.mapTitle}
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Nav + Legal + CTA + Social -->
+      <div class="footer__right">
+
+        <!-- Nav: Legal + Services + Company -->
+        <nav class="footer__nav" aria-label={t.navigationAriaLabel}>
+          <div class="footer__nav-col">
+            <p class="footer__col-head">{t.legal}</p>
+            <nav class="footer__legal-links" aria-label={t.legalAriaLabel}>
+              <!-- TODO: add legal pages -->
+              <a href="#">{t.terms}</a>
+              <a href="#">{t.customerServicePolicy}</a>
+              <a href="#">{t.privacyPolicy}</a>
+            </nav>
+          </div>
+
+          <div class="footer__nav-col">
+            <p class="footer__col-head">{t.services}</p>
+            <ul>
+              <li><a href={href('/digital-signage/')}>{common.navigation.serviceLinks.digitalSignage}</a></li>
+              <li><a href={href('/shelf-labels/')}>{common.navigation.serviceLinks.shelfLabels}</a></li>
+              <li><a href={href('/software-development/')}>{common.navigation.serviceLinks.softwareDevelopment}</a></li>
+              <li><a href={href('/video-streaming/')}>{common.navigation.serviceLinks.videoStreaming}</a></li>
+            </ul>
+          </div>
+          <div class="footer__nav-col">
+            <p class="footer__col-head">{t.company}</p>
+            <ul>
+              <li><a href={href('/#about')}>{t.about}</a></li>
+              <li><a href={href('/#contact')}>{t.contactLink}</a></li>
+              <li><a href={href('/faq/')}>{t.faq}</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Email capture -->
+        <div class="footer__legal">
+          <SubscribeField class="footer__subscribe" buttonLabel={t.bookDemo} label={common.forms.emailLabel} placeholder={common.forms.emailPlaceholder} />
+        </div>
+
+        <!-- Logo + Social Media -->
+        <div class="footer__actions">
+          <a href={href('/')} class="footer__logo-link" aria-label={t.homeAriaLabel}>
+            <img src="/brand/logo/logo-horizontal.svg" alt={t.logoAlt} loading="lazy">
+          </a>
+
+          <div class="footer__social">
+            <span class="footer__col-head">{t.socialMedia}</span>
+            <div class="footer__social-links">
+              <a href="https://www.linkedin.com/company/black-box-solutions/" class="footer__social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                <LinkedInIcon />
+              </a>
+              <a href="https://www.instagram.com/blackboxsolutions.mk/" class="footer__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                <InstagramIcon />
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=100091417818163&mibextid=ZbWKwL" class="footer__social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                <FacebookIcon />
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Copyright bar -->
+    <p class="footer__copy">©{new Date().getFullYear()} · BlackBox Solutions</p>
+
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding-top: var(--sp-6);
+  }
+
+  /* ---- Main grid: left panel | right panel ---- */
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 22rem 1fr;
+    border: 1px solid var(--border-color);
+    position: relative;
+  }
+
+  /* ---- LEFT ---- */
+  .footer__left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+    padding: var(--sp-6);
+    border-right: 1px solid var(--border-color);
+  }
+
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .footer__brand-name {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    font-weight: var(--weight-display);
+    color: var(--text-primary);
+  }
+
+  .footer__brand > p,
+  .footer__brand p {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.65;
+    max-width: 32ch;
+  }
+
+  .footer__contact-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  /* Shared column heading style */
+  .footer__col-head {
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .footer__contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .footer__contact-list li {
+    list-style: none;
+  }
+
+  .footer__contact-list :global(.contact-detail) {
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .footer__contact-list :global(.contact-detail__content) {
+    display: flex;
+    align-items: center;
+    min-height: 1rem;
+  }
+
+  .footer__contact-list :global(.contact-detail__icon) {
+    --icon-badge-size: 1rem;
+    --icon-badge-color: var(--text-muted);
+  }
+
+  .footer__contact-list :global(.contact-detail__label) {
+    display: none;
+  }
+
+  .footer__contact-list :global(.contact-detail__value) {
+    font-size: var(--text-sm);
+  }
+
+  /* Map */
+  .footer__map {
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    aspect-ratio: 4 / 3;
+  }
+
+  .footer__map iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+    filter: saturate(0) brightness(0.55);
+    transition: filter var(--t-base);
+  }
+
+  [data-theme="light"] .footer__map iframe {
+    filter: saturate(0) brightness(0.9);
+  }
+
+  /* ---- RIGHT ---- */
+  .footer__right {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto auto;
+    height: 100%;
+  }
+
+  /* Nav */
+  .footer__nav {
+    display: grid;
+    grid-template-columns: minmax(12rem, 1fr) 1fr 1fr;
+    border-bottom: 1px solid var(--border-color);
+    height: 100%;
+    align-items: stretch;
+  }
+
+  .footer__nav-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--sp-4);
+    padding: var(--sp-6);
+    height: 100%;
+  }
+
+  .footer__nav-col + .footer__nav-col {
+    border-left: 1px solid var(--border-color);
+  }
+
+  .footer__logo-link {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .footer__logo-link img {
+    width: 11rem;
+    max-width: 100%;
+    height: auto;
+    filter: var(--logo-filter);
+  }
+
+  .footer__nav-col ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-3);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer__nav-col a {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    transition: color var(--t-fast);
+  }
+
+  .footer__nav-col a:hover {
+    color: var(--text-primary);
+  }
+
+  /* Legal */
+  .footer__legal {
+    display: flex;
+    align-items: center;
+    padding: var(--sp-4) var(--sp-6);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .footer__legal-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-3);
+  }
+
+  .footer__legal-links a {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    transition: color var(--t-fast);
+  }
+
+  .footer__legal-links a:hover {
+    color: var(--text-primary);
+  }
+
+  /* Actions row: Book a Demo + Social */
+  .footer__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-5);
+    padding: var(--sp-5) var(--sp-6);
+    flex: 0 0 auto;
+  }
+
+  .footer__legal .footer__subscribe {
+    width: 100%;
+    max-width: 28rem;
+  }
+
+  .footer__legal .footer__subscribe :global(.subscribe-field__button) {
+    min-width: 10.75rem;
+  }
+
+  /* Social */
+  .footer__social {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    flex-shrink: 0;
+  }
+
+  .footer__social-links {
+    display: flex;
+    gap: var(--sp-3);
+  }
+
+  .footer__social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    transition: color var(--t-fast), border-color var(--t-fast);
+  }
+
+  .footer__social-link:hover {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+  }
+
+  /* ---- Copyright ---- */
+  .footer__copy {
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-align: center;
+    padding: var(--sp-4) 0;
+    margin-top: var(--sp-4);
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 1024px) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer__left {
+      border-right: none;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .footer__nav {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .footer__actions {
+      gap: var(--sp-4);
+    }
+
+    .footer__legal {
+      padding: var(--sp-4) var(--sp-5);
+    }
+
+    .footer__legal .footer__subscribe {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer__nav {
+      grid-template-columns: 1fr;
+    }
+
+    .footer__nav-col {
+      padding: var(--sp-5);
+    }
+
+    .footer__nav-col + .footer__nav-col {
+      border-left: none;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer__logo-link img {
+      width: 9.5rem;
+    }
+
+    .footer__social {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .footer__actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

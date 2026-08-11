@@ -1,0 +1,4 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';import FreeDemoSection from '../sections/FreeDemoSection.astro';import{demoContent}from'../../i18n/pages/demo';import{getTranslations}from'../../i18n/utils';import type{Lang}from'../../i18n/types';interface Props{lang:Lang}const{lang}=Astro.props;const c=getTranslations(demoContent,lang).page;
+---
+<BaseLayout lang={lang} title={c.seo.title} description={c.seo.description}><FreeDemoSection content={c}/></BaseLayout>

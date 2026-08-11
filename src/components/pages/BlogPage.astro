@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';import{blogContent}from'../../i18n/pages/blog';import{getTranslations}from'../../i18n/utils';import type{Lang}from'../../i18n/types';interface Props{lang:Lang}const{lang}=Astro.props;const c=getTranslations(blogContent,lang);
+---
+<BaseLayout lang={lang} title={c.seo.title}><section class="section blog-page" aria-labelledby="blog-heading"><div class="container blog-page__inner"><p class="section-label">{c.label}</p><h1 class="section-headline" id="blog-heading">{c.heading}</h1><p class="section-copy blog-page__copy">{c.copy}</p><div class="blog-page__placeholder u-border-interactive" role="status" aria-live="polite"><p>{c.placeholder}</p></div></div></section></BaseLayout>
+<style>.blog-page{background:var(--bg)}.blog-page__inner{max-width:62rem}.blog-page__copy{max-width:58ch;margin-top:var(--sp-3)}.blog-page__placeholder{margin-top:var(--sp-6);padding:var(--sp-6);background:linear-gradient(90deg,var(--bg-secondary) 0%,color-mix(in srgb,var(--bg-secondary) 70%,var(--bg)) 100%)}.blog-page__placeholder p{margin:0;color:var(--text-secondary)}</style>

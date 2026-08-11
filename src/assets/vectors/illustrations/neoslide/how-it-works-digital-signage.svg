@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="606.94737" height="633" viewBox="0 0 606.94737 633">
+  <defs>
+    <style>
+      .d-demo-chart {
+        stroke: var(--border-color);
+        fill: var(--bg-secondary);
+        vector-effect: non-scaling-stroke;
+      }
+
+      .e-demo-chart {
+        stroke: var(--color-brand);
+        fill: none;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .ico-border {
+        stroke: var(--color-brand);
+        fill: var(--icon-bg);
+        vector-effect: non-scaling-stroke;
+      }
+
+      .path-demo-chart {
+        fill: none;
+        stroke-width: 1px;
+        stroke: var(--color-brand);
+        stroke-dasharray: 4px 2px;
+        vector-effect: non-scaling-stroke;
+        animation: connector-flow-dchart 3s linear infinite;
+      }
+
+      .path-demo-chart-fast {
+        animation-duration: 1.8s;
+      }
+
+      @keyframes connector-flow-dchart {
+        0% {
+          stroke-dashoffset: 0;
+        }
+        100% {
+          stroke-dashoffset: -20;
+        }
+      }
+
+      .f-demo-chart {
+        fill: var(--text-secondary);
+        font-family: Roboto-Regular, Roboto;
+        font-size: 13px;
+      }
+
+      .i-demo-chart {
+        font-size: 18px;
+      }
+
+      .j-demo-chart {
+        font-size: 16px;
+      }
+
+      .i-demo-chart, .j-demo-chart {
+        fill: var(--text-primary);
+        font-family: Roboto-Bold, Roboto;
+        font-weight: 700;
+      }
+
+      .b-demo-chart {
+        fill: url(#chart-gradient);
+      }
+    </style>
+
+    <radialGradient id="chart-gradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="var(--color-brand)" stop-opacity="1" />
+      <stop offset="80%" stop-color="var(--color-brand)" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <g>
+    <path id="track" class="path-demo-chart path-demo-chart-fast" d="M303.47368 169.38471 L303.47368 275.26682"/>
+    <path id="p-1" class="path-demo-chart" d="M229.5526,306.73524v41.78658c0,6.70663-5.43679,12.14342-12.14342,12.14342h-77.50316c-6.70663,0-12.14342,5.43679-12.14342,12.14342v52.74658"/>
+    <path id="p-2" class="path-demo-chart" d="M377.19568,306.73524v41.78658c0,6.70663,5.43679,12.14342,12.14342,12.14342h77.50316c6.70663,0,12.14342,5.43679,12.14342,12.14342v52.74658"/>
+    <path id="p-3" class="path-demo-chart" d="M279.5526,306.73524v250.43921c0,6.70663-5.43679,12.14342-12.14342,12.14342h-82.50316"/>
+    <path id="p-4" class="path-demo-chart" d="M327.19568,306.73524v250.43921c0,6.70663,5.43679,12.14342,12.14342,12.14342h82.50316"/>
+
+    <circle class="b-demo-chart" cx="0" cy="0" r="12">
+      <animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#track"/></animateMotion>
+    </circle>
+    <circle class="b-demo-chart" cx="0" cy="0" r="12">
+      <animateMotion dur="3s" repeatCount="indefinite"><mpath href="#p-1"/></animateMotion>
+    </circle>
+    <circle class="b-demo-chart" cx="0" cy="0" r="12">
+      <animateMotion dur="3s" repeatCount="indefinite"><mpath href="#p-2"/></animateMotion>
+    </circle>
+    <circle class="b-demo-chart" cx="0" cy="0" r="12">
+      <animateMotion dur="3s" repeatCount="indefinite"><mpath href="#p-3"/></animateMotion>
+    </circle>
+    <circle class="b-demo-chart" cx="0" cy="0" r="12">
+      <animateMotion dur="3s" repeatCount="indefinite"><mpath href="#p-4"/></animateMotion>
+    </circle>
+  </g>
+
+  <rect class="d-demo-chart" x="186.29378" y="25.22467" width="234.3598" height="166.21053" rx="7.57895" ry="7.57895"/>
+  <g>
+    <text class="i-demo-chart" x="224.47192" y="141.95514">Cloud Management</text>
+    <text class="i-demo-chart" x="257.66821" y="163.55475">Dashboard</text>
+    <g>
+      <rect class="ico-border" x="271.63238" y="48.22694" width="63.68294" height="63.68293" rx="4" ry="4"/>
+      <g>
+        <path class="e-demo-chart" d="M313.28385,89.04787h3.05c1.94,0,3.58-.67,4.92-2,1.34-1.34,2.01-2.98,2.01-4.92,0-1.9-.64-3.51-1.93-4.84-1.28-1.33-2.87-2.03-4.77-2.09h-1.22v-1.98c0-3.3-1.15-6.1-3.46-8.41-2.3-2.31-5.11-3.46-8.41-3.46-2.93,0-5.5.94-7.71,2.82-2.2,1.88-3.53,4.26-3.97,7.14-2.31.13-4.23,1.08-5.78,2.83-1.55,1.76-2.33,3.77-2.33,6.04,0,2.47.87,4.57,2.6,6.29,1.74,1.72,3.84,2.58,6.31,2.58h.59"/>
+        <rect class="e-demo-chart" x="293.18108" y="78.98244" width="20.10612" height="15.73971"/>
+        <g>
+          <line class="e-demo-chart" x1="298.24993" y1="87.88196" x2="298.24993" y2="92.11019"/>
+          <line class="e-demo-chart" x1="303.23414" y1="85.02359" x2="303.23414" y2="92.11019"/>
+          <line class="e-demo-chart" x1="308.21835" y1="81.5944" x2="308.21835" y2="92.11019"/>
+        </g>
+        <line class="e-demo-chart" x1="303.23414" y1="98.78892" x2="303.23414" y2="94.71892"/>
+        <line class="e-demo-chart" x1="296.22361" y1="98.78471" x2="310.24467" y2="98.78471"/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <rect class="d-demo-chart" x="161.22045" y="252.33446" width="284.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="j-demo-chart" x="242.18024" y="278.96599">Playlists &amp; Display Groups</text>
+      <text class="f-demo-chart" x="242.18036" y="299.39636">· Images</text>
+      <text class="f-demo-chart" x="242.18036" y="320.52841">· Video</text>
+      <text class="f-demo-chart" x="305.08563" y="299.39636">· Templates</text>
+      <text class="f-demo-chart" x="305.08563" y="320.52841">· Weather</text>
+    </g>
+    <g>
+      <rect class="ico-border" x="172.6634" y="264.14309" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <g>
+        <rect class="e-demo-chart" x="181.58608" y="283.81051" width="28.42105" height="22.92632"/>
+        <polyline class="e-demo-chart" points="212.00423 302.73287 214.00423 302.73287 214.00423 279.81287 185.58423 279.81287 185.58423 281.81287"/>
+        <polyline class="e-demo-chart" points="216.00423 298.73287 218.00423 298.73287 218.00423 275.81287 189.58423 275.81287 189.58423 277.81287"/>
+        <polygon class="e-demo-chart" points="200.0087 295.27367 191.58453 290.03061 191.58453 300.51674 200.0087 295.27367"/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <rect class="d-demo-chart" x="26.24522" y="391.11451" width="203.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="j-demo-chart" x="109.20497" y="425.54635">Cluster A</text>
+      <text class="f-demo-chart" x="109.20511" y="444.72823">Large Format</text>
+    </g>
+    <g>
+      <rect class="ico-border" x="37.68817" y="402.92314" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <g>
+        <rect class="e-demo-chart" x="44.08395" y="413.82964" width="41.47194" height="27.28893"/>
+        <rect class="e-demo-chart" x="44.08395" y="441.11857" width="41.47194" height="2.1323"/>
+        <g>
+          <line class="e-demo-chart" x1="48.65093" y1="446.28015" x2="48.65093" y2="443.25087"/>
+          <line class="e-demo-chart" x1="46.13205" y1="446.27934" x2="51.1714" y2="446.27934"/>
+        </g>
+        <g>
+          <line class="e-demo-chart" x1="80.98376" y1="446.28015" x2="80.98376" y2="443.25087"/>
+          <line class="e-demo-chart" x1="78.46408" y1="446.27934" x2="83.50344" y2="446.27934"/>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g>
+    <rect class="d-demo-chart" x="26.24522" y="529.89455" width="203.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="j-demo-chart" x="109.20497" y="564.3264">Cluster C</text>
+      <text class="f-demo-chart" x="109.20511" y="583.50828">Standard Displays</text>
+    </g>
+    <g>
+      <rect class="ico-border" x="37.68817" y="541.70318" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <g>
+        <rect class="e-demo-chart" x="45.15626" y="565.25211" width="26.66997" height="14.50018"/>
+        <g>
+          <line class="e-demo-chart" x1="59.55206" y1="583.17639" x2="59.55206" y2="579.7531"/>
+          <line class="e-demo-chart" x1="57.43044" y1="583.17639" x2="57.43044" y2="579.7531"/>
+        </g>
+        <rect class="e-demo-chart" x="52.77211" y="583.17639" width="11.43828" height="1.40929"/>
+        <polyline class="e-demo-chart" points="72.85054 579.7531 84.48359 579.7531 84.48359 553.08421 69.98072 553.08421 69.98072 564.22528"/>
+        <g>
+          <line class="e-demo-chart" x1="78.29224" y1="583.17639" x2="78.29224" y2="579.7531"/>
+          <line class="e-demo-chart" x1="76.17062" y1="583.17639" x2="76.17062" y2="579.7531"/>
+        </g>
+        <rect class="e-demo-chart" x="71.51229" y="583.17639" width="11.43828" height="1.40929"/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <rect class="d-demo-chart" x="377.19568" y="529.89455" width="203.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="j-demo-chart" x="460.15545" y="564.3264">Cluster D</text>
+      <text class="f-demo-chart" x="460.15558" y="583.50828">Video Walls</text>
+    </g>
+    <g>
+      <rect class="ico-border" x="388.63863" y="541.70318" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <g>
+        <rect class="e-demo-chart" x="397.20197" y="555.36151" width="17.32298" height="12.11476"/>
+        <rect class="e-demo-chart" x="417.01583" y="555.36151" width="17.32298" height="12.11476"/>
+        <rect class="e-demo-chart" x="397.20197" y="570.19361" width="17.32298" height="12.11476"/>
+        <rect class="e-demo-chart" x="417.01583" y="570.19361" width="17.32298" height="12.11476"/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <rect class="d-demo-chart" x="377.19568" y="391.11451" width="203.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <g>
+      <text class="j-demo-chart" x="460.15545" y="425.54635">Cluster B</text>
+      <text class="f-demo-chart" x="460.15558" y="444.72823">Digital Totems</text>
+    </g>
+    <g>
+      <rect class="ico-border" x="388.63863" y="402.92314" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <g>
+        <polyline class="e-demo-chart" points="407.08303 448.56502 407.08303 409.28407 424.45769 409.28407 424.45769 448.56502"/>
+        <rect class="e-demo-chart" x="409.08369" y="411.35014" width="13.37361" height="25.45509"/>
+        <rect class="e-demo-chart" x="404.6587" y="448.56503" width="22.22338" height="2.26069"/>
+      </g>
+    </g>
+  </g>
+</svg>

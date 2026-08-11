@@ -1,0 +1,57 @@
+---
+import MoonIcon from '../icons/MoonIcon.astro';
+import SunIcon from '../icons/SunIcon.astro';
+interface Props { label: string; }
+const { label } = Astro.props;
+---
+<button
+  class="theme-toggle"
+  data-theme-toggle
+  aria-label={label}
+  type="button"
+>
+  <MoonIcon width="16" height="16" />
+  <SunIcon width="16" height="16" />
+</button>
+
+<style>
+  .theme-toggle {
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background var(--t-fast),
+      color var(--t-fast),
+      border-color var(--t-base);
+  }
+
+  .theme-toggle:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+  }
+
+  /* Icon swap — controlled by data-theme on <html> */
+  :global(.icon-sun)  { display: none; }
+  :global(.icon-moon) { display: block; }
+
+  :global([data-theme="dark"] .icon-sun)  { display: block; }
+  :global([data-theme="dark"] .icon-moon) { display: none; }
+</style>
+
+<script>
+  const themeButtons = document.querySelectorAll('[data-theme-toggle]');
+  themeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('bb-theme', next);
+    });
+  });
+</script>

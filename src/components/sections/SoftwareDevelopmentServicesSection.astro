@@ -1,0 +1,127 @@
+---
+import SoftwareDevelopmentServiceCard from '../molecules/SoftwareDevelopmentServiceCard.astro';
+import type { SoftwareDevelopmentContent } from '../../i18n/pages/software-development';
+import SoftwareDevelopmentApplicationsIcon from '../icons/services/development/SoftwareDevelopmentApplicationsIcon.astro';
+import SoftwareDevelopmentFrontendIcon from '../icons/services/development/SoftwareDevelopmentFrontendIcon.astro';
+import SoftwareDevelopmentBackendIcon from '../icons/services/development/SoftwareDevelopmentBackendIcon.astro';
+import SoftwareDevelopmentIntegrationsIcon from '../icons/services/development/SoftwareDevelopmentIntegrationsIcon.astro';
+
+// import SoftwareDevIntegrationsIcon from '../../assets/vectors/illustrations/software-development/dev_integrations.svg'
+// import SoftwareDevApplicationsIcon from '../../assets/vectors/illustrations/software-development/dev_applications.svg'
+
+const serviceIcons = [
+  SoftwareDevelopmentApplicationsIcon,
+  SoftwareDevelopmentFrontendIcon,
+  SoftwareDevelopmentBackendIcon,
+  SoftwareDevelopmentIntegrationsIcon,
+];
+interface Props { content: SoftwareDevelopmentContent['services'] } const { content } = Astro.props; const cards = content.cards;
+---
+
+<section class="section sd-services" aria-labelledby="sd-services-heading">
+  <div class="grid-bg"></div>
+  <div class="container sd-services__container">
+    <header class="section__header sd-services__intro">
+      <div class="sd-services__heading">
+        <p class="section-label">{content.label}</p>
+
+        <h2 class="section-headline sd-services__headline" id="sd-services-heading">
+          {content.heading}
+        </h2>
+      </div>
+
+      <p class="section-copy sd-services__lead">
+        {content.copy}
+      </p>
+    </header>
+
+    <div class="sd-services__grid" aria-label={content.ariaLabel}>
+      {
+        cards.map((card, index) => {
+          const Icon = serviceIcons[index];
+
+          return (
+            <SoftwareDevelopmentServiceCard
+              counter={card.counter}
+              title={card.title}
+              description={card.description}
+            >
+              {Icon && <Icon slot="visual" />}
+            </SoftwareDevelopmentServiceCard>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .sd-services {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+  }
+
+  .sd-services__container {
+    display: grid;
+    gap: var(--sp-8);
+    position: relative;
+    z-index: 1;
+  }
+
+  .sd-services__intro {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-6);
+    align-items: start;
+    margin-bottom: 0;
+  }
+
+  .sd-services__heading {
+    display: grid;
+    gap: var(--sp-3);
+  }
+
+  .sd-services__headline,
+  .sd-services__lead {
+    margin: 0;
+  }
+
+  .sd-services__lead {
+    align-self: end;
+    /* max-width: 58ch; */
+  }
+
+  .sd-services__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-4);
+    align-items: stretch;
+  }
+
+
+  @media (max-width: 1024px) {
+    .sd-services__container {
+      gap: var(--sp-6);
+    }
+
+    .sd-services__intro {
+      grid-template-columns: 1fr;
+    }
+
+    .sd-services__lead {
+      max-width: 65ch;
+    }
+
+    .sd-services__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--sp-4);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .sd-services__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

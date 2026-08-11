@@ -1,0 +1,82 @@
+---
+import realtimeContentImage from '../../assets/images/services/neoslide/real-time content/weather.png';
+import type { DigitalSignageContent } from '../../i18n/pages/digital-signage';
+interface Props { content: DigitalSignageContent['realtime'] } const { content } = Astro.props;
+---
+
+<section class="ds-realtime" aria-label={content.ariaLabel}>
+    <div class="container ds-realtime__container">
+        <div class="ds-realtime__content">
+            <div class="ds-realtime__text">
+                <p class="ds-realtime__eyebrow section-label">{content.label}</p>
+                <h2 class="ds-realtime__title section-headline">
+                    {content.heading}
+                </h2>
+                <p class="ds-realtime__copy section-copy">
+                    {content.copy}
+                </p>
+            </div>
+
+            <div class="ds-realtime__media">
+                <img
+                    class="ds-realtime__image"
+                    src={realtimeContentImage.src}
+                    alt={content.imageAlt}
+                    loading="lazy"
+                    decoding="async"
+                />
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .ds-realtime {
+        background: var(--bg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .ds-realtime__container {
+        padding-block: var(--sp-10);
+    }
+
+    .ds-realtime__content {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--sp-8);
+        align-items: center;
+    }
+
+    .ds-realtime__text {
+        display: grid;
+        gap: var(--sp-3);
+        max-width: 38rem;
+    }
+
+    .ds-realtime__eyebrow,
+    .ds-realtime__title,
+    .ds-realtime__copy {
+        margin: 0;
+    }
+
+    .ds-realtime__media {
+        width: 100%;
+    }
+
+    .ds-realtime__image {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    @media (max-width: 900px) {
+        .ds-realtime__content {
+            grid-template-columns: 1fr;
+            gap: var(--sp-5);
+        }
+
+        .ds-realtime__text {
+            max-width: none;
+        }
+    }
+</style>

@@ -1,0 +1,111 @@
+---
+import DisclosureItem from '../atoms/DisclosureItem.astro';
+import MetricChip from '../atoms/MetricChip.astro';
+import { industryMetrics as metrics, industrySolutions as solutions } from '../../i18n/pages/data/industrySolutions';
+---
+
+<section
+    class="section industry-solutions"
+    id="industry-solutions"
+    aria-labelledby="industry-solutions-heading"
+>
+    <div class="container">
+        <header class="industry-solutions__header section__header">
+            <div class="industry-solutions__intro">
+                <p class="section-label">Industry Solutions</p>
+                <h2 class="section-headline industry-solutions__headline" id="industry-solutions-heading">
+                    Digital signage that adapts to your business.
+                </h2>
+                <p class="section-copy industry-solutions__copy">
+                    Every industry communicates differently. Neoslide provides flexible digital signage solutions that help you deliver the right information, to the right audience, at the right time.
+                </p>
+            </div>
+
+            <a class="btn btn--primary industry-solutions__cta" href="#case-studies">
+                Explore case studies
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"></path>
+                </svg>
+            </a>
+        </header>
+
+        <div class="industry-solutions__list" aria-label="Industry solutions details">
+            {solutions.map((solution, index) => (
+                <DisclosureItem
+                    counter={solution.number}
+                    title={solution.title}
+                    content={solution.excerpt}
+                    imageSrc={solution.imageSrc}
+                    imageAlt={solution.imageAlt}
+                    open={index === 0}
+                />
+            ))}
+        </div>
+
+        <ul class="industry-solutions__metrics" aria-label="Industry solution impact metrics">
+            {metrics.map((metric) => (
+                <MetricChip value={metric.value} label={metric.label} />
+            ))}
+        </ul>
+    </div>
+</section>
+
+<style>
+    .industry-solutions {
+        background: var(--bg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .industry-solutions__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--sp-5);
+        margin-bottom: var(--sp-6);
+    }
+
+    .industry-solutions__intro {
+        max-width: 60ch;
+    }
+
+    .industry-solutions__headline {
+        margin-bottom: var(--sp-3);
+    }
+
+    .industry-solutions__copy {
+        max-width: 52ch;
+    }
+
+    .industry-solutions__cta {
+        flex-shrink: 0;
+        width: fit-content;
+    }
+
+    .industry-solutions__list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--sp-4);
+    }
+
+    .industry-solutions__metrics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--sp-3);
+        margin-top: var(--sp-5);
+    }
+
+    .industry-solutions__metrics :global(.metric-chip) {
+        flex: 1 1 13rem;
+    }
+
+    @media (max-width: 980px) {
+        .industry-solutions__header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .industry-solutions__list {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

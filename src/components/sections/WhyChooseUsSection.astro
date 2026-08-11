@@ -1,0 +1,88 @@
+---
+import StatMetricCard from '../atoms/StatMetricCard.astro';
+import type { HomePageContent } from '../../i18n/pages/home';
+
+interface Props { content: HomePageContent['whyChoose']; }
+const { content } = Astro.props;
+---
+
+<section class="section why-choose" id="why-choose" aria-labelledby="why-choose-heading">
+  <div class="container">
+    <header class="why-choose__header section__header">
+      <div class="why-choose__title-wrap">
+        <p class="section-label">{content.label}</p>
+        <h2 class="section-headline" id="why-choose-heading">
+          {content.heading}
+        </h2>
+      </div>
+
+      <p class="section-copy">
+        {content.copy}<br />{content.copySecondLine}
+      </p>
+    </header>
+
+    <ul class="why-choose__stats" aria-label={content.ariaLabel}>
+      {content.stats.map((stat) => (
+        <li class="why-choose__stat-item">
+          <StatMetricCard value={stat.value} label={stat.label} />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .why-choose {
+    background: var(--bg);
+  }
+
+  .why-choose__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--sp-8);
+    align-items: start;
+    margin-bottom: var(--sp-6);
+  }
+
+  .why-choose__stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--sp-2);
+  }
+
+  .why-choose__stat-item {
+    list-style: none;
+  }
+
+  @media (max-width: 1200px) {
+    .why-choose__header {
+      gap: var(--sp-6);
+    }
+
+    .why-choose__stats {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 900px) {
+    .why-choose__header {
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+
+    .why-choose__stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 600px) {
+    .why-choose__title-wrap br,
+    .section-copy br {
+      display: none;
+    }
+
+    .why-choose__stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,228 @@
+---
+import type{ShelfLabelsContent}from'../../i18n/pages/shelf-labels'; interface Props{content:ShelfLabelsContent['hardware']} const{content}=Astro.props; const features=content.features;
+---
+
+<section class="section sl-hardware-details" aria-labelledby="hardware-details-heading">
+    <div class="container sl-hardware-details__container">
+        <header class="section__header sl-hardware-details__intro">
+            <div class="sl-hardware-details__heading">
+                <p class="section-label">{content.label}</p>
+
+                <h2
+                    class="section-headline sl-hardware-details__headline"
+                    id="hardware-details-heading"
+                >
+                    {content.heading}
+                </h2>
+            </div>
+
+            <p class="section-copy sl-hardware-details__lead">
+                {content.copy}
+            </p>
+        </header>
+
+        <div
+            class="sl-hardware-details__grid"
+            aria-label={content.ariaLabel}
+        >
+            {
+                features.map((feature, index) => (
+                    <article class="sl-hardware-details__card u-border-interactive">
+                        <figure class="sl-hardware-details__media">
+                            <img
+                                src={feature.imageSrc}
+                                alt={feature.imageAlt}
+                                loading={index === 0 ? "eager" : "lazy"}
+                                decoding="async"
+                                class="sl-hardware-details__image"
+                            />
+                        </figure>
+
+                        <div class="sl-hardware-details__details">
+                            <span
+                                class="sl-hardware-details__counter"
+                                aria-hidden="true"
+                            >
+                                {feature.counter}
+                            </span>
+
+                            <div class="sl-hardware-details__text">
+                                <h3 class="sl-hardware-details__title">
+                                    {feature.title}
+                                </h3>
+
+                                <p class="sl-hardware-details__description">
+                                    {feature.description}
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                ))
+            }
+        </div>
+    </div>
+
+    <style>
+        .sl-hardware-details {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sl-hardware-details__container {
+            display: grid;
+            gap: var(--sp-8);
+        }
+
+        .sl-hardware-details__intro {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--sp-6);
+            align-items: start;
+            margin-bottom: 0;
+        }
+
+        .sl-hardware-details__heading {
+            display: grid;
+            gap: var(--sp-3);
+        }
+
+        .sl-hardware-details__headline,
+        .sl-hardware-details__lead {
+            margin: 0;
+        }
+
+        .sl-hardware-details__lead {
+            align-self: end;
+            max-width: 58ch;
+        }
+
+        .sl-hardware-details__grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--sp-4);
+            align-items: stretch;
+        }
+
+        .sl-hardware-details__card {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            padding: 0;
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .sl-hardware-details__media {
+            width: 100%;
+            margin: 0;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+
+        .sl-hardware-details__image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-out;
+        }
+
+        .sl-hardware-details__card:hover .sl-hardware-details__image,
+        .sl-hardware-details__card:focus-within .sl-hardware-details__image {
+            transform: scale(1.04);
+        }
+
+        .sl-hardware-details__details {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: var(--sp-4);
+            padding: var(--sp-5);
+            align-items: start;
+            align-content: start;
+        }
+
+        .sl-hardware-details__counter {
+            font-family: var(--font-mono);
+            color: var(--color-brand);
+            font-size: clamp(1rem, 0.9rem + 0.35vw, 1.25rem);
+            font-weight: 600;
+            line-height: 1;
+            letter-spacing: 0.08em;
+        }
+
+        .sl-hardware-details__text {
+            display: grid;
+            gap: var(--sp-2);
+            align-content: start;
+        }
+
+        .sl-hardware-details__title,
+        .sl-hardware-details__description {
+            margin: 0;
+        }
+
+        .sl-hardware-details__title {
+            font-size: clamp(1.05rem, 0.98rem + 0.35vw, 1.25rem);
+            line-height: 1.2;
+        }
+
+        .sl-hardware-details__description {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            line-height: 1.55;
+        }
+
+        @media (max-width: 1024px) {
+            .sl-hardware-details__container {
+                gap: var(--sp-6);
+            }
+
+            .sl-hardware-details__intro {
+                grid-template-columns: 1fr;
+            }
+
+            .sl-hardware-details__lead {
+                max-width: 65ch;
+            }
+
+            .sl-hardware-details__grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: var(--sp-4);
+            }
+
+            .sl-hardware-details__media {
+                aspect-ratio: 16 / 9;
+            }
+
+            .sl-hardware-details__details {
+                gap: var(--sp-3);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sl-hardware-details__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sl-hardware-details__details {
+                gap: var(--sp-3);
+            }
+
+            .sl-hardware-details__media {
+                aspect-ratio: 16 / 10;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .sl-hardware-details__image {
+                transition: none;
+            }
+
+            .sl-hardware-details__card:hover .sl-hardware-details__image,
+            .sl-hardware-details__card:focus-within .sl-hardware-details__image {
+                transform: none;
+            }
+        }
+    </style>
+</section>

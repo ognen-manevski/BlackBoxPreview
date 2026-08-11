@@ -1,0 +1,13 @@
+<svg id="a" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 500 500">
+  <style>
+      .icon-shape {
+      fill: #111111; 
+    }
+    @media (prefers-color-scheme: dark) {
+      .icon-shape {
+        fill: #ffffff;
+      }
+    }
+  </style>
+  <polygon class="icon-shape" points="450 170 450 450 50 450 50 50 370 50 370 186.6 266.6 290 210 290 210 233.4 313.4 130 130 130 130 370 370 370 370 170 450 170"/>
+</svg>

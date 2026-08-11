@@ -1,0 +1,168 @@
+---
+type GridRenderableComponent = (...args: any[]) => any;
+
+interface GridCellTextContent {
+  content: string;
+  ariaLabel: string;
+  allowHtml?: boolean;
+  className?: string;
+}
+
+interface GridCellComponentContent {
+  component: GridRenderableComponent;
+  props?: Record<string, unknown>;
+  ariaLabel?: string;
+  className?: string;
+}
+
+type GridCellContent = GridCellTextContent | GridCellComponentContent;
+
+interface Props {
+  cellContent: GridCellContent[];
+  cellCount?: number;
+  ariaLabel?: string;
+  showCrosses?: boolean;
+  columns?: number;
+}
+
+const {
+  cellContent,
+  cellCount = cellContent.length,
+  ariaLabel,
+  showCrosses = true,
+  columns = 6,
+} = Astro.props as Props;
+
+const hasCells = cellContent.length > 0;
+const renderedCells = hasCells
+  ? Array.from({ length: cellCount }, (_, index) => cellContent[index % cellContent.length])
+  : [];
+---
+
+<div class="grid-frame">
+  <div class="content-grid" style={`--content-grid-columns: ${columns};`} role="list" aria-label={ariaLabel}>
+    {renderedCells.map((cell) => {
+      const className = `grid-custom ${cell.className ?? ''}`.trim();
+      const cellInner = 'component' in cell
+        ? (() => {
+            const CellComponent = cell.component;
+            return <CellComponent {...(cell.props ?? {})} />;
+          })()
+        : cell.allowHtml
+          ? <Fragment set:html={cell.content} />
+          : cell.content;
+
+      return (
+        <div class="content-grid__cell" role="listitem">
+          {
+            showCrosses && (
+              <>
+                <span class="grid-cross grid-cross--tl" aria-hidden="true"></span>
+                <span class="grid-cross grid-cross--tr" aria-hidden="true"></span>
+                <span class="grid-cross grid-cross--bl" aria-hidden="true"></span>
+                <span class="grid-cross grid-cross--br" aria-hidden="true"></span>
+              </>
+            )
+          }
+
+          <div class={className} aria-label={cell.ariaLabel}>
+            {cellInner}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  .grid-frame {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    padding: clamp(0.875rem, 1.4vw, 1.25rem);
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--content-grid-columns, 6), minmax(0, 1fr));
+    border: 1px solid var(--border-color);
+    border-right: 0;
+    border-bottom: 0;
+    overflow: visible;
+    background: var(--bg-secondary);
+  }
+
+  .content-grid__cell {
+    position: relative;
+    min-height: clamp(7.5rem, 11vw, 10rem);
+    /* min-height: 10rem; */
+    display: grid;
+    place-items: center;
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .grid-cross {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .grid-cross::before,
+  .grid-cross::after {
+    content: '';
+    position: absolute;
+    background: var(--color-text-muted, var(--text-muted));
+  }
+
+  .grid-cross::before {
+    width: 14px;
+    height: 1px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
+  .grid-cross::after {
+    width: 1px;
+    height: 14px;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  .grid-cross--tl {
+    left: -7px;
+    top: -7px;
+  }
+
+  .grid-cross--tr {
+    right: -7px;
+    top: -7px;
+  }
+
+  .grid-cross--bl {
+    left: -7px;
+    bottom: -7px;
+  }
+
+  .grid-cross--br {
+    right: -7px;
+    bottom: -7px;
+  }
+
+  .grid-custom {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 900px) {
+    .grid-frame {
+      padding: 0.75rem;
+    }
+  }
+</style>

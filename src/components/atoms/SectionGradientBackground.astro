@@ -1,0 +1,98 @@
+---
+interface Props {
+  videoSrc: string;
+  objectPosition?: string;
+  widthMd?: string;
+  widthSm?: string;
+  opacityMd?: string;
+  opacitySm?: string;
+}
+
+const {
+  videoSrc,
+  objectPosition = 'center right',
+  widthMd = 'min(64vw, 32rem)',
+  widthSm = '100%',
+  opacityMd = '0.9',
+  opacitySm = '0.5',
+} = Astro.props as Props;
+---
+
+<div
+  class="section-gradient-bg"
+  aria-hidden="true"
+  style={`--section-bg-width-md: ${widthMd}; --section-bg-width-sm: ${widthSm}; --section-bg-opacity-md: ${opacityMd}; --section-bg-opacity-sm: ${opacitySm};`}
+>
+  <video
+    class="section-gradient-bg__video section-gradient-bg__video--dark"
+    src={videoSrc}
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    style={`object-position: ${objectPosition};`}
+  ></video>
+  <video
+    class="section-gradient-bg__video section-gradient-bg__video--light"
+    src={videoSrc.replace(/\.mp4$/, '-white.mp4')}
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    style={`object-position: ${objectPosition};`}
+  ></video>
+</div>
+
+<style>
+  .section-gradient-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    aspect-ratio: 16 / 9;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .section-gradient-bg__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+    transition: opacity var(--t-base);
+  }
+
+  .section-gradient-bg__video--dark {
+    opacity: 1;
+  }
+
+  .section-gradient-bg__video--light {
+    opacity: 0;
+    position: absolute;
+    inset: 0;
+  }
+
+  :global([data-theme='light']) .section-gradient-bg__video--dark {
+    opacity: 0;
+  }
+
+  :global([data-theme='light']) .section-gradient-bg__video--light {
+    opacity: 1;
+  }
+
+  @media (max-width: 980px) {
+    .section-gradient-bg {
+      width: var(--section-bg-width-md);
+      opacity: var(--section-bg-opacity-md);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .section-gradient-bg {
+      width: var(--section-bg-width-sm);
+      opacity: var(--section-bg-opacity-sm);
+    }
+  }
+</style>

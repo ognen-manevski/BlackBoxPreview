@@ -1,0 +1,14 @@
+<svg id="a" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="260" height="200" viewBox="0 0 260 200">
+  <defs>
+    <style>
+      .b {
+        fill: none;
+        stroke: var(--color-brand);
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <polyline class="b" points="88.19 120.77496 24.39996 120.77496 24.39996 28.315 171.81 28.315 171.81 79.21497"/>
+  <rect class="b" x="161.20001" y="125.01501" width="74.40002" height="46.66998"/>
+  <polyline class="b" points="161.20001 155.13501 88.19 155.13501 88.19 79.21497 209.22003 79.21497 209.22003 125.01501"/>
+</svg>

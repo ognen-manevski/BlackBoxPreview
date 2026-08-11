@@ -1,0 +1,434 @@
+---
+import adminVideoThumbnail from "../../assets/images/services/neoslide/admin-video/NS_THUMBNAIL.jpg";
+import type { DigitalSignageContent } from '../../i18n/pages/digital-signage';
+interface Props { content: DigitalSignageContent['dashboard'] } const { content } = Astro.props;
+---
+
+<section
+    class="ds-dashboard"
+    aria-label={content.ariaLabel}
+    data-ds-dashboard
+>
+    <div class="container ds-dashboard__container">
+        <div class="ds-dashboard__sticky">
+            <div class="ds-dashboard__text">
+                <p class="ds-dashboard__eyebrow section-label">{content.label}</p>
+                <h2 class="ds-dashboard__title section-headline">
+                    {content.heading}
+                </h2>
+                <p class="ds-dashboard__copy section-copy">
+                    {content.copy}
+                </p>
+            </div>
+
+            <div class="ds-dashboard__videos" data-ds-dashboard-videos>
+                <div class="ds-dashboard__laptop-shell" data-ds-dashboard-laptop-shell>
+                    <video
+                        class="ds-dashboard__laptop-video ds-dashboard__laptop-video--dark"
+                        data-ds-dashboard-frame-video
+                        muted
+                        playsinline
+                        preload="auto"
+                        aria-label={content.laptopAriaLabel}
+                        src="/videos/digital-signage/admin-video/laptop-onscroll-60frames.mp4"
+                    >
+                    </video>
+
+                    <video
+                        class="ds-dashboard__laptop-video ds-dashboard__laptop-video--light"
+                        data-ds-dashboard-frame-video
+                        muted
+                        playsinline
+                        preload="auto"
+                        aria-hidden="true"
+                        src="/videos/digital-signage/admin-video/laptop-wh-onscroll-60frames.mp4"
+                    >
+                    </video>
+
+                    <div class="ds-dashboard__teaser-stage" data-ds-dashboard-teaser>
+                        <button
+                            class="ds-dashboard__teaser-poster"
+                            type="button"
+                            data-ds-dashboard-play
+                            aria-label={content.playAriaLabel}
+                        >
+                            <img
+                                class="ds-dashboard__teaser-image"
+                                src={adminVideoThumbnail.src}
+                                width={adminVideoThumbnail.width}
+                                height={adminVideoThumbnail.height}
+                                alt={content.previewAlt}
+                                loading="lazy"
+                            />
+                            <span class="ds-dashboard__teaser-play-chip">{content.playLabel}</span>
+                        </button>
+
+                        <video
+                            class="ds-dashboard__explainer-video"
+                            data-ds-dashboard-explainer
+                            controls
+                            playsinline
+                            preload="metadata"
+                            poster={adminVideoThumbnail.src}
+                            aria-label={content.videoAriaLabel}
+                            src="/videos/digital-signage/admin-video/NS_ADMIN_VIDEO.mp4"
+                        >
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const TOTAL_FRAMES = 60;
+    const SCROLL_START = 0.8;
+    const SCROLL_END = 1.4; 
+    const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+    const root = document.querySelector<HTMLElement>("[data-ds-dashboard]");
+
+    if (root) {
+        const teaser = root.querySelector<HTMLElement>(
+            "[data-ds-dashboard-teaser]",
+        );
+        const playButton = root.querySelector<HTMLButtonElement>(
+            "[data-ds-dashboard-play]",
+        );
+        const explainerVideo = root.querySelector<HTMLVideoElement>(
+            "[data-ds-dashboard-explainer]",
+        );
+        const laptopShell = root.querySelector<HTMLElement>(
+            "[data-ds-dashboard-laptop-shell]",
+        );
+        const frameVideos = Array.from(
+            root.querySelectorAll<HTMLVideoElement>(
+                "[data-ds-dashboard-frame-video]",
+            ),
+        );
+
+        if (
+            teaser &&
+            playButton &&
+            explainerVideo &&
+            laptopShell &&
+            frameVideos.length >= 2
+        ) {
+            const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
+            let maxProgress = 0;
+            let targetFrame = 0;
+            let lastFrame = -1;
+            let rafId = 0;
+
+            const syncVideoToFrame = (
+                video: HTMLVideoElement,
+                frame: number,
+            ): void => {
+                if (!video.duration || !Number.isFinite(video.duration)) {
+                    return;
+                }
+
+                video.currentTime =
+                    (frame / TOTAL_FRAMES) * video.duration;
+            };
+
+            const seekToFrame = (frame: number): void => {
+                targetFrame = Math.max(
+                    0,
+                    Math.min(frame, TOTAL_FRAMES - 1),
+                );
+
+                if (targetFrame === lastFrame || rafId) {
+                    return;
+                }
+
+                rafId = window.requestAnimationFrame(() => {
+                    rafId = 0;
+
+                    if (targetFrame === lastFrame) {
+                        return;
+                    }
+
+                    frameVideos.forEach((video) => {
+                        syncVideoToFrame(video, targetFrame);
+                    });
+
+                    lastFrame = targetFrame;
+                });
+            };
+
+            const primeVideos = (): void => {
+                frameVideos.forEach((video) => {
+                    const sync = (): void => {
+                        syncVideoToFrame(video, targetFrame);
+                    };
+
+                    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+                        sync();
+                    } else {
+                        video.addEventListener("loadedmetadata", sync, {
+                            once: true,
+                        });
+                    }
+                });
+            };
+
+            const updateProgress = (progress: number): void => {
+                // The sequence can advance, but never rewind.
+                maxProgress = Math.max(maxProgress, progress);
+
+                if (maxProgress >= 0.999) {
+                    maxProgress = 1;
+                    root.classList.add("is-teaser-ready");
+                }
+
+                seekToFrame(
+                    Math.round(maxProgress * (TOTAL_FRAMES - 1)),
+                );
+            };
+
+            const onPlayClick = async (): Promise<void> => {
+                if (!root.classList.contains("is-teaser-ready")) {
+                    return;
+                }
+
+                root.classList.add("is-explainer-playing");
+                explainerVideo.muted = false;
+
+                try {
+                    await explainerVideo.play();
+                } catch {
+                    // Keep native controls available if playback is blocked.
+                }
+            };
+
+            const handlePlayClick = (): void => {
+                void onPlayClick();
+            };
+
+            primeVideos();
+            seekToFrame(0);
+            playButton.addEventListener("click", handlePlayClick);
+
+            if (reducedMotion.matches) {
+                maxProgress = 1;
+                seekToFrame(TOTAL_FRAMES - 1);
+                root.classList.add("is-teaser-ready");
+            } else {
+                const scrollTrigger = ScrollTrigger.create({
+                    trigger: laptopShell,
+                    start: `top ${SCROLL_START * 100}%`,
+                    end: () =>
+                        `+=${window.innerHeight * (SCROLL_END - SCROLL_START)}`,
+                    invalidateOnRefresh: true,
+                    onUpdate: (self) => {
+                        updateProgress(self.progress);
+                    },
+                });
+
+                // Handles refreshes / initial loads in the middle of the section.
+                updateProgress(scrollTrigger.progress);
+
+                const cleanup = (): void => {
+                    scrollTrigger.kill();
+                    playButton.removeEventListener("click", handlePlayClick);
+
+                    if (rafId) {
+                        window.cancelAnimationFrame(rafId);
+                        rafId = 0;
+                    }
+                };
+
+                document.addEventListener("astro:before-swap", cleanup, {
+                    once: true,
+                });
+                window.addEventListener("beforeunload", cleanup, {
+                    once: true,
+                });
+            }
+        }
+    }
+</script>
+
+<style>
+    .ds-dashboard {
+        position: relative;
+        background: var(--bg-secondary);
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .ds-dashboard__container {
+        padding-top: var(--sp-10);
+        padding-bottom: var(--sp-10);
+    }
+
+    .ds-dashboard__sticky {
+        display: flex;
+        flex-direction: column;
+        gap: var(--sp-8);
+    }
+
+    .ds-dashboard__text {
+        margin-inline: auto;
+        max-width: 52rem;
+        text-align: center;
+        display: grid;
+        gap: var(--sp-3);
+    }
+
+    .ds-dashboard__eyebrow,
+    .ds-dashboard__title,
+    .ds-dashboard__copy {
+        margin: 0;
+    }
+
+    .ds-dashboard__videos {
+        position: relative;
+        margin-inline: auto;
+        width: 100%;
+    }
+
+    /* videos */
+    .ds-dashboard__laptop-shell {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+    }
+
+    .ds-dashboard__laptop-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .ds-dashboard__laptop-video--light {
+        opacity: 0;
+    }
+
+    :root[data-theme="light"] .ds-dashboard__laptop-video--dark {
+        opacity: 0;
+    }
+
+    :root[data-theme="light"] .ds-dashboard__laptop-video--light {
+        opacity: 1;
+    }
+
+    .ds-dashboard__teaser-stage {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+        visibility: hidden;
+    }
+
+    .ds-dashboard__teaser-poster {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        display: block;
+        cursor: pointer;
+        background: transparent;
+    }
+
+    .ds-dashboard__teaser-image {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+    }
+
+    .ds-dashboard__teaser-play-chip {
+        position: absolute;
+        right: var(--sp-3);
+        bottom: var(--sp-3);
+        padding: 0.6rem 0.9rem;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border-color-strong);
+        background: color-mix(in srgb, var(--bg-primary) 70%, transparent);
+        color: var(--text-primary);
+        font-size: var(--text-xs);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .ds-dashboard__explainer-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .ds-dashboard.is-teaser-ready .ds-dashboard__teaser-stage {
+        pointer-events: auto;
+        visibility: visible;
+    }
+
+    .ds-dashboard.is-explainer-playing .ds-dashboard__teaser-poster {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .ds-dashboard.is-explainer-playing .ds-dashboard__explainer-video {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    @media (max-width: 1024px) {
+        .ds-dashboard__sticky {
+            gap: var(--sp-6);
+        }
+
+        .ds-dashboard__videos {
+            min-height: 18rem;
+        }
+
+        .ds-dashboard__teaser-play-chip {
+            right: var(--sp-2);
+            bottom: var(--sp-2);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .ds-dashboard__sticky {
+            gap: var(--sp-5);
+        }
+
+        .ds-dashboard__text {
+            text-align: left;
+        }
+
+        .ds-dashboard__videos {
+            min-height: 14rem;
+        }
+
+        .ds-dashboard__teaser-play-chip {
+            padding: 0.5rem 0.75rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ds-dashboard__teaser-stage {
+            visibility: visible;
+        }
+    }
+</style>

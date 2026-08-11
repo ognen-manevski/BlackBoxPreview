@@ -1,0 +1,99 @@
+---
+import StatMetricCard from '../atoms/StatMetricCard.astro';
+import type{ShelfLabelsContent}from'../../i18n/pages/shelf-labels'; interface Props{content:ShelfLabelsContent['performance']} const{content}=Astro.props; const stats=content.stats;
+---
+
+<section class="section sl-performance" id="proven-performance" aria-labelledby="proven-performance-heading">
+  <div class="container">
+    <header class="sl-performance__header section__header">
+      <div class="sl-performance__title-wrap">
+        <p class="section-label">{content.label}</p>
+        <h2 class="section-headline" id="proven-performance-heading">
+          {content.heading}
+        </h2>
+        <p class="section-copy">
+          {content.copy}
+        </p>
+      </div>
+
+    </header>
+
+    <ul class="sl-performance__stats" aria-label={content.ariaLabel}>
+      {stats.map((stat) => (
+        <li class="sl-performance__stat-item">
+          <StatMetricCard
+            value={stat.value}
+            label={stat.label}
+            compactValue={stat.compactValue}
+            valueSuffixSmall={stat.valueSuffixSmall}
+          />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .sl-performance {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+
+  .sl-performance__title-wrap{
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .sl-performance__header {
+    display: flex;
+    gap: var(--sp-8);
+    align-items: start;
+    margin-bottom: var(--sp-6);
+    max-width: 38rem;
+  }
+
+
+  .section-copy{
+    max-width: 36rem;
+  }
+
+  .sl-performance__stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--sp-2);
+  }
+
+  .sl-performance__stat-item {
+    list-style: none;
+    display: flex;
+  }
+
+  .sl-performance__stat-item :global(.stat-metric-card) {
+    width: 100%;
+  }
+
+  @media (max-width: 1200px) {
+    .sl-performance__header {
+      gap: var(--sp-6);
+    }
+
+    .sl-performance__stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 900px) {
+    .sl-performance__header {
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .sl-performance__stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

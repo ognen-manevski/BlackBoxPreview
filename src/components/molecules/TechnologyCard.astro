@@ -1,0 +1,192 @@
+---
+interface LogoItem {
+    src: string;
+    alt: string;
+}
+
+interface LogoTooltipItem extends LogoItem {
+    id: string;
+    anchorName: string;
+}
+
+interface Props {
+    title: string;
+    description: string;
+    logos: LogoItem[];
+}
+
+const { title, description, logos } = Astro.props as Props;
+
+const logoTooltips = logos.map(
+    (logo, index) =>
+        ({
+            ...logo,
+            id: `technology-logo-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${index + 1}`,
+            anchorName: `--technology-logo-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${index + 1}`,
+        }) as LogoTooltipItem,
+);
+---
+
+<article class="technology-card" aria-label={title}>
+    <ul class="technology-card__logos">
+        {
+            logoTooltips.map((logo) => (
+                <li class="technology-card__logo-item">
+                    <span
+                        class="technology-card__logo-trigger"
+                        tabindex="0"
+                        role="img"
+                        aria-label={logo.alt}
+                        aria-describedby={logo.id}
+                        style={`anchor-name: ${logo.anchorName};`}
+                    >
+                        <img
+                            class="technology-card__logo"
+                            src={logo.src}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                            width="44"
+                            height="44"
+                        />
+                    </span>
+
+                    <span
+                        class="technology-card__tooltip"
+                        id={logo.id}
+                        role="tooltip"
+                        style={`position-anchor: ${logo.anchorName};`}
+                    >
+                        {logo.alt.replace(" logo", "")}
+                    </span>
+                </li>
+            ))
+        }
+    </ul>
+
+    <div class="technology-card__title">
+        <h3>{title}</h3>
+    </div>
+    <p class="technology-card__description">{description}</p>
+</article>
+
+<style>
+    .technology-card {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        align-content: start;
+        /* gap: var(--sp-5); */
+        padding: var(--sp-5);
+        background: var(--bg-secondary);
+    }
+
+    .technology-card__logos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--sp-2);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        min-height: 2.75rem;
+    }
+
+    .technology-card__logo-item {
+        position: relative;
+        width: 2.75rem;
+        height: 2.75rem;
+        aspect-ratio: 1 / 1;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        background: white;
+        padding: var(--sp-1);
+        overflow: visible;
+    }
+
+    .technology-card__logo-trigger {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: 100%;
+        border-radius: var(--radius);
+        outline: none;
+    }
+
+    .technology-card__logo-trigger:focus-visible {
+        box-shadow: 0 0 0 2px var(--color-brand);
+    }
+
+    .technology-card__logo {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: contain;
+        place-self: center;
+    }
+
+    .technology-card__tooltip {
+        position: absolute;
+        left: anchor(center);
+        top: anchor(bottom);
+        translate: -50% var(--sp-2);
+        z-index: 2;
+        min-width: max-content;
+        max-width: 14rem;
+        padding: 0.4rem 0.6rem;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        background: var(--bg);
+        color: var(--text-primary);
+        font-size: var(--text-xs);
+        line-height: 1.3;
+        text-align: center;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+            opacity 0.16s ease,
+            visibility 0.16s ease,
+            transform 0.16s ease;
+        transform: translateY(0.25rem);
+    }
+
+    .technology-card__logo-item:is(:hover, :focus-within)
+        .technology-card__tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .technology-card__title {
+        display: flex;
+        place-items: end;
+    }
+
+    .technology-card__title h3 {
+        padding-bottom: var(--sp-2);
+        line-height: 1.25;
+    }
+
+    .technology-card__description {
+        margin: 0;
+        color: var(--text-secondary);
+    }
+
+    @media (max-width: 700px) {
+        .technology-card {
+            padding: var(--sp-4);
+            gap: var(--sp-3);
+        }
+
+        .technology-card__logo-item {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        .technology-card__tooltip {
+            max-width: 11rem;
+        }
+    }
+</style>

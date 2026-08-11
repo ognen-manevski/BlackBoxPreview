@@ -1,0 +1,259 @@
+---
+interface Props {
+    counter?: string;
+    title: string;
+    content: string;
+    imageSrc?: string;
+    imageAlt?: string;
+    open?: boolean;
+}
+
+const {
+    counter,
+    title,
+    content,
+    imageSrc,
+    imageAlt = "",
+    open = false,
+} = Astro.props as Props;
+---
+
+<details
+    class="disclosure-item u-border-interactive"
+    name="industries"
+    open={open}
+>
+    <summary class:list={["disclosure-item__summary", counter && "has-counter"]}>
+        {
+            counter && (
+                <span class="disclosure-item__counter" aria-hidden="true">
+                    {counter}
+                </span>
+            )
+        }
+        <span class="disclosure-item__question title">{title}</span>
+        <svg
+            class="disclosure-item__icon"
+            width="8"
+            height="5"
+            viewBox="0 0 8 5"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+        >
+            <path
+                d="M7.06 0L4 3.05333L0.94 0L0 0.94L4 4.94L8 0.94L7.06 0Z"
+                fill="currentColor"></path>
+        </svg>
+    </summary>
+
+    <div class="disclosure-item__content-wrap">
+        <div class="disclosure-item__content">
+            <div class:list={["disclosure-item__content-body", counter && "has-counter"]}>
+                {
+                    counter && (
+                        <span class="disclosure-item__counter-spacer" aria-hidden="true">
+                            {counter}
+                        </span>
+                    )
+                }
+                <div class="disclosure-item__content-main">
+                    <p>{content}</p>
+                    {
+                        imageSrc && (
+                            <img
+                                class="disclosure-item__image"
+                                src={imageSrc}
+                                alt={imageAlt}
+                                loading="lazy"
+                                decoding="async"
+                            />
+                        )
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</details>
+
+<style>
+    .disclosure-item {
+        border-radius: var(--radius);
+        background: var(--bg-secondary);
+        overflow: clip;
+    }
+
+    .disclosure-item__summary {
+        list-style: none;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas: "question icon";
+        align-items: center;
+        column-gap: var(--sp-5);
+        padding: var(--sp-5);
+        cursor: pointer;
+    }
+
+    .disclosure-item__summary.has-counter {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas: "counter question icon";
+    }
+
+    .disclosure-item__summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .disclosure-item__question {
+        grid-area: question;
+        margin-right: 0;
+        min-width: 0;
+        line-height: 1.5;
+        font-weight: var(--weight-display);
+    }
+
+    .disclosure-item__counter {
+        grid-area: counter;
+        font-family: var(--font-mono);
+        font-size: var(--text-base);
+        line-height: 1;
+        color: var(--color-brand);
+        font-weight: var(--weight-semibold);
+    }
+
+    .disclosure-item__icon {
+        grid-area: icon;
+        justify-self: end;
+        width: 0.8rem;
+        height: 0.5rem;
+        flex-shrink: 0;
+        color: var(--text-secondary);
+        transition: transform 0.22s ease;
+    }
+
+    .disclosure-item[open] .disclosure-item__icon {
+        transform: rotate(180deg);
+    }
+
+    .disclosure-item__content-wrap {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.28s ease;
+    }
+
+    .disclosure-item[open] .disclosure-item__content-wrap {
+        grid-template-rows: 1fr;
+    }
+
+    .disclosure-item__content {
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .disclosure-item__content-body {
+        border-top: 1px solid var(--border-color);
+        padding: var(--sp-4) var(--sp-5) var(--sp-5);
+        display: grid;
+        gap: var(--sp-3);
+    }
+
+    .disclosure-item__content-body.has-counter {
+        grid-template-columns: auto minmax(0, 1fr);
+        column-gap: var(--sp-5);
+        align-items: start;
+    }
+
+    .disclosure-item__counter-spacer {
+        font-family: var(--font-mono);
+        font-size: var(--text-base);
+        line-height: 1;
+        font-weight: var(--weight-semibold);
+        visibility: hidden;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    .disclosure-item__content-main {
+        min-width: 0;
+        display: grid;
+        gap: var(--sp-3);
+    }
+
+    .disclosure-item__content-main p {
+        margin: 0;
+        color: var(--text-secondary);
+        line-height: 1.7;
+        opacity: 0;
+        transform: translateY(-0.35rem);
+        transition:
+            opacity 0.22s ease,
+            transform 0.22s ease;
+    }
+
+    .disclosure-item[open] .disclosure-item__content-main p {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .disclosure-item__image {
+        width: 100%;
+        margin: 0;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+        display: block;
+        opacity: 0;
+        transform: translateY(-0.35rem);
+        transition:
+            opacity 0.22s ease,
+            transform 0.22s ease;
+    }
+
+    .disclosure-item[open] .disclosure-item__image {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @supports selector(::details-content) {
+        .disclosure-item__content-wrap {
+            display: block;
+            transition: none;
+        }
+
+        .disclosure-item::details-content {
+            block-size: 0;
+            overflow: hidden;
+            transition:
+                block-size 0.28s ease,
+                content-visibility 0.28s allow-discrete;
+        }
+
+        .disclosure-item[open]::details-content {
+            block-size: auto;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .disclosure-item__summary,
+        .disclosure-item__content-body {
+            padding-left: var(--sp-4);
+            padding-right: var(--sp-4);
+        }
+
+        .disclosure-item__summary {
+            gap: var(--sp-3);
+        }
+    }
+
+    @media (min-width: 901px) {
+        .disclosure-item__content-main {
+            grid-template-columns: 1fr 1.435fr;
+            gap: var(--sp-5);
+            align-items: start;
+        }
+
+        .disclosure-item__image {
+            aspect-ratio: 16 / 9;
+        }
+    }
+</style>

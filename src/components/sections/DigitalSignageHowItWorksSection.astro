@@ -1,0 +1,98 @@
+---
+import howItWorksIllustration from '../../assets/vectors/illustrations/neoslide/how-it-works-digital-signage.svg?raw';
+import type { DigitalSignageContent } from '../../i18n/pages/digital-signage';
+
+const illustrationMarkup = howItWorksIllustration as string;
+interface Props { content: DigitalSignageContent['howItWorks'] } const { content } = Astro.props;
+---
+
+<section class="section ds-how" aria-labelledby="ds-how-heading">
+    <div class="container ds-how__container">
+        <div class="ds-how__content">
+            <p class="section-label">{content.label}</p>
+            <h2 class="section-headline ds-how__headline" id="ds-how-heading">
+                {content.heading}
+            </h2>
+            <p class="section-copy ds-how__lead">
+                {content.copy}
+            </p>
+        </div>
+
+        <div class="ds-how__visual" aria-label={content.visualAriaLabel}>
+            <div
+                class="ds-how__illustration"
+                role="img"
+                aria-label={content.illustrationAriaLabel}
+                set:html={illustrationMarkup}
+            />
+        </div>
+    </div>
+</section>
+
+<style>
+    .ds-how {
+        background: var(--bg);
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .ds-how__container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--sp-6);
+        align-items: center;
+    }
+
+    .ds-how__content {
+        display: grid;
+        gap: var(--sp-3);
+    }
+
+    .ds-how__headline {
+        max-width: 30ch;
+    }
+
+    .ds-how__headline,
+    .ds-how__subhead,
+    .ds-how__lead {
+        margin: 0;
+    }
+
+    .ds-how__subhead {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    .ds-how__lead {
+        max-width: 56ch;
+    }
+
+    .ds-how__visual {
+        width: 100%;
+        min-height: clamp(16rem, 36vw, 28rem);
+    }
+
+    .ds-how__illustration {
+        width: 100%;
+        max-width: 100%;
+        display: block;
+    }
+
+    .ds-how__illustration :global(svg) {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    @media (max-width: 1024px) {
+        .ds-how__container {
+            grid-template-columns: 1fr;
+            gap: var(--sp-4);
+            align-items: start;
+        }
+
+        .ds-how__visual {
+            min-height: clamp(14rem, 56vw, 22rem);
+        }
+    }
+</style>

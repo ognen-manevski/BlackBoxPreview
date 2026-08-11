@@ -1,0 +1,236 @@
+---
+import darkBlurBg from "../../assets/images/services/shelf-labels/hero/dark-bg-blur.jpg";
+import lightBlurBg from "../../assets/images/services/shelf-labels/hero/white-bg-blur.jpg";
+import darkRotatedCover from "../../assets/images/services/shelf-labels/hero/dark-rotated-loop.jpg";
+import lightRotatedCover from "../../assets/images/services/shelf-labels/hero/white-rotated-loop.jpg";
+import videoMask from "../../assets/images/services/shelf-labels/hero/video-mask.svg";
+import type{ShelfLabelsContent}from'../../i18n/pages/shelf-labels'; interface Props{content:ShelfLabelsContent['hero']} const{content}=Astro.props;
+---
+
+<section
+    class="sl-hero"
+    aria-label={content.ariaLabel}
+    style={`--sl-video-mask: url(${videoMask.src});`}
+>
+    <div class="sl-hero__media" aria-hidden="true">
+        <img
+            class="sl-hero__bg-image sl-hero__bg-image--dark"
+            src={darkBlurBg.src}
+            alt=""
+            width={darkBlurBg.width}
+            height={darkBlurBg.height}
+            loading="eager"
+            decoding="async"
+        />
+        <img
+            class="sl-hero__bg-image sl-hero__bg-image--light"
+            src={lightBlurBg.src}
+            alt=""
+            width={lightBlurBg.width}
+            height={lightBlurBg.height}
+            loading="eager"
+            decoding="async"
+        />
+    </div>
+
+    <div class="container sl-hero__inner">
+        <div class="sl-hero__content">
+            <h1
+                class="sl-hero__title section-headline section-headline--hero larger-title"
+            >
+                <span class="hero__headline-static"
+                    >{content.headlineStart}
+                </span>
+                <span class="hero-highlight-group">
+                    <span
+                        class="hero-highlight hero-highlight--animated"
+                        style="--hero-highlight-delay: 0s;">{content.highlights[0]}</span
+                    >&#32;
+                    <span
+                        class="hero-highlight hero-highlight--animated"
+                        style="--hero-highlight-delay: -1.67s;">{content.highlights[1]}</span
+                    >
+                </span>
+            </h1>
+
+            <p class="sl-hero__lead section-copy">
+                {content.lead}
+            </p>
+        </div>
+        <div class="sl-hero__stage" aria-hidden="true">
+            <div class="sl-hero__video-mask">
+                <video
+                    class="sl-hero__stage-video sl-hero__stage-video--dark"
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    preload="auto"
+                    poster={darkRotatedCover.src}
+                    src="/videos/shelf-labels/dark-rotated-loop.mp4"></video>
+                <video
+                    class="sl-hero__stage-video sl-hero__stage-video--light"
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    preload="auto"
+                    poster={lightRotatedCover.src}
+                    src="/videos/shelf-labels/white-rotated-loop.mp4"></video>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .sl-hero {
+        --sl-bg-object-x: 62%;
+
+        position: relative;
+        overflow: clip;
+        width: 100%;
+        min-height: min(56rem, calc(60svh + var(--navbar-height)));
+        background: var(--bg);
+    }
+
+    .sl-hero__inner {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(22rem, 1.1fr);
+        align-items: center;
+        gap: clamp(var(--sp-4), 3vw, var(--sp-7));
+        min-height: inherit;
+        padding-top: var(--sp-4);
+        padding-bottom: calc(var(--navbar-height) + var(--sp-4));
+    }
+
+    .sl-hero__content {
+        position: relative;
+        z-index: 3;
+        max-width: 38rem;
+    }
+
+    .sl-hero__title {
+        margin: 0;
+    }
+
+    .sl-hero__lead {
+        max-width: 60ch;
+        margin-top: var(--sp-4);
+    }
+
+    .sl-hero__media {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        overflow: hidden;
+        background: var(--bg);
+    }
+
+    .sl-hero__bg-image {
+        position: absolute;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: var(--sl-bg-object-x) center;
+    }
+
+    .sl-hero__bg-image--light,
+    .sl-hero__stage-video--light {
+        display: none;
+    }
+
+    :global([data-theme="light"]) .sl-hero__bg-image--dark,
+    :global([data-theme="light"]) .sl-hero__stage-video--dark {
+        display: none;
+    }
+
+    :global([data-theme="light"]) .sl-hero__bg-image--light,
+    :global([data-theme="light"]) .sl-hero__stage-video--light {
+        display: block;
+    }
+
+    .sl-hero__media::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--bg) 82%, transparent),
+            color-mix(in srgb, var(--bg) 46%, transparent) 42%,
+            color-mix(in srgb, var(--bg) 14%, transparent)
+        );
+        mix-blend-mode: multiply;
+    }
+
+    :global([data-theme="light"]) .sl-hero__media::after {
+        opacity: 0.5;
+        mix-blend-mode: screen;
+    }
+
+    .sl-hero__stage {
+        position: relative;
+        z-index: 3;
+        width: min(42rem, 100%);
+        justify-self: end;
+    }
+
+    .sl-hero__video-mask {
+        width: 100%;
+        aspect-ratio: 1920 / 1362;
+        overflow: hidden;
+        -webkit-mask: var(--sl-video-mask) center / 100% 100% no-repeat;
+        mask: var(--sl-video-mask) center / 100% 100% no-repeat;
+    }
+
+    .sl-hero__stage-video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @media (max-width: 1024px) {
+        .sl-hero {
+            --sl-bg-object-x: 70%;
+            min-height: 0;
+        }
+
+        .sl-hero__inner {
+            grid-template-columns: 1fr;
+            gap: var(--sp-4);
+            padding-top: var(--navbar-height);
+            padding-bottom: calc(var(--navbar-height) + var(--sp-4));
+        }
+
+        .sl-hero__content {
+            max-width: 45rem;
+            margin-inline: auto;
+            text-align: center;
+        }
+
+        .sl-hero__lead {
+            margin-inline: auto;
+            margin-top: var(--sp-3);
+        }
+
+        .sl-hero__stage {
+            width: min(36rem, 90vw);
+            justify-self: center;
+        }
+    }
+
+    @media (max-width: 720px) {
+        .sl-hero {
+            --sl-bg-object-x: 74%;
+        }
+
+        .sl-hero__stage {
+            width: min(30rem, 100%);
+        }
+    }
+</style>

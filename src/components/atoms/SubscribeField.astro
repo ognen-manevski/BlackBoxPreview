@@ -1,0 +1,133 @@
+---
+interface Props {
+  buttonLabel?: string;
+  placeholder?: string;
+  inputName?: string;
+  inputId?: string;
+  inputType?: 'email' | 'text';
+  action?: string;
+  method?: 'post' | 'get';
+  buttonClass?: string;
+  class?: string;
+  label: string;
+}
+
+const {
+  buttonLabel,
+  placeholder,
+  label,
+  inputName = 'email',
+  inputId = `subscribe-${Math.random().toString(36).slice(2, 9)}`,
+  inputType = 'email',
+  action = '#',
+  method = 'post',
+  buttonClass = '',
+  class: className = '',
+} = Astro.props;
+---
+
+<form class:list={['subscribe-field', className]} action={action} method={method}>
+  <label class="sr-only" for={inputId}>{label}</label>
+  <input
+    id={inputId}
+    class="subscribe-field__input"
+    type={inputType}
+    name={inputName}
+    placeholder={placeholder}
+    autocomplete="email"
+    required
+  >
+  <button class:list={['subscribe-field__button', buttonClass]} type="submit">
+    <span>{buttonLabel}</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+      <polyline points="12 5 19 12 12 19"></polyline>
+    </svg>
+  </button>
+</form>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .subscribe-field {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-height: 2.375rem;
+  }
+
+  .subscribe-field__input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--border-color);
+    border-right: none;
+    border-radius: var(--radius) 0 0 var(--radius);
+    background: color-mix(in srgb, var(--bg-secondary) 85%, var(--bg));
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    padding: var(--sp-2) var(--sp-4);
+    outline: none;
+    transition: border-color var(--t-fast), background var(--t-fast);
+  }
+
+  .subscribe-field__input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .subscribe-field__input:is(:focus, :focus-visible) {
+    border-color: var(--color-brand);
+  }
+
+  .subscribe-field__button {
+    border: 1px solid var(--color-brand);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: var(--color-brand);
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: var(--sp-2) var(--sp-5);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-2);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+  }
+
+  .subscribe-field__button:is(:hover, :focus-visible) {
+    background: var(--color-brand-dark);
+    border-color: var(--color-brand-dark);
+  }
+
+  @media (max-width: 600px) {
+    .subscribe-field {
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+
+    .subscribe-field__input {
+      border-right: 1px solid var(--border-color);
+      border-radius: var(--radius);
+    }
+
+    .subscribe-field__button {
+      border-radius: var(--radius);
+      justify-content: center;
+    }
+  }
+</style>

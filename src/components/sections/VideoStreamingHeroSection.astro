@@ -1,0 +1,661 @@
+---
+import heroPoster from "../../assets/images/services/video-streaming/video-hero-onscroll.jpg";
+import devicesTv from "../../assets/images/services/video-streaming/devices-scroll/1-tv.png";
+import devicesMonitor from "../../assets/images/services/video-streaming/devices-scroll/2-monitor.png";
+import devicesLaptop from "../../assets/images/services/video-streaming/devices-scroll/3-laptop.png";
+import devicesTablet from "../../assets/images/services/video-streaming/devices-scroll/4-tablet.png";
+import devicesTel from "../../assets/images/services/video-streaming/devices-scroll/5-tel.png";
+import devicesWatch from "../../assets/images/services/video-streaming/devices-scroll/6-watch.png";
+import ArrowButton from "../atoms/ArrowButton.astro";
+import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interface Props{content:VideoStreamingContent['hero']}const{content}=Astro.props;
+---
+
+<section class="vs-intro" aria-label={content.ariaLabel} data-vs-intro>
+    <div class="vs-intro__visuals" aria-hidden="true">
+        <video
+            class="vs-intro__loop-video"
+            data-vs-loop-video
+            src="/videos/video-streaming/video-section2-bg-loop.mp4"
+            muted
+            loop
+            playsinline
+            preload="metadata"></video>
+
+        <video
+            class="vs-intro__hero-video"
+            data-vs-hero-video
+            muted
+            playsinline
+            preload="metadata"
+            poster={heroPoster.src}
+        >
+            <source
+                src="/videos/video-streaming/video-hero-onscroll-scroll-v3.webm"
+                type="video/webm"
+            />
+            <source
+                src="/videos/video-streaming/video-hero-onscroll-scroll-v3.mp4"
+                type="video/mp4"
+            />
+        </video>
+
+        <div class="vs-intro__veil"></div>
+    </div>
+
+    <div class="container vs-intro__text-flow">
+        <div class="vs-intro__panel vs-intro__panel--hero" data-vs-hero-panel>
+            <div class="vs-intro__content">
+                <h1
+                    class="vs-intro__title section-headline section-headline--hero"
+                >
+                    {content.titleStart}<strong
+                        class="hero-highlight hero-highlight--animated"
+                        style="--hero-highlight-delay: 0s;"
+                        >{content.highlightOne}</strong
+                    ><br />
+                    <strong
+                        class="hero-highlight hero-highlight--animated"
+                        style="--hero-highlight-delay: 0s;"
+                    >
+                        {content.highlightTwo}</strong
+                    >{content.titleEnd}
+                </h1>
+
+                <p class="vs-intro__lead section-copy">
+                    {content.lead}
+                </p>
+
+                <ArrowButton
+                    href="#vs-nextgen"
+                    variant="primary"
+                    class="btn btn--primary btn--with-arrow btn--lg vs-intro__cta video-hero__cta"
+                    data-vs-nextgen-cta
+                >
+                    {content.cta}
+                </ArrowButton>
+            </div>
+        </div>
+
+        <section
+            id="vs-nextgen"
+            class="vs-intro__panel vs-intro__panel--nextgen"
+            aria-labelledby="vs-scale-heading"
+            data-vs-nextgen-panel
+        >
+            <div class="vs-intro__content vs-intro__content--nextgen">
+                <div class="vs-intro__content--titles">
+                    <p class="section-label">{content.nextLabel}</p>
+
+                    <div class="vs-intro__nextgen-header">
+                        <h2
+                            class="section-headline vs-intro__headline"
+                            id="vs-scale-heading"
+                        >
+                            {content.nextHeading}
+                        </h2>
+                        <p class="section-copy vs-intro__copy">
+                            {content.nextCopy}
+                        </p>
+                    </div>
+                </div>
+
+                <figure class="vs-intro__devices-media" aria-hidden="true">
+                    <img
+                        class="vs-intro__devices-image"
+                        src={devicesTv.src}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        style="--vs-device-layer: 1;"
+                    />
+                    <img
+                        class="vs-intro__devices-image"
+                        src={devicesMonitor.src}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        style="--vs-device-layer: 2;"
+                    />
+                    <img
+                        class="vs-intro__devices-image"
+                        src={devicesLaptop.src}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        style="--vs-device-layer: 3;"
+                    />
+                    <img
+                        class="vs-intro__devices-image"
+                        src={devicesTablet.src}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        style="--vs-device-layer: 4;"
+                    />
+                    <img
+                        class="vs-intro__devices-image"
+                        src={devicesTel.src}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        style="--vs-device-layer: 5;"
+                    />
+                    <img
+                        class="vs-intro__devices-image"
+                        src={devicesWatch.src}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        style="--vs-device-layer: 6;"
+                    />
+                </figure>
+            </div>
+        </section>
+    </div>
+</section>
+
+<script>
+    const TOTAL_FRAMES = 30;
+    const FPS = 30;
+    const HERO_SCRUB_SPEED = 2;
+    const LOOP_START_VISIBILITY = 0.6;
+    const FADE_END_VISIBILITY = 1;
+
+    const root = document.querySelector("[data-vs-intro]");
+
+    if (root instanceof HTMLElement) {
+        const heroVideo = root.querySelector("[data-vs-hero-video]");
+        const loopVideo = root.querySelector("[data-vs-loop-video]");
+        const nextPanel = root.querySelector("[data-vs-nextgen-panel]");
+        const nextgenCta = root.querySelector("[data-vs-nextgen-cta]");
+        const prefersReducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        if (
+            heroVideo instanceof HTMLVideoElement &&
+            loopVideo instanceof HTMLVideoElement &&
+            nextPanel instanceof HTMLElement
+        ) {
+            let rafId = 0;
+            let maxSeekTime = 0;
+            let loopPlaying = false;
+
+            const primeHeroVideo = () => {
+                const frameDuration = Math.max((TOTAL_FRAMES - 1) / FPS, 0.001);
+                maxSeekTime = Math.max(
+                    Math.min(
+                        heroVideo.duration || frameDuration,
+                        frameDuration,
+                    ),
+                    0.001,
+                );
+                heroVideo.pause();
+                heroVideo.currentTime = 0;
+            };
+
+            const primeLoopVideo = () => {
+                loopVideo.pause();
+                loopVideo.currentTime = 0;
+            };
+
+            if (heroVideo.readyState >= HTMLMediaElement.HAVE_METADATA) {
+                primeHeroVideo();
+            } else {
+                heroVideo.addEventListener("loadedmetadata", primeHeroVideo, {
+                    once: true,
+                });
+            }
+
+            if (loopVideo.readyState >= HTMLMediaElement.HAVE_METADATA) {
+                primeLoopVideo();
+            } else {
+                loopVideo.addEventListener("loadedmetadata", primeLoopVideo, {
+                    once: true,
+                });
+            }
+
+            const syncWithScroll = () => {
+                const rootRect = root.getBoundingClientRect();
+                const nextRect = nextPanel.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+
+                const heroTravel = Math.max(nextPanel.offsetTop, 1);
+                const scrolled = Math.min(
+                    Math.max(-rootRect.top, 0),
+                    heroTravel,
+                );
+                const scrubProgress = Math.min(
+                    (scrolled / heroTravel) * HERO_SCRUB_SPEED,
+                    1,
+                );
+
+                if (!prefersReducedMotion && maxSeekTime > 0) {
+                    const targetTime = maxSeekTime * scrubProgress;
+                    if (Math.abs(heroVideo.currentTime - targetTime) > 0.014) {
+                        heroVideo.currentTime = targetTime;
+                    }
+                }
+
+                const visibleTop = Math.max(nextRect.top, 0);
+                const visibleBottom = Math.min(nextRect.bottom, viewportHeight);
+                const visibleHeight = Math.max(visibleBottom - visibleTop, 0);
+                const visibilityDenominator = Math.max(
+                    Math.min(nextRect.height, viewportHeight),
+                    1,
+                );
+                const nextVisibility = Math.min(
+                    visibleHeight / visibilityDenominator,
+                    1,
+                );
+
+                const fadeProgress = Math.min(
+                    Math.max(
+                        (nextVisibility - LOOP_START_VISIBILITY) /
+                            Math.max(
+                                FADE_END_VISIBILITY - LOOP_START_VISIBILITY,
+                                0.001,
+                            ),
+                        0,
+                    ),
+                    1,
+                );
+                const heroOpacity = 1 - fadeProgress;
+
+                root.style.setProperty(
+                    "--vs-hero-opacity",
+                    heroOpacity.toFixed(3),
+                );
+
+                if (
+                    !prefersReducedMotion &&
+                    nextVisibility >= LOOP_START_VISIBILITY
+                ) {
+                    if (!loopPlaying) {
+                        loopVideo.currentTime = 0;
+                        const playPromise = loopVideo.play();
+                        if (
+                            playPromise &&
+                            typeof playPromise.catch === "function"
+                        ) {
+                            playPromise.catch(() => {});
+                        }
+                        loopPlaying = true;
+                    }
+                } else {
+                    if (loopPlaying) {
+                        loopVideo.pause();
+                        loopPlaying = false;
+                    }
+                    if (loopVideo.currentTime > 0.05) {
+                        loopVideo.currentTime = 0;
+                    }
+                }
+            };
+
+            const requestSync = () => {
+                if (rafId) {
+                    return;
+                }
+
+                rafId = window.requestAnimationFrame(() => {
+                    rafId = 0;
+                    syncWithScroll();
+                });
+            };
+
+            window.addEventListener("scroll", requestSync, { passive: true });
+            window.addEventListener("resize", requestSync);
+
+            if (nextgenCta instanceof HTMLAnchorElement) {
+                nextgenCta.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    nextPanel.scrollIntoView({
+                        behavior: prefersReducedMotion ? "auto" : "smooth",
+                        block: "start",
+                    });
+                });
+            }
+
+            requestSync();
+        }
+    }
+</script>
+
+<style>
+    .vs-intro {
+        position: relative;
+        overflow: clip;
+        background: var(--bg);
+    }
+
+    .vs-intro__visuals {
+        position: sticky;
+        top: 0;
+        height: 100svh;
+        margin-bottom: -110svh;
+        z-index: 1;
+    }
+
+    .vs-intro__loop-video,
+    .vs-intro__hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
+
+    .vs-intro__hero-video {
+        z-index: 3;
+        opacity: var(--vs-hero-opacity, 1);
+    }
+
+    .vs-intro__loop-video {
+        z-index: 1;
+    }
+
+    .vs-intro__veil {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        /* background:
+            linear-gradient(
+                180deg,
+                color-mix(in srgb, var(--bg) 0%, transparent) 0%,
+                color-mix(in srgb, var(--bg) 100%, transparent) 100%
+            ),
+            radial-gradient(
+                circle at center,
+                color-mix(in srgb, var(--bg) 0%, transparent) 0%,
+                color-mix(in srgb, var(--bg) 100%, transparent) 100%
+            ); */
+        background:
+            linear-gradient(
+                180deg,
+                color-mix(in srgb, var(--bg) 0%, transparent) 0%,
+                color-mix(in srgb, var(--bg) 100%, transparent) 100%
+            ),
+            linear-gradient(
+                color-mix(in srgb, var(--bg) 50%, transparent) 0%,
+                color-mix(in srgb, var(--bg) 50%, transparent) 100%
+            );
+        /* backdrop-filter: blur(5px); */
+    }
+
+    .vs-intro__text-flow {
+        position: relative;
+        z-index: 4;
+        display: grid;
+    }
+
+    .vs-intro__panel {
+        min-height: 100svh;
+        display: grid;
+        align-items: center;
+        padding-top: calc(var(--navbar-height) + var(--sp-6));
+        padding-bottom: var(--sp-7);
+    }
+
+    .vs-intro__panel--hero {
+        min-height: 100svh;
+        /* transform: translateY(calc(var(--sp-8) * -1)); */
+    }
+
+    .vs-intro__content {
+        /* width: min(100%, 62rem); */
+        margin-inline: auto;
+        /* margin-top: var(--sp-10); */
+        /* padding-bottom: calc(var(--sp-10) * 2.5); */
+        padding-bottom: var(--sp-6);
+        display: grid;
+        gap: var(--sp-6);
+        justify-items: center;
+        text-align: center;
+    }
+
+    .section-headline--hero {
+        font-size: 3.4dvw;
+        line-height: 1.05;
+    }
+
+    .vs-intro__title,
+    .vs-intro__lead,
+    .vs-intro__headline,
+    .vs-intro__copy {
+        margin: 0;
+        text-align: center;
+    }
+
+    .vs-intro__title strong {
+        font-weight: var(--weight-display);
+    }
+
+    .vs-intro__lead {
+        max-width: 68ch;
+        font-size: 1.125rem;
+        line-height: 1.65;
+    }
+
+    .vs-intro__lead {
+        max-width: min(100%, 50rem);
+    }
+
+    :global(.video-hero__cta) {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* //strictly typed animated shadow for the CTA button */
+    @property --animated-cta-shadow {
+        syntax: "<box-shadow>";
+        inherits: false;
+        initial-value: 0px 0px 60px var(--color-aurora);
+    }
+
+    :global(.video-hero__cta):after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        box-shadow: var(--animated-cta-shadow);
+    }
+
+    @keyframes video-hero__cta-glow {
+        0% {
+            box-shadow: 0px 0px 60px var(--color-aurora);
+        }
+        50% {
+            box-shadow: 0px 0px 80px var(--color-aurora);
+        }
+        100% {
+            box-shadow: 0px 0px 60px var(--color-aurora);
+        }
+    }
+
+    .vs-intro__content--nextgen {
+        width: min(100%, 78rem);
+        justify-items: stretch;
+        text-align: left;
+    }
+
+    .vs-intro__nextgen-header {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--sp-3);
+        align-items: start;
+    }
+
+    .vs-intro__headline {
+        max-width: 23ch;
+        margin: 0;
+        text-align: left;
+        align-self: start;
+        z-index: 2;
+    }
+
+    .vs-intro__content--titles {
+        position: sticky;
+        --bonus-height: 15svh;
+        top: calc(var(--navbar-height) + var(--bonus-height));
+        padding-bottom: 34rem;
+    }
+
+    .vs-intro__copy {
+        max-width: 70ch;
+        margin: 0;
+        text-align: left;
+    }
+
+    .vs-intro__devices-media {
+        margin: var(--sp-4) 0 0;
+        width: 100%;
+        padding-top: var(--sp-4);
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        isolation: isolate;
+    }
+
+    .vs-intro__devices-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: contain;
+        position: sticky;
+        top: calc(var(--navbar-height) + 20svh + var(--sp-10));
+        z-index: var(--vs-device-layer, 0);
+        margin-top: -40%;
+    }
+
+    .vs-intro__devices-image + .vs-intro__devices-image {
+        margin-top: -30%;
+    }
+
+    @media (max-width: 1778px) {
+        .section-headline--hero {
+            font-size: 4dvw;
+        }
+    }
+
+    @media (max-width: 1366px) {
+        .section-headline--hero {
+            font-size: 5dvw;
+        }
+
+        .vs-intro__lead {
+            font-size: 1.1rem;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .section-headline--hero {
+            font-size: 6dvw;
+        }
+
+        .vs-intro__lead {
+            font-size: 1.05rem;
+        }
+
+        .vs-intro__cta {
+            font-size: 0.9rem;
+            padding: 0.8rem 2rem;
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .section-headline--hero {
+            font-size: 6dvw;
+        }
+
+        .vs-intro__panel {
+            padding-top: calc(var(--navbar-height) + var(--sp-5));
+            padding-bottom: var(--sp-6);
+        }
+
+        .vs-intro__content {
+            width: min(100%, 48rem);
+            gap: var(--sp-3);
+        }
+
+        .vs-intro__content--nextgen {
+            width: min(100%, 64rem);
+        }
+
+        .vs-intro__nextgen-header {
+            grid-template-columns: 1fr;
+            gap: var(--sp-2);
+        }
+
+        .vs-intro__lead {
+            font-size: 1rem;
+        }
+
+        .vs-intro__cta {
+            font-size: 0.875rem;
+            padding: 0.75rem 1.75rem;
+        }
+    }
+
+    @media (max-width: 840px) {
+        .section-headline--hero {
+            font-size: 5.9dvw;
+        }
+
+        .vs-intro__lead {
+            font-size: 0.975rem;
+            line-height: 1.6;
+        }
+    }
+
+    @media (max-width: 720px) {
+        .section-headline--hero {
+            font-size: 6.8dvw;
+        }
+
+        .vs-intro__panel {
+            min-height: 92svh;
+            padding-top: calc(var(--navbar-height) + var(--sp-4));
+            padding-bottom: var(--sp-5);
+        }
+
+        .vs-intro__lead,
+        .vs-intro__copy {
+            max-width: 48ch;
+        }
+
+        .vs-intro__content--nextgen {
+            text-align: left;
+        }
+
+        .vs-intro__headline,
+        .vs-intro__copy {
+            text-align: left;
+        }
+
+        .vs-intro__cta {
+            font-size: 0.85rem;
+            padding: 0.7rem 1.55rem;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .section-headline--hero {
+            font-size: 2.65rem;
+        }
+
+        .vs-intro__lead {
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+
+        .vs-intro__cta {
+            font-size: 0.8rem;
+            padding: 0.65rem 1.35rem;
+        }
+    }
+</style>

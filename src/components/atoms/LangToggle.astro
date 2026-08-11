@@ -1,0 +1,55 @@
+---
+import { commonTranslations } from '../../i18n/common';
+import { getLanguageSwitchUrls, getTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/types';
+
+interface Props { currentLang?: Lang; pathname?: string; }
+const { currentLang = 'en' } = Astro.props;
+const urls = getLanguageSwitchUrls(Astro.props.pathname ?? Astro.url.pathname);
+const t = getTranslations(commonTranslations, currentLang);
+---
+<div class="lang-toggle" role="group" aria-label={t.language.ariaLabel}>
+  <a href={urls.en} class:list={[{ active: currentLang === 'en' }]} aria-current={currentLang === 'en' ? 'page' : undefined}>EN</a>
+  <a href={urls.mk} class:list={[{ active: currentLang === 'mk' }]} aria-current={currentLang === 'mk' ? 'page' : undefined}>MK</a>
+</div>
+
+<style>
+  .lang-toggle {
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color var(--t-base);
+  }
+
+  .lang-toggle a {
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 5px var(--sp-3);
+    color: var(--text-secondary);
+    background: transparent;
+    transition: background var(--t-fast), color var(--t-fast);
+  }
+
+  .lang-toggle a.active {
+    background: var(--text-primary);
+    color: var(--bg);
+  }
+
+  .lang-toggle a:hover:not(.active) {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+  }
+
+  /* Outline the whole toggle as a single unit on keyboard focus */
+  .lang-toggle:focus-within {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  .lang-toggle a:focus-visible {
+    outline: none;
+  }
+</style>

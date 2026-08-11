@@ -1,0 +1,77 @@
+---
+import IconBadge from './IconBadge.astro';
+
+interface Props {
+  label: string;
+  value: string;
+  href?: string;
+  framedIcon?: boolean;
+  iconStyle?: string;
+  iconClass?: string;
+  class?: string;
+}
+
+const {
+  label,
+  value,
+  href,
+  framedIcon = true,
+  iconStyle = '',
+  iconClass = '',
+  class: className = '',
+} = Astro.props;
+---
+
+<div class:list={['contact-detail', className]}>
+  <IconBadge class:list={['contact-detail__icon', iconClass]} style={iconStyle} bordered={framedIcon}>
+    <slot name="icon" />
+  </IconBadge>
+
+  <div class="contact-detail__content">
+    <p class="contact-detail__label">{label}</p>
+    {
+      href ? (
+        <a class="contact-detail__value" href={href}>{value}</a>
+      ) : (
+        <span class="contact-detail__value">{value}</span>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .contact-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
+    min-width: 0;
+  }
+
+  .contact-detail__content {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .contact-detail__label {
+    font-size: var(--text-xs);
+    line-height: 1.2;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+
+  .contact-detail__value {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.5;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition: color var(--t-fast);
+  }
+
+  a.contact-detail__value:is(:hover, :focus-visible) {
+    color: var(--text-primary);
+  }
+</style>

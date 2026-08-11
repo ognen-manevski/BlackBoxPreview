@@ -1,0 +1,124 @@
+---
+import TechnologyGrid from '../molecules/TechnologyGrid.astro';
+import type { HomePageContent } from '../../i18n/pages/home';
+interface Props { content: HomePageContent['technology']; }
+const { content } = Astro.props;
+---
+
+<section class="section technology" id="technology" aria-labelledby="technology-heading">
+  <div class="technology__bg" aria-hidden="true">
+    <video
+      class="technology__bg-video technology__bg-video--dark"
+      src="/videos/bg-videos/orb.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+    ></video>
+    <video
+      class="technology__bg-video technology__bg-video--light"
+      src="/videos/bg-videos/orb-white.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+    ></video>
+  </div>
+
+  <div class="container technology__inner">
+    <header class="technology__header section__header">
+      <p class="section-label">{content.label}</p>
+      <h2 class="section-headline technology__headline" id="technology-heading">
+        {content.heading}
+      </h2>
+      <p class="section-copy technology__copy">
+        {content.copy}
+      </p>
+    </header>
+
+    <TechnologyGrid content={content.grid} />
+  </div>
+</section>
+
+<style>
+  .technology {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .technology__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.75;
+    overflow: hidden;
+  }
+
+  .technology__bg-video {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right top;
+    transform: scale(1.05);
+    opacity: 1;
+    transition: opacity var(--t-base);
+  }
+
+  .technology__bg-video--dark {
+    opacity: 1;
+  }
+
+  .technology__bg-video--light {
+    opacity: 0;
+  }
+
+  .technology__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .technology__header {
+    max-width: 74ch;
+    margin-bottom: var(--sp-6);
+  }
+
+  .technology__headline {
+    max-width: 23ch;
+    margin-bottom: var(--sp-3);
+  }
+
+  .technology__copy {
+    max-width: 70ch;
+  }
+
+  :global([data-theme='light']) .technology__bg-video--dark {
+    opacity: 0;
+  }
+
+  :global([data-theme='light']) .technology__bg-video--light {
+    opacity: 1;
+  }
+
+  @media (max-width: 980px) {
+    .technology__bg {
+      width: min(70vw, 34rem);
+      opacity: 0.75;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .technology__bg {
+      width: 100%;
+      opacity: 0.45;
+    }
+  }
+
+</style>

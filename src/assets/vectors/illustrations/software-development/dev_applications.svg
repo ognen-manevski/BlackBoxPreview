@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="app" xmlns="http://www.w3.org/2000/svg" width="1400" height="1200" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1400 1200">
+  <defs>
+    <style>
+
+
+      :root{
+        --fill-color: var(--color-brand);
+        --stroke-color: var(--icon-bg);
+      }
+
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2, .cls-3 {
+        stroke: var(--stroke-color);
+        stroke-miterlimit: 10;
+        stroke-width: 5px;
+      }
+
+      .cls-4 {
+        clip-path: url(#clippath-ca);
+      }
+
+      #hand, #arrow{
+        fill: var(--fill-color);
+      }
+
+      svg:hover #hand{
+        animation: hand-anim 4s ease infinite;
+      }
+
+      @keyframes hand-anim {
+        0%,
+        100% {
+          transform: translate(0px, 0px);
+        }
+        50% {
+          transform: translate(0px, -200px);
+        }
+      }
+
+      svg:hover #info-popup{
+        animation: info-popup-anim 4s ease-in-out infinite;
+      }
+
+      @keyframes info-popup-anim {
+        0%,
+        100% {
+          transform: translate(0px, 0px);
+        }
+        50% {
+          transform: translate(0px, -150px);
+        }
+      }
+
+      #app-1, #app-2{
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      svg:hover #app-1 {
+        animation: app-1-hover-anim 4s ease infinite;
+      }
+
+      @keyframes app-1-hover-anim {
+        0%, 20%, 70%, 100% {
+          transform: translateY(0) rotate(0deg);
+        }
+
+        30%, 60% {
+          transform: translateY(-20px) rotate(-5deg);
+        }
+      }
+
+      svg:hover #app-2 {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: app-2-hover-anim 4s ease infinite;
+      }
+
+      @keyframes app-2-hover-anim {
+        0%, 10%, 80%, 100% {
+          transform: translateY(20px) rotate(5deg);
+        }
+
+        20%, 70% {
+          transform: translateY(0) rotate(0deg);
+        }
+      }
+
+      #signal{
+        r: 0px;
+      }
+
+      svg:hover #signal{
+        --r: 62.23889px;
+        animation: signal-anim 4s ease infinite;
+      }
+
+      @keyframes signal-anim {
+        0%{
+          r: 0px;
+        }
+        100% {
+          r: 400px;
+        }
+      }
+
+      #s-1, #s-2, #s-3{
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      #s-3{
+        --duration: 2s;
+        --delay: 0s;
+      }
+
+      #s-2{
+        --duration: 2s;
+        --delay: 0.1s;
+      }
+
+      #s-1{
+        --duration: 2s;
+        --delay: 0.2s;
+      }
+
+      svg:hover #s-1, svg:hover #s-2, svg:hover #s-3{
+        animation: wifi-anim var(--duration) step-start infinite;
+        animation-delay: var(--delay);
+      }
+
+
+      @keyframes wifi-anim {
+        0%, 55%, 100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+    </style>
+    <clipPath id="clippath-ca">
+      <path id="border-2" data-name="border" class="cls-1" d="M281.63114,585.37321v282h282v-282h-282Z"/>
+    </clipPath>
+  </defs>
+  <g id="static-phone">
+    <path class="cls-3" d="M682.24995,277v-89.98c0-26.52-21.5-48.02-48.02-48.02H211.26995c-26.52,0-48.02,21.5-48.02,48.02v825.96c0,26.52,21.5,48.02,48.02,48.02h422.96c26.52,0,48.02-21.5,48.02-48.02v-95.98"/>
+    <line class="cls-3" x1="682.25" y1="229" x2="163.25" y2="229"/>
+    <line class="cls-3" x1="682.25" y1="971" x2="163.25" y2="971"/>
+    <line class="cls-3" x1="493.125" y1="184" x2="352.375" y2="184"/>
+    <circle class="cls-3" cx="423.25" cy="1016" r="24"/>
+  </g>
+  <g id="phone-screen">
+    <rect id="screen" class="cls-3" x="216.24995" y="277" width="640" height="640"/>
+    <g id="apps">
+      <g id="cloud">
+        <path class="cls-3" d="M518.9943,406.62321c26.48001,0,48,21.52,48,48s-21.51999,48-48,48h-192c-26.48,0-48-21.51999-48-48s21.52-48,48-48h.39999c1.60001-18.16,8.79999-34.72,19.67999-48h.07999c3.51999-4.32001,7.51999-8.24001,11.84-11.84,15.20001-12.56,34.72-20.16,56-20.16s40.79999,7.52,56,20.16c18.23999,15.12,30.23999,37.52,31.76001,62.72,5.04001-1.84,10.56-2.88,16.23999-2.88h.00003Z"/>
+        <g id="wifi">
+          <path id="s-3" class="cls-3" d="M431.40893,459.20856c-7.4087-7.4087-19.42056-7.4087-26.82926,0"/>
+          <path id="s-2" class="cls-3" d="M450.18941,440.42808c-17.78087-17.78087-46.60935-17.78087-64.39022,0"/>
+          <path id="s-1" class="cls-3" d="M472.99428,417.62321c-30.37565-30.37565-79.62431-30.37565-109.99996,0"/>
+        </g>
+      </g>
+      <g id="app-3">
+        <rect class="cls-3" x="649.49653" y="723.37503" width="144.00917" height="144.00176"/>
+        <g>
+          <path class="cls-2" d="M721.49274,753.79529c15.44087,0,27.95626,12.51538,27.95626,27.95626,0,15.4266-12.51538,27.94199-27.95626,27.94199-15.4266,0-27.94199-12.51538-27.94199-27.94199,0-15.44087,12.51538-27.95626,27.94199-27.95626Z"/>
+          <path class="cls-2" d="M782.15347,867.37679h-121.3047c7.17552-26.77965,31.607-46.49268,60.6415-46.49268,29.04897,0,53.48044,19.71302,60.6632,46.49268Z"/>
+        </g>
+      </g>
+      <g id="app-2">
+        <polygon class="cls-2" points="793.49995 663.37 793.49995 671.63 649.49995 671.63 649.49995 527.62 793.49995 527.62 793.49995 589.74 793.49995 663.37"/>
+        <path class="cls-2" d="M704.15511,563.37126l44.32472,36.24752-44.32472,36.26179v-72.50931Z"/>
+      </g>
+      <g id="app-1">
+        <rect class="cls-3" x="649.49841" y="331.87321" width="144.00541" height="144.00541"/>
+        <g>
+          <path class="cls-2" d="M676.49854,363.58265h89.99089v13.50006h-89.99089v-13.50006Z"/>
+          <path class="cls-2" d="M676.49854,397.11875h89.99089v13.50006h-89.99089v-13.50006Z"/>
+          <path class="cls-2" d="M676.49854,430.66911h55.22752v13.50006h-55.22752v-13.50006Z"/>
+        </g>
+      </g>
+      <g id="maps">
+        <path id="border" class="cls-3" d="M281.63114,585.37321v282h282v-282h-282Z"/>
+        <line class="cls-3" x1="423.89114" y1="867.37321" x2="410.16995" y2="732.25"/>
+        <line class="cls-3" x1="281.63114" y1="606.67679" x2="419.16995" y2="727.25"/>
+        <line class="cls-3" x1="422.41114" y1="585.37679" x2="421.16995" y2="725.75"/>
+        <line class="cls-3" x1="563.63114" y1="726.46321" x2="412.16995" y2="760.25"/>
+        <polyline class="cls-3" points="312.94114 867.37321 369.18114 759.71321 437.90114 713.80321 508.63114 642.37321 563.63114 630.67321"/>
+        <g class="cls-4">
+          <circle id="signal" class="cls-3" cx="397.93107" cy="756.16313" r="62.23889"/>
+        </g>
+        <polygon id="arrow" class="cls-3" points="421.40116 770.22331 404.76115 817.80314 389.36112 769.01335 385.08109 764.73307 336.29105 749.32316 441.57108 712.52311 421.40116 770.22331 421.40116 770.22331"/>
+      </g>
+    </g>
+  </g>
+  <g id="info-popup">
+    <polygon id="speech-bubble" class="cls-3" points="1194.36987 277 1194.36987 459 1066.11987 459 965.86987 540 987.73987 459 887.36987 459 887.36987 277 1194.36987 277"/>
+    <g id="letter-i">
+      <circle id="dot" class="cls-3" cx="1040.86987" cy="332.25" r="14"/>
+      <rect id="body" class="cls-3" x="1028.86987" y="360.25" width="24" height="60"/>
+    </g>
+  </g>
+  <polygon id="hand" class="cls-3" points="1184.75 861 1152.75 771 1076.75 681 901.34692 688.82129 819.7395 571.49463 758.98975 613.74951 910.36255 831.37744 911.90063 843.37451 839.06421 785.85742 793.20337 843.93359 911.64331 937.46191 1021.75 1000 1062.75 1061 1236.75 932 1184.75 861"/>
+</svg>

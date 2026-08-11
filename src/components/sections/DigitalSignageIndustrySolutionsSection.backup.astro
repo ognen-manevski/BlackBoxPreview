@@ -1,0 +1,130 @@
+---
+import DisclosureItem from '../atoms/DisclosureItem.astro';
+import MetricChip from '../atoms/MetricChip.astro';
+import { industryMetrics as metrics, industrySolutions as solutions } from '../../i18n/pages/data/industrySolutions';
+import type { DigitalSignageContent } from '../../i18n/pages/digital-signage';
+interface Props { content: DigitalSignageContent['industries'] } const { content } = Astro.props;
+---
+
+<section
+    class="section industry-solutions"
+    id="industry-solutions"
+    aria-labelledby="industry-solutions-heading"
+>
+    <div class="container industry-solutions__container">
+        <div class="industry-solutions__layout">
+            <header class="industry-solutions__intro section__header">
+                <p class="section-label industry-solutions__label">{content.label}</p>
+                <h2 class="section-headline industry-solutions__headline" id="industry-solutions-heading">
+                    {content.heading}
+                </h2>
+                <p class="section-copy industry-solutions__copy">
+                    {content.copy}
+                </p>
+
+                <a class="btn btn--primary industry-solutions__cta" href="#case-studies">
+                    {content.cta}
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"></path>
+                    </svg>
+                </a>
+
+                <ul class="industry-solutions__metrics" aria-label={content.metricsAriaLabel}>
+                    {metrics.map((metric) => (
+                        <MetricChip value={metric.value} label={metric.label} />
+                    ))}
+                </ul>
+            </header>
+
+            <div class="industry-solutions__list" aria-label={content.listAriaLabel}>
+                {solutions.map((solution, index) => (
+                    <DisclosureItem
+                        counter={solution.number}
+                        title={solution.title}
+                        content={solution.excerpt}
+                        imageSrc={solution.imageSrc}
+                        imageAlt={solution.imageAlt}
+                        open={index === 0}
+                    />
+                ))}
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .industry-solutions {
+        background: var(--bg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .industry-solutions__layout {
+        display: grid;
+        grid-template-columns: 1fr 1.435fr;
+        gap: var(--sp-10);
+        align-items: start;
+    }
+
+    .industry-solutions__label {
+        margin-bottom: 0;
+    }
+
+    .industry-solutions__intro {
+        display: grid;
+        gap: var(--sp-4);
+        text-align: left;
+        max-width: 40rem;
+    }
+
+    .industry-solutions__headline {
+        max-width: 18ch;
+    }
+
+    .industry-solutions__copy {
+        max-width: 52ch;
+    }
+
+    .industry-solutions__cta {
+        width: fit-content;
+        margin-top: var(--sp-3);
+    }
+
+    .industry-solutions__list {
+        display: grid;
+        gap: var(--sp-4);
+        align-content: start;
+    }
+
+    .industry-solutions__metrics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--sp-3);
+        margin-top: var(--sp-5);
+    }
+
+    .industry-solutions__metrics :global(.metric-chip) {
+        flex: 1 1 13rem;
+    }
+
+    @media (max-width: 980px) {
+        .industry-solutions__layout {
+            grid-template-columns: 1fr;
+            gap: var(--sp-7);
+        }
+    }
+
+    @media (max-width: 700px) {
+        .industry-solutions__intro {
+            max-width: none;
+        }
+
+        .industry-solutions__headline,
+        .industry-solutions__copy {
+            max-width: none;
+        }
+
+        .industry-solutions__metrics {
+            margin-top: var(--sp-4);
+        }
+    }
+</style>

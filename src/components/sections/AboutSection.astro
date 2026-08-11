@@ -1,0 +1,282 @@
+---
+import missionIcon from '../../assets/vectors/icons/mission-vision/mission-icon.svg?raw';
+import visionIcon from '../../assets/vectors/icons/mission-vision/vision-icon.svg?raw';
+import ClientLogoCarousel from '../molecules/ClientLogoCarousel.astro';
+import IconBadge from '../atoms/IconBadge.astro';
+import { clientLogos } from '../../data/clientLogos';
+import type { HomePageContent } from '../../i18n/pages/home';
+
+const missionIconMarkup = missionIcon as unknown as string;
+const visionIconMarkup = visionIcon as unknown as string;
+
+interface Props { content: HomePageContent['about']; }
+const { content } = Astro.props;
+---
+
+<section class="section about" id="about" aria-labelledby="about-heading">
+  <div class="container about__inner">
+    <div class="about__grid">
+      <div class="about__content">
+        <p class="section-label">{content.label}</p>
+        <h2 class="section-headline about__headline" id="about-heading">
+          {content.heading}
+        </h2>
+        <p class="section-copy about__lead">
+          {content.copy}
+        </p>
+
+        <div class="about__cards" aria-label={content.cardsAriaLabel}>
+          <article class="mk-card about-card u-border-interactive">
+            <IconBadge
+              class="about-card__icon"
+              aria-hidden="true"
+              style="--icon-badge-size: 2.5rem; --icon-badge-border: var(--color-brand); --icon-badge-bg: var(--color-brand-bg); --icon-badge-color: var(--color-brand); margin-bottom: var(--sp-1);"
+            >
+              <span class="about-card__svg" set:html={missionIconMarkup}></span>
+            </IconBadge>
+            <h3 class="about-card__title">{content.missionTitle}</h3>
+            <p class="about-card__text">
+              {content.missionCopy}
+            </p>
+          </article>
+
+          <article class="mk-card about-card u-border-interactive">
+            <IconBadge
+              class="about-card__icon"
+              aria-hidden="true"
+              style="--icon-badge-size: 2.5rem; --icon-badge-border: var(--color-brand); --icon-badge-bg: var(--color-brand-bg); --icon-badge-color: var(--color-brand); margin-bottom: var(--sp-1);"
+            >
+              <span class="about-card__svg" set:html={visionIconMarkup}></span>
+            </IconBadge>
+            <h3 class="about-card__title">{content.visionTitle}</h3>
+            <p class="about-card__text">
+              {content.visionCopy}
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <div class="about__media u-border-interactive">
+        <video
+          class="about__video about__video--dark"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          aria-label={content.videoAriaLabel}
+        >
+          <source src="/videos/bg-videos/3D-Logo.mp4" type="video/mp4" />
+        </video>
+        <video
+          class="about__video about__video--light"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          aria-label={content.videoAriaLabel}
+        >
+          <source src="/videos/bg-videos/3D-Logo-white.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+
+    <ClientLogoCarousel items={clientLogos} ariaLabel={content.logosAriaLabel} />
+
+    <div class="about__principles" aria-label={content.principlesAriaLabel}>
+      {content.principles.map((principle) => (
+        <article class="about-principle u-border-interactive">
+          <p class="about-principle__number">{principle.number}</p>
+          <div class="about-principle__body">
+            <h3 class="about-principle__title">{principle.title}</h3>
+            <p class="about-principle__text">{principle.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    background:
+      radial-gradient(circle at top left, color-mix(in srgb, var(--color-brand) 14%, transparent) 0, transparent 36%),
+      linear-gradient(180deg, color-mix(in srgb, var(--bg-secondary) 92%, var(--bg)) 0%, var(--bg) 100%);
+  }
+
+  .about__inner {
+    display: grid;
+    gap: var(--sp-6);
+  }
+
+  .about__inner :global(.logo-carousel) {
+    margin-top: var(--sp-2);
+  }
+
+  .about__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: var(--sp-6);
+    align-items: start;
+  }
+
+  .about__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+  }
+
+  .about__headline {
+    max-width: 24ch;
+    text-wrap: balance;
+  }
+
+  .about__lead {
+    max-width: 60ch;
+  }
+
+  .about__cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-4);
+  }
+
+  .about-card {
+    border-radius: var(--radius-lg);
+    padding: var(--sp-5);
+    background: var(--surface, var(--bg-secondary));
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    min-height: 100%;
+  }
+
+  .about-card__svg {
+    width: 1.35rem;
+    height: 1.35rem;
+    display: block;
+  }
+
+  .about-card__svg :global(svg) {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .about-card__title {
+    font-size: var(--text-lg);
+    line-height: 1.2;
+  }
+
+  .about-card__text {
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .about__media {
+    position: relative;
+    border-radius: calc(var(--radius) * 1.2);
+    overflow: hidden;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--bg-secondary) 80%, var(--bg)) 0%, var(--bg) 100%);
+    min-height: 0;
+    align-self: stretch;
+    height: 100%;
+  }
+
+  .about__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    object-position: center;
+    margin: 0 auto;
+  }
+
+  .about__video--dark {
+    opacity: 1;
+  }
+
+  .about__video--light {
+    opacity: 0;
+    position: absolute;
+    inset: 0;
+  }
+
+  .about__principles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-3);
+  }
+
+  .about-principle {
+    border-radius: var(--radius);
+    padding: var(--sp-5);
+    background: color-mix(in srgb, var(--bg-secondary) 84%, var(--bg));
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--sp-4);
+    align-items: start;
+  }
+
+  .about-principle__number {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--color-brand);
+    font-weight: var(--weight-bold);
+  }
+
+  .about-principle__body {
+    display: grid;
+    gap: var(--sp-2);
+  }
+
+  .about-principle__title {
+    font-size: var(--text-lg);
+    line-height: 1.2;
+  }
+
+  .about-principle__text {
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  :global([data-theme='light']) .about__video--dark {
+    opacity: 0;
+  }
+
+  :global([data-theme='light']) .about__video--light {
+    opacity: 1;
+  }
+
+  @media (max-width: 1100px) {
+    .about__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about__video {
+      max-height: 24rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .about__cards,
+    .about__principles {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .about-principle {
+      grid-template-columns: 1fr;
+      gap: var(--sp-2);
+    }
+
+    .about__video {
+      min-height: 20rem;
+    }
+  }
+</style>

@@ -1,0 +1,114 @@
+---
+import awsLogo from '../../assets/images/technologies-logos/new/1x1/aws.png';
+import anthropicLogo from '../../assets/images/technologies-logos/new/1x1/anthropic.png';
+import bashLogo from '../../assets/images/technologies-logos/new/1x1/gnu-bash.png';
+import dockerLogo from '../../assets/images/technologies-logos/new/1x1/docker.png';
+import firebaseLogo from '../../assets/images/technologies-logos/new/1x1/firebase.png';
+import javaLogo from '../../assets/images/technologies-logos/new/1x1/java.png';
+import kotlinLogo from '../../assets/images/technologies-logos/new/1x1/kotlin.png';
+import kubernetesLogo from '../../assets/images/technologies-logos/new/1x1/kubernetes.png';
+import langchainLogo from '../../assets/images/technologies-logos/new/1x1/langchain.png';
+import microsoftDotnetLogo from '../../assets/images/technologies-logos/new/1x1/microsoft-dotnet.png';
+import mongodbLogo from '../../assets/images/technologies-logos/new/1x1/mongodb.png';
+import mysqlLogo from '../../assets/images/technologies-logos/new/1x1/mysql.png';
+import n8nLogo from '../../assets/images/technologies-logos/new/1x1/n8n.png';
+import nextjsLogo from '../../assets/images/technologies-logos/new/1x1/nextjs.png';
+import nodejsLogo from '../../assets/images/technologies-logos/new/1x1/nodejs.png';
+import openaiLogo from '../../assets/images/technologies-logos/new/1x1/openai.png';
+import postgresqlLogo from '../../assets/images/technologies-logos/new/1x1/postgresql.png';
+import reactLogo from '../../assets/images/technologies-logos/new/1x1/react.png';
+import redisLogo from '../../assets/images/technologies-logos/new/1x1/redis.png';
+import swiftLogo from '../../assets/images/technologies-logos/new/1x1/swift.png';
+import typescriptLogo from '../../assets/images/technologies-logos/new/1x1/typescript.png';
+import vuejsLogo from '../../assets/images/technologies-logos/new/1x1/vue.png';
+
+import ContentGrid from './ContentGrid.astro';
+import TechnologyCard from './TechnologyCard.astro';
+import type { TechnologyGridContent } from '../../i18n/technology';
+
+interface Props { content: TechnologyGridContent }
+const { content } = Astro.props;
+const logoSources = [
+  [reactLogo.src, nextjsLogo.src, typescriptLogo.src, vuejsLogo.src],
+  [microsoftDotnetLogo.src, nodejsLogo.src, javaLogo.src], [kotlinLogo.src, swiftLogo.src],
+  [awsLogo.src, dockerLogo.src, firebaseLogo.src, kubernetesLogo.src, bashLogo.src],
+  [mysqlLogo.src, postgresqlLogo.src, mongodbLogo.src, redisLogo.src],
+  [openaiLogo.src, anthropicLogo.src, langchainLogo.src, n8nLogo.src],
+];
+const technologyCategories = content.categories.map((category, categoryIndex) => ({
+  title: category.title, description: category.description,
+  logos: category.alts.map((alt, logoIndex) => ({ src: logoSources[categoryIndex][logoIndex], alt })),
+}));
+
+const technologyGridCells = technologyCategories.map((category) => ({
+  component: TechnologyCard,
+  props: category,
+  ariaLabel: category.title,
+  className: 'technology__grid-cell',
+}));
+---
+
+<div class="grid-frame">
+  <ContentGrid
+    cellContent={technologyGridCells}
+    cellCount={6}
+    columns={3}
+    ariaLabel={content.ariaLabel}
+  />
+</div>
+
+<style>
+  :global(.technology .content-grid__cell) {
+    align-items: stretch;
+    justify-items: stretch;
+    min-height: clamp(11rem, 16vw, 14rem);
+  }
+
+  :global(.technology .technology__grid-cell) {
+    display: block;
+    padding: 0;
+  }
+
+    .technology {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .technology__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .technology__header {
+    max-width: 74ch;
+    margin-bottom: var(--sp-6);
+  }
+
+  .technology__headline {
+    max-width: 23ch;
+    margin-bottom: var(--sp-3);
+  }
+
+  .technology__copy {
+    max-width: 70ch;
+  }
+
+
+  @media (max-width: 980px) {
+    :global(.technology .content-grid) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    :global(.technology .content-grid) {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.technology .content-grid__cell) {
+      min-height: auto;
+    }
+  }
+</style>

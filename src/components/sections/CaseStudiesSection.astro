@@ -1,0 +1,126 @@
+---
+import CaseStudyCard from '../molecules/CaseStudyCard.astro';
+import ContentGrid from '../molecules/ContentGrid.astro';
+import SectionGradientBackground from '../atoms/SectionGradientBackground.astro';
+import thumbOne from '../../assets/images/static-gradients/dark/gradient-1.jpg';
+import thumbTwo from '../../assets/images/static-gradients/dark/gradient-3.jpg';
+import thumbThree from '../../assets/images/static-gradients/dark/gradient-6.jpg';
+import thumbFour from '../../assets/images/static-gradients/dark/gradient-8.jpg';
+import type { HomePageContent } from '../../i18n/pages/home';
+
+interface Props { content: HomePageContent['caseStudies']; }
+const { content } = Astro.props;
+const thumbnails = [thumbOne.src, thumbTwo.src, thumbThree.src, thumbFour.src];
+const posts = content.posts.map((post, index) => ({ ...post, thumbnailSrc: thumbnails[index], ctaLabel: content.readMore }));
+
+const caseStudyGridCells = posts.map((post) => ({
+  component: CaseStudyCard,
+  props: post,
+  ariaLabel: post.title,
+  className: 'case-studies__grid-cell u-border-interactive',
+}));
+---
+
+<!-- video needs edits, slower + white version + loop glitch -->
+
+<section class="section case-studies" id="case-studies" aria-labelledby="case-studies-heading">
+  <SectionGradientBackground videoSrc="/videos/bg-videos/wave.mp4" />
+
+  <div class="container">
+    <header class="case-studies__header section__header">
+      <div class="case-studies__intro">
+        <p class="section-label">{content.label}</p>
+        <h2 class="section-headline case-studies__headline" id="case-studies-heading">
+          {content.heading}
+        </h2>
+        <p class="section-copy case-studies__copy">
+          {content.copy}
+        </p>
+      </div>
+
+      <a class="btn btn--outline case-studies__view-all" href="/blog">{content.viewAll}</a>
+    </header>
+
+    <ContentGrid
+      cellContent={caseStudyGridCells}
+      cellCount={4}
+      columns={2}
+      ariaLabel={content.gridAriaLabel}
+    />
+  </div>
+</section>
+
+<style>
+  .case-studies {
+    position: relative;
+    isolation: isolate;
+    background: var(--bg);
+    overflow: hidden;
+  }
+
+  .case-studies .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .case-studies__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--sp-5);
+    margin-bottom: var(--sp-6);
+  }
+
+  .case-studies__view-all{
+    background-color: var(--bg);
+  }
+
+  .case-studies__intro {
+    max-width: 60ch;
+  }
+
+  .case-studies__headline {
+    margin-bottom: var(--sp-3);
+  }
+
+  .case-studies__copy {
+    max-width: 52ch;
+  }
+
+  .case-studies__view-all {
+    flex-shrink: 0;
+  }
+
+  :global(.case-studies .content-grid__cell) {
+    align-items: stretch;
+    justify-items: stretch;
+  }
+
+  :global(.case-studies .case-studies__grid-cell) {
+    display: block;
+    padding: 0;
+  }
+
+  @media (max-width: 1200px) {
+    :global(.case-studies .content-grid__cell) {
+      min-height: clamp(10rem, 14vw, 13rem);
+    }
+  }
+
+  @media (max-width: 980px) {
+    .case-studies__header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    :global(.case-studies .content-grid) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    :global(.case-studies .content-grid__cell) {
+      min-height: auto;
+    }
+  }
+</style>

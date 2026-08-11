@@ -1,0 +1,109 @@
+---
+interface Props {
+  id?: string;
+  name?: string;
+  checked?: boolean;
+  required?: boolean;
+  text: string;
+  linkText: string;
+  linkHref?: string;
+  class?: string;
+}
+
+const {
+  id = `privacy-${Math.random().toString(36).slice(2, 9)}`,
+  name = 'privacyConsent',
+  checked = true,
+  required = false,
+  text,
+  linkText,
+  linkHref = '#',
+  class: className = '',
+} = Astro.props;
+---
+
+<label class:list={['privacy-consent', className]} for={id}>
+  <input
+    id={id}
+    class="privacy-consent__checkbox"
+    type="checkbox"
+    name={name}
+    checked={checked}
+    required={required}
+  >
+  <span class="privacy-consent__check" aria-hidden="true">
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3.5 8.2 6.6 11l5.9-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </span>
+  <span class="privacy-consent__text">
+    {text} <a href={linkHref}>{linkText}</a>
+  </span>
+</label>
+
+<style>
+  .privacy-consent {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: var(--sp-2);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .privacy-consent__checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .privacy-consent__check {
+    width: 0.95rem;
+    height: 0.95rem;
+    margin-top: 0.1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    background: var(--bg);
+    color: var(--color-brand);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: border-color var(--t-fast), background var(--t-fast), color var(--t-fast);
+  }
+
+  .privacy-consent__check svg {
+    width: 0.75rem;
+    height: 0.75rem;
+    opacity: 0;
+    transform: scale(0.75);
+    transition: opacity var(--t-fast), transform var(--t-fast);
+  }
+
+  .privacy-consent__checkbox:checked + .privacy-consent__check {
+    background: var(--bg);
+    border-color: var(--color-brand);
+  }
+
+  .privacy-consent__checkbox:checked + .privacy-consent__check svg {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .privacy-consent__checkbox:focus-visible + .privacy-consent__check {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  .privacy-consent__text a {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--text-primary) 45%, transparent);
+    text-underline-offset: 0.12em;
+  }
+
+  .privacy-consent__text a:is(:hover, :focus-visible) {
+    text-decoration-color: currentColor;
+  }
+</style>

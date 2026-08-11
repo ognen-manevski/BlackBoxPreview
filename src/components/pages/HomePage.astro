@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HeroSection from '../sections/HeroSection.astro';
+import AboutSection from '../sections/AboutSection.astro';
+import OurServicesSection from '../sections/OurServicesSection.astro';
+import CaseStudiesSection from '../sections/CaseStudiesSection.astro';
+import WhyChooseUsSection from '../sections/WhyChooseUsSection.astro';
+import OurPartnersSection from '../sections/OurPartnersSection.astro';
+import TechnologySection from '../sections/TechnologySection.astro';
+import FaqSection from '../sections/FaqSection.astro';
+import ContactSection from '../sections/ContactSection.astro';
+import { homePageContent } from '../../i18n/pages/home';
+import { getTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/types';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const content = getTranslations(homePageContent, lang);
+---
+
+<BaseLayout lang={lang} title={content.seo.title} description={content.seo.description}>
+  <HeroSection content={content.hero} />
+  <AboutSection content={content.about} />
+  <OurServicesSection content={content.services} />
+  <CaseStudiesSection content={content.caseStudies} />
+  <WhyChooseUsSection content={content.whyChoose} />
+  <OurPartnersSection content={content.partners} />
+  <TechnologySection content={content.technology} />
+  <FaqSection content={content.faq} />
+  <ContactSection content={content.contact} />
+</BaseLayout>

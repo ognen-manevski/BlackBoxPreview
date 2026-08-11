@@ -1,0 +1,5 @@
+<svg id="connector-1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 609.3 273.6">
+  <path class="connector-line" d="M134.9,47.2h226.6c6.3,0,11.4,5.1,11.4,11.4v60.6c0,6.3,5.1,11.4,11.4,11.4h145.3"/>
+  <path class="connector-line" d="M134.9,214h226.6c6.3,0,11.4-5.1,11.4-11.4v-60.6c0-6.3,5.1-11.4,11.4-11.4"/>
+  <line class="connector-line" x1="134.9" y1="130.6" x2="384.5" y2="130.6"/>
+</svg>

@@ -118,7 +118,7 @@ const href = (path: string) => getLocalizedPath(path, lang);
         <!-- Logo + Social Media -->
         <div class="footer__actions">
           <a href={href('/')} class="footer__logo-link" aria-label={t.homeAriaLabel}>
-            <img src="/brand/logo/logo-horizontal.svg" alt={t.logoAlt} loading="lazy">
+            <img src={`${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg`} alt={t.logoAlt} loading="lazy">
           </a>
 
           <div class="footer__social">

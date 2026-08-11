@@ -18,7 +18,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
   <div class="hero__background" aria-hidden="true">
     <video
       class="hero__bg-video hero__bg-video--dark"
-      src="/videos/gradients/dark/base-gradient-2.mp4"
+      src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-2.mp4`}
       autoplay
       muted
       loop
@@ -26,7 +26,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     ></video>
     <video
       class="hero__bg-video hero__bg-video--light"
-      src="/videos/gradients/light/base-gradient-2.mp4"
+      src={`${import.meta.env.BASE_URL}videos/gradients/light/base-gradient-2.mp4`}
       autoplay
       muted
       loop
@@ -71,10 +71,10 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
       <!-- CTAs -->
       <div class="hero__actions">
         <div class="hero__cta-group">
-          <ArrowButton href="/book-a-free-demo/" variant="primary"
+          <ArrowButton href={`${import.meta.env.BASE_URL}book-a-free-demo/`} variant="primary"
             >{content.primaryCta}</ArrowButton
           >
-          <a href="/#about" class="btn btn--ghost">{content.secondaryCta}</a>
+          <a href={`${import.meta.env.BASE_URL}#about`} class="btn btn--ghost">{content.secondaryCta}</a>
         </div>
         <div class="hero__cta-note">{content.ctaNote}</div>
       </div>

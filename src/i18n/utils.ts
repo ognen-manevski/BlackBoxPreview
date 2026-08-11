@@ -18,8 +18,9 @@ export function getLocalizedPath(pathname: string, lang: Lang): string {
 
   const route = segments.length ? `/${segments.join('/')}/` : '/';
   const localizedPath = lang === defaultLang ? route : `/${lang}${route}`;
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-  return `${localizedPath}${url.search}${url.hash}`;
+  return `${basePath}${localizedPath}${url.search}${url.hash}`;
 }
 
 export function getLanguageSwitchUrls(pathname: string): Record<Lang, string> {

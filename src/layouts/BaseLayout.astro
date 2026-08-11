@@ -64,17 +64,17 @@ const canonicalURL = canonical ?? (Astro.site ? new URL(Astro.url.pathname, Astr
   <meta name="twitter:image" content={ogImage}>
 
   <!-- Favicons -->
-  <link rel="icon" href="/brand/favicons/favicon-adaptive.svg" type="image/svg+xml">
-  <!-- <link rel="icon" href="/brand/favicons/favicon.ico" sizes="any"> -->
-  <!-- <link rel="apple-touch-icon" href="/brand/favicons/apple-touch-icon.png"> -->
-  <link rel="manifest" href="/brand/favicons/site.webmanifest">
+  <link rel="icon" href={`${import.meta.env.BASE_URL}brand/favicons/favicon-adaptive.svg`} type="image/svg+xml">
+  <!-- <link rel="icon" href={`${import.meta.env.BASE_URL}brand/favicons/favicon.ico`} sizes="any"> -->
+  <!-- <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}brand/favicons/apple-touch-icon.png`}> -->
+  <link rel="manifest" href={`${import.meta.env.BASE_URL}brand/favicons/site.webmanifest`}>
 
   <!-- Theme color -->
   <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#111111">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFAFA">
 
   <!-- Sitemap -->
-  <link rel="sitemap" href="/sitemap-index.xml">
+  <link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap-index.xml`}>
 
   <!-- Fonts -->
   <!-- TODO: self-host fonts from /public/fonts/ for better performance -->

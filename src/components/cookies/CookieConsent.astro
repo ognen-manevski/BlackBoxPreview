@@ -1,0 +1,136 @@
+---
+import CookiePreferences from './CookiePreferences.astro';
+import { getTranslations } from '../../i18n/utils';
+import { commonTranslations } from '../../i18n/common';
+import type { Lang } from '../../i18n/types';
+import { getLocalizedPath } from '../../i18n/utils';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = getTranslations(commonTranslations, lang).cookies;
+const href = (path: string) => getLocalizedPath(path, lang);
+---
+
+<div class="cookie-consent" data-cookie-consent hidden role="region" aria-label={t.bannerAriaLabel}>
+  <div class="cookie-consent__inner container">
+    <div class="cookie-consent__summary" data-cookie-summary>
+      <div class="cookie-consent__header">
+        <p class="cookie-consent__title">{t.bannerTitle}</p>
+        <p class="cookie-consent__description">
+          {t.bannerDescription}
+          {' '}
+          <span class="cookie-consent__links">
+            <a href={href('/privacy-policy/')}>{t.privacyPolicy}</a>
+            <span aria-hidden="true">·</span>
+            <a href={href('/cookie-policy/')}>{t.cookiePolicy}</a>
+          </span>
+        </p>
+      </div>
+      <div class="cookie-consent__actions">
+        <button type="button" class="btn btn--outline btn--sm" data-cookie-reject>{t.rejectOptional}</button>
+        <button type="button" class="btn btn--outline btn--sm" data-cookie-manage aria-expanded="false">{t.managePreferences}</button>
+        <button type="button" class="btn btn--primary btn--sm" data-cookie-accept>{t.acceptAll}</button>
+      </div>
+    </div>
+
+    <CookiePreferences lang={lang} />
+  </div>
+</div>
+
+<script>
+  import {
+    initConsent,
+    getConsent,
+    saveConsent,
+    resetCookieConsent,
+    onConsentChange,
+    OPEN_COOKIE_PREFERENCES_EVENT,
+    type ConsentState,
+  } from '../../scripts/cookie-consent';
+
+  const root = document.querySelector<HTMLElement>('[data-cookie-consent]');
+
+  if (root) {
+    const categoryInputs = Array.from(
+      root.querySelectorAll<HTMLInputElement>('[data-cookie-category]'),
+    );
+    const manageButtons = root.querySelectorAll<HTMLButtonElement>('[data-cookie-manage]');
+
+    const syncToggles = (consent: ConsentState) => {
+      categoryInputs.forEach((input) => {
+        const cat = input.dataset.cookieCategory as keyof ConsentState | undefined;
+        if (!cat || cat === 'necessary') return;
+        input.checked = !!consent[cat];
+      });
+    };
+
+    const setExpanded = (expanded: boolean) => {
+      root.hidden = false;
+      root.classList.add('cookie-consent--visible');
+      root.classList.toggle('cookie-consent--expanded', expanded);
+      document.body.classList.toggle('cookie-preferences-open', expanded);
+      manageButtons.forEach((btn) => btn.setAttribute('aria-expanded', String(expanded)));
+    };
+
+    const close = () => {
+      root.classList.remove('cookie-consent--visible', 'cookie-consent--expanded');
+      document.body.classList.remove('cookie-preferences-open');
+      root.hidden = true;
+    };
+
+    const { consent, needsBanner } = initConsent();
+    syncToggles(consent);
+    window.dispatchEvent(new CustomEvent('blackbox:cookie-consent-updated'));
+    if (needsBanner) setExpanded(false);
+
+    const rejectButtons = root.querySelectorAll<HTMLButtonElement>('[data-cookie-reject]');
+    rejectButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        saveConsent({ analytics: false, functional: false, marketing: false });
+        close();
+      });
+    });
+
+    const acceptButtons = root.querySelectorAll<HTMLButtonElement>('[data-cookie-accept]');
+    acceptButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        saveConsent({ analytics: true, functional: true, marketing: true });
+        close();
+      });
+    });
+
+    manageButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        setExpanded(!root.classList.contains('cookie-consent--expanded'));
+      });
+    });
+
+    const saveButtons = root.querySelectorAll<HTMLButtonElement>('[data-cookie-save]');
+    saveButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const next: Partial<Record<'analytics' | 'functional' | 'marketing', boolean>> = {};
+        categoryInputs.forEach((input) => {
+          const cat = input.dataset.cookieCategory as 'analytics' | 'functional' | 'marketing' | undefined;
+          if (cat) next[cat] = input.checked;
+        });
+        saveConsent(next);
+        close();
+      });
+    });
+
+    window.addEventListener(OPEN_COOKIE_PREFERENCES_EVENT, () => {
+      syncToggles(getConsent());
+      setExpanded(true);
+    });
+
+    onConsentChange((next) => {
+      syncToggles(next);
+      window.dispatchEvent(new CustomEvent('blackbox:cookie-consent-updated'));
+    });
+
+    if (import.meta.env.DEV) {
+      (window as unknown as { __blackboxResetCookieConsent: typeof resetCookieConsent }).__blackboxResetCookieConsent =
+        resetCookieConsent;
+    }
+  }
+</script>

@@ -26,3 +26,10 @@ export const shelfLabelsPerformanceStats: ShelfLabelsPerformanceStat[] = [
     compactValue: true,
   },
 ];
+
+export const macedonianShelfLabelsPerformanceStats: ShelfLabelsPerformanceStat[] = [
+  { value: '95%', label: 'Помалку време за замена на\nхартиени етикети' },
+  { value: 'Веднаш', label: 'Ажурирање на цените\nво целата продавница', compactValue: true },
+  { value: '10+', valueSuffixSmall: '', label: 'Години\nтраење на батеријата' },
+  { value: 'Илјадници', label: 'Етикети управувани\nод еден dashboard', compactValue: true },
+];

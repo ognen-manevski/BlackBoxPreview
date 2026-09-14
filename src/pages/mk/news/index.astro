@@ -1,0 +1,6 @@
+---
+import { getCollection } from 'astro:content';
+import NewsPage from '../../../components/pages/NewsPage.astro';
+const posts = (await getCollection('news', ({ data }) => !data.draft && data.lang === 'mk')).sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+---
+<NewsPage lang="mk" posts={posts} />

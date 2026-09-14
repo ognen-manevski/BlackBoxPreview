@@ -1,0 +1,8 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BlogCard from './BlogCard.astro';
+type EditorialEntry = CollectionEntry<'blog'> | CollectionEntry<'news'>;
+interface Props { posts: EditorialEntry[] }
+const { posts } = Astro.props;
+---
+<div class="blog-grid">{posts.map((post) => <BlogCard post={post} />)}</div>

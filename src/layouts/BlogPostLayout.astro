@@ -1,0 +1,142 @@
+---
+import ProgressiveImage from '../components/atoms/ProgressiveImage.astro';
+import { Image, Picture } from 'astro:assets';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import neoslideTotemDark from '../assets/images/blog-sidebar/digital signage/digital-signage-card.jpg';
+import neoslideTotemLight from '../assets/images/blog-sidebar/digital signage/digital-signage-card-wh.jpg';
+import neoslideTotemThinDark from '../assets/images/blog-sidebar/digital signage/mobile-thin.jpg';
+import neoslideTotemThinLight from '../assets/images/blog-sidebar/digital signage/mobile-thin-wh.jpg';
+import neoslideTotemWideDark from '../assets/images/blog-sidebar/digital signage/mobile-wide.jpg';
+import neoslideTotemWideLight from '../assets/images/blog-sidebar/digital signage/mobile-wide-wh.jpg';
+import ArrowButton from '../components/atoms/ArrowButton.astro';
+import ArrowForwardIcon from '../components/icons/ArrowForwardIcon.astro';
+import BlogTag from '../components/blog/BlogTag.astro';
+import ShareLinks from '../components/blog/ShareLinks.astro';
+import BaseLayout from './BaseLayout.astro';
+import '../styles/blog.css';
+type EditorialEntry = CollectionEntry<'blog'> | CollectionEntry<'news'>;
+interface Props { post: EditorialEntry }
+const { post } = Astro.props;
+const { data } = post;
+const slug = post.id.split('/')[0];
+const imageTransitionName = `editorial-image-${post.collection}-${slug}`;
+const dateLabel = data.lang === 'mk' ? 'Датум на објава' : 'Published date';
+const publishedDate = new Intl.DateTimeFormat(data.lang === 'mk' ? 'mk-MK' : 'en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric',
+}).format(data.publishedAt);
+const path = data.lang === 'mk' ? `/mk/${post.collection}/${slug}/` : `/${post.collection}/${slug}/`;
+const localizedPath = (value: string) => data.lang === 'mk' ? `/mk${value}` : value;
+const entryPath = (entry: EditorialEntry) => localizedPath(`/${entry.collection}/${entry.id.split('/')[0]}/`);
+
+const editorialEntries = (await getCollection(post.collection, ({ data: entryData }) =>
+  !entryData.draft && entryData.lang === data.lang
+)).sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()) as EditorialEntry[];
+const currentIndex = editorialEntries.findIndex((entry) => entry.id === post.id);
+const previousPost = currentIndex > 0 ? editorialEntries[currentIndex - 1] : undefined;
+const nextPost = currentIndex >= 0 && currentIndex < editorialEntries.length - 1 ? editorialEntries[currentIndex + 1] : undefined;
+const useCases = (await getCollection('blog', ({ data: entryData }) =>
+  !entryData.draft && entryData.lang === data.lang
+)).sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()).slice(0, 6);
+
+const labels = data.lang === 'mk' ? {
+  home: 'Почетна', blog: 'Проекти', news: 'Новости', previous: 'Претходно', next: 'Следно',
+  explore: 'Истражете проекти', viewAll: 'Види ги сите', neoslide: 'NEOSLIDE',
+  neoHeading: 'Дигитална сигнализација за секој екран.', bookDemo: 'Закажете демо', breadcrumb: 'Навигациска патека',
+} : {
+  home: 'Home', blog: 'Case studies', news: 'News', previous: 'Previous', next: 'Next',
+  explore: 'Explore case studies', viewAll: 'View all', neoslide: 'NEOSLIDE',
+  neoHeading: 'Digital signage for any screen.', bookDemo: 'Book a demo', breadcrumb: 'Breadcrumb',
+};
+const collectionLabel = post.collection === 'blog' ? labels.blog : labels.news;
+---
+<BaseLayout lang={data.lang} title={data.seoTitle ?? data.title} description={data.seoDescription ?? data.description} ogImage={data.cover.src}>
+  <article class="blog-post">
+    <nav class="container blog-post__breadcrumbs" aria-label={labels.breadcrumb}>
+      <ol>
+        <li><a href={localizedPath('/')}>{labels.home}</a></li>
+        <li><a href={localizedPath(`/${post.collection}/`)}>{collectionLabel}</a></li>
+        <li aria-current="page"><span>{data.title}</span></li>
+      </ol>
+    </nav>
+    <div class="container">
+      <div class="blog-post__body">
+        <div class="blog-post__main">
+          <header class="blog-post__header" style={`view-transition-name: ${imageTransitionName}`}>
+            <div class="blog-post__header-media" data-progressive-host aria-hidden="true">
+              <ProgressiveImage src={data.cover}><Image class="blog-post__header-image" src={data.cover} alt="" widths={[768, 1200, 1600]} sizes="(max-width: 48rem) 100vw, 70vw" /></ProgressiveImage>
+            </div>
+            <div class="blog-post__header-content">
+              <h1 class="blog-post__title">{data.title}</h1>
+              <div class="blog-post__tags" aria-label={dateLabel}><BlogTag label={publishedDate} /></div>
+            </div>
+          </header>
+          <div class="blog-post__content">
+            <slot />
+            <ShareLinks title={data.title} path={path} lang={data.lang} />
+          </div>
+        </div>
+
+        <aside class="blog-post__sidebar" aria-label={data.lang === 'mk' ? 'Поврзани содржини' : 'Related content'}>
+          <div class="blog-post__sidebar-inner">
+        {(previousPost || nextPost) && (
+          <nav class="blog-post__post-nav" aria-label={data.lang === 'mk' ? 'Навигација низ статии' : 'Article navigation'}>
+            {nextPost && (
+              <section class="blog-post__nav-card" data-progressive-host>
+                <ProgressiveImage src={nextPost.data.cover} bounds="top: 0; right: 0; bottom: 0; width: 60%;"><Image class="blog-post__nav-image" src={nextPost.data.cover} alt="" widths={[320, 480]} sizes="20rem" loading="lazy" /></ProgressiveImage>
+                <div class="blog-post__nav-content">
+                  <h3>{nextPost.data.title}</h3>
+                  <ArrowButton class="blog-post__nav-button" href={entryPath(nextPost)} variant="outline" size="sm">{labels.next}</ArrowButton>
+                </div>
+              </section>
+            )}
+            {previousPost && (
+              <section class="blog-post__nav-card" data-progressive-host>
+                <ProgressiveImage src={previousPost.data.cover} bounds="top: 0; right: 0; bottom: 0; width: 60%;"><Image class="blog-post__nav-image" src={previousPost.data.cover} alt="" widths={[320, 480]} sizes="20rem" loading="lazy" /></ProgressiveImage>
+                <div class="blog-post__nav-content">
+                  <h3>{previousPost.data.title}</h3>
+                  <ArrowButton class="blog-post__nav-button blog-post__nav-button--previous" href={entryPath(previousPost)} variant="outline" size="sm">{labels.previous}</ArrowButton>
+                </div>
+              </section>
+            )}
+          </nav>
+        )}
+
+        {useCases.length > 0 && (
+          <section class="blog-post__use-cases" aria-labelledby="use-cases-heading">
+            <h2 id="use-cases-heading">{labels.explore}</h2>
+            <ol>
+              {useCases.map((entry, index) => (
+                <li>
+                  <a href={entryPath(entry)}>
+                    <span class="blog-post__use-case-index">{String(index + 1).padStart(2, '0')}</span>
+                    <span class="blog-post__use-case-title">{entry.data.title}</span>
+                    <span class="blog-post__use-case-arrow" aria-hidden="true"><ArrowForwardIcon /></span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+            <ArrowButton class="blog-post__view-all" href={localizedPath('/blog/')} variant="outline" size="sm">{labels.viewAll}</ArrowButton>
+          </section>
+        )}
+
+            <section class="blog-post__neoslide" aria-labelledby="neoslide-heading">
+              <div class="blog-post__neoslide-content">
+                <p class="section-label">{labels.neoslide}</p>
+                <h2 id="neoslide-heading">{labels.neoHeading}</h2>
+                <ArrowButton href={localizedPath('/book-a-free-demo/')} variant="primary" size="sm">{labels.bookDemo}</ArrowButton>
+              </div>
+              <div class="blog-post__neoslide-media" aria-hidden="true">
+                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--thin blog-post__neoslide-picture--dark" src={neoslideTotemThinDark} alt="" formats={['avif', 'webp']} widths={[160, 240]} sizes="14rem" loading="lazy" />
+                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--thin blog-post__neoslide-picture--light" src={neoslideTotemThinLight} alt="" formats={['avif', 'webp']} widths={[160, 240]} sizes="14rem" loading="lazy" />
+                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--medium blog-post__neoslide-picture--dark" src={neoslideTotemDark} alt="" formats={['avif', 'webp']} widths={[240, 400]} sizes="20rem" loading="lazy" />
+                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--medium blog-post__neoslide-picture--light" src={neoslideTotemLight} alt="" formats={['avif', 'webp']} widths={[240, 400]} sizes="20rem" loading="lazy" />
+                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--wide blog-post__neoslide-picture--dark" src={neoslideTotemWideDark} alt="" formats={['avif', 'webp']} widths={[480, 768, 1024]} sizes="60cqw" loading="lazy" />
+                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--wide blog-post__neoslide-picture--light" src={neoslideTotemWideLight} alt="" formats={['avif', 'webp']} widths={[480, 768, 1024]} sizes="60cqw" loading="lazy" />
+              </div>
+            </section>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

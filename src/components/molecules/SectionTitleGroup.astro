@@ -1,0 +1,72 @@
+---
+interface Props {
+  label: string;
+  heading: string;
+  headingId: string;
+  copy: string | string[];
+  titleWidth?: string;
+  headlineWidth?: string;
+  class?: string;
+  headlineClass?: string;
+  copyClass?: string;
+}
+
+const { label, heading, headingId, copy, titleWidth, headlineWidth, class: className, headlineClass, copyClass } = Astro.props;
+const copyLines = Array.isArray(copy) ? copy : [copy];
+---
+
+<header class:list={['section__header', 'section-title-group', className]}>
+  <p class="section-label">{label}</p>
+  <div
+    class="section-title-group__content"
+    style={titleWidth ? `grid-template-columns: minmax(0, ${titleWidth}) minmax(0, 1fr)` : undefined}
+  >
+    <h2
+      class:list={['section-headline', headlineClass]}
+      id={headingId}
+      style={headlineWidth ? `max-width: ${headlineWidth}` : undefined}
+    >{heading}</h2>
+    <p class:list={['section-copy', 'section-title-group__copy', copyClass]}>
+      {copyLines.map((line, index) => (
+        <>
+          {index > 0 && <br class="section-title-group__copy-break" />}
+          {line}
+        </>
+      ))}
+    </p>
+  </div>
+</header>
+
+<style>
+  .section-title-group__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--sp-3);
+    align-items: start;
+  }
+
+  .section-title-group :global(.section-headline) {
+    text-wrap: balance;
+  }
+
+  .section-title-group__copy {
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 900px) {
+    .section-title-group__content {
+      grid-template-columns: 1fr !important;
+      gap: var(--sp-4);
+    }
+
+    .section-title-group :global(.section-headline) {
+      max-width: none !important;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .section-title-group__copy-break {
+      display: none;
+    }
+  }
+</style>

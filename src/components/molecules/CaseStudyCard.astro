@@ -1,10 +1,15 @@
 ---
+import ProgressiveImage from '../atoms/ProgressiveImage.astro';
+import ArrowForwardIcon from '../icons/ArrowForwardIcon.astro';
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface Props {
   number: string;
   title: string;
   excerpt: string;
   href: string;
-  thumbnailSrc: string;
+  thumbnailSrc: ImageMetadata;
   thumbnailAlt: string;
   ctaLabel: string;
 }
@@ -23,111 +28,206 @@ const {
 <a class="case-study-card" href={href}>
   <p class="case-study-card__number">{number}</p>
 
-  <div class="case-study-card__content">
-    <h3 class="case-study-card__title">{title}</h3>
-    <p class="case-study-card__excerpt">{excerpt}</p>
-    <span class="btn btn--primary case-study-card__cta">
-      {ctaLabel}
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
-        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"></path>
-      </svg>
-    </span>
-  </div>
+  <h3 class="case-study-card__title">{title}</h3>
+  <p class="case-study-card__excerpt">{excerpt}</p>
+  <span class="btn btn--primary btn--with-arrow case-study-card__cta">
+    {ctaLabel}
+    <ArrowForwardIcon />
+  </span>
 
-  <div class="case-study-card__thumb-wrap" aria-hidden="true">
-    <img
+  <div class="case-study-card__thumb-wrap" data-progressive-host="relative" aria-hidden="true">
+    <ProgressiveImage src={thumbnailSrc}><Picture
       class="case-study-card__thumb"
       src={thumbnailSrc}
       alt={thumbnailAlt}
+      formats={['avif', 'webp']}
+      widths={[320, 480, 720]}
+      sizes="(max-width: 75rem) 50vw, 25vw"
       loading="lazy"
       decoding="async"
-    />
+    /></ProgressiveImage>
   </div>
 </a>
 
 <style>
   .case-study-card {
     display: grid;
-    grid-template-columns: min-content minmax(0, 1fr) minmax(12rem, 18rem);
+    grid-template-columns: min-content 1fr 1fr;
+    grid-template-areas:
+      "num title img"
+      "num copy img"
+      "num btn img";
     gap: var(--sp-4);
-    align-items: stretch;
+    align-items: start;
     padding: var(--sp-5);
     min-height: 13.5rem;
     height: 100%;
-    background: linear-gradient(90deg, var(--bg-secondary) 0%, color-mix(in srgb, var(--bg-secondary) 70%, var(--bg)) 100%);
+    width: 100%;
+    min-width: 0;
     text-decoration: none;
     color: inherit;
+    border: 0;
+    outline: 1px solid transparent;
+    outline-offset: -1px;
+    transition: outline-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .case-study-card:is(:hover, :focus-visible, :focus-within) {
+    outline-color: var(--color-brand);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-brand) 32%, transparent);
+  }
+
+  :global(.case-studies__grid-cell) {
+    container-type: inline-size;
   }
 
   .case-study-card__number {
+    grid-area: num;
     font-family: var(--font-mono);
-    font-size: var(--text-lg);
+    font-size: 1.25rem;
     font-weight: var(--weight-semibold);
     color: var(--color-brand);
-    line-height: 1;
+    line-height: 1.25;
     align-self: start;
-    margin-top: 0.1em;
-  }
-
-  .case-study-card__content {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    row-gap: var(--sp-3);
-    min-width: 0;
+    margin-top: -0.1em;
   }
 
   .case-study-card__title {
-    font-size: clamp(1.25rem, 0.4vw + 1.1rem, 1.5rem);
+    grid-area: title;
+    align-self: start;
+    min-width: 0;
+    font-size: 1.25rem;
     line-height: 1.25;
     margin: 0;
   }
 
   .case-study-card__excerpt {
+    grid-area: copy;
+    align-self: start;
+    min-width: 0;
+    font-size: var(--text-base);
     color: var(--text-secondary);
     margin: 0;
-    max-width: 34ch;
   }
 
   .case-study-card__cta {
+    grid-area: btn;
     justify-self: start;
+    align-self: start;
   }
 
   .case-study-card__thumb-wrap {
-    display: block;
+    grid-area: img;
+    align-self: start;
+    position: relative;
+    display: grid;
+    place-items: center;
     width: 100%;
-    align-self: center;
+    height: 100%;
     border-radius: var(--radius);
+    object-fit: cover;
     overflow: hidden;
   }
 
-  .case-study-card__thumb {
+  .case-study-card__thumb-wrap picture {
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+
+  .case-study-card__thumb-wrap img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+  }
+
+  .case-study-card:is(:hover, :focus-visible, :focus-within) .case-study-card__thumb-wrap img {
+    transform: scale(1.04);
+  }
+
+  /* :global(.case-study-card__thumb) {
+    display: block;
+    width: 100%;
+  } */
+
+  /* :global(.case-study-card__thumb img) {
     width: 100%;
     aspect-ratio: 3 / 2;
     object-fit: cover;
     display: block;
     transition: transform 0.25s ease;
-  }
+  } */
 
-  .case-study-card:is(:hover, :focus-within) .case-study-card__thumb {
+  /* .case-study-card:is(:hover, :focus-within) :global(.case-study-card__thumb img) {
     transform: scale(1.03);
-  }
+  } */
 
-  @media (max-width: 1200px) {
+  @container (min-width: 40rem) {
     .case-study-card {
-      grid-template-columns: min-content minmax(0, 1fr) minmax(10rem, 14rem);
+      grid-template-columns: min-content minmax(0, 1fr) minmax(0, 1fr);
     }
   }
 
-  @media (max-width: 700px) {
+  @container (min-width: 30rem) and (max-width: 39.99rem) {
     .case-study-card {
       grid-template-columns: min-content minmax(0, 1fr);
-      gap: var(--sp-3);
+      grid-template-rows: auto auto auto auto;
+      grid-template-areas:
+        "img img"
+        "num title"
+        "num copy"
+        "num btn";
+    }
+
+    .case-study-card__thumb-wrap {
+      aspect-ratio: 3 / 1;
+      height: auto;
+      min-height: 0;
+    }
+  }
+
+  @container (max-width: 29.99rem) {
+    .case-study-card {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "img"
+        "num"
+        "title"
+        "copy"
+        "btn";
+      row-gap: var(--sp-2);
       padding: var(--sp-4);
       min-height: auto;
     }
 
+    .case-study-card__number,
+    .case-study-card__title {
+      font-size: 1.125rem;
+    }
+
+    .case-study-card__excerpt {
+      font-size: var(--text-sm);
+      max-width: none;
+    }
+
     .case-study-card__thumb-wrap {
-      grid-column: 1 / -1;
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 3 / 2;
+      margin-top: 0;
+      margin-bottom: var(--sp-3);
+    }
+
+    .case-study-card__cta {
+      white-space: normal;
+      text-align: center;
+      padding-left: var(--sp-3);
+      padding-right: var(--sp-3);
     }
   }
 </style>

@@ -1,6 +1,10 @@
 ---
 import IconBadge from '../atoms/IconBadge.astro';
+import Checkmark from '../atoms/Checkmark.astro';
+import FileUpload from '../atoms/FileUpload.astro';
 import ArrowButton from '../atoms/ArrowButton.astro';
+import PrivacyNotice from '../atoms/PrivacyNotice.astro';
+import gradient1DarkPoster from '../../assets/images/video-thumbnails/gradients/dark/gradient-1-grain-0.jpg';
 import{demoContent}from'../../i18n/pages/demo';import{getTranslations}from'../../i18n/utils';import type{Lang}from'../../i18n/types';
 
 interface ServiceOption {
@@ -43,9 +47,10 @@ const options = localizedOptions.map(option => ({
     muted
     playsinline
     preload="metadata"
+    poster={gradient1DarkPoster.src}
     aria-hidden="true"
   >
-    <source src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-1.mp4`} type="video/mp4" />
+    <source src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-1.mp4`} type="video/mp4" media="(min-width: 641px)" />
   </video>
   <div class="book-demo__bg-overlay" aria-hidden="true"></div>
 
@@ -65,9 +70,7 @@ const options = localizedOptions.map(option => ({
             class="book-demo__benefit-icon"
             style="--icon-badge-size: 1.5rem; --icon-badge-border: var(--border-color); --icon-badge-bg: color-mix(in srgb, var(--bg-secondary) 75%, var(--bg)); --icon-badge-color: var(--color-brand);"
           >
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3.5 8.3 6.5 11.3 12.5 5.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <Checkmark />
           </IconBadge>
           <span>{content.benefits[0]}</span>
         </li>
@@ -76,9 +79,7 @@ const options = localizedOptions.map(option => ({
             class="book-demo__benefit-icon"
             style="--icon-badge-size: 1.5rem; --icon-badge-border: var(--border-color); --icon-badge-bg: color-mix(in srgb, var(--bg-secondary) 75%, var(--bg)); --icon-badge-color: var(--color-brand);"
           >
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3.5 8.3 6.5 11.3 12.5 5.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <Checkmark />
           </IconBadge>
           <span>{content.benefits[1]}</span>
         </li>
@@ -87,9 +88,7 @@ const options = localizedOptions.map(option => ({
             class="book-demo__benefit-icon"
             style="--icon-badge-size: 1.5rem; --icon-badge-border: var(--border-color); --icon-badge-bg: color-mix(in srgb, var(--bg-secondary) 75%, var(--bg)); --icon-badge-color: var(--color-brand);"
           >
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3.5 8.3 6.5 11.3 12.5 5.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <Checkmark />
           </IconBadge>
           <span>{content.benefits[2]}</span>
         </li>
@@ -120,7 +119,8 @@ const options = localizedOptions.map(option => ({
             </svg>
           </summary>
 
-          <div class="book-demo__customize-content">
+          <div class="book-demo__customize-content-wrap">
+            <div class="book-demo__customize-content">
             <label class="book-demo__field">
               <span>{content.phone}</span>
               <input type="tel" name="phone" placeholder={content.phonePlaceholder} autocomplete="tel">
@@ -139,9 +139,7 @@ const options = localizedOptions.map(option => ({
                         checked={option.checked}
                       >
                       <span class="book-demo__check" aria-hidden="true">
-                        <svg viewBox="0 0 16 16" fill="none">
-                          <path d="M3.5 8.3 6.5 11.3 12.5 5.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+                        <Checkmark />
                       </span>
                       <span>{option.label}</span>
                     </label>
@@ -158,13 +156,17 @@ const options = localizedOptions.map(option => ({
                 rows="5"
               ></textarea>
             </label>
+            </div>
           </div>
         </details>
+
+        <FileUpload id="compact-demo-file" label={content.addFile} />
 
         <div class="book-demo__actions">
           <ArrowButton type="submit" variant="primary">{content.submit}</ArrowButton>
           <button class="btn btn--outline" type="reset">{content.reset}</button>
         </div>
+        <PrivacyNotice lang={lang} />
       </form>
     </div>
   </div>
@@ -367,6 +369,21 @@ const options = localizedOptions.map(option => ({
     gap: var(--sp-4);
   }
 
+  .book-demo__customize-content-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--t-slow);
+  }
+
+  .book-demo__customize[open] .book-demo__customize-content-wrap {
+    grid-template-rows: 1fr;
+  }
+
+  .book-demo__customize-content-wrap > .book-demo__customize-content {
+    min-height: 0;
+    overflow: hidden;
+  }
+
   .book-demo__services {
     margin: 0;
     padding: 0;
@@ -391,6 +408,11 @@ const options = localizedOptions.map(option => ({
     cursor: pointer;
     font-size: var(--text-sm);
     color: var(--text-secondary);
+    transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+  }
+
+  .book-demo__service-option:hover {
+    background: var(--bg-secondary);
   }
 
   .book-demo__service-option input {
@@ -413,7 +435,7 @@ const options = localizedOptions.map(option => ({
     flex-shrink: 0;
   }
 
-  .book-demo__check svg {
+  .book-demo__check :global(.checkmark) {
     width: 0.8rem;
     height: 0.8rem;
   }

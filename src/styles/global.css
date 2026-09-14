@@ -6,6 +6,103 @@
   text-wrap: pretty;
 }
 
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto/Roboto-VariableFont_wdth,wght.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter/Inter-VariableFont_opsz,wght.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto Mono';
+  src: url('/fonts/Roboto_Mono/RobotoMono-VariableFont_wght.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+:root {
+  interpolate-size: allow-keywords;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+@keyframes page-content-out {
+  to {
+    opacity: 0;
+    filter: blur(4px) saturate(0.92) contrast(0.98);
+    transform: scale(0.995);
+  }
+}
+
+@keyframes page-content-in {
+  from {
+    opacity: 0;
+    filter: blur(4px) saturate(0.92) contrast(0.98);
+    transform: scale(0.995);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+main#main-content {
+  view-transition-name: page-content;
+}
+
+.navbar {
+  view-transition-name: site-navbar;
+}
+
+.footer {
+  view-transition-name: site-footer;
+}
+
+.cookie-consent {
+  view-transition-name: site-cookie-consent;
+}
+
+::view-transition-old(page-content) {
+  animation: page-content-out 220ms ease both;
+}
+
+::view-transition-new(page-content) {
+  animation: page-content-in 220ms ease both;
+}
+
+::view-transition-old(site-navbar),
+::view-transition-new(site-navbar),
+::view-transition-old(site-footer),
+::view-transition-new(site-footer),
+::view-transition-old(site-cookie-consent),
+::view-transition-new(site-cookie-consent) {
+  animation: none;
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(page-content),
+  ::view-transition-new(page-content),
+  ::view-transition-group(*) {
+    animation: none;
+  }
+}
+
 body {
   font-family: var(--font-body);
   font-weight: var(--weight-body);
@@ -16,6 +113,15 @@ body {
   -webkit-font-smoothing: antialiased;
   padding-top: var(--navbar-height);
   transition: background var(--t-base), color var(--t-base);
+}
+
+/* Fluid root font-size: scales the whole rem-based UI down on smaller
+   viewports (from tablet/large-mobile down to small mobile) so more
+   content stays visible, then clamps at a legible minimum. */
+@media (max-width: 768px) {
+  html {
+    font-size: clamp(75%, 57.1% + 0.893vw, 100%);
+  }
 }
 
 /* --- Headings --- */

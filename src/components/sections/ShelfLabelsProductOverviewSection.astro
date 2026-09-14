@@ -1,5 +1,6 @@
 ---
 import ShelfLabelViewer from "../molecules/shelf-label-viewer/ShelfLabelViewer.astro";
+import SectionTitleGroup from "../molecules/SectionTitleGroup.astro";
 import textureBlack from "../../assets/images/services/shelf-labels/texture-black.png";
 import textureWhite from "../../assets/images/services/shelf-labels/texture-wh.png";
 import textureWood from "../../assets/images/services/shelf-labels/texture-wood.png";
@@ -33,20 +34,14 @@ const frameOptions = [
     <div class="blue-light"></div>
 
     <div class="container sl-hardware__container">
-        <header class="section__header sl-hardware__intro">
-            <p class="section-label">{content.label}</p>
-            <div class="sl-hardware__heading">
-                <h2
-                    class="section-headline sl-hardware__headline"
-                    id="hardware-features-heading"
-                >
-                    {content.heading}
-                </h2>
-                <p class="section-copy sl-hardware__lead">
-                    {content.copy}
-                </p>
-            </div>
-        </header>
+        <SectionTitleGroup
+            class="sl-hardware__intro"
+            label={content.label}
+            heading={content.heading}
+            headingId="hardware-features-heading"
+            titleWidth="34%"
+            copy={content.copy}
+        />
 
         <div class="sl-hardware__visual-shell" data-hardware-visual>
             <div class="sl-hardware__visual" aria-hidden="true">
@@ -119,28 +114,7 @@ const frameOptions = [
 
 
         .sl-hardware__intro {
-            display: grid;
-            gap: var(--sp-3);
-            /* align-items: end; */
             margin-bottom: 0;
-        }
-
-        .sl-hardware__heading {
-            display: grid;
-            grid-template-columns: 0.6fr 1fr;
-            gap: var(--sp-5);
-            align-items: start;
-            margin-bottom: 0;
-        }
-
-        .sl-hardware__headline,
-        .sl-hardware__lead {
-            margin: 0;
-        }
-
-        .sl-hardware__lead {
-            align-self: end;
-            max-width: 100ch;
         }
 
         .sl-hardware__visual-shell {
@@ -231,10 +205,6 @@ const frameOptions = [
                 gap: var(--sp-6);
             }
 
-            .sl-hardware__intro {
-                grid-template-columns: 1fr;
-            }
-
             .sl-hardware__visual-shell {
                 width: 100%;
                 margin-left: 0;
@@ -258,9 +228,6 @@ const frameOptions = [
                 padding-bottom: var(--sp-1);
             }
 
-            .sl-hardware__lead {
-                max-width: 65ch;
-            }
         }
     </style>
 

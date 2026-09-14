@@ -7,6 +7,7 @@ import devicesTablet from "../../assets/images/services/video-streaming/devices-
 import devicesTel from "../../assets/images/services/video-streaming/devices-scroll/5-tel.png";
 import devicesWatch from "../../assets/images/services/video-streaming/devices-scroll/6-watch.png";
 import ArrowButton from "../atoms/ArrowButton.astro";
+import loopBgPoster from "../../assets/images/video-thumbnails/video-streaming/video-section2-bg-loop.jpg";
 import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interface Props{content:VideoStreamingContent['hero']}const{content}=Astro.props;
 ---
 
@@ -16,6 +17,7 @@ import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interfa
             class="vs-intro__loop-video"
             data-vs-loop-video
             src={`${import.meta.env.BASE_URL}videos/video-streaming/video-section2-bg-loop.mp4`}
+            poster={loopBgPoster.src}
             muted
             loop
             playsinline

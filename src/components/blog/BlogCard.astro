@@ -1,0 +1,27 @@
+---
+import ProgressiveImage from '../atoms/ProgressiveImage.astro';
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BlogTag from './BlogTag.astro';
+type EditorialEntry = CollectionEntry<'blog'> | CollectionEntry<'news'>;
+interface Props { post: EditorialEntry }
+const { post } = Astro.props;
+const slug = post.id.split('/')[0];
+const section = post.collection;
+const imageTransitionName = `editorial-image-${section}-${slug}`;
+const href = post.data.lang === 'mk' ? `/mk/${section}/${slug}/` : `/${section}/${slug}/`;
+const dateLabel = post.data.lang === 'mk' ? 'Датум на објава' : 'Published date';
+const publishedDate = new Intl.DateTimeFormat(post.data.lang === 'mk' ? 'mk-MK' : 'en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric',
+}).format(post.data.publishedAt);
+---
+<article class="blog-card u-border-interactive">
+  <a class="blog-card__link" href={href}>
+    <div class="blog-card__media" data-progressive-host="relative"><ProgressiveImage src={post.data.cover}><Image class="blog-card__image" style={`view-transition-name: ${imageTransitionName}`} src={post.data.cover} alt={post.data.coverAlt} widths={[480, 720, 960]} sizes="(max-width: 48rem) 100vw, (max-width: 64rem) 50vw, 33vw" loading="lazy" /></ProgressiveImage></div>
+    <div class="blog-card__body">
+      <h2 class="blog-card__title">{post.data.title}</h2>
+      <p class="blog-card__description">{post.data.description}</p>
+      <div class="blog-card__tags" aria-label={dateLabel}><BlogTag label={publishedDate} /></div>
+    </div>
+  </a>
+</article>

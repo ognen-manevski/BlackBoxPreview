@@ -1,7 +1,10 @@
 ---
 import DsCard from "../atoms/DsCard.astro";
+import totemDarkPoster from "../../assets/images/video-thumbnails/digital-signage/totem-onscroll/video-hero-onscroll-61frames.jpg";
+import totemLightPoster from "../../assets/images/video-thumbnails/digital-signage/totem-onscroll/video-hero-wh-onscroll-61frames.jpg";
 import type { DigitalSignageContent } from '../../i18n/pages/digital-signage';
-interface Props { content: DigitalSignageContent['hero'] } const { content } = Astro.props;
+interface Props { content: DigitalSignageContent['hero']; neoSlide: DigitalSignageContent['neoSlide']; } const { content, neoSlide } = Astro.props;
+const headlineStartParts = content.headlineStart.split(' a ');
 ---
 
 <section class="ds-hero" aria-label={content.ariaLabel} data-ds-hero>
@@ -13,7 +16,7 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
                 <div class="ds-hero__intro" data-ds-intro>
                     <h1 class="ds-hero__title section-headline section-headline--hero">
                         <span class="hero__headline-static"
-                            >{content.headlineStart}
+                            >{headlineStartParts[0]}{headlineStartParts.length > 1 && <><br />a {headlineStartParts[1]}</>}
                         </span>
                         <span class="hero-highlight-group">
                             <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: 0s;">{content.highlights[0]}</span>&#32;
@@ -127,6 +130,7 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
                     muted
                     playsinline
                     preload="auto"
+                    poster={totemDarkPoster.src}
                     aria-label={content.videoAriaLabel}
                     src={`${import.meta.env.BASE_URL}videos/digital-signage/totem-onscroll/video-hero-onscroll-61frames.mp4`}
                 >
@@ -137,6 +141,7 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
                     muted
                     playsinline
                     preload="auto"
+                    poster={totemLightPoster.src}
                     aria-hidden="true"
                     src={`${import.meta.env.BASE_URL}videos/digital-signage/totem-onscroll/video-hero-wh-onscroll-61frames.mp4`}
                 >
@@ -144,9 +149,21 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
             </div>
         </div>
 
+        <div class="ds-hero__veil" aria-hidden="true"></div>
+
         <!-- OUTRO -->
 
-        <div class="ds-hero__outro"></div>
+        <div class="ds-hero__outro">
+            <div class="ds-hero__outro-content">
+                <p class="section-label">{neoSlide.label}</p>
+                <h2 class="section-headline ds-hero__outro-title" id="ds-neoslide-heading">
+                    {neoSlide.heading}
+                </h2>
+                <p class="section-copy ds-hero__outro-copy">
+                    {neoSlide.copy}
+                </p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -265,38 +282,8 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
                             },
                         });
 
-                        const expansion = gsap.fromTo(
-                            videoWrap,
-                            {
-                                transform: "translateX(50%)",
-                                right: "0%",
-                                width: "100%",
-                                x: 0,
-                            },
-                            {
-                                transform: "translateX(0%)",
-                                right: "0%",
-                                width: "100%",
-                                x: 0,
-                                ease: "none",
-                                scrollTrigger: {
-                                    trigger: outro,
-                                    start: "top bottom",
-                                    end: "center center",
-                                    scrub: true,
-                                    invalidateOnRefresh: true,
-                                },
-                            },
-                        );
-
                         return () => {
                             seekTrigger.kill();
-                            expansion.scrollTrigger?.kill();
-                            expansion.kill();
-
-                            gsap.set(videoWrap, {
-                                clearProps: "left,width,transform",
-                            });
                         };
                     },
                 });
@@ -314,7 +301,7 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
     .ds-hero {
         position: relative;
         background: var(--bg);
-        overflow: clip;
+        overflow: visible;
     }
 
     .ds-hero__frame {
@@ -331,7 +318,7 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
     .ds-hero__left {
         grid-area: content;
         position: relative;
-        z-index: 2;
+        z-index: 3;
         min-width: 0;
         /* padding-right: var(--sp-6); */
     }
@@ -341,11 +328,12 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
         align-content: center;
         gap: var(--sp-4);
         min-height: calc(100svh - var(--navbar-height));
-        max-width: 36rem;
+        max-width: 44rem;
     }
 
     .ds-hero__title {
         margin: 0;
+        font-size: clamp(2.5rem, 1.5rem + 2vw, 4rem);
     }
 
     .ds-hero__lead {
@@ -357,19 +345,20 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
         position: relative;
         display: grid;
         max-width: 34rem;
-        padding-bottom: 22svh;
-        top: calc(25svh - var(--navbar-height));
+        padding: 0;
+        top: calc(25svh - var(--navbar-height) - var(--sp-6));
     }
 
     .ds-card-step {
         position: sticky;
-        top: 50svh;
+        top: calc(50svh - var(--sp-8));
         min-height: 30svh;
-        --card-height: calc(100px + var(--sp-4));
+        --card-height: calc(6.25rem + var(--sp-4));
     }
 
     .ds-card {
         position: sticky;
+        top: calc(50svh - var(--sp-8));
         display: grid;
         grid-template-columns: auto minmax(0, 1fr);
         align-items: center;
@@ -378,7 +367,7 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
         border: 1px solid var(--border-color);
         border-radius: var(--radius-lg);
         background: var(--surface);
-        height: 100px; /*80px*/
+        height: 6.25rem; /*5rem*/
     }
 
     .ds-card-step:nth-child(2) {
@@ -420,17 +409,15 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
     }
 
     .ds-hero__video-wrap {
-        grid-column: 1 / -1;
-        grid-row: 1;
+        grid-area: video;
         position: sticky;
         top: var(--navbar-height);
-        left: 50%;
-        justify-self: stretch;
-        width: 50%;
-        height: calc(100svh - var(--navbar-height));
+        left: auto;
+        width: 100%;
+        height: calc(100dvh - var(--navbar-height));
         min-width: 0;
         z-index: 1;
-        will-change: left, width, transform;
+        will-change: auto;
         overflow: visible;
         /* mix-blend-mode: lighten; */
     }
@@ -444,12 +431,33 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
     } */
 
     .ds-hero__video-shell {
-        position: relative;
-        width: 100%;
-        height: 100%;
+        --dimension: calc(100dvh - var(--navbar-height));
+
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: var(--dimension);
+        max-width: none;
+        height: var(--dimension);
+        aspect-ratio: 1 / 1;
+        transform: translateX(-50%);
         /* overflow: hidden; */
         overflow: visible;
         background: transparent;
+    }
+
+    .ds-hero__veil {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background: linear-gradient(
+            90deg,
+            var(--video-overlay) 0%,
+            var(--video-overlay) 30%,
+            var(--video-overlay-transparent) 80%,
+            var(--video-overlay-transparent) 100%
+        );
+        pointer-events: none;
     }
 
     .ds-hero__video {
@@ -475,26 +483,34 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
     }
 
     .ds-hero__outro {
-        grid-area: outro;
+        grid-area: 2 / 1;
         position: relative;
+        margin-top: calc(25svh - var(--navbar-height));
         z-index: 3;
-        min-height: 100svh;
+        min-height: 60svh;
+        padding: 0;
         display: grid;
-        place-items: center;
-        text-align: center;
+        justify-items: start;
+        align-content: start;
+        width: 100%;
+        text-align: left;
     }
 
     .ds-hero__outro-content {
         display: grid;
-        justify-items: center;
+        justify-items: start;
         gap: var(--sp-3);
-        max-width: 42rem;
-        padding: var(--sp-6);
+        max-width: 36rem;
+        padding: 0;
     }
 
     .ds-hero__outro-title,
     .ds-hero__outro-copy {
         margin: 0;
+    }
+
+    .ds-hero__outro-title {
+        font-size: clamp(2rem, 1.4rem + 1.5vw, 3rem);
     }
 
     .ds-hero__outro-cta {
@@ -523,11 +539,21 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
             position: relative;
             top: auto;
             left: auto;
+            right: auto;
             justify-self: stretch;
             width: 100%;
             height: auto;
-            /* aspect-ratio: 16 / 10; */
+            aspect-ratio: 1 / 1;
             will-change: auto;
+        }
+
+        .ds-hero__video-shell {
+            position: relative;
+            top: auto;
+            left: auto;
+            width: 100%;
+            height: 100%;
+            transform: none;
         }
 
         .ds-hero__left {
@@ -541,7 +567,9 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
 
         .ds-hero__cards {
             gap: var(--sp-3);
+            padding-top: 0;
             padding-bottom: 0;
+            top: auto;
         }
 
         .ds-card-step {
@@ -558,12 +586,18 @@ interface Props { content: DigitalSignageContent['hero'] } const { content } = A
         }
 
         .ds-hero__outro {
+            grid-area: outro;
             min-height: auto;
-            padding-block: var(--sp-10);
+            margin-top: 0;
+            padding: 0;
         }
     }
 
     @media (max-width: 768px) {
+        .ds-hero__title {
+            font-size: clamp(2rem, 1.4rem + 2.8vw, 3rem);
+        }
+
         .ds-hero__frame {
             padding-top: calc(var(--navbar-height) + var(--sp-4));
         }

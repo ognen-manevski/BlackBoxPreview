@@ -1,6 +1,7 @@
 ---
 import Navbar from '../components/molecules/Navbar.astro';
 import Footer from '../components/molecules/Footer.astro';
+import CookieConsent from '../components/cookies/CookieConsent.astro';
 import { getLocaleFromUrl } from '../i18n/utils';
 import type { Lang } from '../i18n/types';
 import { commonTranslations } from '../i18n/common';
@@ -10,6 +11,7 @@ import '../styles/reset.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
 import '../styles/utilities.css';
+import '../styles/cookies.css';
 
 interface Props {
   title: string;
@@ -77,13 +79,9 @@ const canonicalURL = canonical ?? (Astro.site ? new URL(Astro.url.pathname, Astr
   <link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap-index.xml`}>
 
   <!-- Fonts -->
-  <!-- TODO: self-host fonts from /public/fonts/ for better performance -->
+  <link rel="preload" href={`${import.meta.env.BASE_URL}fonts/Roboto/Roboto-VariableFont_wdth,wght.woff2`} as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap"
-  >
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..700,0,0"
@@ -98,6 +96,8 @@ const canonicalURL = canonical ?? (Astro.site ? new URL(Astro.url.pathname, Astr
   </main>
 
   <Footer lang={lang} />
+
+  <CookieConsent lang={lang} />
 
   <!-- Entrance animations -->
   <script>

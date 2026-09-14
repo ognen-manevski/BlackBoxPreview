@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogGrid from '../blog/BlogGrid.astro';
+import EditorialListingHero from '../blog/EditorialListingHero.astro';
+import { newsContent } from '../../i18n/pages/news';
+import { getTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/types';
+import '../../styles/blog.css';
+
+interface Props { lang: Lang; posts: CollectionEntry<'news'>[] }
+const { lang, posts } = Astro.props;
+const content = getTranslations(newsContent, lang);
+---
+
+<BaseLayout lang={lang} title={content.seo.title} description={content.seo.description}>
+  <section class="blog-page news-page" aria-labelledby="news-heading">
+    <div class="container blog-page__inner">
+      <EditorialListingHero kind="news" headingId="news-heading" label={content.label} heading={content.heading} copy={content.copy} />
+      <BlogGrid posts={posts} />
+    </div>
+  </section>
+</BaseLayout>

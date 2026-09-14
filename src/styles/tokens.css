@@ -92,6 +92,8 @@
   --color-text-muted: #757575;
   --border-color:   #E0E0E0;
   --nav-bg:         rgba(250, 250, 250, 0.92);
+  --video-overlay:  rgba(250, 250, 250, 1);
+  --video-overlay-transparent: rgba(250, 250, 250, 0);
   --logo-filter:    none;
   --shadow-sm:      0 1px 8px rgba(0, 0, 0, 0.06);
   --shadow-md:      0 4px 24px rgba(0, 0, 0, 0.08);
@@ -109,6 +111,8 @@
   --color-text-muted: hsla(0, 0%, 33%, 1);
   --border-color:   #2E2E2E;
   --nav-bg:         rgba(17, 17, 17, 0.92);
+  --video-overlay:  rgba(17, 17, 17, 1);
+  --video-overlay-transparent: rgba(17, 17, 17, 0);
   --logo-filter:    invert(1);
   --shadow-sm:      0 1px 8px rgba(0, 0, 0, 0.3);
   --shadow-md:      0 4px 24px rgba(0, 0, 0, 0.5);

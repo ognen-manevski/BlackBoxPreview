@@ -1,5 +1,17 @@
 ---
-import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interface Props{content:VideoStreamingContent['consulting']}const{content}=Astro.props;const consultingCards=content.cards;
+import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interface Props{content:VideoStreamingContent['consulting']}const{content}=Astro.props;
+
+const posterModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/images/video-thumbnails/video-streaming/*.jpg',
+  { eager: true }
+);
+const posterByFilename = new Map(
+  Object.entries(posterModules).map(([path, mod]) => [path.split('/').pop(), mod.default])
+);
+const consultingCards = content.cards.map((card) => ({
+  ...card,
+  poster: posterByFilename.get(card.video.split('/').pop()!.replace(/\.mp4$/, '.jpg'))?.src,
+}));
 ---
 
 <section class="section vs-consulting" aria-labelledby="vs-consulting-heading">
@@ -34,6 +46,7 @@ import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interfa
               <video
                 class="vs-consulting__card-video"
                 src={card.video}
+                poster={card.poster}
                 muted
                 loop
                 playsinline

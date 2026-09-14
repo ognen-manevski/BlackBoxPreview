@@ -1,4 +1,6 @@
 ---
+import ArrowButton from './ArrowButton.astro';
+
 interface Props {
     counter?: string;
     title: string;
@@ -6,6 +8,8 @@ interface Props {
     imageSrc?: string;
     imageAlt?: string;
     open?: boolean;
+    href?: string;
+    ctaLabel?: string;
 }
 
 const {
@@ -15,6 +19,8 @@ const {
     imageSrc,
     imageAlt = "",
     open = false,
+    href,
+    ctaLabel,
 } = Astro.props as Props;
 ---
 
@@ -58,7 +64,10 @@ const {
                     )
                 }
                 <div class="disclosure-item__content-main">
-                    <p>{content}</p>
+                    <div class="disclosure-item__text">
+                        <p>{content}</p>
+                        {href && ctaLabel && <ArrowButton class="disclosure-item__cta" href={href} variant="outline" size="sm">{ctaLabel}</ArrowButton>}
+                    </div>
                     {
                         imageSrc && (
                             <img
@@ -178,7 +187,19 @@ const {
         gap: var(--sp-3);
     }
 
-    .disclosure-item__content-main p {
+    .disclosure-item__text {
+        display: grid;
+        align-content: start;
+        gap: var(--sp-4);
+    }
+
+    :global(.disclosure-item__cta) {
+        justify-self: start;
+        width: fit-content;
+        max-width: 100%;
+    }
+
+    .disclosure-item__text p {
         margin: 0;
         color: var(--text-secondary);
         line-height: 1.7;
@@ -189,7 +210,7 @@ const {
             transform 0.22s ease;
     }
 
-    .disclosure-item[open] .disclosure-item__content-main p {
+    .disclosure-item[open] .disclosure-item__text p {
         opacity: 1;
         transform: translateY(0);
     }

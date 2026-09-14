@@ -1,5 +1,6 @@
 ---
 import StatMetricCard from '../atoms/StatMetricCard.astro';
+import SectionTitleGroup from '../molecules/SectionTitleGroup.astro';
 import type { HomePageContent } from '../../i18n/pages/home';
 
 interface Props { content: HomePageContent['whyChoose']; }
@@ -8,18 +9,13 @@ const { content } = Astro.props;
 
 <section class="section why-choose" id="why-choose" aria-labelledby="why-choose-heading">
   <div class="container">
-    <header class="why-choose__header section__header">
-      <div class="why-choose__title-wrap">
-        <p class="section-label">{content.label}</p>
-        <h2 class="section-headline" id="why-choose-heading">
-          {content.heading}
-        </h2>
-      </div>
-
-      <p class="section-copy">
-        {content.copy}<br />{content.copySecondLine}
-      </p>
-    </header>
+    <SectionTitleGroup
+      class="why-choose__header"
+      label={content.label}
+      heading={content.heading}
+      headingId="why-choose-heading"
+      copy={[content.copy, content.copySecondLine]}
+    />
 
     <ul class="why-choose__stats" aria-label={content.ariaLabel}>
       {content.stats.map((stat) => (
@@ -37,11 +33,7 @@ const { content } = Astro.props;
   }
 
   .why-choose__header {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--sp-8);
-    align-items: start;
-    margin-bottom: var(--sp-6);
+    margin-bottom: var(--sp-8 );
   }
 
   .why-choose__stats {
@@ -55,34 +47,54 @@ const { content } = Astro.props;
   }
 
   @media (max-width: 1200px) {
-    .why-choose__header {
-      gap: var(--sp-6);
+    .why-choose__stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .why-choose__stats {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .why-choose__stat-item:nth-child(4) {
+      display: none;
     }
   }
 
   @media (max-width: 900px) {
-    .why-choose__header {
-      grid-template-columns: 1fr;
-      gap: var(--sp-4);
-    }
-
     .why-choose__stats {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 600px) {
-    .why-choose__title-wrap br,
-    .section-copy br {
-      display: none;
-    }
-
+  @media (max-width: 240px) {
     .why-choose__stats {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .why-choose {
+      padding: clamp(3rem, 12vw, var(--sp-9)) 0;
+    }
+
+    .why-choose__header {
+      margin-bottom: var(--sp-6);
+    }
+
+    .why-choose .section-headline {
+      font-size: clamp(1.25rem, calc(0.75rem + 2.5vw), var(--text-xl));
+    }
+
+    .why-choose :global(.stat-metric-card) {
+      min-height: 7rem;
+    }
+
+    .why-choose :global(.stat-metric-card__inner) {
+      padding: var(--sp-2);
+    }
+
+    .why-choose :global(.stat-metric-card__value) {
+      font-size: clamp(1.4rem, 8vw, 1.9rem);
+    }
+
+    .why-choose :global(.stat-metric-card__label) {
+      font-size: clamp(0.75rem, 3.2vw, 0.875rem);
     }
   }
 </style>

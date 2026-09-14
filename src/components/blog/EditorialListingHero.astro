@@ -1,0 +1,36 @@
+---
+import glassCubesDarkPoster from '../../assets/images/video-thumbnails/gradients/dark/glass-cubes-1-0.jpg';
+import glassStreaksDarkPoster from '../../assets/images/video-thumbnails/gradients/dark/glass-streaks-1-0.jpg';
+import glassCubesLightPoster from '../../assets/images/video-thumbnails/gradients/light/glass-cubes-1-wh-0.jpg';
+import glassStreaksLightPoster from '../../assets/images/video-thumbnails/gradients/light/glass-streaks-1-wh-0.jpg';
+
+interface Props {
+  kind: 'blog' | 'news';
+  headingId: string;
+  label: string;
+  heading: string;
+  copy: string;
+}
+
+const { kind, headingId, label, heading, copy } = Astro.props;
+const useGlassCubes = kind === 'blog';
+const darkPoster = useGlassCubes ? glassCubesDarkPoster : glassStreaksDarkPoster;
+const lightPoster = useGlassCubes ? glassCubesLightPoster : glassStreaksLightPoster;
+const videoFile = useGlassCubes ? 'glass-cubes-loop.mp4' : 'glass-streaks-1.mp4';
+---
+
+<header class="blog-page__header blog-page__hero">
+  <div class="blog-page__hero-media" aria-hidden="true">
+    <video class="blog-page__hero-video blog-page__hero-video--dark" autoplay loop muted playsinline preload="metadata" poster={darkPoster.src}>
+      <source src={`${import.meta.env.BASE_URL}videos/gradients/dark/${videoFile}`} type="video/mp4" />
+    </video>
+    <video class="blog-page__hero-video blog-page__hero-video--light" autoplay loop muted playsinline preload="metadata" poster={lightPoster.src}>
+      <source src={`${import.meta.env.BASE_URL}videos/gradients/light/${videoFile}`} type="video/mp4" />
+    </video>
+  </div>
+  <div class="blog-page__hero-content">
+    <p class="section-label">{label}</p>
+    <h1 id={headingId}>{heading}</h1>
+    <p>{copy}</p>
+  </div>
+</header>

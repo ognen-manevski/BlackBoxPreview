@@ -2,6 +2,8 @@
 import { defineConfig } from 'astro/config';
 
 import sitemap from '@astrojs/sitemap';
+import { unified } from '@astrojs/markdown-remark';
+import { remarkInlineEditorialImage } from './scripts/remark-inline-editorial-image.mjs';
 
 const isGitHubPages = process.env.DEPLOY_TARGET === "github";
 const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'BlackBoxPreview';
@@ -26,8 +28,12 @@ export default defineConfig({
     : "/",
 
   integrations: [sitemap()],
+
+  markdown: {
+    processor: unified({
+      remarkPlugins: [remarkInlineEditorialImage],
+    }),
+  },
 });
-
-
 
 

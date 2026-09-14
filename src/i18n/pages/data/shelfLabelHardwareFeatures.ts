@@ -63,3 +63,14 @@ export const shelfLabelHardwareFeatures: ShelfLabelHardwareFeature[] = [
     imageAlt: 'Electronic shelf labels available in multiple size options',
   },
 ];
+
+export const macedonianShelfLabelHardwareFeatures: ShelfLabelHardwareFeature[] = [
+  { counter: '01', title: 'Ултраниска потрошувачка', description: 'Напредната e-ink технологија троши енергија само кога се менува содржината, овозможувајќи секоја етикета да работи со години со една батерија. Така значително се намалува одржувањето, а полиците се секогаш ажурни.', imageSrc: batteriesImage.src, imageAlt: 'Батерија за електронска ценовна етикета со ултраниска потрошувачка' },
+  { counter: '02', title: 'Јасни e-ink дисплеи', description: 'E-ink екраните со висок контраст нудат одлична читливост од секој агол, дури и под силно осветлување. Купувачите брзо ги читаат цените и информациите без одблесок и замор.', imageSrc: displaysImage.src, imageAlt: 'Електронска ценовна етикета со јасен e-ink дисплеј' },
+  { counter: '03', title: 'Опции во полна боја', description: 'Изберете црни, бели и црвени дисплеи или живописни модели во полна боја за поголем визуелен ефект на промоциите, сезонските понуди, категориите и важните информации.', imageSrc: colorsImage.src, imageAlt: 'Електронски ценовни етикети со опции во полна боја' },
+  { counter: '04', title: 'Подготвени за ладилници и замрзнувачи', description: 'Изработени за работа во разладни витрини и ладни складишта, нашите етикети одржуваат одлична видливост и сигурна работа и при ниски температури.', imageSrc: freezerImage.src, imageAlt: 'Електронска ценовна етикета во разладна витрина' },
+  { counter: '05', title: 'Издржлива изработка', description: 'Наменета за динамични малопродажни средини, секоја етикета е изработена од издржливи материјали што поднесуваат секојдневно ракување, чистење и долготрајна работа.', imageSrc: durableImage.src, imageAlt: 'Детал од издржливата изработка на електронска ценовна етикета' },
+  { counter: '06', title: 'Повеќе големини', description: 'Од компактни етикети за работ на полица до поголеми промотивни дисплеи, широкиот избор на големини обезбедува јасни, доследни и соодветно димензионирани информации за секоја категорија.', imageSrc: multipleSizesImage.src, imageAlt: 'Електронски ценовни етикети во повеќе големини' },
+];
+
+export const hardwareImageMetadata = new Map([batteriesImage, colorsImage, displaysImage, durableImage, freezerImage, multipleSizesImage].map(image => [image.src, image]));

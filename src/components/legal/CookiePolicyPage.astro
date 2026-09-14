@@ -1,0 +1,27 @@
+---
+import LegalPageLayout from '../layouts/LegalPageLayout.astro';
+import CookieTable from '../cookies/CookieTable.astro';
+import type { Lang } from '../../i18n/types';
+import { legalTranslations } from '../../i18n/pages/legal';
+import { Content as EnglishContent } from '../../content/legal/cookie-policy.en.md';
+import { Content as MacedonianContent } from '../../content/legal/cookie-policy.mk.md';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = legalTranslations[lang];
+const PolicyContent = lang === 'mk' ? MacedonianContent : EnglishContent;
+---
+<LegalPageLayout styledHeader restoreListMarkers lang={lang} title={t.cookies.title} description={t.cookies.description}>
+  <div data-cookie-policy-copy><PolicyContent /></div>
+  <div class="legal-page__cookie-table" data-cookie-table-live>
+    <CookieTable lang={lang} />
+    <button type="button" class="btn btn--primary legal-page__manage" data-open-cookie-preferences>{t.cookies.manage}</button>
+  </div>
+</LegalPageLayout>
+<script>
+  document.querySelectorAll('[data-cookie-policy-copy]').forEach((copy) => {
+    const marker = [...copy.querySelectorAll('p')].find((p) => /CookieTable\.astro/.test(p.textContent ?? ''));
+    const live = copy.parentElement?.querySelector('[data-cookie-table-live]');
+    if (marker && live) { marker.before(live); marker.remove(); }
+  });
+</script>
+

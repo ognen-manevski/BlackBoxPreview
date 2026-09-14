@@ -1,6 +1,7 @@
 ---
 import ClientLogoCell from '../atoms/ClientLogoCell.astro';
 import ContentGrid from '../molecules/ContentGrid.astro';
+import SectionTitleGroup from '../molecules/SectionTitleGroup.astro';
 import { clientLogos } from '../../data/clientLogos';
 import type { HomePageContent } from '../../i18n/pages/home';
 interface Props { content: HomePageContent['partners']; }
@@ -27,15 +28,15 @@ const partnerGridCells = Array.from(
 
 <section class="section partners" id="partners" aria-labelledby="partners-heading">
   <div class="container partners__inner">
-    <header class="partners__header">
-      <p class="section-label">{content.label}</p>
-      <h2 class="section-headline partners__headline" id="partners-heading">
-        {content.heading}
-      </h2>
-      <p class="section-copy partners__copy">
-        {content.copy}
-      </p>
-    </header>
+    <SectionTitleGroup
+      class="partners__header"
+      headlineClass="partners__headline"
+      copyClass="partners__copy"
+      label={content.label}
+      heading={content.heading}
+      headingId="partners-heading"
+      copy={content.copy}
+    />
 
     <ContentGrid cellContent={partnerGridCells} ariaLabel={content.gridAriaLabel} />
   </div>
@@ -52,25 +53,49 @@ const partnerGridCells = Array.from(
   }
 
   .partners__header {
-    display: grid;
-    justify-items: center;
-    text-align: center;
-    gap: var(--sp-2);
-    max-width: 56rem;
-    margin: 0 auto;
+    margin-bottom: 0;
   }
 
-  .partners__headline {
+  :global(.partners__headline) {
     max-width: 24ch;
+    margin-bottom: 0;
   }
 
-  .partners__copy {
+  :global(.partners__copy) {
     max-width: 52ch;
   }
 
   @media (max-width: 900px) {
     .partners__inner {
       gap: var(--sp-5);
+    }
+
+  }
+
+  /* Fewer, wider cells on small screens instead of shrinking every logo. */
+  @media (max-width: 800px) {
+    :global(.partners .content-grid) {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    :global(.partners .content-grid__cell:nth-child(n + 11)) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    :global(.partners .content-grid) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    :global(.partners .content-grid__cell:nth-child(n + 7)) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 260px) {
+    :global(.partners .content-grid) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>

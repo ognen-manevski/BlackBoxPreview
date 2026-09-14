@@ -1,5 +1,6 @@
 ---
 import ShelfLabelsDsCard from "../atoms/ShelfLabelsDsCard.astro";
+import SectionTitleGroup from "../molecules/SectionTitleGroup.astro";
 import type{ShelfLabelsContent}from'../../i18n/pages/shelf-labels'; interface Props{content:ShelfLabelsContent['features']} const{content}=Astro.props; const features=content.items;
 import iconRealtimeSync from "../../assets/vectors/icons/shelf-labels/ico_real-time-synch.svg?raw";
 import iconCloudManagement from "../../assets/vectors/icons/shelf-labels/ico_cloud-management.svg?raw";
@@ -35,28 +36,15 @@ const stackLayers=content.layers.map((alt,index)=>({src:stackSources[index],alt}
 
 <section class="sl-scroll" aria-label={content.ariaLabel}>
     <div class="container sl-scroll__frame">
-        <header
-            class="section__header sl-scroll__intro"
-            aria-labelledby="sl-scroll-heading"
-        >
-            <div class="sl-scroll__heading-wrap">
-                <p class="section-label">{content.label}</p>
-                <h2
-                    class="section-headline sl-scroll__heading"
-                    id="sl-scroll-heading"
-                >
-                    {content.heading}
-                </h2>
-            </div>
-
-            <div class="sl-scroll__heading-wrap">
-                <div></div>
-                <div></div>
-                <p class="section-copy sl-scroll__lead">
-                    {content.copy}
-                </p>
-            </div>
-        </header>
+        <SectionTitleGroup
+            class="sl-scroll__intro"
+            label={content.label}
+            heading={content.heading}
+            headingId="sl-scroll-heading"
+            headlineWidth="30ch"
+            titleWidth="58%"
+            copy={content.copy}
+        />
 
         <div class="sl-scroll__body">
             <!-- <div class="sl-scroll__cards-col"> -->
@@ -122,27 +110,7 @@ const stackLayers=content.layers.map((alt,index)=>({src:stackSources[index],alt}
     }
 
     .sl-scroll__intro {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: var(--sp-5);
-        /* align-items: start; */
         margin-bottom: 0;
-    }
-
-    .sl-scroll__heading-wrap {
-        display: grid;
-        gap: var(--sp-3);
-    }
-
-    .sl-scroll__heading,
-    .sl-scroll__lead {
-        margin: 0;
-    }
-
-    .sl-scroll__lead {
-        max-width: 56ch;
-        align-self: end;
     }
 
     .sl-scroll__body {
@@ -261,11 +229,6 @@ const stackLayers=content.layers.map((alt,index)=>({src:stackSources[index],alt}
     @media (max-width: 1024px) {
         .sl-scroll__frame {
             gap: var(--sp-5);
-        }
-
-        .sl-scroll__intro {
-            grid-template-columns: 1fr;
-            gap: var(--sp-3);
         }
 
         .sl-scroll__body {

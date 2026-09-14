@@ -1,13 +1,21 @@
 ---
 import ArrowButton from "../atoms/ArrowButton.astro";
-import neoslideDark from '../../assets/images/home/neoslide-dark.jpg';
-import neoslideLight from '../../assets/images/home/neoslide-wh.jpg';
-import shelfLabelsDark from '../../assets/images/home/labels-dark.jpg';
-import shelfLabelsLight from '../../assets/images/home/labels-wh.jpg';
-import videoStreamingDark from '../../assets/images/home/video-dark.jpg';
-import videoStreamingLight from '../../assets/images/home/video-wh.jpg';
-import softwareDevelopmentDark from '../../assets/images/home/code-dark.jpg';
-import softwareDevelopmentLight from '../../assets/images/home/code-wh.jpg';
+import neoslideDarkLong from '../../assets/images/home/long/neoslide-dark-long.jpg';
+import neoslideLightLong from '../../assets/images/home/long/neoslide-wh-long.jpg';
+import shelfLabelsDarkLong from '../../assets/images/home/long/labels-dark-long.jpg';
+import shelfLabelsLightLong from '../../assets/images/home/long/labels-wh-long.jpg';
+import videoStreamingDarkLong from '../../assets/images/home/long/video-dark-long.jpg';
+import videoStreamingLightLong from '../../assets/images/home/long/video-wh-long.jpg';
+import softwareDevelopmentDarkLong from '../../assets/images/home/long/code-dark-long.jpg';
+import softwareDevelopmentLightLong from '../../assets/images/home/long/code-wh-long.jpg';
+import bgGradient2DarkPoster from '../../assets/images/video-thumbnails/gradients/dark/gradient-2-grain-0.jpg';
+import bgGradient2LightPoster from '../../assets/images/video-thumbnails/gradients/light/gradient-2-grain-wh-0.jpg';
+import spkLogo from '../../assets/images/company-logos/clients/sm/spk-sm.jpg';
+import vinLogo from '../../assets/images/company-logos/clients/sm/vin-sm.jpg';
+import specLogo from '../../assets/images/company-logos/clients/sm/spec-sm.jpg';
+import popovLogo from '../../assets/images/company-logos/clients/sm/popov-sm.jpg';
+import neotelLogo from '../../assets/images/company-logos/clients/sm/neotel-sm.jpg';
+import arrowForwardSvg from '../../assets/vectors/icons/material/custom/arrow_forward-400w.svg?raw';
 import type { HomePageContent } from '../../i18n/pages/home';
 interface Props { content: HomePageContent['hero']; }
 const { content } = Astro.props;
@@ -19,6 +27,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     <video
       class="hero__bg-video hero__bg-video--dark"
       src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-2.mp4`}
+      poster={bgGradient2DarkPoster.src}
       autoplay
       muted
       loop
@@ -27,6 +36,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     <video
       class="hero__bg-video hero__bg-video--light"
       src={`${import.meta.env.BASE_URL}videos/gradients/light/base-gradient-2.mp4`}
+      poster={bgGradient2LightPoster.src}
       autoplay
       muted
       loop
@@ -47,6 +57,13 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
         <span class="hero__trust-clients">
           <strong class="hero__trust-count">{content.trustedCount}</strong>
           <span class="hero__trust-label">{content.trustedLabel}<br />{content.trustedLabelSecondLine}</span>
+        </span>
+        <span class="hero__trust-logos" aria-label="Trusted client logos">
+          <img class="hero__trust-logo hero__trust-logo--front" src={spkLogo.src} alt="Sparkasse Bank" />
+          <img class="hero__trust-logo" src={neotelLogo.src} alt="Neotel" />
+          <img class="hero__trust-logo" src={specLogo.src} alt="SPEC" />
+          <img class="hero__trust-logo" src={popovLogo.src} alt="Popov" />
+          <img class="hero__trust-logo" src={vinLogo.src} alt="VIN" />
         </span>
       </div>
 
@@ -95,10 +112,13 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
             aria-roledescription={content.slideRole}
             aria-label={slideAriaLabel(0, content.slides[0])}
           >
-            <img class="carousel__media carousel__media--dark" src={neoslideDark.src} alt="" loading="eager" decoding="async" />
-            <img class="carousel__media carousel__media--light" src={neoslideLight.src} alt="" loading="eager" decoding="async" />
-            <div class="carousel__slide-overlay"></div>
-            <span class="carousel__slide-label">{content.slides[0]}</span>
+            <div class="carousel__field">
+              <div class="carousel__media-frame">
+                <img class="carousel__media carousel__media--dark" src={neoslideDarkLong.src} alt="" loading="eager" decoding="async" />
+                <img class="carousel__media carousel__media--light" src={neoslideLightLong.src} alt="" loading="eager" decoding="async" />
+              </div>
+              <h3 class="carousel__slide-title">{content.slides[0]}</h3>
+            </div>
           </div>
 
           <div
@@ -107,10 +127,13 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
             aria-roledescription={content.slideRole}
             aria-label={slideAriaLabel(1, content.slides[1])}
           >
-            <img class="carousel__media carousel__media--dark" src={shelfLabelsDark.src} alt="" loading="lazy" decoding="async" />
-            <img class="carousel__media carousel__media--light" src={shelfLabelsLight.src} alt="" loading="lazy" decoding="async" />
-            <div class="carousel__slide-overlay"></div>
-            <span class="carousel__slide-label">{content.slides[1]}</span>
+            <div class="carousel__field">
+              <div class="carousel__media-frame">
+                <img class="carousel__media carousel__media--dark" src={shelfLabelsDarkLong.src} alt="" loading="lazy" decoding="async" />
+                <img class="carousel__media carousel__media--light" src={shelfLabelsLightLong.src} alt="" loading="lazy" decoding="async" />
+              </div>
+              <h3 class="carousel__slide-title">{content.slides[1]}</h3>
+            </div>
           </div>
 
           <div
@@ -119,10 +142,13 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
             aria-roledescription={content.slideRole}
             aria-label={slideAriaLabel(2, content.slides[2])}
           >
-            <img class="carousel__media carousel__media--dark" src={videoStreamingDark.src} alt="" loading="lazy" decoding="async" />
-            <img class="carousel__media carousel__media--light" src={videoStreamingLight.src} alt="" loading="lazy" decoding="async" />
-            <div class="carousel__slide-overlay"></div>
-            <span class="carousel__slide-label">{content.slides[2]}</span>
+            <div class="carousel__field">
+              <div class="carousel__media-frame">
+                <img class="carousel__media carousel__media--dark" src={videoStreamingDarkLong.src} alt="" loading="lazy" decoding="async" />
+                <img class="carousel__media carousel__media--light" src={videoStreamingLightLong.src} alt="" loading="lazy" decoding="async" />
+              </div>
+              <h3 class="carousel__slide-title">{content.slides[2]}</h3>
+            </div>
           </div>
 
           <div
@@ -131,43 +157,66 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
             aria-roledescription={content.slideRole}
             aria-label={slideAriaLabel(3, content.slides[3])}
           >
-            <img class="carousel__media carousel__media--dark" src={softwareDevelopmentDark.src} alt="" loading="lazy" decoding="async" />
-            <img class="carousel__media carousel__media--light" src={softwareDevelopmentLight.src} alt="" loading="lazy" decoding="async" />
-            <div class="carousel__slide-overlay"></div>
-            <span class="carousel__slide-label">{content.slides[3]}</span>
+            <div class="carousel__field">
+              <div class="carousel__media-frame">
+                <img class="carousel__media carousel__media--dark" src={softwareDevelopmentDarkLong.src} alt="" loading="lazy" decoding="async" />
+                <img class="carousel__media carousel__media--light" src={softwareDevelopmentLightLong.src} alt="" loading="lazy" decoding="async" />
+              </div>
+              <h3 class="carousel__slide-title">{content.slides[3]}</h3>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="carousel__dots" role="tablist" aria-label={content.slideIndicators}>
+      <div class="carousel__nav">
         <button
-          class="carousel__dot"
+          class="carousel__arrow carousel__arrow--prev"
           type="button"
-          role="tab"
-          data-index="0"
-          aria-label={content.slides[0]}
-          aria-selected="true"></button>
+          aria-label="Previous slide"
+          data-carousel-prev
+        >
+          <span class="carousel__arrow-icon" set:html={arrowForwardSvg} />
+        </button>
+
+        <div class="carousel__dots" role="tablist" aria-label={content.slideIndicators}>
+          <button
+            class="carousel__dot"
+            type="button"
+            role="tab"
+            data-index="0"
+            aria-label={content.slides[0]}
+            aria-selected="true"></button>
+          <button
+            class="carousel__dot"
+            type="button"
+            role="tab"
+            data-index="1"
+            aria-label={content.slides[1]}
+            aria-selected="false"></button>
+          <button
+            class="carousel__dot"
+            type="button"
+            role="tab"
+            data-index="2"
+            aria-label={content.slides[2]}
+            aria-selected="false"></button>
+          <button
+            class="carousel__dot"
+            type="button"
+            role="tab"
+            data-index="3"
+            aria-label={content.slides[3]}
+            aria-selected="false"></button>
+        </div>
+
         <button
-          class="carousel__dot"
+          class="carousel__arrow carousel__arrow--next"
           type="button"
-          role="tab"
-          data-index="1"
-          aria-label={content.slides[1]}
-          aria-selected="false"></button>
-        <button
-          class="carousel__dot"
-          type="button"
-          role="tab"
-          data-index="2"
-          aria-label={content.slides[2]}
-          aria-selected="false"></button>
-        <button
-          class="carousel__dot"
-          type="button"
-          role="tab"
-          data-index="3"
-          aria-label={content.slides[3]}
-          aria-selected="false"></button>
+          aria-label="Next slide"
+          data-carousel-next
+        >
+          <span class="carousel__arrow-icon" set:html={arrowForwardSvg} />
+        </button>
       </div>
     </div>
   </div>
@@ -178,6 +227,11 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     display: flex;
     flex-direction: column;
     gap: var(--sp-6);
+    min-width: 0;
+  }
+
+  .hero__lead {
+    max-width: 64ch;
   }
 
   /* ---- Section shell ---- */
@@ -186,7 +240,9 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     isolation: isolate;
     background: var(--hero-background);
     color: var(--text-primary);
-    min-height: calc(100dvh - 6rem);
+    /* min-height: calc(100dvh - 6rem); */
+    min-height: min(calc(100dvh - 6rem), 60rem);
+    /* max-height: 60rem; */
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -222,7 +278,13 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     position: absolute;
     inset: 0;
     z-index: 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.08) 100%);
+    background: linear-gradient(
+      90deg,
+      var(--video-overlay) 0%,
+      /* var(--video-overlay) 38%,
+      var(--video-overlay-transparent) 78%, */
+      var(--video-overlay-transparent) 100%
+    );
     pointer-events: none;
   }
 
@@ -230,8 +292,9 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--sp-9);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: var(--sp-10);
+    row-gap: var(--sp-10);
     align-items: center;
     padding-top: var(--sp-9);
     padding-bottom: var(--sp-9);
@@ -297,6 +360,47 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     line-height: 1.4;
   }
 
+  .hero__trust-logos {
+    display: flex;
+    align-items: center;
+    padding-left: var(--sp-2);
+  }
+
+  .hero__trust-logo {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    margin-left: -0.55rem;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    background: var(--bg);
+  }
+
+  .hero__trust-logo:first-child {
+    margin-left: 0;
+  }
+
+  .hero__trust-logo:nth-child(1) {
+    z-index: 5;
+  }
+
+  .hero__trust-logo:nth-child(2) {
+    z-index: 4;
+  }
+
+  .hero__trust-logo:nth-child(3) {
+    z-index: 3;
+  }
+
+  .hero__trust-logo:nth-child(4) {
+    z-index: 2;
+  }
+
+  .hero__trust-logo:nth-child(5) {
+    z-index: 1;
+  }
+
 
   /* ---- Lead ---- */
 
@@ -317,8 +421,8 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
 
   .hero__cta-note {
     font-family: var(--font-body);
-    font-size: var(--text-xs);
-    color: var(--text-muted);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
     padding-left: var(--sp-1);
   }
 
@@ -326,19 +430,23 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
   .hero__carousel {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-4);
-    background: transparent;
+    gap: var(--sp-3);
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-4);
+    min-width: 0;
   }
 
   .carousel__viewport {
     overflow: hidden;
-    border-radius: 0;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
     touch-action: pan-y;
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
     background: transparent;
-    box-shadow: none;
   }
 
   .carousel__viewport:active {
@@ -359,17 +467,31 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
 
   .carousel__slide {
     position: relative;
-    min-width: 100%;
-    aspect-ratio: 4 / 3;
-    background: transparent;
-    border: none;
-    border-radius: 0;
+    /* extra width holds the inter-slide gap outside the viewport when centered */
+    width: calc(100% + var(--sp-4));
+    box-sizing: border-box;
+    padding-right: var(--sp-4);
     display: flex;
-    align-items: flex-end;
-    padding: var(--sp-5);
+    flex-direction: column;
     flex-shrink: 0;
+  }
+
+  .carousel__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-4);
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .carousel__media-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
     overflow: hidden;
-    box-shadow: none;
   }
 
   .carousel__media {
@@ -379,6 +501,8 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     height: 100%;
     object-fit: contain;
     object-position: center;
+    user-select: none;
+    -webkit-user-drag: none;
     background: transparent;
     transition: opacity var(--t-base);
   }
@@ -391,21 +515,14 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     opacity: 0;
   }
 
-  .carousel__slide-overlay {
-    position: absolute;
-    inset: 0;
-    background: transparent;
-    pointer-events: none;
-  }
-
-  .carousel__slide-label {
-    position: relative;
-    z-index: 1;
-    font-family: var(--font-ui);
-    font-size: var(--text-sm);
-    font-weight: 500;
+  .carousel__slide-title {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
     color: var(--text-primary);
-    text-shadow: none;
+    line-height: 1.3;
+    margin: 0;
+    text-align: center;
   }
 
   :global([data-theme='light']) .carousel__media--dark {
@@ -425,19 +542,78 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
   }
 
   /* Dot indicators */
-  .carousel__dots {
+  .carousel__nav {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: var(--sp-2);
-    height: 1rem;
+    margin-top: var(--sp-1);
+  }
+
+  .carousel__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.25rem;
+    width: 2.25rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    background: var(--bg);
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 0;
+    transition:
+      border-color var(--t-base),
+      background var(--t-base),
+      color var(--t-base);
+  }
+
+  .carousel__arrow:hover,
+  .carousel__arrow:focus-visible {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  .carousel__arrow-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .carousel__arrow-icon :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  .carousel__arrow--prev .carousel__arrow-icon {
+    transform: scaleX(-1);
+  }
+
+  .carousel__dots {
+    --width: 0.6rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.25rem;
+    /* fixed width so the growing active dot never resizes this wrapper */
+    width: calc(8 * var(--width) + 3 * var(--sp-2) + 2 * var(--sp-4) + 2px);
+    box-sizing: border-box;
+    gap: var(--sp-2);
+    padding: 0 var(--sp-4);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg);
   }
 
   .carousel__dot {
-    height: 6px;
-    width: 6px;
-    border-radius: var(--radius-full);
-    background: var(--text-secondary);
+    height: var(--width);
+    width: var(--width);
+    /* border-radius: var(--radius-sm); */
+    background: var(--text-muted);
     border: none;
     padding: 0;
     cursor: pointer;
@@ -446,9 +622,13 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
       width var(--t-base);
   }
 
+  .carousel__dot:hover {
+    background: var(--text-secondary);
+  }
+
   .carousel__dot[aria-selected="true"] {
     background: var(--color-brand);
-    width: 1.5rem;
+    width: calc(var(--width) * 5);
   }
 
   /* ---- Responsive ---- */
@@ -460,6 +640,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
 
     .hero {
       min-height: auto;
+      max-height: none;
     }
   }
 
@@ -477,6 +658,95 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
       flex-direction: column;
       align-items: flex-start;
     }
+
+    .hero__carousel {
+      padding: var(--sp-4);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero__trust {
+      box-sizing: border-box;
+      width: fit-content;
+      max-width: 100%;
+      flex-wrap: nowrap;
+      gap: var(--sp-2);
+      padding: var(--sp-2);
+    }
+
+    .hero__trust-clients {
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    .hero__trust-label {
+      overflow-wrap: anywhere;
+    }
+
+    .hero__trust-logos {
+      padding-left: 0;
+    }
+
+    .hero__cta-group {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .hero__cta-group > * {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .hero__trust {
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .hero__trust-rating {
+      flex: 0 0 100%;
+    }
+
+    .hero__trust-divider {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 1px;
+    }
+
+    .hero__trust-clients {
+      flex: 0 1 auto;
+    }
+
+    .hero__trust-logos {
+      width: auto;
+      flex: 0 0 auto;
+      justify-content: flex-start;
+      align-self: center;
+    }
+
+    .hero__trust-logo {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-left: -0.5rem;
+    }
+
+    .hero__trust-logo:first-child {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 240px) {
+    .hero__trust-divider {
+      display: none;
+    }
+
+    .hero__trust-rating,
+    .hero__trust-clients,
+    .hero__trust-logos {
+      flex: 0 0 100%;
+    }
   }
 </style>
 
@@ -490,74 +760,167 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
   const dots = Array.from(
     document.querySelectorAll<HTMLButtonElement>(".carousel__dot"),
   );
+  const prevBtn = document.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+  const nextBtn = document.querySelector<HTMLButtonElement>("[data-carousel-next]");
 
   if (viewport && track) {
+    const carouselTrack = track;
     const slides = Array.from(
-      track.querySelectorAll<HTMLElement>(".carousel__slide"),
+      carouselTrack.querySelectorAll<HTMLElement>(".carousel__slide"),
     );
     const total = slides.length;
 
+    const preloadImages = (root: ParentNode) =>
+      Array.from(root.querySelectorAll<HTMLImageElement>("img")).map((image) => {
+        image.loading = "eager";
+        return image.decode().catch(() => undefined);
+      });
+
+    preloadImages(carouselTrack);
+
     if (total > 1) {
-      // Clone last before first, first after last for infinite loop
+      // Keep one clone on each side so the end-to-start transition stays seamless.
       const firstClone = slides[0].cloneNode(true) as HTMLElement;
       const lastClone = slides[total - 1].cloneNode(true) as HTMLElement;
       firstClone.setAttribute("aria-hidden", "true");
       lastClone.setAttribute("aria-hidden", "true");
-      track.appendChild(firstClone);
-      track.insertBefore(lastClone, slides[0]);
+      [firstClone, lastClone].forEach((clone) => {
+        preloadImages(clone);
+      });
+      carouselTrack.appendChild(firstClone);
+      carouselTrack.insertBefore(lastClone, slides[0]);
 
       let current = 1; // 0 = lastClone, 1..total = real slides, total+1 = firstClone
       let startX = 0;
       let dragDiff = 0;
       let dragging = false;
+      let isAnimating = false;
+      let queuedDirection = 0;
       let timer = 0;
       const reduced = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
-      const w = () => viewport.offsetWidth;
 
-      function moveTo(idx: number, animated = true) {
-        if (!track) return;
-        track.style.transition = animated ? "transform 0.5s ease" : "none";
-        track.style.transform = `translateX(${-idx * w()}px)`;
-      }
+      // Slide width includes the inter-slide gap, so step by its full width.
+      const w = () => slides[0]?.offsetWidth ?? viewport.offsetWidth;
 
       function syncDots(idx: number) {
         const real = (((idx - 1) % total) + total) % total;
-        dots.forEach((d, i) =>
-          d.setAttribute("aria-selected", String(i === real)),
+        dots.forEach((dot, i) =>
+          dot.setAttribute("aria-selected", String(i === real)),
         );
       }
 
-      // After transition: silently jump from clone to real slide
-      track.addEventListener("transitionend", () => {
+      function setPosition(idx: number, animated = true) {
+        const shouldAnimate = animated && !reduced;
+        carouselTrack.style.transition = shouldAnimate
+          ? "transform 0.5s ease"
+          : "none";
+        carouselTrack.style.transform = `translateX(${-idx * w()}px)`;
+      }
+
+      function normalizePosition() {
         if (current === 0) {
+          // Last-slide clone -> matching real last slide.
           current = total;
-          moveTo(current, false);
+          setPosition(current, false);
         } else if (current === total + 1) {
+          // First-slide clone -> matching real first slide.
           current = 1;
-          moveTo(current, false);
+          setPosition(current, false);
         }
+      }
+
+      function go(direction: number) {
+        // Never let current move beyond the two available clones.
+        // If another input arrives mid-transition, remember one follow-up move.
+        if (isAnimating) {
+          queuedDirection = direction;
+          return;
+        }
+
+        current += direction;
+        syncDots(current);
+
+        if (reduced) {
+          normalizePosition();
+          setPosition(current, false);
+          return;
+        }
+
+        isAnimating = true;
+        setPosition(current, true);
+      }
+
+      function goToSlide(index: number) {
+        if (isAnimating) return;
+
+        const target = index + 1;
+        if (target === current) return;
+
+        current = target;
+        syncDots(current);
+
+        if (reduced) {
+          setPosition(current, false);
+          return;
+        }
+
+        isAnimating = true;
+        setPosition(current, true);
+      }
+
+      function finishTransition() {
+        normalizePosition();
+        isAnimating = false;
+
+        if (queuedDirection !== 0) {
+          const direction = queuedDirection;
+          queuedDirection = 0;
+          requestAnimationFrame(() => go(direction));
+        }
+      }
+
+      // Once a movement finishes, silently swap a clone for its matching real
+      // slide before accepting the next queued movement.
+      carouselTrack.addEventListener("transitionend", (event) => {
+        if (event.target !== carouselTrack || event.propertyName !== "transform") return;
+        finishTransition();
+      });
+
+      // If a resize or browser interruption cancels a transform transition,
+      // release the animation lock instead of leaving the carousel stuck.
+      carouselTrack.addEventListener("transitioncancel", (event) => {
+        if (event.target !== carouselTrack || event.propertyName !== "transform") return;
+        finishTransition();
       });
 
       // Dot clicks
       dots.forEach((dot, i) => {
         dot.addEventListener("click", () => {
-          current = i + 1;
-          moveTo(current);
-          syncDots(current);
+          goToSlide(i);
           resetAutoplay();
         });
       });
 
+      // Arrow buttons
+      prevBtn?.addEventListener("click", () => {
+        go(-1);
+        resetAutoplay();
+      });
+
+      nextBtn?.addEventListener("click", () => {
+        go(1);
+        resetAutoplay();
+      });
+
       function tick() {
-        current++;
-        moveTo(current);
-        syncDots(current);
+        go(1);
       }
 
       function startAutoplay() {
         if (reduced) return;
+        clearInterval(timer);
         timer = window.setInterval(tick, 4500);
       }
 
@@ -568,10 +931,14 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
 
       // Drag / swipe via Pointer Events
       viewport.addEventListener("pointerdown", (e) => {
+        if (isAnimating) return;
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+
+        e.preventDefault();
         dragging = true;
         startX = e.clientX;
         dragDiff = 0;
-        track.style.transition = "none";
+        carouselTrack.style.transition = "none";
         viewport.setPointerCapture(e.pointerId);
         clearInterval(timer);
       });
@@ -579,19 +946,35 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
       viewport.addEventListener("pointermove", (e) => {
         if (!dragging) return;
         dragDiff = e.clientX - startX;
-        track.style.transform = `translateX(${-current * w() + dragDiff}px)`;
+        carouselTrack.style.transform = `translateX(${-current * w() + dragDiff}px)`;
       });
 
-      viewport.addEventListener("pointerup", () => {
+      const finishDrag = () => {
         if (!dragging) return;
         dragging = false;
+
         const threshold = w() * 0.18;
-        if (dragDiff < -threshold) current++;
-        else if (dragDiff > threshold) current--;
-        moveTo(current);
+
+        if (dragDiff < -threshold) {
+          go(1);
+        } else if (dragDiff > threshold) {
+          go(-1);
+        } else if (Math.abs(dragDiff) > 1 && !reduced) {
+          // Snap back only when the pointer actually displaced the track.
+          // This avoids waiting for a transitionend that cannot fire.
+          isAnimating = true;
+          setPosition(current, true);
+        } else {
+          setPosition(current, false);
+        }
+
         syncDots(current);
         startAutoplay();
-      });
+      };
+
+      viewport.addEventListener("pointerup", finishDrag);
+      viewport.addEventListener("pointercancel", finishDrag);
+      viewport.addEventListener("lostpointercapture", finishDrag);
 
       // Pause autoplay on hover
       viewport.addEventListener("mouseenter", () => clearInterval(timer));
@@ -600,13 +983,16 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
       });
 
       // Init
-      moveTo(current, false);
+      setPosition(current, false);
       syncDots(current);
       startAutoplay();
 
-      window.addEventListener("resize", () => moveTo(current, false), {
-        passive: true,
-      });
+      window.addEventListener("resize", () => {
+        isAnimating = false;
+        queuedDirection = 0;
+        normalizePosition();
+        setPosition(current, false);
+      }, { passive: true });
     }
   }
 </script>

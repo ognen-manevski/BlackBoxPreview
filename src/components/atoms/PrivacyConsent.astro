@@ -1,4 +1,6 @@
 ---
+import Checkmark from './Checkmark.astro';
+
 interface Props {
   id?: string;
   name?: string;
@@ -22,19 +24,18 @@ const {
 } = Astro.props;
 ---
 
-<label class:list={['privacy-consent', className]} for={id}>
+<label class:list={['privacy-consent', className]}>
   <input
+    class="privacy-consent__input"
     id={id}
-    class="privacy-consent__checkbox"
-    type="checkbox"
     name={name}
+    type="checkbox"
     checked={checked}
     required={required}
+    data-privacy-consent-input
   >
   <span class="privacy-consent__check" aria-hidden="true">
-    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3.5 8.2 6.6 11l5.9-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
+    <Checkmark size="0.7rem" />
   </span>
   <span class="privacy-consent__text">
     {text} <a href={linkHref}>{linkText}</a>
@@ -44,54 +45,55 @@ const {
 <style>
   .privacy-consent {
     display: inline-flex;
-    align-items: flex-start;
+    align-items: center;
     gap: var(--sp-2);
     font-size: var(--text-xs);
     color: var(--text-secondary);
     line-height: 1.5;
+    margin: 0;
+    padding: var(--sp-1) var(--sp-2);
+    border-radius: var(--radius);
     cursor: pointer;
+    transition: background var(--t-fast);
   }
 
-  .privacy-consent__checkbox {
+  .privacy-consent__input {
+    appearance: none;
+    width: 0.875rem;
+    height: 0.875rem;
+    margin: 0;
+    flex: 0 0 auto;
+    border: 1px solid color-mix(in srgb, var(--text-muted) 55%, var(--border-color));
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    cursor: pointer;
     position: absolute;
     opacity: 0;
     pointer-events: none;
+    transition: background var(--t-fast), border-color var(--t-fast);
   }
 
   .privacy-consent__check {
-    width: 0.95rem;
-    height: 0.95rem;
-    margin-top: 0.1rem;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border-color);
-    background: var(--bg);
-    color: var(--color-brand);
+    width: 0.875rem;
+    height: 0.875rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    transition: border-color var(--t-fast), background var(--t-fast), color var(--t-fast);
+    flex: 0 0 auto;
+    border: 1px solid color-mix(in srgb, var(--text-muted) 55%, var(--border-color));
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    color: transparent;
+    transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
   }
 
-  .privacy-consent__check svg {
-    width: 0.75rem;
-    height: 0.75rem;
-    opacity: 0;
-    transform: scale(0.75);
-    transition: opacity var(--t-fast), transform var(--t-fast);
-  }
-
-  .privacy-consent__checkbox:checked + .privacy-consent__check {
-    background: var(--bg);
+  .privacy-consent__input:checked + .privacy-consent__check {
     border-color: var(--color-brand);
+    background-color: var(--bg-secondary);
+    color: var(--color-brand);
   }
 
-  .privacy-consent__checkbox:checked + .privacy-consent__check svg {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  .privacy-consent__checkbox:focus-visible + .privacy-consent__check {
+  .privacy-consent__input:focus-visible + .privacy-consent__check {
     outline: 2px solid var(--color-brand);
     outline-offset: 2px;
   }
@@ -107,3 +109,38 @@ const {
     text-decoration-color: currentColor;
   }
 </style>
+
+<script>
+  const syncConsentForm = (form: HTMLFormElement) => {
+    const consentInput = form.querySelector('[data-privacy-consent-input]');
+    if (!(consentInput instanceof HTMLInputElement)) return;
+
+    const submitControls = form.querySelectorAll('button[type="submit"], input[type="submit"]');
+    submitControls.forEach(submitControl => {
+      if (submitControl instanceof HTMLButtonElement || submitControl instanceof HTMLInputElement) {
+        submitControl.disabled = !consentInput.checked;
+      }
+    });
+  };
+
+  const syncConsentForms = () => {
+    document.querySelectorAll('form').forEach(form => {
+      if (form instanceof HTMLFormElement) syncConsentForm(form);
+    });
+  };
+
+  syncConsentForms();
+
+  document.addEventListener('change', event => {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement) || !target.matches('[data-privacy-consent-input]')) return;
+
+    const form = target.closest('form');
+    if (form instanceof HTMLFormElement) syncConsentForm(form);
+  });
+
+  document.addEventListener('reset', event => {
+    const form = event.target;
+    if (form instanceof HTMLFormElement) window.setTimeout(() => syncConsentForm(form));
+  });
+</script>

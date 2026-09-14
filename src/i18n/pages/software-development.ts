@@ -1,5 +1,5 @@
-import type { Localized } from '../types';
-import { englishTechnologyGridContent } from '../technology';
+import type { Localized, TranslationShape } from '../types';
+import { englishTechnologyGridContent, macedonianTechnologyGridContent } from '../technology';
 export const englishSoftwareDevelopmentContent = {
   seo: { title: 'Software Development | BlackBox Solutions', description: 'Custom software development services tailored to your business workflows, systems, and long-term growth goals.' },
   hero: { ariaLabel: 'Software development hero', titleStart: 'Software built around ', highlight: 'your business', titleEnd: ', not the other way around.', paragraphs: ['From internal business platforms to customer-facing applications, we design and develop scalable software that solves real operational challenges.', 'Every solution is tailored to your workflows, integrates with your existing systems, and is built for long-term growth.'] },
@@ -11,5 +11,16 @@ export const englishSoftwareDevelopmentContent = {
     { counter: '04', title: 'System Integrations', description: 'Connect your software with CRMs, ERPs, payment providers, third-party APIs, IoT devices, and other business systems to create a unified digital ecosystem.' },
   ] }, demoService: 'Custom Software',
 } as const;
-export type SoftwareDevelopmentContent = typeof englishSoftwareDevelopmentContent;
-export const softwareDevelopmentContent: Localized<SoftwareDevelopmentContent> = { en: englishSoftwareDevelopmentContent, mk: englishSoftwareDevelopmentContent };
+export type SoftwareDevelopmentContent = TranslationShape<typeof englishSoftwareDevelopmentContent>;
+export const macedonianSoftwareDevelopmentContent = {
+  seo: { title: 'Развој на софтвер | BlackBox Solutions', description: 'Услуги за развој на сопствен софтвер, приспособени на вашите деловни процеси, системи и долгорочни цели.' },
+  hero: { ariaLabel: 'Вовед во развојот на софтвер', titleStart: 'Софтвер изграден околу ', highlight: 'вашиот бизнис', titleEnd: ', а не обратно.', paragraphs: ['Од интерни деловни платформи до апликации за клиенти, дизајнираме и развиваме скалабилен софтвер што решава реални оперативни предизвици.', 'Секое решение е приспособено на вашите процеси, се интегрира со постоечките системи и е изградено за долгорочен раст.'] },
+  technology: { grid: macedonianTechnologyGridContent, label: 'Технолошки стек', heading: 'Вистинската технологија за секој проект.', copy: 'Секој бизнис има различни технички барања. Нашиот тим работи со модерни frontend, backend, cloud и мобилни технологии за да создава безбедни и брзи апликации, без ограничување на еден програмски јазик или framework.' },
+  services: { label: 'Што нудиме', heading: 'Целосен развој на дигитални производи', copy: 'Го спојуваме стратешкиот дизајн со сигурен engineering за да создадеме скалабилни дигитални производи. Од првичните UI/UX-концепти до моќна frontend и backend архитектура, испорачуваме решенија што го поттикнуваат растот.', ariaLabel: 'Услуги за развој на софтвер', cards: [
+    { counter: '01', title: 'Развој на сопствени апликации', description: 'Развиваме web-апликации, деловни платформи, кориснички портали и интерни алатки приспособени на процесите на вашата организација. Секое решение е осмислено да ја подобри ефикасноста, да ги автоматизира процесите и да го поддржи идниот раст.' },
+    { counter: '02', title: 'Модерен frontend-развој', description: 'Брзи, responsive и пристапни интерфејси што нудат интуитивно корисничко искуство на desktop и мобилни уреди. Ги претвораме дизајните во апликации подготвени за продукција според современите стандарди.' },
+    { counter: '03', title: 'Скалабилни backend-системи', description: 'Сигурни API-ја, бази на податоци, автентикација, интеграции и cloud-инфраструктура што ги напојуваат вашите апликации безбедно и ефикасно. Backend-архитектурата е изградена за брзина, скалабилност и долгорочно одржување.' },
+    { counter: '04', title: 'Системски интеграции', description: 'Поврзете го вашиот софтвер со CRM, ERP, платежни провајдери, API-ја од трети страни, IoT-уреди и други деловни системи за да создадете обединет дигитален екосистем.' },
+  ] }, demoService: 'Сопствен софтвер',
+} satisfies SoftwareDevelopmentContent;
+export const softwareDevelopmentContent: Localized<SoftwareDevelopmentContent> = { en: englishSoftwareDevelopmentContent, mk: macedonianSoftwareDevelopmentContent };

@@ -1,4 +1,6 @@
 ---
+import ProgressiveImage from '../atoms/ProgressiveImage.astro';
+import { industryImageMetadata } from '../../i18n/pages/data/industrySolutions';
 interface Props {
     number: string;
     title: string;
@@ -22,14 +24,14 @@ const hasImage = Boolean(imageSrc);
 
         {
             imageSrc && (
-                <div class="industry-solution-card__thumb-wrap" aria-hidden="true">
-                    <img
+                <div class="industry-solution-card__thumb-wrap" data-progressive-host="relative" aria-hidden="true">
+                    <ProgressiveImage src={industryImageMetadata.get(imageSrc)}><img
                         class="industry-solution-card__thumb"
                         src={imageSrc}
                         alt={imageAlt}
                         loading="lazy"
                         decoding="async"
-                    />
+                    /></ProgressiveImage>
                 </div>
             )
         }

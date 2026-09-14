@@ -1,9 +1,41 @@
 ---
 import DisclosureItem from '../atoms/DisclosureItem.astro';
 import MetricChip from '../atoms/MetricChip.astro';
-import { industryMetrics as metrics, industrySolutions as solutions } from '../../i18n/pages/data/industrySolutions';
 import type { DigitalSignageContent } from '../../i18n/pages/digital-signage';
-interface Props { content: DigitalSignageContent['industries'] } const { content } = Astro.props;
+import ArrowForwardIcon from '../icons/ArrowForwardIcon.astro';
+import type { Lang } from '../../i18n/types';
+import { getCollection } from 'astro:content';
+interface Props { content: DigitalSignageContent['industries']; lang: Lang }
+const { content, lang } = Astro.props;
+const { metrics, solutions } = content;
+const base = import.meta.env.BASE_URL;
+const localPath = (path: string) => `${base}${lang === 'mk' ? 'mk/' : ''}${path}`;
+const newCaseStudySlugs = new Set([
+    'corporate',
+    'education',
+    'sports-events',
+    'events-venues',
+    'banking-finance',
+    'public-advertising',
+]);
+const blogPosts = await getCollection('blog', ({ data }) => !data.draft && data.lang === lang);
+const blogPostsBySlug = new Map(blogPosts.map((post) => [post.id.split('/')[0], post]));
+const visibleSolutions = solutions
+    .map((solution, sourceIndex) => {
+        const post = solution.caseStudySlug ? blogPostsBySlug.get(solution.caseStudySlug) : undefined;
+        const useNeoSlideCopy = solution.caseStudySlug && newCaseStudySlugs.has(solution.caseStudySlug);
+
+        return {
+            ...solution,
+            title: useNeoSlideCopy || !post ? solution.title : post.data.title,
+            excerpt: useNeoSlideCopy || !post ? solution.excerpt : post.data.description,
+            publishedAt: post?.data.publishedAt.getTime() ?? 0,
+            sourceIndex,
+        };
+    })
+    .filter((solution) => solution.caseStudySlug && solution.publishedAt > 0)
+    .sort((a, b) => b.publishedAt - a.publishedAt || a.sourceIndex - b.sourceIndex)
+    .slice(0, 6);
 ---
 
 <section
@@ -22,11 +54,9 @@ interface Props { content: DigitalSignageContent['industries'] } const { content
                     {content.copy}
                 </p>
 
-                <a class="btn btn--primary industry-solutions__cta" href="#case-studies">
+                <a class="btn btn--primary btn--with-arrow industry-solutions__cta" href={localPath('blog/')}>
                     {content.cta}
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
-                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"></path>
-                    </svg>
+                    <ArrowForwardIcon />
                 </a>
 
                 <ul class="industry-solutions__metrics" aria-label={content.metricsAriaLabel}>
@@ -37,13 +67,15 @@ interface Props { content: DigitalSignageContent['industries'] } const { content
             </header>
 
             <div class="industry-solutions__list" aria-label={content.listAriaLabel}>
-                {solutions.map((solution, index) => (
+                {visibleSolutions.map((solution, index) => (
                     <DisclosureItem
-                        counter={solution.number}
+                        counter={String(index + 1).padStart(2, '0')}
                         title={solution.title}
                         content={solution.excerpt}
                         imageSrc={solution.imageSrc}
                         imageAlt={solution.imageAlt}
+                        href={solution.caseStudySlug ? localPath(`blog/${solution.caseStudySlug}/`) : undefined}
+                        ctaLabel={content.findOutMore}
                         open={index === 0}
                     />
                 ))}

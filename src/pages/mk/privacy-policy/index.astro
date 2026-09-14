@@ -1,0 +1,8 @@
+---
+import LegalPageLayout from '../../../components/layouts/LegalPageLayout.astro';
+import { legalTranslations } from '../../../i18n/pages/legal';
+import { Content } from '../../../content/legal/privacy-policy.mk.md';
+const t = legalTranslations.mk;
+---
+<LegalPageLayout styledHeader restoreListMarkers lang="mk" title={t.privacy.title} description={t.privacy.description}><Content /></LegalPageLayout>
+

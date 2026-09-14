@@ -1,0 +1,40 @@
+---
+interface Props {
+  size?: string;
+  strokeWidth?: number;
+  class?: string;
+  style?: string;
+}
+
+const {
+  size = '1rem',
+  strokeWidth = 1.8,
+  class: className = '',
+  style: styleAttribute = '',
+} = Astro.props;
+---
+
+<svg
+  class:list={['checkmark', className]}
+  style={`--checkmark-size: ${size}; ${styleAttribute}`}
+  viewBox="0 0 16 16"
+  fill="none"
+  aria-hidden="true"
+>
+  <path
+    d="M3.5 8.3 6.5 11.3 12.5 5.3"
+    stroke="currentColor"
+    stroke-width={strokeWidth}
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
+
+<style>
+  .checkmark {
+    width: var(--checkmark-size);
+    height: var(--checkmark-size);
+    display: block;
+    flex: 0 0 auto;
+  }
+</style>

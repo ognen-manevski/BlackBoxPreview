@@ -1,0 +1,19 @@
+---
+import PrivacyConsent from './PrivacyConsent.astro';
+import type { Lang } from '../../i18n/types';
+import { getLocalizedPath } from '../../i18n/utils';
+interface Props { lang: Lang; class?: string }
+const { lang, class: className = '' } = Astro.props;
+const text = lang === 'mk'
+  ? 'Со испраќање на формуларот потврдувате дека вашите податоци ќе бидат обработени согласно нашата'
+  : 'By submitting this form, you acknowledge that your information will be processed in accordance with our';
+const label = lang === 'mk' ? 'Политика за приватност.' : 'Privacy Policy.';
+---
+<PrivacyConsent
+  class={className}
+  text={text}
+  linkText={label}
+  linkHref={getLocalizedPath('/privacy-policy/', lang)}
+  required={true}
+/>
+

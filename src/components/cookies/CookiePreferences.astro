@@ -1,0 +1,109 @@
+---
+import CookieTable from './CookieTable.astro';
+import { cookieConsentConfig } from '../../config/cookies';
+import { getTranslations } from '../../i18n/utils';
+import { commonTranslations } from '../../i18n/common';
+import type { Lang } from '../../i18n/types';
+import { getLocalizedPath } from '../../i18n/utils';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = getTranslations(commonTranslations, lang).cookies;
+const optionalCategories = cookieConsentConfig.categories.filter((cat) => cat !== 'necessary');
+const href = (path: string) => getLocalizedPath(path, lang);
+---
+
+<div class="cookie-preferences" data-cookie-preferences>
+  <div class="cookie-preferences__heading-row">
+    <p class="cookie-preferences__heading">{t.preferencesTitle}</p>
+    <button type="button" class="cookie-preferences__close" data-cookie-manage aria-expanded="true" aria-label={t.closePreferences}>
+      <svg class="cookie-preferences__close-icon" viewBox="0 0 8 5" fill="none" aria-hidden="true">
+        <path d="M7.06 0 4 3.053 0.94 0 0 0.94 4 4.94 8 0.94 7.06 0Z" fill="currentColor" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="cookie-preferences__intro">
+    <p class="cookie-preferences__intro-label">{t.aboutLabel}</p>
+    <p class="cookie-preferences__intro-copy">{t.aboutCopy}</p>
+    <p class="cookie-preferences__intro-copy">{t.aboutFooterHint}</p>
+    <div class="cookie-preferences__links">
+      <a href={href('/privacy-policy/')}>{t.privacyPolicy}</a>
+      <a href={href('/cookie-policy/')}>{t.cookiePolicy}</a>
+    </div>
+  </div>
+
+  <div class="cookie-preferences__categories">
+    <div class="cookie-preferences__category">
+      <div class="cookie-preferences__category-info">
+        <p class="cookie-preferences__category-title">{t.categories.necessary.label}</p>
+        <p class="cookie-preferences__category-description">{t.categories.necessary.description}</p>
+      </div>
+      <span class="cookie-preferences__toggle cookie-preferences__toggle--locked">
+        <input
+          type="checkbox"
+          checked
+          disabled
+          aria-label={t.categories.necessary.label}
+          data-cookie-category="necessary"
+        />
+        <span class="cookie-preferences__toggle-label">{t.alwaysActive}</span>
+        <span class="cookie-preferences__toggle-control">
+          <span class="cookie-preferences__toggle-track" aria-hidden="true"></span>
+          <span class="cookie-preferences__toggle-status" data-cookie-status="necessary" data-on-label={t.on} data-off-label={t.off}>{t.on}</span>
+        </span>
+      </span>
+    </div>
+
+    {optionalCategories.map((cat) => (
+      <div class="cookie-preferences__category">
+        <div class="cookie-preferences__category-info">
+          <p class="cookie-preferences__category-title">{t.categories[cat].label}</p>
+          <p class="cookie-preferences__category-description">{t.categories[cat].description}</p>
+        </div>
+        <label class="cookie-preferences__toggle">
+          <input type="checkbox" data-cookie-category={cat} aria-label={t.categories[cat].label} />
+          <span class="cookie-preferences__toggle-control">
+            <span class="cookie-preferences__toggle-track" aria-hidden="true"></span>
+            <span class="cookie-preferences__toggle-status" data-cookie-status={cat} data-on-label={t.on} data-off-label={t.off}>{t.off}</span>
+          </span>
+        </label>
+      </div>
+    ))}
+  </div>
+
+  <div class="cookie-preferences__details">
+    <p class="cookie-preferences__details-label">{t.detailsLabel}</p>
+    <CookieTable lang={lang} />
+  </div>
+
+  <div class="cookie-preferences__actions">
+    <button type="button" class="btn btn--outline btn--sm" data-cookie-reject>{t.rejectOptional}</button>
+    <button type="button" class="btn btn--outline btn--sm" data-cookie-save>{t.savePreferences}</button>
+    <button type="button" class="btn btn--primary btn--sm" data-cookie-accept>{t.acceptAll}</button>
+  </div>
+</div>
+
+<script>
+  const preferenceRoot = document.querySelector('[data-cookie-preferences]');
+
+  if (preferenceRoot) {
+    const syncCookieStatus = () => {
+      preferenceRoot.querySelectorAll<HTMLInputElement>('[data-cookie-category]').forEach(input => {
+        const category = input.dataset.cookieCategory;
+        if (!category) return;
+
+        const status = preferenceRoot.querySelector<HTMLElement>(`[data-cookie-status="${category}"]`);
+        if (status) status.textContent = input.checked ? status.dataset.onLabel || 'ON' : status.dataset.offLabel || 'OFF';
+
+        preferenceRoot.querySelectorAll<HTMLElement>(`[data-cookie-table-category="${category}"]`).forEach(row => {
+          row.dataset.active = String(input.checked);
+        });
+      });
+    };
+
+    preferenceRoot.addEventListener('change', syncCookieStatus);
+    window.addEventListener('blackbox:cookie-consent-updated', syncCookieStatus);
+    syncCookieStatus();
+  }
+</script>

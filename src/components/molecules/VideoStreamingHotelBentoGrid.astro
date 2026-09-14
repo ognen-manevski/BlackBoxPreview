@@ -14,7 +14,7 @@ import fitnessIcon from "../../assets/vectors/icons/bento-grid-hotel-services/gr
 import checkoutIcon from "../../assets/vectors/icons/bento-grid-hotel-services/grid-ico_checkout.svg?raw";
 import taxiIcon from "../../assets/vectors/icons/bento-grid-hotel-services/grid-ico_taxi.svg?raw";
 import notificationsIcon from "../../assets/vectors/icons/bento-grid-hotel-services/grid-ico_notifications.svg?raw";
-import arrowForwardLongIcon from "../../assets/vectors/icons/material/outlined/arrow-forward-long.svg?raw";
+import ArrowForwardIcon from '../icons/ArrowForwardIcon.astro';
 
 interface Props { content: VideoStreamingContent['bento'] }
 const { content } = Astro.props;
@@ -142,7 +142,7 @@ const serviceItems=content.services.map((label,index)=>({label,icon:serviceIcons
         aria-label={content.discoverMore}
       >
         {content.discoverLabel}
-        <span class="vs-hotel-bento__action-arrow" aria-hidden="true" set:html={arrowForwardLongIcon} />
+        <span class="vs-hotel-bento__action-arrow" aria-hidden="true"><ArrowForwardIcon /></span>
       </button>
     </article>
 
@@ -178,7 +178,7 @@ const serviceItems=content.services.map((label,index)=>({label,icon:serviceIcons
         aria-label={content.resume}
       >
         {content.resumeLabel}
-        <span class="vs-hotel-bento__action-arrow" aria-hidden="true" set:html={arrowForwardLongIcon} />
+        <span class="vs-hotel-bento__action-arrow" aria-hidden="true"><ArrowForwardIcon /></span>
       </button>
     </article>
     </div>
@@ -714,8 +714,8 @@ const serviceItems=content.services.map((label,index)=>({label,icon:serviceIcons
   }
 
   .vs-hotel-bento__action-arrow {
-    width: auto;
-    height: 1rem;
+    width: 1em;
+    height: 1em;
     display: inline-grid;
     place-items: center;
   }

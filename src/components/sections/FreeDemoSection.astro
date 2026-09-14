@@ -1,6 +1,11 @@
 ---
 import IconBadge from "../atoms/IconBadge.astro";
-import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:DemoContent['page']}const{content}=Astro.props;
+import Checkmark from '../atoms/Checkmark.astro';
+import FileUpload from '../atoms/FileUpload.astro';
+import ArrowButton from '../atoms/ArrowButton.astro';
+import PrivacyNotice from '../atoms/PrivacyNotice.astro';
+import gradient1DarkPoster from '../../assets/images/video-thumbnails/gradients/dark/gradient-1-grain-0.jpg';
+import type{DemoContent}from'../../i18n/pages/demo';import type{Lang}from'../../i18n/types';interface Props{content:DemoContent['page'];lang:Lang}const{content,lang}=Astro.props;const submitLabel=content.submit.replace(/\s*→\s*$/,'');
 ---
 
 <section
@@ -15,11 +20,13 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
         muted
         playsinline
         preload="metadata"
+        poster={gradient1DarkPoster.src}
         aria-hidden="true"
     >
         <source
             src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-1.mp4`}
             type="video/mp4"
+            media="(min-width: 641px)"
         />
     </video>
     <div class="book-demo__bg-overlay" aria-hidden="true"></div>
@@ -111,14 +118,7 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
                         class="book-demo__reassurance-icon"
                         style="--icon-badge-size: 1.5rem; --icon-badge-border: var(--border-color); --icon-badge-bg: color-mix(in srgb, var(--bg-secondary) 75%, var(--bg)); --icon-badge-color: var(--color-brand);"
                     >
-                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                            <path
-                                d="M3.5 8.3 6.5 11.3 12.5 5.3"
-                                stroke="currentColor"
-                                stroke-width="1.8"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"></path>
-                        </svg>
+                        <Checkmark />
                     </IconBadge>
                     <span>{content.reassurances[0]}</span>
                 </li>
@@ -127,14 +127,7 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
                         class="book-demo__reassurance-icon"
                         style="--icon-badge-size: 1.5rem; --icon-badge-border: var(--border-color); --icon-badge-bg: color-mix(in srgb, var(--bg-secondary) 75%, var(--bg)); --icon-badge-color: var(--color-brand);"
                     >
-                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                            <path
-                                d="M3.5 8.3 6.5 11.3 12.5 5.3"
-                                stroke="currentColor"
-                                stroke-width="1.8"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"></path>
-                        </svg>
+                        <Checkmark />
                     </IconBadge>
                     <span>{content.reassurances[1]}</span>
                 </li>
@@ -143,14 +136,7 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
                         class="book-demo__reassurance-icon"
                         style="--icon-badge-size: 1.5rem; --icon-badge-border: var(--border-color); --icon-badge-bg: color-mix(in srgb, var(--bg-secondary) 75%, var(--bg)); --icon-badge-color: var(--color-brand);"
                     >
-                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                            <path
-                                d="M3.5 8.3 6.5 11.3 12.5 5.3"
-                                stroke="currentColor"
-                                stroke-width="1.8"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"></path>
-                        </svg>
+                        <Checkmark />
                     </IconBadge>
                     <span>{content.reassurances[2]}</span>
                 </li>
@@ -218,14 +204,7 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
                                 value={content.services[0]}
                             />
                             <span class="book-demo__check" aria-hidden="true">
-                                <svg viewBox="0 0 16 16" fill="none">
-                                    <path
-                                        d="M3.5 8.3 6.5 11.3 12.5 5.3"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"></path>
-                                </svg>
+                                <Checkmark />
                             </span>
                             <span>{content.services[0]}</span>
                         </label>
@@ -239,14 +218,7 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
                                 value={content.services[1]}
                             />
                             <span class="book-demo__check" aria-hidden="true">
-                                <svg viewBox="0 0 16 16" fill="none">
-                                    <path
-                                        d="M3.5 8.3 6.5 11.3 12.5 5.3"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"></path>
-                                </svg>
+                                <Checkmark />
                             </span>
                             <span>{content.services[1]}</span>
                         </label>
@@ -260,14 +232,7 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
                                 value={content.services[2]}
                             />
                             <span class="book-demo__check" aria-hidden="true">
-                                <svg viewBox="0 0 16 16" fill="none">
-                                    <path
-                                        d="M3.5 8.3 6.5 11.3 12.5 5.3"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"></path>
-                                </svg>
+                                <Checkmark />
                             </span>
                             <span>{content.services[2]}</span>
                         </label>
@@ -281,14 +246,7 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
                                 value={content.services[3]}
                             />
                             <span class="book-demo__check" aria-hidden="true">
-                                <svg viewBox="0 0 16 16" fill="none">
-                                    <path
-                                        d="M3.5 8.3 6.5 11.3 12.5 5.3"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"></path>
-                                </svg>
+                                <Checkmark />
                             </span>
                             <span>{content.services[3]}</span>
                         </label>
@@ -307,14 +265,16 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
                         required></textarea>
                 </label>
 
+                <FileUpload id="full-demo-file" label={content.addFile} />
+
                 <div class="book-demo__actions">
-                    <button class="btn btn--primary" type="submit"
-                        >{content.submit}</button
-                    >
+                    <ArrowButton type="submit" variant="primary">{submitLabel}</ArrowButton>
                     <button class="btn btn--outline" type="reset"
                         >{content.reset}</button
                     >
                 </div>
+
+                <PrivacyNotice lang={lang} />
 
                 <p class="book-demo__footnote">
                     {content.footnote}
@@ -418,9 +378,9 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
     .book-demo__expectation-counter {
         font-family: var(--font-mono);
         color: var(--color-brand);
-        font-size: clamp(1rem, 0.9rem + 0.35vw, 1.25rem);
+        font-size: var(--text-sm);
         font-weight: 600;
-        line-height: 1;
+        line-height: 1.8;
         letter-spacing: 0.08em;
     }
 
@@ -562,6 +522,11 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
         cursor: pointer;
         font-size: var(--text-sm);
         color: var(--text-secondary);
+        transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+    }
+
+    .book-demo__service-option:hover {
+        background: var(--bg-secondary);
     }
 
     .book-demo__service-option input {
@@ -587,7 +552,7 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
         flex-shrink: 0;
     }
 
-    .book-demo__check svg {
+    .book-demo__check :global(.checkmark) {
         width: 0.8rem;
         height: 0.8rem;
     }
@@ -658,6 +623,39 @@ import type{DemoContent}from'../../i18n/pages/demo';interface Props{content:Demo
 
         .book-demo__service-options {
             grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 240px) {
+        .book-demo__form-wrap {
+            padding: var(--sp-3);
+            gap: var(--sp-3);
+        }
+
+        .book-demo__form {
+            gap: var(--sp-3);
+        }
+
+        .book-demo__field {
+            gap: var(--sp-1);
+        }
+
+        .book-demo__field :is(input, textarea) {
+            padding: var(--sp-2) var(--sp-3);
+        }
+
+        .book-demo__service-options {
+            gap: var(--sp-1);
+        }
+
+        .book-demo__service-option {
+            gap: var(--sp-2);
+            padding: var(--sp-1) var(--sp-2);
+        }
+
+        .book-demo__actions {
+            margin-top: var(--sp-2);
+            gap: var(--sp-2);
         }
     }
 </style>

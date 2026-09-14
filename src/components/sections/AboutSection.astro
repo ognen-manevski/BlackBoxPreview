@@ -4,6 +4,8 @@ import visionIcon from '../../assets/vectors/icons/mission-vision/vision-icon.sv
 import ClientLogoCarousel from '../molecules/ClientLogoCarousel.astro';
 import IconBadge from '../atoms/IconBadge.astro';
 import { clientLogos } from '../../data/clientLogos';
+import logoDarkPoster from '../../assets/images/video-thumbnails/bg-videos/3D-Logo.jpg';
+import logoLightPoster from '../../assets/images/video-thumbnails/bg-videos/3D-Logo-wh.jpg';
 import type { HomePageContent } from '../../i18n/pages/home';
 
 const missionIconMarkup = missionIcon as unknown as string;
@@ -64,6 +66,7 @@ const { content } = Astro.props;
           muted
           playsinline
           preload="metadata"
+          poster={logoDarkPoster.src}
           aria-label={content.videoAriaLabel}
         >
           <source src={`${import.meta.env.BASE_URL}videos/bg-videos/3D-Logo.mp4`} type="video/mp4" />
@@ -75,9 +78,10 @@ const { content } = Astro.props;
           muted
           playsinline
           preload="metadata"
+          poster={logoLightPoster.src}
           aria-label={content.videoAriaLabel}
         >
-          <source src={`${import.meta.env.BASE_URL}videos/bg-videos/3D-Logo-white.mp4`} type="video/mp4" />
+          <source src={`${import.meta.env.BASE_URL}videos/bg-videos/3D-Logo-wh.mp4`} type="video/mp4" />
         </video>
       </div>
     </div>
@@ -100,9 +104,7 @@ const { content } = Astro.props;
 
 <style>
   .about {
-    background:
-      radial-gradient(circle at top left, color-mix(in srgb, var(--color-brand) 14%, transparent) 0, transparent 36%),
-      linear-gradient(180deg, color-mix(in srgb, var(--bg-secondary) 92%, var(--bg)) 0%, var(--bg) 100%);
+    background: var(--bg);
   }
 
   .about__inner {
@@ -133,7 +135,8 @@ const { content } = Astro.props;
   }
 
   .about__lead {
-    max-width: 60ch;
+    max-width: none;
+    text-wrap: pretty;
   }
 
   .about__cards {
@@ -241,6 +244,7 @@ const { content } = Astro.props;
 
   .about-principle__text {
     color: var(--text-secondary);
+    font-size: var(--text-sm);
     line-height: 1.6;
   }
 
@@ -260,16 +264,26 @@ const { content } = Astro.props;
     .about__video {
       max-height: 24rem;
     }
+
+    .about-principle__number {
+      font-size: var(--text-xl);
+    }
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 840px) {
+    .about-principle {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
     .about__cards,
     .about__principles {
       grid-template-columns: 1fr;
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 480px) {
     .about-principle {
       grid-template-columns: 1fr;
       gap: var(--sp-2);

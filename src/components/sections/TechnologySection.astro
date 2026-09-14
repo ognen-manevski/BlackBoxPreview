@@ -1,42 +1,135 @@
 ---
-import TechnologyGrid from '../molecules/TechnologyGrid.astro';
-import type { HomePageContent } from '../../i18n/pages/home';
-interface Props { content: HomePageContent['technology']; }
+import { Picture } from "astro:assets";
+import TechnologyGrid from "../molecules/TechnologyGrid.astro";
+import SectionTitleGroup from "../molecules/SectionTitleGroup.astro";
+import orbDarkPoster from "../../assets/images/video-thumbnails/bg-videos/orb.jpg";
+import orbLightPoster from "../../assets/images/video-thumbnails/bg-videos/orb-wh.jpg";
+import type { HomePageContent } from "../../i18n/pages/home";
+interface Props {
+  content: HomePageContent["technology"];
+}
 const { content } = Astro.props;
 ---
 
-<section class="section technology" id="technology" aria-labelledby="technology-heading">
+<section
+  class="section technology"
+  id="technology"
+  aria-labelledby="technology-heading"
+>
+  {
+    false && (
+      <div class="container technology__inner">
+        <div class="technology__top">
+          <header class="technology__header section__header">
+            <p class="section-label">{content.label}</p>
+            <h2
+              class="section-headline technology__headline"
+              id="technology-heading"
+            >
+              {content.heading}
+            </h2>
+            <p class="section-copy technology__copy">{content.copy}</p>
+          </header>
+
+          <div class="technology__orb" aria-hidden="true">
+            <video
+              class="technology__bg-video technology__bg-video--dark"
+              src={`${import.meta.env.BASE_URL}videos/bg-videos/orb.mp4`}
+              poster={orbDarkPoster.src}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            />
+            <video
+              class="technology__bg-video technology__bg-video--light"
+              src={`${import.meta.env.BASE_URL}videos/bg-videos/orb-wh.mp4`}
+              poster={orbLightPoster.src}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            />
+          </div>
+        </div>
+
+        <TechnologyGrid content={content.grid} />
+      </div>
+    )
+  }
+
   <div class="technology__bg" aria-hidden="true">
     <video
       class="technology__bg-video technology__bg-video--dark"
       src={`${import.meta.env.BASE_URL}videos/bg-videos/orb.mp4`}
+      poster={orbDarkPoster.src}
       autoplay
       muted
       loop
       playsinline
-      preload="metadata"
-    ></video>
+      preload="metadata"></video>
     <video
       class="technology__bg-video technology__bg-video--light"
-      src={`${import.meta.env.BASE_URL}videos/bg-videos/orb-white.mp4`}
+      src={`${import.meta.env.BASE_URL}videos/bg-videos/orb-wh.mp4`}
+      poster={orbLightPoster.src}
       autoplay
       muted
       loop
       playsinline
-      preload="metadata"
-    ></video>
+      preload="metadata"></video>
+
+    <!-- Mobile: swap the video for a static poster (no video download/decode on mobile). -->
+    <Picture
+      class="technology__bg-poster technology__bg-poster--dark"
+      src={orbDarkPoster}
+      widths={[480, 800, 1200]}
+      sizes="100vw"
+      alt=""
+      loading="lazy"
+    />
+    <Picture
+      class="technology__bg-poster technology__bg-poster--light"
+      src={orbLightPoster}
+      widths={[480, 800, 1200]}
+      sizes="100vw"
+      alt=""
+      loading="lazy"
+    />
+  </div>
+
+  <!-- Mobile-only accent image, pinned to the top-right corner. -->
+  <div class="technology__corner" aria-hidden="true">
+    <Picture
+      class="technology__corner-img technology__corner-img--dark"
+      src={orbDarkPoster}
+      widths={[240, 360]}
+      sizes="9rem"
+      alt=""
+      loading="lazy"
+    />
+    <Picture
+      class="technology__corner-img technology__corner-img--light"
+      src={orbLightPoster}
+      widths={[240, 360]}
+      sizes="9rem"
+      alt=""
+      loading="lazy"
+    />
   </div>
 
   <div class="container technology__inner">
-    <header class="technology__header section__header">
-      <p class="section-label">{content.label}</p>
-      <h2 class="section-headline technology__headline" id="technology-heading">
-        {content.heading}
-      </h2>
-      <p class="section-copy technology__copy">
-        {content.copy}
-      </p>
-    </header>
+    <SectionTitleGroup
+      class="technology__header"
+      headlineClass="technology__headline"
+      copyClass="technology__copy"
+      label={content.label}
+      heading={content.heading}
+      headingId="technology-heading"
+      titleWidth="36%"
+      copy={content.copy}
+    />
 
     <TechnologyGrid content={content.grid} />
   </div>
@@ -50,25 +143,100 @@ const { content } = Astro.props;
     background: var(--bg);
   }
 
+  .technology__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .technology__header {
+    max-width: none;
+    margin-bottom: var(--sp-6);
+  }
+
+  :global(.technology__headline) {
+    max-width: 23ch;
+    margin-bottom: 0;
+  }
+
+  /* Alt layout (commented out): orb inline next to heading via flex parent +
+     overflow-visible scale trick.
+  .technology__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-6);
+    margin-bottom: var(--sp-6);
+  }
+
+  .technology__header {
+    max-width: 74ch;
+    margin-bottom: 0;
+    flex: 1 1 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .technology__orb {
+    position: relative;
+    flex: 0 0 auto;
+    width: 16rem;
+    aspect-ratio: 1;
+    overflow: visible;
+    z-index: -1;
+    pointer-events: none;
+    place-content: center;
+  }
+
+  @media (max-width: 980px) {
+    .technology__top {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .technology__orb {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 12rem;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .technology__orb {
+      width: 9rem;
+    }
+  }
+  */
+
+  /* Current layout: full-bleed bg video, horizontally centered, video's own
+     center pinned to the section's bottom-center so it glows up from below. */
   .technology__bg {
     position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.75;
     overflow: hidden;
+  }
+
+  .technology__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--video-overlay);
   }
 
   .technology__bg-video {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: right top;
-    transform: scale(1.05);
+    left: 50%;
+    bottom: 0;
+    height: auto;
+    width: 260vw;
+    max-width: 2200px;
+    aspect-ratio: 1;
+    transform: translate(-50%, 56%);
+    object-fit: contain;
     opacity: 1;
+    filter: blur(4px);
     transition: opacity var(--t-base);
   }
 
@@ -80,45 +248,92 @@ const { content } = Astro.props;
     opacity: 0;
   }
 
-  .technology__inner {
-    position: relative;
-    z-index: 1;
-  }
-
-  .technology__header {
-    max-width: 74ch;
-    margin-bottom: var(--sp-6);
-  }
-
-  .technology__headline {
-    max-width: 23ch;
-    margin-bottom: var(--sp-3);
-  }
-
-  .technology__copy {
-    max-width: 70ch;
-  }
-
-  :global([data-theme='light']) .technology__bg-video--dark {
+  :global([data-theme="light"]) .technology__bg-video--dark {
     opacity: 0;
   }
 
-  :global([data-theme='light']) .technology__bg-video--light {
+  :global([data-theme="light"]) .technology__bg-video--light {
     opacity: 1;
   }
 
-  @media (max-width: 980px) {
-    .technology__bg {
-      width: min(70vw, 34rem);
-      opacity: 0.75;
-    }
+  /* Static stand-ins for the video on mobile (hidden on desktop). */
+  .technology__bg-poster {
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    height: auto;
+    width: 260vw;
+    max-width: 2200px;
+    aspect-ratio: 1;
+    transform: translate(-50%, 56%);
+    object-fit: contain;
+    transition: opacity var(--t-base);
+  }
+
+  .technology__bg-poster--dark {
+    opacity: 1;
+  }
+
+  .technology__bg-poster--light {
+    opacity: 0;
+  }
+
+  :global([data-theme="light"]) .technology__bg-poster--dark {
+    opacity: 0;
+  }
+
+  :global([data-theme="light"]) .technology__bg-poster--light {
+    opacity: 1;
+  }
+
+  /* Mobile-only accent, pinned to the top-right corner (hidden on desktop). */
+  .technology__corner {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120vw;
+    aspect-ratio: 1;
+    transform: translate(46%, -57%);
+    z-index: 0;
+    pointer-events: none;
+    filter: blur(0.5rem);
+  }
+
+  .technology__corner-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: opacity var(--t-base);
+  }
+
+  .technology__corner-img--dark {
+    opacity: 1;
+  }
+
+  .technology__corner-img--light {
+    opacity: 0;
+  }
+
+  :global([data-theme="light"]) .technology__corner-img--dark {
+    opacity: 0;
+  }
+
+  :global([data-theme="light"]) .technology__corner-img--light {
+    opacity: 1;
   }
 
   @media (max-width: 700px) {
-    .technology__bg {
-      width: 100%;
-      opacity: 0.45;
+    .technology__bg-video {
+      display: none;
+    }
+
+    .technology__bg-poster,
+    .technology__corner {
+      display: block;
     }
   }
-
 </style>

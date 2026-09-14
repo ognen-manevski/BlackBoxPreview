@@ -1,5 +1,6 @@
 ---
 import TechnologyGrid from "../molecules/TechnologyGrid.astro";
+import SectionTitleGroup from "../molecules/SectionTitleGroup.astro";
 import type { SoftwareDevelopmentContent } from '../../i18n/pages/software-development';
 interface Props { content: SoftwareDevelopmentContent['technology'] } const { content } = Astro.props;
 ---
@@ -10,33 +11,21 @@ interface Props { content: SoftwareDevelopmentContent['technology'] } const { co
   aria-labelledby="technology-heading"
 >
   <div class="container technology__inner">
-    <header class="technology__header section__header">
-      <p class="section-label">{content.label}</p>
-      <div class="section__header-inner">
-        <h2
-          class="section-headline technology__headline"
-          id="technology-heading"
-        >
-          {content.heading}
-        </h2>
-        <p class="section-copy technology__copy">
-          {content.copy}
-        </p>
-      </div>
-    </header>
+    <SectionTitleGroup
+      class="technology__header"
+      label={content.label}
+      heading={content.heading}
+      headingId="technology-heading"
+      titleWidth="42%"
+      headlineWidth="26ch"
+      copy={content.copy}
+    />
 
     <TechnologyGrid content={content.grid} />
   </div>
 </section>
 
 <style>
-  .section__header-inner {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--sp-3);
-  }
-
   .technology {
     position: relative;
     isolation: isolate;
@@ -54,12 +43,4 @@ interface Props { content: SoftwareDevelopmentContent['technology'] } const { co
     margin-bottom: var(--sp-6);
   }
 
-  .technology__headline {
-    max-width: 23ch;
-    margin-bottom: var(--sp-3);
-  }
-
-  .technology__copy {
-    max-width: 70ch;
-  }
 </style>

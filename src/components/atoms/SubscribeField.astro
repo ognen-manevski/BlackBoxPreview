@@ -1,4 +1,7 @@
 ---
+import ArrowForwardIcon from '../icons/ArrowForwardIcon.astro';
+import PrivacyConsent from './PrivacyConsent.astro';
+
 interface Props {
   buttonLabel?: string;
   placeholder?: string;
@@ -8,6 +11,10 @@ interface Props {
   action?: string;
   method?: 'post' | 'get';
   buttonClass?: string;
+  privacyText?: string;
+  privacyLinkText?: string;
+  privacyLinkHref?: string;
+  privacyId?: string;
   class?: string;
   label: string;
 }
@@ -22,6 +29,10 @@ const {
   action = '#',
   method = 'post',
   buttonClass = '',
+  privacyText,
+  privacyLinkText,
+  privacyLinkHref = '#',
+  privacyId,
   class: className = '',
 } = Astro.props;
 ---
@@ -39,11 +50,21 @@ const {
   >
   <button class:list={['subscribe-field__button', buttonClass]} type="submit">
     <span>{buttonLabel}</span>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <line x1="5" y1="12" x2="19" y2="12"></line>
-      <polyline points="12 5 19 12 12 19"></polyline>
-    </svg>
+    <ArrowForwardIcon />
   </button>
+  {
+    privacyText && privacyLinkText && (
+      <div class="subscribe-field__consent">
+        <PrivacyConsent
+          id={privacyId}
+          text={privacyText}
+          linkText={privacyLinkText}
+          linkHref={privacyLinkHref}
+          required={true}
+        />
+      </div>
+    )
+  }
 </form>
 
 <style>
@@ -62,7 +83,9 @@ const {
   .subscribe-field {
     display: flex;
     align-items: stretch;
+    flex-wrap: wrap;
     width: 100%;
+    max-width: 64ch;
     min-height: 2.375rem;
   }
 
@@ -103,6 +126,8 @@ const {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex: 0 0 auto;
+    min-height: 2.375rem;
     gap: var(--sp-2);
     cursor: pointer;
     white-space: nowrap;
@@ -112,6 +137,16 @@ const {
   .subscribe-field__button:is(:hover, :focus-visible) {
     background: var(--color-brand-dark);
     border-color: var(--color-brand-dark);
+  }
+
+  .subscribe-field__consent {
+    flex-basis: 100%;
+    margin-top: var(--sp-3);
+  }
+
+  .subscribe-field__button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
   }
 
   @media (max-width: 600px) {
@@ -128,6 +163,11 @@ const {
     .subscribe-field__button {
       border-radius: var(--radius);
       justify-content: center;
+    }
+
+    .subscribe-field__consent {
+      width: 100%;
+      flex-basis: auto;
     }
   }
 </style>

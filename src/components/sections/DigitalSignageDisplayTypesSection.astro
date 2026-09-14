@@ -1,47 +1,41 @@
 ---
+import ProgressiveImage from '../atoms/ProgressiveImage.astro';
 import standardImage from '../../assets/images/services/neoslide/display-types/standard.jpg';
 import totemsImage from '../../assets/images/services/neoslide/display-types/totems.jpg';
 import menuBoardsImage from '../../assets/images/services/neoslide/display-types/menu-boards.jpg';
 import interactiveImage from '../../assets/images/services/neoslide/display-types/interactive.jpg';
 import videoWallImage from '../../assets/images/services/neoslide/display-types/video-wall.jpg';
 import anySizeImage from '../../assets/images/services/neoslide/display-types/any-size.jpg';
+import SectionTitleGroup from '../molecules/SectionTitleGroup.astro';
 import type { DigitalSignageContent } from '../../i18n/pages/digital-signage';
 
 interface Props { content: DigitalSignageContent['displayTypes'] } const { content } = Astro.props;
-const images = [standardImage.src, totemsImage.src, menuBoardsImage.src, interactiveImage.src, videoWallImage.src, anySizeImage.src];
-const displayTypes = content.items.map((item, index) => ({ ...item, imageSrc: images[index] }));
+const images = [standardImage, totemsImage, menuBoardsImage, interactiveImage, videoWallImage, anySizeImage];
+const displayTypes = content.items.map((item, index) => ({ ...item, imageSrc: images[index].src, image: images[index] }));
 ---
 
 <section class="section ds-display-types" aria-labelledby="display-types-heading">
     <div class="container ds-display-types__container">
-        <header class="section__header ds-display-types__intro">
-            <div class="ds-display-types__heading">
-                <p class="section-label">{content.label}</p>
-
-                <h2 class="section-headline ds-display-types__headline" id="display-types-heading">
-                    {content.heading}
-                </h2>
-            </div>
-
-            <div class="ds-display-types__lead-wrap">
-                <p class="section-copy ds-display-types__lead">
-                    {content.copy}
-                </p>
-            </div>
-        </header>
+        <SectionTitleGroup
+            class="ds-display-types__intro"
+            label={content.label}
+            heading={content.heading}
+            headingId="display-types-heading"
+            copy={content.copy}
+        />
 
         <div class="ds-display-types__grid" aria-label={content.gridAriaLabel}>
             {
                 displayTypes.map((displayType, index) => (
                     <article class="ds-display-types__card u-border-interactive">
-                        <figure class="ds-display-types__media">
-                            <img
+                        <figure class="ds-display-types__media" data-progressive-host="relative">
+                            <ProgressiveImage src={displayType.image}><img
                                 src={displayType.imageSrc}
                                 alt={displayType.imageAlt}
                                 loading={index === 0 ? 'eager' : 'lazy'}
                                 decoding="async"
                                 class="ds-display-types__image"
-                            />
+                            /></ProgressiveImage>
                         </figure>
 
                         <div class="ds-display-types__details">
@@ -82,28 +76,7 @@ const displayTypes = content.items.map((item, index) => ({ ...item, imageSrc: im
     }
 
     .ds-display-types__intro {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: var(--sp-6);
-        align-items: start;
         margin-bottom: 0;
-    }
-
-    .ds-display-types__heading {
-        display: grid;
-        gap: var(--sp-3);
-    }
-
-    .ds-display-types__headline,
-    .ds-display-types__lead{
-        margin: 0;
-    }
-
-    .ds-display-types__lead-wrap {
-        display: grid;
-        gap: var(--sp-3);
-        align-self: end;
-        max-width: 58ch;
     }
 
     .ds-display-types__small {
@@ -215,14 +188,6 @@ const displayTypes = content.items.map((item, index) => ({ ...item, imageSrc: im
     @media (max-width: 1024px) {
         .ds-display-types__container {
             gap: var(--sp-6);
-        }
-
-        .ds-display-types__intro {
-            grid-template-columns: 1fr;
-        }
-
-        .ds-display-types__lead-wrap {
-            max-width: 65ch;
         }
 
         .ds-display-types__grid {

@@ -23,6 +23,7 @@ interface Props {
   ariaLabel?: string;
   showCrosses?: boolean;
   columns?: number;
+  surfaceClass?: string;
 }
 
 const {
@@ -31,6 +32,7 @@ const {
   ariaLabel,
   showCrosses = true,
   columns = 6,
+  surfaceClass,
 } = Astro.props as Props;
 
 const hasCells = cellContent.length > 0;
@@ -40,7 +42,8 @@ const renderedCells = hasCells
 ---
 
 <div class="grid-frame">
-  <div class="content-grid" style={`--content-grid-columns: ${columns};`} role="list" aria-label={ariaLabel}>
+  <div class={surfaceClass}>
+    <div class="content-grid" style={`--content-grid-columns: ${columns};`} role="list" aria-label={ariaLabel}>
     {renderedCells.map((cell) => {
       const className = `grid-custom ${cell.className ?? ''}`.trim();
       const cellInner = 'component' in cell
@@ -71,10 +74,12 @@ const renderedCells = hasCells
         </div>
       );
     })}
+    </div>
   </div>
 </div>
 
 <style>
+
   .grid-frame {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);

@@ -1,67 +1,160 @@
 ---
-import ArrowButton from '../atoms/ArrowButton.astro';
-import LangToggle from '../atoms/LangToggle.astro';
-import ThemeToggle from '../atoms/ThemeToggle.astro';
-import { commonTranslations } from '../../i18n/common';
-import { getLocalizedPath, getTranslations } from '../../i18n/utils';
-import type { Lang } from '../../i18n/types';
+import ArrowButton from "../atoms/ArrowButton.astro";
+import LangToggle from "../atoms/LangToggle.astro";
+import ThemeToggle from "../atoms/ThemeToggle.astro";
+import { commonTranslations } from "../../i18n/common";
+import { getLocalizedPath, getTranslations } from "../../i18n/utils";
+import type { Lang } from "../../i18n/types";
+import logoRaw from "../../assets/vectors/brand/logo-horizontal.svg?raw";
 
 interface Props {
   currentLang?: Lang;
 }
-const { currentLang = 'en' } = Astro.props;
+const { currentLang = "en" } = Astro.props;
 const t = getTranslations(commonTranslations, currentLang).navigation;
+const common = getTranslations(commonTranslations, currentLang);
 const href = (path: string) => getLocalizedPath(path, currentLang);
-const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg`;
+const logoMarkup = logoRaw.replace(
+  "<svg ",
+  '<svg class="navbar__logo" aria-hidden="true" ',
+);
+const normalizedPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isActive = (path: string) => {
+  const target =
+    getLocalizedPath(path, currentLang).split("#")[0].replace(/\/$/, "") || "/";
+  return (
+    normalizedPath === target ||
+    (target !== "/" && normalizedPath.startsWith(`${target}/`))
+  );
+};
 ---
-<nav class="navbar" role="navigation" aria-label={t.ariaLabel} id="navbar" style={`--navbar-logo-mask: url('${brandLogoPath}')`}>
-  <div class="container">
 
-    <a href={href('/')} class="navbar__brand" aria-label={t.homeAriaLabel}>
-      <!-- TODO: confirm file at /brand/logo/logo-horizontal.svg -->
-      <span class="navbar__logo" aria-hidden="true"></span>
+<nav class="navbar" role="navigation" aria-label={t.ariaLabel} id="navbar">
+  <div class="container">
+    <a href={href("/")} class="navbar__brand" aria-label={t.homeAriaLabel}>
+      <Fragment set:html={logoMarkup} />
     </a>
 
-    <ul class="navbar__nav" role="list" id="navMenu" aria-label={t.primaryAriaLabel}> 
-      <li class="nav-item--dropdown">
-        <button
-          class="nav-dropdown__trigger"
-          id="servicesBtn"
-          aria-expanded="false"
-          aria-haspopup="true"
-          aria-controls="servicesDropdown"
-          type="button"
-        >
-          {t.services}
-          <svg class="chevron" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M7.06 0L4 3.05333L0.94 0L0 0.94L4 4.94L8 0.94L7.06 0Z" fill="currentColor"/>
-          </svg>
-        </button>
-        <div class="nav-dropdown__panel" id="servicesDropdown">
-          <a href={href('/digital-signage/')} class="nav-dropdown__item nav-dropdown__item--featured">{t.serviceLinks.digitalSignage}</a>
-          <a href={href('/shelf-labels/')} class="nav-dropdown__item">{t.serviceLinks.shelfLabels}</a>
-          <a href={href('/video-streaming/')} class="nav-dropdown__item">{t.serviceLinks.videoStreaming}</a>
-          <a href={href('/software-development/')} class="nav-dropdown__item">{t.serviceLinks.softwareDevelopment}</a>
-        </div>
-      </li>
-      <li><a href={href('/news/')}>{t.news}</a></li>
-      <li><a href={href('/blog/')}>{t.caseStudies}</a></li>
-      <li><a href={href('/#about')}>{t.about}</a></li>
-      <li><a href={href('/#contact')}>{t.contact}</a></li>
-      <li class="navbar__mobile-cta">
-        <ArrowButton href={href('/book-a-free-demo/')} variant="primary" size="sm" class="navbar__demo-button">{t.bookDemo}</ArrowButton>
-      </li>
-      <li class="navbar__mobile-controls" aria-label={t.controlsAriaLabel}>
-        <LangToggle currentLang={currentLang} />
-        <ThemeToggle label={getTranslations(commonTranslations, currentLang).theme.toggleAriaLabel} />
-      </li>
-    </ul>
+    <div class="navbar__menu-panel container">
+      <ul
+        class="navbar__nav"
+        role="list"
+        id="navMenu"
+        aria-label={t.primaryAriaLabel}
+      >
+        <li class="nav-item--dropdown">
+          <div class="navbar__mobile-services-card">
+            <span class="nav-mobile-section-title">{t.services}</span>
+            <button
+              class:list={[
+                "nav-dropdown__trigger",
+                (isActive("/digital-signage/") ||
+                  isActive("/shelf-labels/") ||
+                  isActive("/video-streaming/") ||
+                  isActive("/software-development/")) &&
+                  "is-active",
+              ]}
+              id="servicesBtn"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="servicesDropdown"
+              type="button"
+            >
+              {t.services}
+              <svg
+                class="chevron"
+                width="8"
+                height="5"
+                viewBox="0 0 8 5"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M7.06 0L4 3.05333L0.94 0L0 0.94L4 4.94L8 0.94L7.06 0Z"
+                  fill="currentColor"></path>
+              </svg>
+              <span class="navbar__active-indicator" aria-hidden="true"></span>
+            </button>
+            <div class="nav-dropdown__panel" id="servicesDropdown">
+              <a
+                href={href("/digital-signage/")}
+                class="nav-dropdown__item nav-dropdown__item--featured"
+                >{t.serviceLinks.digitalSignage}</a
+              >
+              <a href={href("/shelf-labels/")} class="nav-dropdown__item"
+                >{t.serviceLinks.shelfLabels}</a
+              >
+              <a href={href("/video-streaming/")} class="nav-dropdown__item"
+                >{t.serviceLinks.videoStreaming}</a
+              >
+              <a
+                href={href("/software-development/")}
+                class="nav-dropdown__item"
+                >{t.serviceLinks.softwareDevelopment}</a
+              >
+            </div>
+          </div>
+        </li>
+        <li class="navbar__mobile-other-links">
+          <div class="navbar__mobile-company-card">
+            <span class="nav-mobile-section-title">{common.footer.company}</span
+            >
+            <div class="navbar__mobile-other-links-list">
+              <a
+                href={href("/news/")}
+                class:list={[isActive("/news/") && "is-active"]}
+                aria-current={isActive("/news/") ? "page" : undefined}
+                >{t.news}<span
+                  class="navbar__active-indicator"
+                  aria-hidden="true"></span></a
+              >
+              <a
+                href={href("/blog/")}
+                class:list={[isActive("/blog/") && "is-active"]}
+                aria-current={isActive("/blog/") ? "page" : undefined}
+                >{t.caseStudies}<span
+                  class="navbar__active-indicator"
+                  aria-hidden="true"></span></a
+              >
+              <a href={href("/#about")}>{t.about}</a>
+              <a href={href("/#contact")}>{t.contact}</a>
+            </div>
+          </div>
+        </li>
+        <li class="navbar__mobile-controls" aria-label={t.controlsAriaLabel}>
+          <div class="navbar__mobile-settings">
+            <LangToggle currentLang={currentLang} />
+            <ThemeToggle
+              label={getTranslations(commonTranslations, currentLang).theme
+                .toggleAriaLabel}
+            />
+          </div>
+          <div class="navbar__mobile-demo-wrap">
+            <ArrowButton
+              href={href("/book-a-free-demo/")}
+              variant="primary"
+              size="sm"
+              class="navbar__mobile-demo-button">{t.bookDemo}</ArrowButton
+            >
+          </div>
+        </li>
+      </ul>
+    </div>
 
     <div class="navbar__controls">
       <div class="navbar__desktop-controls" aria-hidden="false">
         <LangToggle currentLang={currentLang} />
-        <ThemeToggle label={getTranslations(commonTranslations, currentLang).theme.toggleAriaLabel} />
-        <ArrowButton href={href('/book-a-free-demo/')} variant="primary" size="sm" class="navbar__demo-button">{t.bookDemo}</ArrowButton>
+        <ThemeToggle
+          label={getTranslations(commonTranslations, currentLang).theme
+            .toggleAriaLabel}
+        />
+        <ArrowButton
+          href={href("/book-a-free-demo/")}
+          variant="primary"
+          size="sm"
+          class="navbar__demo-button">{t.bookDemo}</ArrowButton
+        >
       </div>
 
       <button
@@ -79,7 +172,6 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
         <span></span>
       </button>
     </div>
-
   </div>
 </nav>
 
@@ -117,6 +209,8 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
   .navbar__brand {
     display: flex;
     align-items: center;
+    width: auto;
+    height: 2rem;
     flex-shrink: 0;
     color: var(--text-primary);
   }
@@ -127,13 +221,13 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
   }
 
   .navbar__logo {
-    /* TODO: adjust width/height to match actual logo proportions */
     display: block;
-    width: 9rem;
+    width: auto;
     height: 2rem;
-    background-color: currentColor;
-    -webkit-mask: var(--navbar-logo-mask) no-repeat left center / contain;
-    mask: var(--navbar-logo-mask) no-repeat left center / contain;
+    aspect-ratio: 363 / 87;
+    color: currentColor;
+    fill: currentColor;
+    max-width: none;
     flex-shrink: 0;
   }
 
@@ -145,12 +239,36 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
     flex: 1;
   }
 
+  .navbar .navbar__menu-panel {
+    display: contents;
+    position: static;
+  }
+
+  .navbar__mobile-services-card,
+  .navbar__mobile-company-card,
+  .navbar__mobile-other-links {
+    display: contents;
+  }
+
+  .navbar .navbar__nav > .navbar__mobile-other-links {
+    display: contents;
+  }
+
+  .navbar__mobile-other-links-list {
+    display: contents;
+  }
+
+  .navbar__mobile-company-card {
+    display: contents;
+  }
+
   .navbar__nav > li {
     display: flex;
     align-items: center;
   }
 
   .navbar__nav a {
+    position: relative;
     display: inline-flex;
     align-items: center;
     line-height: 1;
@@ -160,13 +278,45 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
     padding: var(--sp-2) var(--sp-3);
     border-radius: var(--radius);
     white-space: nowrap;
-    transition: color var(--t-fast), background var(--t-fast);
+    min-width: min-content;
+    transition:
+      color var(--t-fast),
+      background var(--t-fast);
+  }
+
+  .navbar__active-indicator {
+    position: absolute;
+    left: var(--sp-3);
+    right: var(--sp-3);
+    bottom: 0;
+    height: 2px;
+    background: var(--color-brand);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .navbar__nav .nav-dropdown__trigger {
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .navbar__nav
+    :is(a.is-active, .nav-dropdown__trigger.is-active)
+    .navbar__active-indicator {
+    view-transition-name: active-nav-indicator;
+    opacity: 1;
   }
 
   .navbar__nav a:hover,
   .navbar__nav a[aria-current="page"] {
     color: var(--text-primary);
     background: var(--bg-secondary);
+  }
+
+  .navbar__nav .navbar__mobile-demo-button:hover {
+    color: #fff;
+    background: var(--color-brand-dark);
+    border-color: var(--color-brand-dark);
   }
 
   /* ---- Services dropdown ---- */
@@ -187,7 +337,9 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
     border: none;
     gap: var(--sp-2);
     cursor: pointer;
-    transition: color var(--t-fast), background var(--t-fast);
+    transition:
+      color var(--t-fast),
+      background var(--t-fast);
   }
 
   .nav-dropdown__trigger:hover,
@@ -245,7 +397,9 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
     color: var(--text-secondary);
     padding: var(--sp-3) var(--sp-4) !important;
     border-radius: var(--radius);
-    transition: color var(--t-fast), background var(--t-fast);
+    transition:
+      color var(--t-fast),
+      background var(--t-fast);
     white-space: nowrap;
   }
 
@@ -265,6 +419,10 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
     /* color: #fff; */
   }
 
+  .nav-mobile-section-title {
+    display: none;
+  }
+
   /* ---- Controls area ---- */
   .navbar__controls {
     display: flex;
@@ -281,6 +439,8 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
   }
 
   .navbar__demo-button {
+    min-width: min-content;
+    white-space: nowrap;
     min-height: auto;
     gap: var(--sp-1);
     letter-spacing: 0.04em;
@@ -324,44 +484,106 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
     height: 2px;
     background: currentColor;
     border-radius: 1px;
-    transition: transform var(--t-base), opacity var(--t-base);
+    transition:
+      transform var(--t-base),
+      opacity var(--t-base);
   }
 
   .navbar.menu-open .menu-toggle span:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
+    transform: translateY(0.375rem) rotate(45deg);
   }
   .navbar.menu-open .menu-toggle span:nth-child(2) {
     opacity: 0;
   }
   .navbar.menu-open .menu-toggle span:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
+    transform: translateY(-0.375rem) rotate(-45deg);
   }
 
   /* ---- Mobile ---- */
-  @media (max-width: 768px) {
-    .navbar__nav {
+  @media (max-width: 980px) {
+    .navbar .navbar__menu-panel {
       display: none;
       position: absolute;
       top: calc(100% + var(--sp-2));
       left: 0;
       right: 0;
-      flex-direction: column;
+      z-index: 99;
       background: var(--nav-bg);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border-color);
-      padding: var(--sp-3) var(--sp-4) var(--sp-4);
-      gap: var(--sp-1);
-      z-index: 99;
+    }
+
+    .navbar.menu-open .navbar__menu-panel {
+      display: block;
+    }
+
+    .navbar__nav {
+      display: none;
+      display: grid;
+      grid-template-columns: minmax(14rem, 1fr) minmax(0, 1fr);
+      grid-template-rows: auto 1fr auto;
+      padding: var(--sp-3) 0 var(--sp-4);
+      column-gap: var(--sp-4);
+      row-gap: 0;
+      align-items: stretch;
     }
 
     .navbar__nav.is-open {
-      display: flex;
+      display: grid;
     }
 
     .navbar__nav > li {
       width: 100%;
       align-items: stretch;
+    }
+
+    .navbar__nav > .nav-item--dropdown,
+    .navbar__nav > .navbar__mobile-other-links {
+      grid-row: span 2;
+      min-width: 0;
+      display: grid;
+      grid-template-rows: subgrid;
+    }
+
+    .navbar__nav > .navbar__mobile-controls {
+      grid-column: 1 / -1;
+      grid-row: 3;
+      width: 100%;
+    }
+
+    .navbar__mobile-services-card {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      min-width: 0;
+      height: auto;
+      padding: var(--sp-2);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      background: var(--bg-secondary);
+    }
+
+    .navbar__mobile-company-card {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      min-width: 0;
+      height: auto;
+      padding: var(--sp-2);
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+    }
+
+    .navbar .navbar__nav > .navbar__mobile-other-links {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      min-width: 0;
+    }
+
+    .navbar__mobile-other-links-list {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      min-width: 0;
     }
 
     .navbar__nav a {
@@ -372,28 +594,53 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
       width: 100%;
     }
 
-    .navbar__desktop-controls {
+    .navbar__nav .navbar__active-indicator {
       display: none;
     }
 
-    .navbar__mobile-cta {
-      display: flex;
-      width: 100%;
-    }
-
-    .navbar__mobile-cta .btn {
-      width: 100%;
-      justify-content: center;
-    }
-
-    .navbar__mobile-controls {
+    .navbar__desktop-controls {
       display: flex;
       align-items: center;
       gap: var(--sp-2);
-      padding: var(--sp-3);
+    }
+
+    .navbar__mobile-controls,
+    .navbar__nav > .navbar__mobile-controls {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-2);
+      padding: var(--sp-3) 0;
       border-top: 1px solid var(--border-color);
       margin-top: var(--sp-2);
       width: 100%;
+    }
+
+    .navbar__mobile-settings {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      min-width: 0;
+    }
+
+    .navbar__mobile-settings .lang-toggle a {
+      display: inline-flex;
+      align-items: center;
+      width: auto;
+      padding: 5px var(--sp-3);
+      text-align: center;
+    }
+
+    .navbar__nav .navbar__mobile-demo-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2rem;
+      padding: 5px var(--sp-3);
+      color: #fff;
+      gap: var(--sp-1);
+      flex: 0 0 auto;
+      letter-spacing: 0.04em;
     }
 
     .menu-toggle {
@@ -410,13 +657,24 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
     }
 
     .nav-dropdown__trigger {
+      display: none;
       width: 100%;
-      display: flex;
       align-items: center;
       text-align: left;
       gap: var(--sp-3);
       justify-content: space-between;
       padding: var(--sp-3);
+    }
+
+    .nav-mobile-section-title {
+      display: block;
+      padding: var(--sp-2) 0;
+      color: var(--color-brand);
+      font-family: var(--font-ui);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
     .nav-dropdown__panel {
@@ -438,91 +696,175 @@ const brandLogoPath = `${import.meta.env.BASE_URL}brand/logo/logo-horizontal.svg
       display: none;
       background-color: var(--bg-secondary);
       border-radius: 0 0 var(--radius) var(--radius);
+      border: 0;
+      padding: 0;
+    }
+
+    .nav-item--dropdown .nav-dropdown__panel {
+      display: flex;
     }
 
     .navbar__nav > .navbar__mobile-controls {
-      display: flex;
+      display: none;
     }
 
     .nav-dropdown__panel.is-open {
       display: flex;
     }
   }
+
+  @media (max-width: 450px) {
+    .navbar__desktop-controls {
+      display: none;
+    }
+
+    .navbar__nav .navbar__mobile-demo-button {
+      min-width: min-content;
+    }
+
+    .navbar.menu-open .menu-toggle span:nth-child(1) {
+      transform: translateY(0.35rem) rotate(45deg);
+    }
+    .navbar.menu-open .menu-toggle span:nth-child(3) {
+      transform: translateY(-0.35rem) rotate(-45deg);
+    }
+  }
+
+  @media (max-width: 580px) {
+    .navbar__desktop-controls {
+      display: none;
+    }
+
+    .navbar__mobile-controls,
+    .navbar__nav > .navbar__mobile-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--sp-4);
+    }
+
+    .navbar__mobile-settings {
+      justify-content: space-between;
+    }
+
+    .navbar__mobile-demo-wrap {
+      width: 100%;
+    }
+
+    .navbar__nav .navbar__mobile-demo-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .navbar__mobile-controls {
+      gap: var(--sp-4);
+    }
+  }
+
+  @media (max-width: 400px) {
+    .navbar__nav {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      column-gap: 0;
+    }
+
+    .navbar__nav > .nav-item--dropdown,
+    .navbar__nav > .navbar__mobile-other-links {
+      width: 100%;
+      grid-column: 1;
+      grid-row: auto;
+      display: grid;
+      grid-template-rows: auto auto;
+    }
+
+    .navbar__mobile-services-card,
+    .navbar__mobile-company-card,
+    .navbar .navbar__nav > .navbar__mobile-other-links {
+      grid-row: auto;
+    }
+  }
 </style>
 
 <script>
-  const navbar  = document.getElementById('navbar');
-  const menuBtn = document.getElementById('menuToggle');
-  const navMenu = document.getElementById('navMenu');
+  const navbar = document.getElementById("navbar");
+  const menuBtn = document.getElementById("menuToggle");
+  const navMenu = document.getElementById("navMenu");
 
   // Mobile menu toggle
-  menuBtn?.addEventListener('click', () => {
-    const isOpen = navMenu?.classList.toggle('is-open');
-    navbar?.classList.toggle('menu-open', isOpen);
-    menuBtn.setAttribute('aria-expanded', String(isOpen));
+  menuBtn?.addEventListener("click", () => {
+    const isOpen = navMenu?.classList.toggle("is-open");
+    navbar?.classList.toggle("menu-open", isOpen);
+    menuBtn.setAttribute("aria-expanded", String(isOpen));
     menuBtn.setAttribute(
-      'aria-label',
-      isOpen ? menuBtn.dataset.closeLabel ?? '' : menuBtn.dataset.openLabel ?? '',
+      "aria-label",
+      isOpen
+        ? (menuBtn.dataset.closeLabel ?? "")
+        : (menuBtn.dataset.openLabel ?? ""),
     );
 
-    if (!isOpen && servicesDropdown?.classList.contains('is-open')) {
-      servicesDropdown.classList.remove('is-open');
-      servicesBtn?.setAttribute('aria-expanded', 'false');
+    if (!isOpen && servicesDropdown?.classList.contains("is-open")) {
+      servicesDropdown.classList.remove("is-open");
+      servicesBtn?.setAttribute("aria-expanded", "false");
     }
   });
 
   // Close on nav link click
-  navMenu?.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navMenu.classList.remove('is-open');
-      navbar?.classList.remove('menu-open');
-      menuBtn?.setAttribute('aria-expanded', 'false');
-      menuBtn?.setAttribute('aria-label', menuBtn.dataset.openLabel ?? '');
+  navMenu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      navMenu.classList.remove("is-open");
+      navbar?.classList.remove("menu-open");
+      menuBtn?.setAttribute("aria-expanded", "false");
+      menuBtn?.setAttribute("aria-label", menuBtn.dataset.openLabel ?? "");
     });
   });
 
   // Close on outside click
-  document.addEventListener('click', e => {
-    if (!navbar?.contains(e.target as Node) && navMenu?.classList.contains('is-open')) {
-      navMenu.classList.remove('is-open');
-      navbar?.classList.remove('menu-open');
-      menuBtn?.setAttribute('aria-expanded', 'false');
-        menuBtn?.setAttribute('aria-label', menuBtn.dataset.openLabel ?? '');
+  document.addEventListener("click", (e) => {
+    if (
+      !navbar?.contains(e.target as Node) &&
+      navMenu?.classList.contains("is-open")
+    ) {
+      navMenu.classList.remove("is-open");
+      navbar?.classList.remove("menu-open");
+      menuBtn?.setAttribute("aria-expanded", "false");
+      menuBtn?.setAttribute("aria-label", menuBtn.dataset.openLabel ?? "");
     }
   });
 
   // Scroll shadow
   function onScroll() {
-    navbar?.classList.toggle('scrolled', window.scrollY > 4);
+    navbar?.classList.toggle("scrolled", window.scrollY > 4);
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
   // Services dropdown
-  const servicesBtn      = document.getElementById('servicesBtn');
-  const servicesDropdown = document.getElementById('servicesDropdown');
+  const servicesBtn = document.getElementById("servicesBtn");
+  const servicesDropdown = document.getElementById("servicesDropdown");
 
-  servicesBtn?.addEventListener('click', e => {
+  servicesBtn?.addEventListener("click", (e) => {
     e.stopPropagation();
-    const isOpen = servicesDropdown?.classList.toggle('is-open');
-    servicesBtn.setAttribute('aria-expanded', String(isOpen));
+    const isOpen = servicesDropdown?.classList.toggle("is-open");
+    servicesBtn.setAttribute("aria-expanded", String(isOpen));
   });
 
-  document.addEventListener('click', e => {
+  document.addEventListener("click", (e) => {
     if (
-      servicesDropdown?.classList.contains('is-open') &&
+      servicesDropdown?.classList.contains("is-open") &&
       !servicesBtn?.contains(e.target as Node) &&
       !servicesDropdown?.contains(e.target as Node)
     ) {
-      servicesDropdown.classList.remove('is-open');
-      servicesBtn?.setAttribute('aria-expanded', 'false');
+      servicesDropdown.classList.remove("is-open");
+      servicesBtn?.setAttribute("aria-expanded", "false");
     }
   });
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && servicesDropdown?.classList.contains('is-open')) {
-      servicesDropdown.classList.remove('is-open');
-      servicesBtn?.setAttribute('aria-expanded', 'false');
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && servicesDropdown?.classList.contains("is-open")) {
+      servicesDropdown.classList.remove("is-open");
+      servicesBtn?.setAttribute("aria-expanded", "false");
       servicesBtn?.focus();
     }
   });

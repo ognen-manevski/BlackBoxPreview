@@ -1,4 +1,6 @@
 ---
+import ArrowForwardIcon from '../icons/ArrowForwardIcon.astro';
+
 interface Props {
   href?: string;
   type?: 'button' | 'submit' | 'reset';
@@ -22,31 +24,17 @@ const classes = ['btn', `btn--${variant}`, size !== 'md' ? `btn--${size}` : '', 
   href ? (
     <a href={href} class={classes}>
       <span><slot /></span>
-      <svg class="btn__arrow" viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true">
-        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
-      </svg>
+      <slot name="icon">
+        <ArrowForwardIcon class="btn__arrow" />
+      </slot>
     </a>
   ) : (
     <button class={classes} type={type}>
       <span><slot /></span>
-      <svg class="btn__arrow" viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true">
-        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
-      </svg>
+      <slot name="icon">
+        <ArrowForwardIcon class="btn__arrow" />
+      </slot>
     </button>
   )
 }
 
-<style>
-  .btn--with-arrow {
-    align-items: center;
-  }
-
-  .btn__arrow {
-    flex-shrink: 0;
-    transition: transform var(--t-base);
-  }
-
-  .btn--with-arrow:is(:hover, :focus-visible) .btn__arrow {
-    transform: translateX(5px);
-  }
-</style>

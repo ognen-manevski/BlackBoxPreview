@@ -1,21 +1,31 @@
 ---
+import ProgressiveImage from '../atoms/ProgressiveImage.astro';
 import PhoneIcon from '../icons/PhoneIcon.astro';
 import MailIcon from '../icons/MailIcon.astro';
 import MapPinIcon from '../icons/MapPinIcon.astro';
-import LinkedInIcon from '../icons/LinkedInIcon.astro';
-import InstagramIcon from '../icons/InstagramIcon.astro';
-import FacebookIcon from '../icons/FacebookIcon.astro';
+import ArrowButton from '../atoms/ArrowButton.astro';
 import SubscribeField from '../atoms/SubscribeField.astro';
 import ContactDetailItem from '../atoms/ContactDetailItem.astro';
 import { commonTranslations } from '../../i18n/common';
 import { getLocalizedPath, getTranslations } from '../../i18n/utils';
 import type { Lang } from '../../i18n/types';
+import mapsDark from '../../assets/images/maps-ss/maps-dark.jpg';
+import mapsWhite from '../../assets/images/maps-ss/maps-white.jpg';
+import openInNewIconRaw from '../../assets/vectors/icons/material/custom/open_in_new-600w.svg?raw';
+import smLinkedInRaw from '../../assets/vectors/icons/sm-icons/sm_linkedin.svg?raw';
+import smInstagramRaw from '../../assets/vectors/icons/sm-icons/sm_ig.svg?raw';
+import smFacebookRaw from '../../assets/vectors/icons/sm-icons/sm_fb.svg?raw';
 
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const common = getTranslations(commonTranslations, lang);
 const t = common.footer;
 const href = (path: string) => getLocalizedPath(path, lang);
+const mapsUrl = 'https://maps.google.com/maps?q=Klenoec+61,+Skopje,+Macedonia';
+const openInNewIcon = openInNewIconRaw.replace('fill="#1f1f1f"', 'fill="currentColor"').replace('<svg ', '<svg class="btn__arrow" width="18" height="18" ');
+const linkedInIcon = smLinkedInRaw.replace('<svg ', '<svg class="footer__social-icon" ');
+const instagramIcon = smInstagramRaw.replace('<svg ', '<svg class="footer__social-icon" ');
+const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-icon" ');
 ---
 
 <footer class="footer" role="contentinfo">
@@ -57,6 +67,7 @@ const href = (path: string) => getLocalizedPath(path, lang);
               <ContactDetailItem
                 label={t.office}
                 value={t.officeAddress}
+                href={mapsUrl}
                 framedIcon={false}
               >
                 <MapPinIcon slot="icon" />
@@ -64,15 +75,14 @@ const href = (path: string) => getLocalizedPath(path, lang);
             </li>
           </ul>
 
-          <!-- Map: 0-saturation iframe. TODO: upgrade to Maps JS API for custom dark tile colors with colored pin -->
-          <div class="footer__map">
-            <iframe
-              src="https://maps.google.com/maps?q=Klenoec+61,+Skopje,+Macedonia&t=&z=15&ie=UTF8&iwloc=&output=embed"
-              title={t.mapTitle}
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </div>
+          <a class="footer__map u-border-interactive" data-progressive-host href={mapsUrl} target="_blank" rel="noopener noreferrer" aria-label={t.mapTitle}>
+            <ProgressiveImage src={mapsDark} theme="dark"><img class="footer__map-img footer__map-img--dark" src={mapsDark.src} alt="" loading="lazy" decoding="async" /></ProgressiveImage>
+            <ProgressiveImage src={mapsWhite} theme="light"><img class="footer__map-img footer__map-img--light" src={mapsWhite.src} alt="" loading="lazy" decoding="async" /></ProgressiveImage>
+            <span class="btn btn--primary btn--sm btn--with-arrow footer__map-cta">
+              <span>{t.openInMaps}</span>
+              <Fragment set:html={openInNewIcon} />
+            </span>
+          </a>
         </div>
       </div>
 
@@ -84,10 +94,15 @@ const href = (path: string) => getLocalizedPath(path, lang);
           <div class="footer__nav-col">
             <p class="footer__col-head">{t.legal}</p>
             <nav class="footer__legal-links" aria-label={t.legalAriaLabel}>
-              <!-- TODO: add legal pages -->
-              <a href="#">{t.terms}</a>
-              <a href="#">{t.customerServicePolicy}</a>
-              <a href="#">{t.privacyPolicy}</a>
+              <a href={href('/privacy-policy/')}>{t.privacyPolicy}</a>
+              <a href={href('/terms-of-use/')}>{t.terms}</a>
+              <a href={href('/cookie-policy/')}>{t.cookiePolicy}</a>
+              <button type="button" class="btn btn--outline btn--sm footer__cookie-link" data-open-cookie-preferences="true">
+                <svg viewBox="0 -960 960 960" fill="currentColor" width="16" height="16" aria-hidden="true">
+                  <path d="M480-100q-78.85 0-148.2-29.92-69.35-29.93-120.65-81.23-51.3-51.3-81.23-120.65Q100-401.15 100-480q0-77.31 29.77-146.23 29.77-68.92 81-121.19 51.23-52.27 120-82.93Q399.54-861 477.31-861q15.28 0 31.29 1.23 16.02 1.23 32.09 3.92-2.84 45 11 81.54 13.85 36.54 40.77 62.27 26.92 25.73 65.35 38.42 38.42 12.7 85.5 10.77-12.16 59 24.81 106.08 36.96 47.08 91.42 54.46.23 2.54.34 4.73.12 2.2.12 4.73 0 80.69-30.08 152.03-30.09 71.34-81.66 124.96-51.57 53.63-120.64 84.74Q558.54-100 480-100Zm-59.62-467.69q21.54 0 36.74-15.58 15.19-15.58 15.19-37.11 0-21.54-15.26-36.74-15.26-15.19-37.05-15.19-21.15 0-36.73 15.26-15.58 15.26-15.58 37.05 0 21.15 15.58 36.73 15.58 15.58 37.11 15.58Zm-80 200q21.54 0 36.74-15.58 15.19-15.58 15.19-37.11 0-21.54-15.26-36.74-15.26-15.19-37.05-15.19-21.15 0-36.73 15.26-15.58 15.26-15.58 37.05 0 21.15 15.58 36.73 15.58 15.58 37.11 15.58Zm260 40q13.54 0 22.74-9.58 9.19-9.58 9.19-23.11 0-13.54-9.29-22.74-9.29-9.19-23.02-9.19-13.15 0-22.73 9.29T567.69-360q0 13.15 9.58 22.73t23.11 9.58ZM480.14-140q129.19 0 229.25-93.62 100.07-93.61 109.84-237.46-53.08-21.23-82.73-60-29.65-38.77-35.04-93.46-82.38-7.15-137.77-59.08-55.38-51.92-60.69-136.61-76.15-5.08-142.42 21.31-66.27 26.38-115.23 74.11-48.97 47.73-77.16 111.66Q140-549.23 140-480q0 140.69 99.65 240.35Q339.31-140 480.14-140ZM480-487.85Z" />
+                </svg>
+                <span>{t.cookiePreferences}</span>
+              </button>
             </nav>
           </div>
 
@@ -110,9 +125,32 @@ const href = (path: string) => getLocalizedPath(path, lang);
           </div>
         </nav>
 
-        <!-- Email capture -->
-        <div class="footer__legal">
-          <SubscribeField class="footer__subscribe" buttonLabel={t.bookDemo} label={common.forms.emailLabel} placeholder={common.forms.emailPlaceholder} />
+        <!-- Demo + newsletter -->
+        <div class="footer__engagement">
+          <div class="footer__engagement-row">
+            <div class="footer__engagement-title">
+              <span class="footer__col-head">{t.newsletter}</span>
+            </div>
+            <SubscribeField
+              class="footer__subscribe"
+              buttonLabel={common.forms.subscribe}
+              label={common.forms.emailLabel}
+              placeholder={common.forms.emailPlaceholder}
+              privacyId="footer-subscribe-consent"
+              privacyText={common.forms.privacyPrefix}
+              privacyLinkText={common.forms.privacyPolicy}
+              privacyLinkHref={href('/privacy-policy/')}
+              buttonClass="footer__subscribe-button btn btn--primary btn--with-arrow"
+            />
+          </div>
+
+          <div class="footer__engagement-row">
+            <div class="footer__engagement-title">
+              <span class="footer__col-head">{t.bookDemo}</span>
+            </div>
+            <ArrowButton href={href('/book-a-free-demo/')} variant="primary" class="footer__demo-cta">{t.bookDemo}</ArrowButton>
+            <span class="footer__engagement-note">{t.demoNote}</span>
+          </div>
         </div>
 
         <!-- Logo + Social Media -->
@@ -125,13 +163,13 @@ const href = (path: string) => getLocalizedPath(path, lang);
             <span class="footer__col-head">{t.socialMedia}</span>
             <div class="footer__social-links">
               <a href="https://www.linkedin.com/company/black-box-solutions/" class="footer__social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-                <LinkedInIcon />
+                <Fragment set:html={linkedInIcon} />
               </a>
               <a href="https://www.instagram.com/blackboxsolutions.mk/" class="footer__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-                <InstagramIcon />
+                <Fragment set:html={instagramIcon} />
               </a>
               <a href="https://www.facebook.com/profile.php?id=100091417818163&mibextid=ZbWKwL" class="footer__social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-                <FacebookIcon />
+                <Fragment set:html={facebookIcon} />
               </a>
             </div>
           </div>
@@ -141,7 +179,7 @@ const href = (path: string) => getLocalizedPath(path, lang);
     </div>
 
     <!-- Copyright bar -->
-    <p class="footer__copy">©{new Date().getFullYear()} · BlackBox Solutions</p>
+    <p class="footer__copy">©{new Date().getFullYear()} · BlackBox Solutions · {t.allRightsReserved}</p>
 
   </div>
 </footer>
@@ -149,25 +187,31 @@ const href = (path: string) => getLocalizedPath(path, lang);
 <style>
   .footer {
     background: var(--bg-secondary);
-    border-top: 1px solid var(--border-color);
     padding-top: var(--sp-6);
   }
 
   /* ---- Main grid: left panel | right panel ---- */
   .footer__grid {
     display: grid;
-    grid-template-columns: 22rem 1fr;
-    border: 1px solid var(--border-color);
+    grid-template-columns: 22rem repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      "left legal services company"
+      "left newsletter newsletter demo"
+      "left actions actions actions";
+    gap: 1px;
+    padding: 1px;
+    background: var(--border-color);
     position: relative;
   }
 
   /* ---- LEFT ---- */
   .footer__left {
+    grid-area: left;
     display: flex;
     flex-direction: column;
     gap: var(--sp-6);
     padding: var(--sp-6);
-    border-right: 1px solid var(--border-color);
+    background: var(--bg-secondary);
   }
 
   .footer__brand {
@@ -241,44 +285,63 @@ const href = (path: string) => getLocalizedPath(path, lang);
     font-size: var(--text-sm);
   }
 
-  /* Map */
+  /* Map: border handled by .u-border-interactive on the element */
   .footer__map {
+    position: relative;
+    display: block;
     overflow: hidden;
     border-radius: var(--radius);
-    border: 1px solid var(--border-color);
     aspect-ratio: 4 / 3;
   }
 
-  .footer__map iframe {
+  .footer__map-img {
     width: 100%;
     height: 100%;
     display: block;
-    border: 0;
-    filter: saturate(0) brightness(0.55);
-    transition: filter var(--t-base);
+    object-fit: cover;
   }
 
-  [data-theme="light"] .footer__map iframe {
-    filter: saturate(0) brightness(0.9);
+  .footer__map-img--light {
+    display: none;
+  }
+
+  :global([data-theme="light"]) .footer__map-img--dark {
+    display: none;
+  }
+
+  :global([data-theme="light"]) .footer__map-img--light {
+    display: block;
+  }
+
+  .footer__map-cta {
+    position: absolute;
+    left: var(--sp-3);
+    bottom: var(--sp-3);
+  }
+
+  .footer__map-cta :global(.btn__arrow) {
+    height: 1.4em;
+    transform: translateY(-0.1em);
+    transition: none;
+  }
+
+  .footer__map-cta:is(:hover, :focus-visible) :global(.btn__arrow) {
+    transform: translateY(-0.1em);
   }
 
   /* ---- RIGHT ---- */
   .footer__right {
-    display: grid;
-    grid-template-rows: minmax(0, 1fr) auto auto;
-    height: 100%;
+    display: contents;
   }
 
   /* Nav */
   .footer__nav {
-    display: grid;
-    grid-template-columns: minmax(12rem, 1fr) 1fr 1fr;
-    border-bottom: 1px solid var(--border-color);
-    height: 100%;
-    align-items: stretch;
+    display: contents;
   }
 
   .footer__nav-col {
+    min-width: 0;
+    grid-area: legal;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -286,15 +349,30 @@ const href = (path: string) => getLocalizedPath(path, lang);
     gap: var(--sp-4);
     padding: var(--sp-6);
     height: 100%;
+    background: var(--bg-secondary);
+  }
+
+  .footer__nav-col:nth-child(2) {
+    grid-area: services;
+  }
+
+  .footer__nav-col:nth-child(3) {
+    grid-area: company;
   }
 
   .footer__nav-col + .footer__nav-col {
-    border-left: 1px solid var(--border-color);
+    border-left: 0;
   }
 
   .footer__logo-link {
     display: inline-flex;
     align-items: center;
+    opacity: 0.55;
+    transition: opacity var(--t-fast);
+  }
+
+  .footer__logo-link:hover {
+    opacity: 0.85;
   }
 
   .footer__logo-link img {
@@ -324,12 +402,42 @@ const href = (path: string) => getLocalizedPath(path, lang);
     color: var(--text-primary);
   }
 
-  /* Legal */
-  .footer__legal {
+  /* Demo + newsletter */
+  .footer__engagement {
+    display: contents;
+  }
+
+  .footer__engagement-row:first-child {
+    grid-area: newsletter;
+  }
+
+  .footer__engagement-row:last-child {
+    grid-area: demo;
+  }
+
+  .footer__engagement-row {
+    min-width: 0;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-3);
     padding: var(--sp-4) var(--sp-6);
-    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+  }
+
+  .footer__engagement-row + .footer__engagement-row {
+    border-left: 0;
+  }
+
+  .footer__engagement-title {
+    display: block;
+  }
+
+  .footer__engagement-note {
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    line-height: 1.4;
+    margin-top: calc(var(--sp-1) * -1);
   }
 
   .footer__legal-links {
@@ -340,7 +448,7 @@ const href = (path: string) => getLocalizedPath(path, lang);
   }
 
   .footer__legal-links a {
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     color: var(--text-secondary);
     transition: color var(--t-fast);
   }
@@ -349,23 +457,63 @@ const href = (path: string) => getLocalizedPath(path, lang);
     color: var(--text-primary);
   }
 
+  .footer__cookie-link {
+    gap: var(--sp-2);
+    margin-top: var(--sp-1);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .footer__cookie-link span {
+    white-space: nowrap;
+  }
+
+  .footer__cookie-link svg {
+    width: 1rem;
+    height: 1rem;
+    max-width: none;
+    flex: 0 0 1rem;
+  }
+
   /* Actions row: Book a Demo + Social */
   .footer__actions {
+    grid-area: actions;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--sp-5);
     padding: var(--sp-5) var(--sp-6);
     flex: 0 0 auto;
+    background: var(--bg-secondary);
   }
 
-  .footer__legal .footer__subscribe {
+  :global(.footer__subscribe) {
     width: 100%;
-    max-width: 28rem;
+    max-width: 30rem;
   }
 
-  .footer__legal .footer__subscribe :global(.subscribe-field__button) {
-    min-width: 10.75rem;
+  :global(.footer__demo-cta) {
+    justify-self: start;
+  }
+
+  :global(.footer__subscribe) :global(.subscribe-field__button) {
+    min-width: 8rem;
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: #fff;
+  }
+
+  :global(.footer__subscribe) :global(.subscribe-field__button:hover),
+  :global(.footer__subscribe) :global(.subscribe-field__button:focus-visible) {
+    border-color: var(--color-brand-dark);
+    background: var(--color-brand-dark);
+    color: #fff;
+  }
+
+  :global(.footer__subscribe) :global(.subscribe-field__button:disabled) {
+    background: var(--color-brand);
+    color: #fff;
+    opacity: 0.45;
   }
 
   /* Social */
@@ -389,13 +537,18 @@ const href = (path: string) => getLocalizedPath(path, lang);
     height: 2rem;
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     transition: color var(--t-fast), border-color var(--t-fast);
   }
 
   .footer__social-link:hover {
     color: var(--text-primary);
     border-color: var(--text-secondary);
+  }
+
+  .footer__social-icon {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
   /* ---- Copyright ---- */
@@ -409,61 +562,136 @@ const href = (path: string) => getLocalizedPath(path, lang);
   }
 
   /* ---- Responsive ---- */
-  @media (max-width: 1024px) {
+  @media (max-width: 1150px) {
+    .footer__grid {
+      grid-template-columns: 22rem minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas:
+        "left services company"
+        "left legal legal"
+        "newsletter newsletter demo"
+        "actions actions actions";
+    }
+
+    :global(.footer__demo-cta) {
+      align-self: stretch;
+      width: 100%;
+      max-width: none;
+    }
+
+  }
+
+  @media (max-width: 900px) {
+    .footer__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-areas:
+        "left services"
+        "left company"
+        "demo legal"
+        "newsletter newsletter"
+        "actions actions";
+    }
+
+  }
+
+  @media (max-width: 586px) {
+    .footer__left,
+    .footer__nav-col,
+    .footer__engagement-row,
+    .footer__actions {
+      padding: var(--sp-4);
+    }
+  }
+
+  @media (max-width: 443px) {
     .footer__grid {
       grid-template-columns: 1fr;
+      grid-template-areas:
+        "left"
+        "services"
+        "company"
+        "legal"
+        "demo"
+        "newsletter"
+        "actions";
+    }
+
+    .footer__actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 260px) {
+    .footer > .container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .footer {
+      padding-top: 0;
+    }
+
+    .footer__left,
+    .footer__nav-col,
+    .footer__engagement-row,
+    .footer__actions {
+      padding-left: 0.3125rem;
+      padding-right: 0.3125rem;
+      padding-top: var(--sp-5);
+      padding-bottom: var(--sp-5);
     }
 
     .footer__left {
-      border-right: none;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .footer__nav {
-      grid-template-columns: 1fr 1fr 1fr;
+      padding-top: var(--sp-6);
     }
   }
 
-  @media (max-width: 768px) {
-    .footer__actions {
-      gap: var(--sp-4);
+  @media (max-width: 180px) {
+    .footer {
+      overflow-x: hidden;
     }
 
-    .footer__legal {
-      padding: var(--sp-4) var(--sp-5);
+    .footer * {
+      min-width: 0;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
-    .footer__legal .footer__subscribe {
+    .footer :is(a, button, input, textarea, span, p, strong) {
+      white-space: normal;
+    }
+
+    .footer :is(.footer__nav-col, .footer__engagement-row, .footer__actions) {
+      overflow: hidden;
+    }
+
+    .footer :is(.footer__demo-cta, .footer__subscribe, .subscribe-field__input, .subscribe-field__button) {
+      width: 100%;
       max-width: 100%;
     }
-  }
 
-  @media (max-width: 480px) {
-    .footer__nav {
-      grid-template-columns: 1fr;
+    .footer :is(.footer__demo-cta, .subscribe-field__button) {
+      height: auto;
+      min-height: 2.375rem;
     }
 
-    .footer__nav-col {
-      padding: var(--sp-5);
-    }
-
-    .footer__nav-col + .footer__nav-col {
-      border-left: none;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .footer__logo-link img {
-      width: 9.5rem;
-    }
-
-    .footer__social {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .footer__actions {
-      flex-direction: column;
-      align-items: flex-start;
+    .footer :is(.footer__logo-link, .footer__social, .footer__social-links) {
+      max-width: 100%;
+      flex-wrap: wrap;
     }
   }
+
 </style>
+
+<script>
+  import { OPEN_COOKIE_PREFERENCES_EVENT } from '../../scripts/cookie-consent';
+
+  const cookieButtons = document.querySelectorAll('[data-open-cookie-preferences], a[href="#cookie-preferences"]');
+  cookieButtons.forEach((btn) => {
+    btn.addEventListener('click', (event) => {
+      event.preventDefault();
+      window.dispatchEvent(new CustomEvent(OPEN_COOKIE_PREFERENCES_EVENT));
+    });
+  });
+</script>

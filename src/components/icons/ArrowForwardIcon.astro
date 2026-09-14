@@ -1,0 +1,29 @@
+---
+import arrowForward from '../../assets/vectors/icons/material/custom/arrow_right-600w.svg?raw';
+
+interface Props { class?: string }
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['cta-arrow-icon', className]} aria-hidden="true" set:html={arrowForward} />
+
+<style>
+  .cta-arrow-icon {
+    display: inline-flex;
+    width: 1em;
+    height: 1em;
+    flex: 0 0 1.4em;
+    align-items: center;
+    justify-content: center;
+    font-size: inherit;
+    line-height: 1;
+    
+  }
+
+  .cta-arrow-icon :global(svg) {
+    display: block;
+    fill: currentColor;
+    transform-origin: center;
+    transform: translateY(-0.1em);
+  }
+</style>

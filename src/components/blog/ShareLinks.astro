@@ -1,0 +1,128 @@
+---
+import type { Lang } from '../../i18n/types';
+import { commonTranslations } from '../../i18n/common';
+import { getTranslations } from '../../i18n/utils';
+import mailIconRaw from '../../assets/vectors/icons/sm-icons/mail-fill.svg?raw';
+import facebookIconRaw from '../../assets/vectors/icons/sm-icons/sm_fb.svg?raw';
+import xIconRaw from '../../assets/vectors/icons/sm-icons/sm_x.svg?raw';
+import whatsappIconRaw from '../../assets/vectors/icons/sm-icons/sm_whatsapp.svg?raw';
+import telegramIconRaw from '../../assets/vectors/icons/sm-icons/sm_telegram.svg?raw';
+import arrowForwardRaw from '../../assets/vectors/icons/material/custom/arrow_forward-300w.svg?raw';
+
+interface Props { title: string; path: string; lang: Lang }
+const { title, path, lang } = Astro.props;
+const t = getTranslations(commonTranslations, lang).share;
+
+const withClass = (raw: string) => raw.replace('<svg ', '<svg class="blog-share__icon" ');
+const arrowIcon = arrowForwardRaw.replace('fill="CurrentColor"', 'fill="currentColor"').replace('<svg ', '<svg class="btn__arrow" ');
+const absoluteUrl = new URL(path, Astro.site).href;
+const encodedTitle = encodeURIComponent(title);
+const encodedUrl = encodeURIComponent(absoluteUrl);
+
+// share targets auto-generated from the article title + canonical URL
+const shareTargets = [
+  { name: 'Facebook', icon: withClass(facebookIconRaw), href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`, target: '_blank' },
+  { name: 'X', icon: withClass(xIconRaw), href: `https://twitter.com/intent/tweet/?text=${encodedTitle}&url=${encodedUrl}`, target: '_blank' },
+  { name: 'WhatsApp', icon: withClass(whatsappIconRaw), href: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`, target: '_blank' },
+  { name: 'Telegram', icon: withClass(telegramIconRaw), href: `https://telegram.me/share/url?text=${encodedTitle}&url=${encodedUrl}`, target: '_blank' },
+  { name: 'Email', icon: withClass(mailIconRaw), href: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`, target: '_self' },
+];
+---
+
+<div class="blog-share" data-share-title={title} data-share-url={absoluteUrl}>
+  <span class="blog-share__label">{t.label}</span>
+  <div class="blog-share__links">
+    {false && (
+      <button type="button" class="btn btn--outline btn--sm btn--with-arrow blog-share__native" hidden>
+        <span>{t.nativeShare}</span>
+        <Fragment set:html={arrowIcon} />
+      </button>
+    )}
+    {shareTargets.map((target) => (
+      <a
+        class="blog-share__link"
+        href={target.href}
+        aria-label={target.name}
+        target={target.target}
+        rel={target.target === '_blank' ? 'noopener noreferrer' : undefined}
+      >
+        <Fragment set:html={target.icon} />
+      </a>
+    ))}
+  </div>
+</div>
+
+<!-- native share button disabled for now, see markup above and script below
+<script>
+  const nativeButtons = document.querySelectorAll<HTMLButtonElement>('.blog-share__native');
+  nativeButtons.forEach((button) => {
+    if (!navigator.share) return;
+    button.hidden = false;
+    button.addEventListener('click', () => {
+      const section = button.closest<HTMLElement>('.blog-share');
+      navigator.share({ title: section?.dataset.shareTitle, url: section?.dataset.shareUrl });
+    });
+  });
+</script>
+-->
+
+<style>
+  .blog-share {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    margin-top: var(--blog-media-gap);
+    padding-top: var(--blog-media-gap);
+    border-top: 1px solid var(--border-color);
+  }
+
+  .blog-share__label {
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blog-text-muted);
+    flex-shrink: 0;
+  }
+
+  .blog-share__links {
+    display: flex;
+    gap: var(--sp-3);
+  }
+
+  .blog-share__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    color: var(--blog-text-muted);
+    transition: color var(--t-fast), border-color var(--t-fast);
+  }
+
+  .blog-share__link:hover {
+    color: var(--blog-text);
+    border-color: var(--blog-text-muted);
+  }
+
+  .blog-share__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  @media (max-width: 30rem) {
+    .blog-share {
+      flex-wrap: wrap;
+    }
+
+    .blog-share__links {
+      min-width: 0;
+      max-width: 100%;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+    }
+  }
+</style>

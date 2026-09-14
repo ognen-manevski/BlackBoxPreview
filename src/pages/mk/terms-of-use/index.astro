@@ -1,0 +1,8 @@
+---
+import LegalPageLayout from '../../../components/layouts/LegalPageLayout.astro';
+import { legalTranslations } from '../../../i18n/pages/legal';
+import { Content } from '../../../content/legal/terms-of-use.mk.md';
+const t = legalTranslations.mk;
+---
+<LegalPageLayout lang="mk" title={t.terms.title} description={t.terms.description}><Content /></LegalPageLayout>
+

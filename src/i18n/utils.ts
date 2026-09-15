@@ -1,8 +1,18 @@
 import { defaultLang, isLang } from './config';
 import type { Lang, Localized } from './types';
 
+function getPathWithoutBase(pathname: string): string {
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+  if (!basePath || basePath === '/') return pathname;
+  if (pathname === basePath) return '/';
+  if (pathname.startsWith(`${basePath}/`)) return pathname.slice(basePath.length) || '/';
+
+  return pathname;
+}
+
 export function getLocaleFromUrl(url: URL): Lang {
-  const [, locale] = url.pathname.split('/');
+  const [, locale] = getPathWithoutBase(url.pathname).split('/');
   return isLang(locale) ? locale : defaultLang;
 }
 
@@ -12,7 +22,8 @@ export function getTranslations<T>(content: Localized<T>, lang: Lang): T {
 
 export function getLocalizedPath(pathname: string, lang: Lang): string {
   const url = new URL(pathname, 'https://i18n.local');
-  const segments = url.pathname.split('/').filter(Boolean);
+  const pathWithoutBase = getPathWithoutBase(url.pathname);
+  const segments = pathWithoutBase.split('/').filter(Boolean);
 
   if (segments.length && isLang(segments[0])) segments.shift();
 

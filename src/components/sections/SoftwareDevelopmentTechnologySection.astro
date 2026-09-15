@@ -43,4 +43,11 @@ interface Props { content: SoftwareDevelopmentContent['technology'] } const { co
     margin-bottom: var(--sp-6);
   }
 
+  @media (max-width: 400px) {
+    :global(.technology .section-headline) {
+      font-size: clamp(1.35rem, 7vw, 2rem);
+      line-height: 1.15;
+    }
+  }
+
 </style>

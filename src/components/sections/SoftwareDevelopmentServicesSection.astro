@@ -90,4 +90,20 @@ interface Props { content: SoftwareDevelopmentContent['services'] } const { cont
       grid-template-columns: 1fr;
     }
   }
+
+  @media (max-width: 400px) {
+    :global(.sd-services .grid-bg::before) {
+      background-size: 3rem 3rem;
+    }
+
+    :global(.sd-services .section-headline) {
+      font-size: clamp(1.35rem, 7vw, 2rem);
+      line-height: 1.15;
+    }
+
+    :global(.sd-service-card__title) {
+      font-size: clamp(1.1rem, 6vw, var(--text-lg));
+      line-height: 1.2;
+    }
+  }
 </style>

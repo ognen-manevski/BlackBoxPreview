@@ -3,13 +3,14 @@ import ProgressiveImage from '../atoms/ProgressiveImage.astro';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BlogTag from './BlogTag.astro';
+import { getLocalizedPath } from '../../i18n/utils';
 type EditorialEntry = CollectionEntry<'blog'> | CollectionEntry<'news'>;
 interface Props { post: EditorialEntry }
 const { post } = Astro.props;
 const slug = post.id.split('/')[0];
 const section = post.collection;
 const imageTransitionName = `editorial-image-${section}-${slug}`;
-const href = post.data.lang === 'mk' ? `/mk/${section}/${slug}/` : `/${section}/${slug}/`;
+const href = getLocalizedPath(`/${section}/${slug}/`, post.data.lang);
 const dateLabel = post.data.lang === 'mk' ? 'Датум на објава' : 'Published date';
 const publishedDate = new Intl.DateTimeFormat(post.data.lang === 'mk' ? 'mk-MK' : 'en-GB', {
   day: 'numeric', month: 'long', year: 'numeric',

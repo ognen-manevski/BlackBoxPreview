@@ -11,7 +11,7 @@ import loopBgPoster from "../../assets/images/video-thumbnails/video-streaming/v
 import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interface Props{content:VideoStreamingContent['hero']}const{content}=Astro.props;
 ---
 
-<section class="vs-intro" aria-label={content.ariaLabel} data-vs-intro>
+<section class="vs-intro" aria-label={content.ariaLabel} data-vs-intro data-theme="dark">
     <div class="vs-intro__visuals" aria-hidden="true">
         <video
             class="vs-intro__loop-video"
@@ -329,6 +329,7 @@ import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interfa
         position: relative;
         overflow: clip;
         background: var(--bg);
+        color: var(--text-primary);
     }
 
     .vs-intro__visuals {
@@ -603,6 +604,14 @@ import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interfa
         }
     }
 
+    @media (max-width: 900px) {
+    .vs-intro__content--titles {
+        --bonus-height: 5svh;
+        top: calc(var(--navbar-height) + var(--bonus-height));
+        padding-bottom: 40svh;
+    }
+    }
+
     @media (max-width: 840px) {
         .section-headline--hero {
             font-size: 5.9dvw;
@@ -615,8 +624,39 @@ import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interfa
     }
 
     @media (max-width: 720px) {
+
+
+    .vs-intro__content--titles {
+        padding-bottom: 50svh;
+        z-index: 5;
+    }
+
+    /*  */
+    .vs-intro__devices-media {
+        padding-bottom: 20svh;
+        top: 520svh;
+        padding-top: 100svh;
+    }
+
+    .vs-intro__devices-image {
+        /* margin-top: -40%; */
+        padding-top: 20svh;
+    }
+
+/*  */
+
         .section-headline--hero {
             font-size: 6.8dvw;
+        }
+
+        .vs-intro__text-flow,
+        .vs-intro__panel,
+        .vs-intro__content {
+            min-width: 0;
+        }
+
+        .vs-intro__content {
+            grid-template-columns: minmax(0, 1fr);
         }
 
         .vs-intro__panel {
@@ -625,39 +665,57 @@ import type{VideoStreamingContent}from'../../i18n/pages/video-streaming';interfa
             padding-bottom: var(--sp-5);
         }
 
-        .vs-intro__lead,
         .vs-intro__copy {
             max-width: 48ch;
         }
 
+        .vs-intro__lead {
+            width: auto;
+            max-width: 100%;
+            min-width: 0;
+            justify-self: stretch;
+            padding-inline: 0;
+            overflow-wrap: anywhere;
+            font-size: clamp(0.875rem, 0.7rem + 1vw, 1rem);
+            line-height: 1.5;
+        }
+
         .vs-intro__content--nextgen {
             text-align: left;
+            min-width: 0;
         }
+
+
 
         .vs-intro__headline,
         .vs-intro__copy {
             text-align: left;
+            max-width: 100%;
+            min-width: 0;
         }
 
-        .vs-intro__cta {
-            font-size: 0.85rem;
-            padding: 0.7rem 1.55rem;
+        .vs-intro__headline {
+            font-size: clamp(1.4rem, 5.5vw, 2.4rem);
+            line-height: 1.12;
         }
+
+        .vs-intro__copy {
+            font-size: clamp(0.875rem, 0.7rem + 1vw, 1rem);
+            line-height: 1.5;
+        }
+
+        .vs-intro__devices-image {
+            top: calc(var(--navbar-height) + 8svh + var(--sp-4));
+            margin-top: clamp(2rem, 18vw, 5rem);
+        }
+
     }
 
     @media (max-width: 560px) {
         .section-headline--hero {
-            font-size: 2.65rem;
+            font-size: clamp(1.8rem, 7.5vw, 3.5rem);
+            line-height: 1.05;
         }
 
-        .vs-intro__lead {
-            font-size: 0.95rem;
-            line-height: 1.55;
-        }
-
-        .vs-intro__cta {
-            font-size: 0.8rem;
-            padding: 0.65rem 1.35rem;
-        }
     }
 </style>

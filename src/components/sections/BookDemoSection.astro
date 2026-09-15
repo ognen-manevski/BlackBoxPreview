@@ -5,6 +5,7 @@ import FileUpload from '../atoms/FileUpload.astro';
 import ArrowButton from '../atoms/ArrowButton.astro';
 import PrivacyNotice from '../atoms/PrivacyNotice.astro';
 import gradient1DarkPoster from '../../assets/images/video-thumbnails/gradients/dark/gradient-1-grain-0.jpg';
+import gradient1LightPoster from '../../assets/images/video-thumbnails/gradients/light/gradient-1-grain-wh-0.jpg';
 import{demoContent}from'../../i18n/pages/demo';import{getTranslations}from'../../i18n/utils';import type{Lang}from'../../i18n/types';
 
 interface ServiceOption {
@@ -41,7 +42,7 @@ const options = localizedOptions.map(option => ({
   data-default-service={defaultService}
 >
   <video
-    class="book-demo__bg-video"
+    class="book-demo__bg-video book-demo__bg-video--dark"
     autoplay
     loop
     muted
@@ -51,6 +52,18 @@ const options = localizedOptions.map(option => ({
     aria-hidden="true"
   >
     <source src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-1.mp4`} type="video/mp4" media="(min-width: 641px)" />
+  </video>
+  <video
+    class="book-demo__bg-video book-demo__bg-video--light"
+    autoplay
+    loop
+    muted
+    playsinline
+    preload="metadata"
+    poster={gradient1LightPoster.src}
+    aria-hidden="true"
+  >
+    <source src={`${import.meta.env.BASE_URL}videos/gradients/light/base-gradient-1.mp4`} type="video/mp4" media="(min-width: 641px)" />
   </video>
   <div class="book-demo__bg-overlay" aria-hidden="true"></div>
 
@@ -211,12 +224,34 @@ const options = localizedOptions.map(option => ({
     height: 100%;
     object-fit: cover;
     z-index: 0;
+    transition: opacity var(--t-base);
+  }
+
+  .book-demo__bg-video--dark {
+    opacity: 1;
+  }
+
+  .book-demo__bg-video--light {
+    opacity: 0;
+  }
+
+  :global([data-theme='light']) .book-demo__bg-video--dark {
+    opacity: 0;
+  }
+
+  :global([data-theme='light']) .book-demo__bg-video--light {
+    opacity: 1;
   }
 
   .book-demo__bg-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, color-mix(in srgb, var(--bg) 70%, transparent) 0%, color-mix(in srgb, var(--bg) 24%, transparent) 70%, color-mix(in srgb, var(--bg) 35%, transparent) 100%);
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--bg) 70%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 24%, transparent) 70%,
+      color-mix(in srgb, var(--bg) 35%, transparent) 100%
+      );
     z-index: 1;
   }
 
@@ -285,11 +320,13 @@ const options = localizedOptions.map(option => ({
   .book-demo__form {
     display: grid;
     gap: var(--sp-4);
+    min-width: 0;
   }
 
   .book-demo__field {
     display: grid;
     gap: var(--sp-2);
+    min-width: 0;
   }
 
   .book-demo__field > span,
@@ -366,7 +403,9 @@ const options = localizedOptions.map(option => ({
     border-top: 1px solid var(--border-color);
     padding: var(--sp-4);
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--sp-4);
+    min-width: 0;
   }
 
   .book-demo__customize-content-wrap {
@@ -381,6 +420,7 @@ const options = localizedOptions.map(option => ({
 
   .book-demo__customize-content-wrap > .book-demo__customize-content {
     min-height: 0;
+    min-width: 0;
     overflow: hidden;
   }
 
@@ -389,17 +429,20 @@ const options = localizedOptions.map(option => ({
     padding: 0;
     border: 0;
     display: grid;
+    min-width: 0;
     gap: var(--sp-3);
   }
 
   .book-demo__service-options {
     display: grid;
+    min-width: 0;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--sp-2);
   }
 
   .book-demo__service-option {
     display: inline-flex;
+    min-width: 0;
     align-items: center;
     gap: var(--sp-3);
     border-radius: var(--radius);
@@ -483,12 +526,144 @@ const options = localizedOptions.map(option => ({
       grid-template-columns: 1fr;
     }
 
-    .book-demo__actions .btn {
+    .book-demo__actions :global(.btn) {
       justify-content: center;
     }
 
     .book-demo__service-options {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 300px) {
+    .book-demo__form-wrap {
+      padding: var(--sp-3);
+      gap: var(--sp-3);
+    }
+
+    .book-demo__form {
+      gap: var(--sp-4);
+    }
+
+    .book-demo__form-title {
+      font-size: var(--text-md);
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+
+    .book-demo__field {
+      gap: var(--sp-1);
+    }
+
+    .book-demo__field > span,
+    .book-demo__services legend,
+    .book-demo__service-option {
+      font-size: var(--text-xs);
+      line-height: 1.35;
+    }
+
+    .book-demo__field :is(input, textarea) {
+      font-size: var(--text-xs);
+      line-height: 1.35;
+      padding: var(--sp-2) var(--sp-3);
+    }
+
+    .book-demo__customize-summary {
+      gap: var(--sp-2);
+      padding: var(--sp-2) var(--sp-3);
+      font-size: var(--text-xs);
+      line-height: 1.35;
+      text-align: left;
+    }
+
+    .book-demo__customize-content {
+      padding: var(--sp-4) var(--sp-3);
+      gap: var(--sp-3);
+    }
+
+    .book-demo__services {
+      gap: var(--sp-2);
+    }
+
+    .book-demo__service-options {
+      gap: var(--sp-1);
+    }
+
+    .book-demo__service-option {
+      align-items: flex-start;
+      gap: var(--sp-2);
+      padding: var(--sp-2);
+      overflow-wrap: anywhere;
+    }
+
+    .book-demo__check {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .book-demo__check :global(.checkmark) {
+      width: 0.65rem;
+      height: 0.65rem;
+    }
+
+    .book-demo__actions {
+      gap: var(--sp-2);
+      margin-top: var(--sp-2);
+    }
+
+    .book-demo__actions :global(.btn) {
+      width: 100%;
+      min-width: 0;
+      min-height: 2.25rem;
+      padding: var(--sp-2) var(--sp-3);
+      white-space: normal;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+    }
+
+    .book-demo__actions :global(.btn--primary) {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .book-demo :global(.file-upload) {
+      align-items: flex-start;
+      gap: var(--sp-1);
+    }
+
+    .book-demo :global(.file-upload__link) {
+      min-width: 0;
+      gap: var(--sp-1);
+      font-size: var(--text-xs);
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .book-demo :global(.file-upload__link svg) {
+      width: 1rem;
+      height: 1rem;
+      flex: 0 0 1rem;
+    }
+
+    .book-demo :global(.privacy-consent) {
+      align-items: flex-start;
+      gap: var(--sp-1);
+      min-width: 0;
+      padding: 0;
+      font-size: 0.625rem;
+      line-height: 1.35;
+    }
+
+    .book-demo :global(.privacy-consent__text) {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .book-demo__headline {
+      font-size: clamp(1.35rem, 7vw, 2rem);
+      line-height: 1.15;
     }
   }
 </style>

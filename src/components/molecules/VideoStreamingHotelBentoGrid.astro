@@ -167,6 +167,7 @@ const serviceItems=content.services.map((label,index)=>({label,icon:serviceIcons
 
     <article
       class="vs-hotel-bento__card vs-hotel-bento__card--playing u-border-interactive"
+      data-theme="dark"
       style={`--bento-now-playing-bg:url(${nowPlayingImage.src});`}
       aria-label={content.playingAriaLabel}
     >
@@ -732,16 +733,113 @@ const serviceItems=content.services.map((label,index)=>({label,icon:serviceIcons
 
   .vs-hotel-bento__status {
     display: grid;
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: minmax(0, auto) minmax(0, auto) minmax(0, 1fr);
     align-items: center;
     gap: var(--sp-4);
     color: var(--text-primary);
     font-size: var(--text-sm);
     line-height: 1.45;
     padding: 0.25rem 0.35rem 0;
+    min-width: 0;
+  }
+
+  .vs-hotel-bento__status span {
+    min-width: 0;
   }
 
   .vs-hotel-bento__status span:last-child {
     justify-self: end;
+  }
+
+  @media (max-width: 600px) {
+    .vs-hotel-bento {
+      width: 100%;
+      max-width: none;
+      height: auto;
+      aspect-ratio: auto;
+      overflow: visible;
+    }
+
+    .vs-hotel-bento__canvas {
+      position: static;
+      display: block;
+      width: 100%;
+      height: auto;
+      transform: none !important;
+    }
+
+    .vs-hotel-bento__grid {
+      width: 100%;
+      height: auto;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-areas:
+        "time travel"
+        "controls controls"
+        "services services"
+        "attractions alerts"
+        "playing playing";
+      grid-auto-rows: minmax(8rem, auto);
+    }
+
+    .vs-hotel-bento__card {
+      min-height: 8rem;
+      height: auto;
+      padding: var(--sp-3);
+    }
+
+    .vs-hotel-bento__card--services,
+    .vs-hotel-bento__card--playing {
+      min-height: 12rem;
+    }
+
+    .vs-hotel-bento__services-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .vs-hotel-bento__status {
+      margin-top: var(--sp-2);
+      gap: var(--sp-2);
+      font-size: var(--text-xs);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, auto);
+    }
+
+    .vs-hotel-bento__status span {
+      overflow-wrap: anywhere;
+    }
+
+    .vs-hotel-bento__alerts-icon :global(svg) {
+      width: 100%;
+      height: 100%;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .vs-hotel-bento__grid {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "time"
+        "travel"
+        "controls"
+        "services"
+        "attractions"
+        "alerts"
+        "playing";
+    }
+
+    .vs-hotel-bento__card,
+    .vs-hotel-bento__card--services,
+    .vs-hotel-bento__card--playing {
+      min-height: 9rem;
+    }
+
+    .vs-hotel-bento__card--services,
+    .vs-hotel-bento__card--playing {
+      min-height: 12rem;
+    }
+
+    .vs-hotel-bento__services-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 </style>

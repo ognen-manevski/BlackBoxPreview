@@ -1,7 +1,7 @@
 ---
 import type { Lang } from '../../i18n/types';
 import { commonTranslations } from '../../i18n/common';
-import { getTranslations } from '../../i18n/utils';
+import { getTranslations, getLocalizedPath } from '../../i18n/utils';
 import mailIconRaw from '../../assets/vectors/icons/sm-icons/mail-fill.svg?raw';
 import facebookIconRaw from '../../assets/vectors/icons/sm-icons/sm_fb.svg?raw';
 import xIconRaw from '../../assets/vectors/icons/sm-icons/sm_x.svg?raw';
@@ -15,7 +15,7 @@ const t = getTranslations(commonTranslations, lang).share;
 
 const withClass = (raw: string) => raw.replace('<svg ', '<svg class="blog-share__icon" ');
 const arrowIcon = arrowForwardRaw.replace('fill="CurrentColor"', 'fill="currentColor"').replace('<svg ', '<svg class="btn__arrow" ');
-const absoluteUrl = new URL(path, Astro.site).href;
+const absoluteUrl = new URL(getLocalizedPath(path, lang), Astro.site).href;
 const encodedTitle = encodeURIComponent(title);
 const encodedUrl = encodeURIComponent(absoluteUrl);
 

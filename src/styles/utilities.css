@@ -16,6 +16,12 @@
   }
 }
 
+@media (max-width: 300px) {
+  .container {
+    padding-inline: var(--sp-2);
+  }
+}
+
 /* --- Section base --- */
 .section {
   padding: var(--sp-9) 0;
@@ -107,6 +113,25 @@
   font-size: var(--text-base);
   padding: var(--sp-3) var(--sp-6);
   min-height: 2.875rem;
+}
+
+@media (max-width: 720px) {
+  .btn--primary.btn--lg {
+    font-size: 0.85rem;
+    padding: 0.7rem 1.55rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .btn--primary.btn--lg {
+    font-size: clamp(0.75rem, 0.55rem + 0.5vw, 0.8rem);
+    padding: 0.65rem 0.75rem;
+  }
+
+  .btn--primary.btn--lg > span:first-child {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 }
 
 .btn--sm {

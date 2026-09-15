@@ -173,6 +173,10 @@
     }
 
     @media (max-width: 900px) {
+      .vs-scale__lower {
+        display: none;
+      }
+
       .vs-scale__inner {
         grid-template-columns: 1fr;
         gap: var(--sp-4);
@@ -188,6 +192,14 @@
 
       .vs-scale__features {
         max-width: 100%;
+        padding-block: var(--sp-5);
+        display: flex;
+        justify-content: center;
+      }
+
+      .vs-scale__features-graphic {
+        width: min(100%, 38rem);
+        margin-inline: auto;
       }
     }
 

@@ -295,7 +295,7 @@ const consultingCards = content.cards.map((card) => ({
     }
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
     .vs-consulting {
       padding-top: var(--sp-8);
       padding-bottom: var(--sp-8);
@@ -312,7 +312,13 @@ const consultingCards = content.cards.map((card) => ({
       top: auto;
     }
 
+    .vs-consulting__content {
+      padding-bottom: 0;
+    }
+
     .vs-consulting__cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       padding-top: var(--sp-2);
       padding-bottom: 0;
       gap: var(--sp-3);
@@ -323,16 +329,28 @@ const consultingCards = content.cards.map((card) => ({
     }
 
     .vs-consulting__card-content {
-      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr);
       gap: var(--sp-3);
     }
 
+    .vs-consulting__card-number,
+    .vs-consulting__card-body,
     .vs-consulting__card-points {
-      grid-column: 2;
+      grid-column: 1;
+    }
+
+    .vs-consulting__card-points {
+      grid-column: 1;
     }
 
     .vs-consulting__copy {
       max-width: none;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .vs-consulting__cards {
+      grid-template-columns: 1fr;
     }
   }
 </style>

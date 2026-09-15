@@ -61,7 +61,7 @@ const { counter, title, description } = Astro.props as Props;
     }
 
     .sd-service-card__visual-frame {
-        width: min(100%, 13rem);
+        width: min(100%, 12rem);
         aspect-ratio: 1 / 1;
         border-radius: var(--radius);
         display: inline-flex;
@@ -120,6 +120,35 @@ const { counter, title, description } = Astro.props as Props;
         display: block;
     }
 
+    @media (max-width: 1110px) {
+        .sd-service-card {
+            padding: var(--sp-4);
+        }
+
+        .sd-service-card__details {
+            grid-template-columns: minmax(0, 1fr) minmax(9rem, 10rem);
+            gap: var(--sp-3);
+        }
+
+        .sd-service-card__content {
+            gap: var(--sp-2);
+        }
+
+        .sd-service-card__title {
+            font-size: var(--text-md);
+            line-height: 1.2;
+        }
+
+        .sd-service-card__description {
+            font-size: var(--text-sm);
+            line-height: 1.45;
+        }
+
+        .sd-service-card__visual-frame {
+            width: min(100%, 10rem);
+        }
+    }
+
     @media (max-width: 1024px) {
         .sd-service-card {
             padding: var(--sp-4);
@@ -128,6 +157,66 @@ const { counter, title, description } = Astro.props as Props;
         .sd-service-card__details {
             grid-template-columns: minmax(0, 1fr) minmax(7.5rem, 10rem);
             gap: var(--sp-4);
+        }
+    }
+
+    @media (min-width: 641px) and (max-width: 860px) {
+        .sd-service-card__details {
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-areas:
+                "visual"
+                "counter"
+                "title"
+                "description";
+            align-items: start;
+            justify-content: center;
+            gap: var(--sp-3);
+        }
+
+        .sd-service-card__content {
+            display: contents;
+        }
+
+        .sd-service-card__counter {
+            grid-area: counter;
+            padding-top: 0.2rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        .sd-service-card__title {
+            grid-area: title;
+            text-align: left;
+        }
+
+        .sd-service-card__description {
+            grid-area: description;
+            text-align: left;
+        }
+
+        .sd-service-card__visual-wrap {
+            grid-area: visual;
+            justify-content: flex-start;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .sd-service-card__visual-frame {
+            width: 100%;
+            max-width: none;
+            min-width: 0;
+            aspect-ratio: 16 / 7;
+        }
+
+        .sd-service-card__visual {
+            height: 100%;
+        }
+
+        .sd-service-card__visual :global(svg),
+        .sd-service-card__visual :global(img) {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
     }
 
@@ -143,10 +232,33 @@ const { counter, title, description } = Astro.props as Props;
 
         .sd-service-card__visual-wrap {
             justify-content: flex-start;
+            order: -1;
+            width: 100%;
         }
 
         .sd-service-card__visual-frame {
-            width: min(100%, 11rem);
+            width: 100%;
+            max-width: none;
+            height: clamp(7rem, 28vw, 11rem);
+            aspect-ratio: auto;
+        }
+
+        .sd-service-card__visual {
+            height: 100%;
+        }
+
+        .sd-service-card__visual :global(svg),
+        .sd-service-card__visual :global(img) {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .sd-service-card__title {
+            font-size: clamp(1.1rem, 6vw, var(--text-lg));
+            line-height: 1.2;
         }
     }
 </style>

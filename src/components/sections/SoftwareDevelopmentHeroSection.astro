@@ -53,8 +53,8 @@ interface Props { content: SoftwareDevelopmentContent['hero'] } const { content 
             <h1 class="sd-hero__title section-headline section-headline--hero larger-title">
                 {content.titleStart}
                 <strong class="hero-highlight hero-highlight--animated"
-                        style="--hero-highlight-delay: 0s;">{content.highlight}</strong>
-                {content.titleEnd}
+                    style="--hero-highlight-delay: 0s;">{content.highlight}{content.titleEnd.charAt(0)}</strong>
+                {content.titleEnd.slice(1)}
             </h1>
             
 
@@ -74,7 +74,6 @@ interface Props { content: SoftwareDevelopmentContent['hero'] } const { content 
         background: var(--bg);
         overflow: clip;
         width: 100%;
-        padding-top: var(--navbar-height);
         min-height: clamp(28rem, 68svh, 46rem);
     }
 
@@ -107,7 +106,8 @@ interface Props { content: SoftwareDevelopmentContent['hero'] } const { content 
     }
 
     .sd-hero__lead {
-        max-width: 68ch;
+        width: 100%;
+        max-width: 100%;
     }
 
 
@@ -164,9 +164,17 @@ interface Props { content: SoftwareDevelopmentContent['hero'] } const { content 
     }
 
     @media (max-width: 1024px) {
+        .sd-hero {
+            display: flex;
+            align-items: center;
+        }
+
         .sd-hero__inner {
-            padding-top: calc(var(--navbar-height) + var(--sp-6));
+            min-height: 0;
+            padding-top: var(--sp-6);
             padding-bottom: var(--sp-7);
+            display: flex;
+            align-items: center;
         }
 
         .sd-hero__content {
@@ -177,12 +185,29 @@ interface Props { content: SoftwareDevelopmentContent['hero'] } const { content 
 
     @media (max-width: 720px) {
         .sd-hero {
+            padding-top: 0;
             min-height: clamp(24rem, 64svh, 38rem);
+            display: flex;
+            align-items: center;
         }
 
         .sd-hero__inner {
-            padding-top: calc(var(--navbar-height) + var(--sp-5));
-            padding-bottom: var(--sp-6);
+            min-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .sd-hero__title {
+            font-size: clamp(2.1rem, 10vw, 2.5rem);
+            line-height: 1.1;
+        }
+
+        .sd-hero__title .hero-highlight {
+            display: inline;
         }
     }
 </style>

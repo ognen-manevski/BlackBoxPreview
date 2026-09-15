@@ -85,6 +85,7 @@ const logoTooltips = logos.map(
     .technology-card__logos {
         display: flex;
         flex-wrap: wrap;
+        min-width: 0;
         gap: var(--sp-2);
         margin: 0;
         padding: 0;
@@ -94,6 +95,7 @@ const logoTooltips = logos.map(
 
     .technology-card__logo-item {
         position: relative;
+        min-width: 0;
         width: 2.75rem;
         height: 2.75rem;
         aspect-ratio: 1 / 1;
@@ -101,13 +103,14 @@ const logoTooltips = logos.map(
         border-radius: var(--radius);
         background: white;
         padding: var(--sp-1);
-        overflow: visible;
+        overflow: hidden;
     }
 
     .technology-card__logo-trigger {
         position: relative;
         display: grid;
         place-items: center;
+        min-width: 0;
         width: 100%;
         height: 100%;
         border-radius: var(--radius);
@@ -119,6 +122,7 @@ const logoTooltips = logos.map(
     }
 
     .technology-card__logo {
+        min-width: 0;
         width: 100%;
         height: 100%;
         aspect-ratio: 1 / 1;
@@ -176,6 +180,7 @@ const logoTooltips = logos.map(
 
     @media (max-width: 700px) {
         .technology-card {
+            min-width: 0;
             padding: var(--sp-4);
             gap: var(--sp-3);
         }
@@ -187,6 +192,33 @@ const logoTooltips = logos.map(
 
         .technology-card__tooltip {
             max-width: 11rem;
+        }
+    }
+
+    @media (max-width: 220px) {
+        .technology-card {
+            padding: var(--sp-3);
+        }
+
+        .technology-card__logos {
+            gap: var(--sp-1);
+        }
+
+        .technology-card__logo-item {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .technology-card__logos {
+            row-gap: var(--sp-2);
+        }
+
+        .technology-card__logo-item {
+            width: 2rem;
+            height: 2rem;
+            flex: 0 0 2rem;
         }
     }
 </style>

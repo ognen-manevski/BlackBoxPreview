@@ -13,6 +13,7 @@ import ArrowForwardIcon from '../components/icons/ArrowForwardIcon.astro';
 import BlogTag from '../components/blog/BlogTag.astro';
 import ShareLinks from '../components/blog/ShareLinks.astro';
 import BaseLayout from './BaseLayout.astro';
+import { getLocalizedPath } from '../i18n/utils';
 import '../styles/blog.css';
 type EditorialEntry = CollectionEntry<'blog'> | CollectionEntry<'news'>;
 interface Props { post: EditorialEntry }
@@ -24,8 +25,8 @@ const dateLabel = data.lang === 'mk' ? 'Датум на објава' : 'Publish
 const publishedDate = new Intl.DateTimeFormat(data.lang === 'mk' ? 'mk-MK' : 'en-GB', {
   day: 'numeric', month: 'long', year: 'numeric',
 }).format(data.publishedAt);
-const path = data.lang === 'mk' ? `/mk/${post.collection}/${slug}/` : `/${post.collection}/${slug}/`;
-const localizedPath = (value: string) => data.lang === 'mk' ? `/mk${value}` : value;
+const path = `/${post.collection}/${slug}/`;
+const localizedPath = (value: string) => getLocalizedPath(value, data.lang);
 const entryPath = (entry: EditorialEntry) => localizedPath(`/${entry.collection}/${entry.id.split('/')[0]}/`);
 
 const editorialEntries = (await getCollection(post.collection, ({ data: entryData }) =>

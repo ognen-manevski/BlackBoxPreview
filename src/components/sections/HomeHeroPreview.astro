@@ -1,0 +1,182 @@
+---
+import HeroSection from './HeroSection.astro';
+import HeroSectionAlternative from './HeroSectionAlternative.astro';
+import HeroSectionV3 from './HeroSectionV3.astro';
+import type { HomePageContent } from '../../i18n/pages/home';
+import type { Lang } from '../../i18n/types';
+
+interface Props {
+  content: HomePageContent['hero'];
+  lang: Lang;
+}
+
+const { content, lang } = Astro.props;
+---
+
+<div class="hero-preview">
+  <div class="hero-preview__controls">
+    <span class="hero-preview__label">Swap hero layout:</span>
+    <div class="hero-preview__tabs" role="tablist" aria-label="Swap hero design">
+      <button
+        class="hero-preview__tab"
+        id="hero-preview-tab-original"
+        type="button"
+        role="tab"
+        aria-selected="true"
+        aria-controls="hero-preview-panel-original"
+        tabindex="0"
+        data-hero-version="original"
+      >ver.1</button>
+      <button
+        class="hero-preview__tab"
+        id="hero-preview-tab-alternative"
+        type="button"
+        role="tab"
+        aria-selected="false"
+        aria-controls="hero-preview-panel-alternative"
+        tabindex="-1"
+        data-hero-version="alternative"
+      >ver.2</button>
+      <button
+        class="hero-preview__tab"
+        id="hero-preview-tab-v3"
+        type="button"
+        role="tab"
+        aria-selected="false"
+        aria-controls="hero-preview-panel-v3"
+        tabindex="-1"
+        data-hero-version="v3"
+      >ver.3</button>
+    </div>
+  </div>
+  <div
+    class="hero-preview__version"
+    id="hero-preview-panel-original"
+    role="tabpanel"
+    aria-labelledby="hero-preview-tab-original"
+    data-hero-panel="original"
+  >
+    <HeroSection content={content} lang={lang} />
+  </div>
+  <div
+    class="hero-preview__version"
+    id="hero-preview-panel-alternative"
+    role="tabpanel"
+    aria-labelledby="hero-preview-tab-alternative"
+    data-hero-panel="alternative"
+    hidden
+  >
+    <HeroSectionAlternative content={content} lang={lang} />
+  </div>
+  <div
+    class="hero-preview__version"
+    id="hero-preview-panel-v3"
+    role="tabpanel"
+    aria-labelledby="hero-preview-tab-v3"
+    data-hero-panel="v3"
+    hidden
+  >
+    <HeroSectionV3 content={content} lang={lang} />
+  </div>
+</div>
+
+<style>
+  .hero-preview {
+    position: relative;
+  }
+
+  .hero-preview__version[hidden] {
+    display: none;
+  }
+
+  .hero-preview__controls {
+    position: absolute;
+    z-index: 5;
+    top: var(--sp-4);
+    right: var(--sp-4);
+    display: grid;
+    gap: var(--sp-3);
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-2) var(--sp-3);
+    background: color-mix(in srgb, var(--bg-secondary) 70%, transparent);
+    color: var(--text-primary);
+    font-size: var(--text-sm);
+  }
+
+  .hero-preview__label {
+    /* color: var(--text-secondary); */
+    font-weight: var(--weight-medium);
+  }
+
+  .hero-preview__tabs {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-1);
+  }
+
+  .hero-preview__tab {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: var(--sp-1) var(--sp-3);
+    background: transparent;
+    color: var(--text-secondary);
+    font: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .hero-preview__tab[aria-selected='true'] {
+    background: var(--text-primary);
+    color: var(--bg);
+  }
+
+  .hero-preview__tab:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 480px) {
+    .hero-preview__controls {
+      top: var(--sp-3);
+      right: var(--sp-3);
+      gap: var(--sp-1);
+      padding: var(--sp-1);
+      font-size: var(--text-xs);
+    }
+  }
+</style>
+
+<script>
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-hero-version]'));
+  const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-hero-panel]'));
+
+  function selectVersion(version: string) {
+    tabs.forEach((tab) => {
+      const selected = tab.dataset.heroVersion === version;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+    panels.forEach((panel) => {
+      panel.hidden = panel.dataset.heroPanel !== version;
+    });
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => selectVersion(tab.dataset.heroVersion ?? 'original'));
+    tab.addEventListener('keydown', (event) => {
+      let nextIndex: number | undefined;
+      if (event.key === 'ArrowRight') nextIndex = (index + 1) % tabs.length;
+      if (event.key === 'ArrowLeft') nextIndex = (index - 1 + tabs.length) % tabs.length;
+      if (event.key === 'Home') nextIndex = 0;
+      if (event.key === 'End') nextIndex = tabs.length - 1;
+      if (nextIndex !== undefined) {
+        event.preventDefault();
+        tabs[nextIndex]?.focus();
+        selectVersion(tabs[nextIndex]?.dataset.heroVersion ?? 'original');
+      }
+    });
+  });
+</script>

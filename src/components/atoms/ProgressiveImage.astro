@@ -8,16 +8,15 @@ interface Props {
   fit?: 'cover' | 'contain' | 'fill';
   position?: string;
   bounds?: string;
-  theme?: 'dark' | 'light';
 }
 
-const { src, fit = 'cover', position = 'center', bounds = 'inset: 0;', theme } = Astro.props;
+const { src, fit = 'cover', position = 'center', bounds = 'inset: 0;' } = Astro.props;
 const proxy = src && await getImage({ src, width: Math.min(32, src.width), format: 'webp', quality: 30 });
 ---
 
 <!-- No wrapper: retain the original image/picture and its scoped styles verbatim. -->
 <slot />
-{proxy && <span data-progressive-proxy data-progressive-theme={theme} aria-hidden="true" style={bounds}>
+{proxy && <span data-progressive-proxy aria-hidden="true" style={bounds}>
   <span style={{ backgroundImage: `url("${proxy.src}")`, backgroundSize: fit === 'fill' ? '100% 100%' : fit, backgroundPosition: position }}></span>
 </span>}
 
@@ -41,9 +40,6 @@ const proxy = src && await getImage({ src, width: Math.min(32, src.width), forma
     filter: blur(2rem);
     pointer-events: none;
   }
-  [data-progressive-theme="light"] { display: none; }
-  :global([data-theme="light"]) [data-progressive-theme="light"] { display: block; }
-  :global([data-theme="light"]) [data-progressive-theme="dark"] { display: none; }
   @media (prefers-reduced-motion: reduce) {
     [data-progressive-proxy] { transition: none; }
   }

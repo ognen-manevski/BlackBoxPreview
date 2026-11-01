@@ -1,0 +1,43 @@
+---
+import AboutPrinciples from '../molecules/AboutPrinciples.astro';
+import ClientLogoCarousel from '../molecules/ClientLogoCarousel.astro';
+import SectionTitleGroup from '../molecules/SectionTitleGroup.astro';
+import { clientLogos } from '../../data/clientLogos';
+import type { HomePageContent } from '../../i18n/pages/home';
+
+interface Props {
+  content: HomePageContent['about'];
+}
+
+const { content } = Astro.props;
+---
+
+<section class="section home-about" aria-labelledby="home-about-heading">
+  <div class="container home-about__inner u-section-title-stack">
+    <SectionTitleGroup
+      class="home-about__header"
+      label={content.label}
+      heading={content.heading}
+      headingId="home-about-heading"
+      headlineWidth="24ch"
+      copy={content.homeCopy}
+    />
+
+    <ClientLogoCarousel items={clientLogos} ariaLabel={content.logosAriaLabel} />
+
+    <AboutPrinciples
+      principles={content.principles}
+      ariaLabel={content.principlesAriaLabel}
+    />
+  </div>
+</section>
+
+<style>
+  .home-about {
+    background: var(--bg);
+  }
+
+  .home-about__inner :global(.logo-carousel) {
+    margin-top: calc(var(--sp-2) - 2.5rem);
+  }
+</style>

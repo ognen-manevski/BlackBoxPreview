@@ -1,0 +1,400 @@
+---
+import SectionTitleGroup from '../../../molecules/SectionTitleGroup.astro';
+import ArrowButton from '../../../atoms/ArrowButton.astro';
+import { getLocalizedPath } from '../../../../i18n/utils';
+import type { Lang } from '../../../../i18n/types';
+import buyDisplaysIcon from '../../../../assets/vectors/illustrations/neoslide/buy-displays.svg?raw';
+import rentDisplaysIcon from '../../../../assets/vectors/illustrations/neoslide/rent-displays.svg?raw';
+
+type PricingCard = {
+  type: 'buy' | 'rent';
+  label: string;
+  heading: string;
+  copy: string;
+  features: readonly string[];
+  cta: string;
+  intent: string;
+};
+
+type PurchaseCard = {
+  type: string;
+  label: string;
+  heading: string;
+  copy: string;
+  cta: string;
+  intent: string;
+  features?: readonly string[];
+};
+
+interface Props {
+  content: {
+    label: string;
+    heading: string;
+    copy: string;
+    cards: readonly PurchaseCard[];
+  };
+  lang: Lang;
+  bookDemoHref?: string;
+  headlineWidth?: string;
+}
+
+const { content, lang, bookDemoHref, headlineWidth } = Astro.props;
+const prepareIcon = (icon: string) => icon
+  .replace(/^<\?xml[^>]*>\s*/, '')
+  .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+const buyDisplaysIconMarkup = prepareIcon(buyDisplaysIcon);
+const rentDisplaysIconMarkup = prepareIcon(rentDisplaysIcon);
+const isPricingCard = (card: PurchaseCard): card is PricingCard => card.type === 'buy' || card.type === 'rent';
+const pricingCards = content.cards.filter(isPricingCard);
+const customSetupCard = content.cards.find((card) => card.type === 'custom' || card.type === 'existing');
+const getBookDemoHref = (intent: string) => {
+  const target = bookDemoHref ?? getLocalizedPath('/services/neoslide/', lang);
+  const url = new URL(target, Astro.url);
+  url.searchParams.set('interest', intent);
+  if (!url.hash) {
+    url.hash = 'book-demo';
+  }
+  return `${url.pathname}${url.search}${url.hash}`;
+};
+---
+
+<section class="section ds-purchase" aria-labelledby="ds-purchase-heading">
+  <div class="container ds-purchase__container u-section-title-stack">
+    <SectionTitleGroup
+      class="ds-purchase__intro"
+      label={content.label}
+      heading={content.heading}
+      headingId="ds-purchase-heading"
+      headlineWidth={headlineWidth}
+      copy={content.copy}
+    />
+
+    <div class="ds-purchase__grid">
+      <div class="ds-purchase__offers">
+        {pricingCards.map((card) => (
+          <article class:list={['ds-purchase__card', 'ds-purchase__card--pricing', 'u-border-interactive', `ds-purchase__card--${card.type}`]}>
+            <div class="ds-purchase__card-intro">
+              <div class="ds-purchase__card-meta">
+                <span class="ds-purchase__icon" aria-hidden="true">
+                  <span set:html={card.type === 'buy' ? buyDisplaysIconMarkup : rentDisplaysIconMarkup} />
+                </span>
+                <p class="section-label ds-purchase__card-label">{card.label}</p>
+              </div>
+              <h3 class="ds-purchase__card-heading">{card.heading}</h3>
+              <p class="section-copy ds-purchase__card-copy">{card.copy}</p>
+            </div>
+            <ul class="ds-purchase__features">
+              {card.features.map((feature, index) => (
+                <li>
+                  {feature}
+                  {index < card.features.length - 1 && <span class="ds-purchase__feature-divider" aria-hidden="true" />}
+                </li>
+              ))}
+            </ul>
+            <div class="ds-purchase__card-cta">
+              <ArrowButton
+                href={getBookDemoHref(card.intent)}
+                variant="primary"
+              >
+                {card.cta}
+              </ArrowButton>
+            </div>
+          </article>
+        ))}
+      </div>
+      {customSetupCard && (
+        <article class="ds-purchase__card ds-purchase__card--existing u-border-interactive">
+          <div class="ds-purchase__existing-layout">
+            <div class="ds-purchase__card-body">
+              <h3 class="ds-purchase__card-heading">
+                {customSetupCard.type === 'custom' ? customSetupCard.label : customSetupCard.heading}
+              </h3>
+              <p class="section-copy ds-purchase__card-copy">{customSetupCard.copy}</p>
+            </div>
+            <div class="ds-purchase__card-cta">
+              <ArrowButton
+                href={getBookDemoHref(customSetupCard.intent)}
+                variant="primary"
+              >
+                {customSetupCard.cta}
+              </ArrowButton>
+            </div>
+          </div>
+        </article>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ds-purchase {
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .ds-purchase__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-4);
+    align-items: stretch;
+  }
+
+  .ds-purchase__offers {
+    display: grid;
+    grid-column: span 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(5, auto);
+    column-gap: var(--sp-4);
+  }
+
+  .ds-purchase__card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    height: 100%;
+    padding: var(--sp-5);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+
+  .ds-purchase__card--pricing {
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    gap: 0;
+  }
+
+  .ds-purchase__card-intro {
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  .ds-purchase__card--buy {
+    background:
+      radial-gradient(
+        ellipse 150% 100% at 130% -30%,
+        color-mix(in srgb, var(--color-brand) 0%, transparent) 0%,
+        transparent 80%
+      ),
+      radial-gradient(
+        ellipse 100% 50% at 0% 100%,
+        color-mix(in srgb, var(--color-brand) 20%, transparent) 0%,
+        transparent 100%
+      ),
+      radial-gradient(
+        ellipse 200% 100% at 50% 0%,
+        color-mix(in srgb, var(--color-brand) 0%, transparent) 0%,
+        transparent 80%
+      ),
+      var(--surface);
+  }
+
+  .ds-purchase__card--rent {
+    background:
+      radial-gradient(
+        ellipse 150% 100% at 140% -40%,
+        color-mix(in srgb, var(--color-aurora) 50%, transparent) 0%,
+        transparent 100%
+      ),
+      radial-gradient(
+        ellipse 100% 50% at 0% 100%,
+        color-mix(in srgb, var(--color-brand) 30%, transparent) 0%,
+        transparent 100%
+      ),
+      radial-gradient(
+        ellipse 200% 100% at 50% 0%,
+        color-mix(in srgb, var(--color-brand) 10%, transparent) 0%,
+        transparent 80%
+      ),
+      var(--surface);
+  }
+
+  .ds-purchase__card-meta {
+    display: grid;
+    align-content: start;
+    gap: var(--sp-3);
+  }
+
+  .ds-purchase__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    padding: var(--sp-2);
+    margin-bottom: var(--sp-5);
+    border: 1px solid var(--color-brand);
+    border-radius: var(--radius);
+    background: var(--icon-bg);
+    color: var(--color-brand);
+  }
+
+  .ds-purchase__icon svg {
+    display: block;
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .ds-purchase__card-label {
+    margin: 0;
+  }
+
+  .ds-purchase__card-heading,
+  .ds-purchase__card-copy {
+    margin: 0;
+  }
+
+  .ds-purchase__card--pricing .ds-purchase__card-heading {
+    max-width: 20ch;
+    margin-top: var(--sp-5);
+    font-size: clamp(1.125rem, 1rem + 0.4vw, 1.375rem);
+    line-height: 1.2;
+  }
+
+  .ds-purchase__card--pricing .ds-purchase__card-copy {
+    padding-top: var(--sp-3);
+    font-size: var(--text-sm);
+  }
+
+  .ds-purchase__features {
+    display: grid;
+    grid-row: 2 / span 3;
+    grid-template-rows: subgrid;
+    width: 100%;
+    margin: 0;
+    padding: var(--sp-4) 0 0 var(--sp-4);
+    list-style: disc;
+  }
+
+  .ds-purchase__features li {
+    position: relative;
+    padding: var(--sp-3) 0;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  .ds-purchase__feature-divider {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: calc(-1 * var(--sp-4));
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .ds-purchase__card-cta {
+    margin-top: auto;
+    padding-top: var(--sp-4);
+  }
+
+  .ds-purchase__card--pricing .ds-purchase__card-cta {
+    grid-row: 5;
+    align-self: end;
+    justify-self: start;
+    width: max-content;
+  }
+
+  .ds-purchase__card--existing .ds-purchase__card-body {
+    width: 100%;
+  }
+
+  .ds-purchase__card--existing {
+    container-type: inline-size;
+  }
+
+  .ds-purchase__existing-layout {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--sp-6);
+    width: 100%;
+  }
+
+  .ds-purchase__card--existing .ds-purchase__card-heading {
+    margin-bottom: var(--sp-3);
+  }
+
+  .ds-purchase__card--existing .ds-purchase__card-copy {
+    margin-bottom: 0;
+  }
+
+  .ds-purchase__card--existing .ds-purchase__card-cta {
+    padding-top: 0;
+  }
+
+  @container (min-width: 40rem) {
+    .ds-purchase__existing-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: var(--sp-6);
+    }
+
+    .ds-purchase__card--existing .ds-purchase__card-cta {
+      justify-self: end;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .ds-purchase__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ds-purchase__offers,
+    .ds-purchase__card--existing {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .ds-purchase__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ds-purchase__card--pricing .ds-purchase__card-heading {
+      max-width: none;
+    }
+
+    .ds-purchase__offers {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--sp-4);
+    }
+
+    .ds-purchase__card--pricing {
+      display: flex;
+      grid-row: auto;
+      grid-template-rows: none;
+      row-gap: 0;
+    }
+
+    .ds-purchase__card-intro,
+    .ds-purchase__card--pricing .ds-purchase__card-cta {
+      grid-row: auto;
+    }
+
+    .ds-purchase__card--pricing .ds-purchase__card-cta {
+      align-self: flex-start;
+    }
+
+    .ds-purchase__features {
+      display: block;
+      grid-row: auto;
+      grid-template-rows: none;
+      margin-top: var(--sp-4);
+      padding-top: 0;
+    }
+
+    .ds-purchase__features {
+      display: block;
+      margin-top: var(--sp-4);
+      padding-top: 0;
+    }
+
+    .ds-purchase__card-cta {
+      margin-top: auto;
+    }
+  }
+</style>

@@ -1,0 +1,183 @@
+---
+import ProgressiveImage from '../../../atoms/ProgressiveImage.astro';
+import { hardwareImageMetadata } from '../../../../i18n/pages/data/shelfLabelHardwareFeatures';
+import SectionTitleGroup from '../../../molecules/SectionTitleGroup.astro';
+import type{ShelfLabelsContent}from'../../../../i18n/pages/digital-signage-displays/electronic-shelf-labels.ts'; interface Props{content:ShelfLabelsContent['hardware']} const{content}=Astro.props; const features=content.features;
+---
+
+<section class="section sl-hardware-details" aria-labelledby="hardware-details-heading">
+    <div class="container sl-hardware-details__container u-section-title-stack">
+        <SectionTitleGroup
+            class="sl-hardware-details__intro"
+            label={content.label}
+            heading={content.heading}
+            headingId="hardware-details-heading"
+            titleWidth="38%"
+            copy={content.copy}
+        />
+
+        <div
+            class="sl-hardware-details__grid"
+            aria-label={content.ariaLabel}
+        >
+            {
+                features.map((feature, index) => (
+                    <article class="sl-hardware-details__card u-border-interactive">
+                        <figure class="sl-hardware-details__media" data-progressive-host="relative">
+                            <ProgressiveImage src={hardwareImageMetadata.get(feature.imageSrc)}><img
+                                src={feature.imageSrc}
+                                alt={feature.imageAlt}
+                                loading={index === 0 ? "eager" : "lazy"}
+                                decoding="async"
+                                class="sl-hardware-details__image"
+                            /></ProgressiveImage>
+                        </figure>
+
+                        <div class="sl-hardware-details__details">
+                            <span
+                                class="sl-hardware-details__counter"
+                                aria-hidden="true"
+                            >
+                                {feature.counter}
+                            </span>
+
+                            <div class="sl-hardware-details__text">
+                                <h3 class="sl-hardware-details__title">
+                                    {feature.title}
+                                </h3>
+
+                                <p class="sl-hardware-details__description">
+                                    {feature.description}
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                ))
+            }
+        </div>
+    </div>
+
+    <style>
+        .sl-hardware-details {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sl-hardware-details__grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--sp-4);
+            align-items: stretch;
+        }
+
+        .sl-hardware-details__card {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            padding: 0;
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .sl-hardware-details__media {
+            width: 100%;
+            margin: 0;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+
+        .sl-hardware-details__image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-out;
+        }
+
+        .sl-hardware-details__card:hover .sl-hardware-details__image,
+        .sl-hardware-details__card:focus-within .sl-hardware-details__image {
+            transform: scale(1.04);
+        }
+
+        .sl-hardware-details__details {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: var(--sp-4);
+            padding: var(--sp-5);
+            align-items: start;
+            align-content: start;
+        }
+
+        .sl-hardware-details__counter {
+            font-family: var(--font-mono);
+            color: var(--color-brand);
+            font-size: clamp(1rem, 0.9rem + 0.35vw, 1.25rem);
+            font-weight: 600;
+            line-height: 1;
+            letter-spacing: 0.08em;
+        }
+
+        .sl-hardware-details__text {
+            display: grid;
+            gap: var(--sp-2);
+            align-content: start;
+        }
+
+        .sl-hardware-details__title,
+        .sl-hardware-details__description {
+            margin: 0;
+        }
+
+        .sl-hardware-details__title {
+            font-size: clamp(1.05rem, 0.98rem + 0.35vw, 1.25rem);
+            line-height: 1.2;
+        }
+
+        .sl-hardware-details__description {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            line-height: 1.55;
+        }
+
+        @media (max-width: 1024px) {
+            .sl-hardware-details__grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: var(--sp-4);
+            }
+
+            .sl-hardware-details__media {
+                aspect-ratio: 16 / 9;
+            }
+
+            .sl-hardware-details__details {
+                gap: var(--sp-3);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sl-hardware-details__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sl-hardware-details__details {
+                gap: var(--sp-3);
+            }
+
+            .sl-hardware-details__media {
+                aspect-ratio: 16 / 10;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .sl-hardware-details__image {
+                transition: none;
+            }
+
+            .sl-hardware-details__card:hover .sl-hardware-details__image,
+            .sl-hardware-details__card:focus-within .sl-hardware-details__image {
+                transform: none;
+            }
+        }
+    </style>
+</section>

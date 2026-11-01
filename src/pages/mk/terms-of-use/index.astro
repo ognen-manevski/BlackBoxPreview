@@ -1,8 +1,8 @@
 ---
-import LegalPageLayout from '../../../components/layouts/LegalPageLayout.astro';
+import LegalPageLayout from '../../../layouts/LegalPageLayout.astro';
 import { legalTranslations } from '../../../i18n/pages/legal';
 import { Content } from '../../../content/legal/terms-of-use.mk.md';
+import heroImage from '../../../assets/images/legal pages/clipboard.png';
 const t = legalTranslations.mk;
 ---
-<LegalPageLayout lang="mk" title={t.terms.title} description={t.terms.description}><Content /></LegalPageLayout>
-
+<LegalPageLayout heroImage={heroImage} restoreListMarkers lang="mk" title={t.terms.title} subtitle={t.terms.subtitle} updatedDate={t.terms.updatedDate} description={t.terms.description}><Content /></LegalPageLayout>

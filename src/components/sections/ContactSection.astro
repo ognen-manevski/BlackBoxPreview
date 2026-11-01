@@ -2,11 +2,9 @@
 import PhoneIcon from '../icons/PhoneIcon.astro';
 import MailIcon from '../icons/MailIcon.astro';
 import SubscribeField from '../atoms/SubscribeField.astro';
-import FileUpload from '../atoms/FileUpload.astro';
-import PrivacyConsent from '../atoms/PrivacyConsent.astro';
+import ContactForm from './ContactForm.astro';
 import ContactDetailItem from '../atoms/ContactDetailItem.astro';
 import gradient1DarkPoster from '../../assets/images/video-thumbnails/gradients/dark/gradient-1-grain-0.jpg';
-import gradient1LightPoster from '../../assets/images/video-thumbnails/gradients/light/gradient-1-grain-wh-0.jpg';
 import type { HomePageContent } from '../../i18n/pages/home';
 import { commonTranslations } from '../../i18n/common';
 import { getLocaleFromUrl, getLocalizedPath, getTranslations } from '../../i18n/utils';
@@ -18,7 +16,7 @@ const privacyHref = getLocalizedPath('/privacy-policy/', getLocaleFromUrl(Astro.
 
 <section class="section contact" id="contact" aria-labelledby="contact-heading">
   <video
-    class="contact__bg-video contact__bg-video--dark"
+    class="contact__bg-video"
     autoplay
     loop
     muted
@@ -28,18 +26,6 @@ const privacyHref = getLocalizedPath('/privacy-policy/', getLocaleFromUrl(Astro.
     aria-hidden="true"
   >
     <source src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-1.mp4`} type="video/mp4" media="(min-width: 641px)" />
-  </video>
-  <video
-    class="contact__bg-video contact__bg-video--light"
-    autoplay
-    loop
-    muted
-    playsinline
-    preload="metadata"
-    poster={gradient1LightPoster.src}
-    aria-hidden="true"
-  >
-    <source src={`${import.meta.env.BASE_URL}videos/gradients/light/base-gradient-1.mp4`} type="video/mp4" media="(min-width: 641px)" />
   </video>
   <div class="contact__bg-overlay" aria-hidden="true"></div>
 
@@ -90,46 +76,7 @@ const privacyHref = getLocalizedPath('/privacy-policy/', getLocaleFromUrl(Astro.
       </div>
     </div>
 
-    <div class="contact__form-wrap u-border-interactive">
-      <form class="contact__form" action="#" method="post">
-        <label class="contact__field">
-          <span>{content.nameLabel}</span>
-          <input type="text" name="name" placeholder={content.namePlaceholder} autocomplete="name" required>
-        </label>
-
-        <label class="contact__field">
-          <span>{content.emailLabel}</span>
-          <input type="email" name="email" placeholder={content.emailPlaceholder} autocomplete="email" required>
-        </label>
-
-        <label class="contact__field">
-          <span>{content.projectLabel}</span>
-          <textarea
-            name="projectDetails"
-            placeholder={content.projectPlaceholder}
-            rows="6"
-            required
-          ></textarea>
-        </label>
-
-        <FileUpload id="contact-file" label={content.addFile} />
-
-        <div class="contact__actions">
-          <button class="btn btn--primary" type="submit">{content.send}</button>
-          <button class="btn btn--outline" type="reset">{content.reset}</button>
-        </div>
-
-        <PrivacyConsent
-          class="contact__consent"
-          id="contact-form-consent"
-          name="contactFormConsent"
-          required={true}
-          text={content.formConsent}
-          linkText={content.privacyPolicy}
-          linkHref={privacyHref}
-        />
-      </form>
-    </div>
+    <ContactForm content={content} />
   </div>
 </section>
 
@@ -148,22 +95,6 @@ const privacyHref = getLocalizedPath('/privacy-policy/', getLocaleFromUrl(Astro.
     object-fit: cover;
     z-index: 0;
     transition: opacity var(--t-base);
-  }
-
-  .contact__bg-video--dark {
-    opacity: 1;
-  }
-
-  .contact__bg-video--light {
-    opacity: 0;
-  }
-
-  :global([data-theme='light']) .contact__bg-video--dark {
-    opacity: 0;
-  }
-
-  :global([data-theme='light']) .contact__bg-video--light {
-    opacity: 1;
   }
 
   .contact__bg-overlay {
@@ -203,10 +134,6 @@ const privacyHref = getLocalizedPath('/privacy-policy/', getLocaleFromUrl(Astro.
     max-width: 34rem;
   }
 
-  .contact__consent {
-    max-width: 52ch;
-  }
-
   .contact__direct {
     margin-top: var(--sp-7);
     display: grid;
@@ -216,100 +143,6 @@ const privacyHref = getLocalizedPath('/privacy-policy/', getLocaleFromUrl(Astro.
 
   .contact__direct-item {
     align-items: center;
-  }
-
-  .contact__form-wrap {
-    border-radius: var(--radius-lg);
-    background: color-mix(in srgb, var(--bg-secondary) 90%, var(--bg));
-    padding: var(--sp-6);
-  }
-
-  .contact__form {
-    display: grid;
-    gap: var(--sp-4);
-  }
-
-  .contact__field {
-    display: grid;
-    gap: var(--sp-2);
-  }
-
-  .contact__field > span {
-    font-size: var(--text-sm);
-    color: var(--text-primary);
-  }
-
-  .contact__field :is(input, textarea) {
-    width: 100%;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    background: color-mix(in srgb, var(--bg-secondary) 82%, var(--bg));
-    color: var(--text-primary);
-    font-family: var(--font-ui);
-    font-size: var(--text-sm);
-    line-height: 1.5;
-    padding: var(--sp-3) var(--sp-4);
-    transition: border-color var(--t-fast), background var(--t-fast);
-  }
-
-  .contact__field textarea {
-    resize: vertical;
-    min-height: 8rem;
-  }
-
-  .contact__field :is(input, textarea)::placeholder {
-    color: var(--text-muted);
-  }
-
-  .contact__field :is(input, textarea):is(:focus, :focus-visible) {
-    border-color: var(--color-brand);
-    outline: none;
-  }
-
-  .contact__upload-row {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
-  }
-
-  .contact__file-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-2);
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: var(--text-sm);
-    text-decoration: none;
-    transition: color var(--t-fast);
-  }
-
-  .contact__file-link:is(:hover, :focus-visible) {
-    color: var(--text-primary);
-  }
-
-  .contact__file-input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-    width: 1px;
-    height: 1px;
-  }
-
-  .contact__actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start;
-    gap: var(--sp-3);
-    margin-top: var(--sp-1);
-  }
-
-  .contact__actions .btn {
-    justify-content: center;
-    align-items: center;
-    min-height: 2.375rem;
-    padding-top: var(--sp-2);
-    padding-bottom: var(--sp-2);
   }
 
   @media (max-width: 1100px) {
@@ -330,16 +163,6 @@ const privacyHref = getLocalizedPath('/privacy-policy/', getLocaleFromUrl(Astro.
   @media (max-width: 700px) {
     .contact__bg-overlay {
       background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 62%, transparent) 0%, color-mix(in srgb, var(--bg) 34%, transparent) 100%);
-    }
-
-    .contact__form-wrap {
-      padding: var(--sp-4);
-    }
-
-    .contact__actions {
-      grid-template-columns: 1fr;
-      display: grid;
-      gap: var(--sp-2);
     }
 
     .contact__direct {

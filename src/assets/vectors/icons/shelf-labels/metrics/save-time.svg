@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="sl-icon-save-time__a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      .sl-icon-save-time__b {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <path class="sl-icon-save-time__b" d="M50,22c-5.93189-9.96623-18.81987-13.23671-28.7861-7.30482-9.96623,5.93189-13.23671,18.81987-7.30482,28.7861,5.93189,9.96623,18.81987,13.23671,28.7861,7.30482,4.44825-2.64759,7.76187-6.84485,9.30482-11.7861"/>
+  <path class="sl-icon-save-time__b" d="M50,10v12h-12"/>
+  <path class="sl-icon-save-time__b" d="M31,19v14l9,6"/>
+</svg>

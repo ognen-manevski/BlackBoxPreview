@@ -1,0 +1,15 @@
+---
+import AboutSection from '../sections/AboutSection.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { homePageContent } from '../../i18n/pages/home';
+import { getTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/types';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const content = getTranslations(homePageContent, lang);
+---
+
+<BaseLayout lang={lang} title={content.about.heading} description={content.about.copy}>
+  <AboutSection content={content.about} />
+</BaseLayout>

@@ -1,170 +1,102 @@
-## 1. About this Privacy Policy
+This privacy policy governs the relationship between the Company Black Box Solutions LTD Skopje (“BlackBox”, “the Controller”, “the Company”, “we” or “us”) and the user of the website (“the user” or “You”) as a subject of personal data, fulfilling our obligation to provide information under Articles 17 and 18 of the Law on Personal Data Protection.
 
-This Privacy Policy explains how BlackBox Solutions ("BlackBox", "we", "us" or "our") collects, uses and protects personal data when you visit our website, contact us, or request information about our products and services.
+This policy covers visitors, enquiries, demo requests and newsletter subscriptions. It does not replace any separate privacy information governing our customers’ use of our software or services. We process personal data under applicable data-protection law, including the Law on Personal Data Protection of North Macedonia and, where applicable, the GDPR.
 
-We process personal data in accordance with applicable data protection legislation, including the Law on Personal Data Protection of the Republic of North Macedonia and, where applicable, the General Data Protection Regulation (GDPR).
+The right to privacy and protection of personal data is our priority and obligation. By using the forms on our website, each user declares that they are familiar with and agree to this privacy policy. You may provide personal information such as: name and surname, telephone, e-mail address, and cookie data. We recommend that you do not leave unnecessary personal data — especially sensitive information such as a personal identification number.
 
-## 2. Data Controller
+## 1. Types of data we collect
 
-The controller responsible for the processing of personal data through this website is:
+We collect Personal Data (data that identifies a specific user — name, surname, telephone, e-mail) and Non-Personal Data (data that does not identify the end user, collected automatically). We use your personal data solely for the purpose for which you provide it.
 
-BlackBox Solutions  
-St. Klenoec 61/10, 1000 Skopje, N. Macedonia
+## 2. How we collect personal data
 
+You provide your personal data directly by filling out forms on our website — we process only personal data obtained from you. You can request access to, correction or deletion of your personal data at any time by contacting contact@blackboxsolutions.mk. We will handle your request in accordance with applicable data protection law. We do not collect your personal data from other sources.
+
+## 3. Purposes of data use
+
+We use your personal information solely for the purpose for which you provided it, including:
+
+- Customer care and responding to your requests
+- Operation, maintenance and improvement of our website
+- Analysis and research
+- Communicating and informing you about additional matters
+
+## 4. How and how long we keep your data
+
+**Data security.** We take appropriate technical and organizational measures to protect your personal data. Information submitted through our contact and demo forms is stored in our WordPress database hosted by MKhost. Corresponding notifications may also be stored in our email system. Data transmitted between your browser and our website and form submission service is protected using HTTPS (TLS).
+
+**Retention.** We retain contact and demo enquiries for up to one year after the request has been resolved, unless longer retention is necessary to manage an ongoing contractual relationship, comply with legal obligations or establish, exercise or defend legal claims. After the applicable retention period, the records are deleted or anonymized.
+
+## 5. Analytics, security and embedded content
+
+**Google Analytics:** with your analytics consent, we use Google Analytics to understand visits and interactions and improve the website. Depending on configuration, it processes page and event information, device/browser details and identifiers. We do not intentionally send enquiry contents or subscriber email addresses to analytics.
+
+**Cloudflare Turnstile:** we use Turnstile to help distinguish legitimate form submissions from automated abuse. Cloudflare processes technical signals needed to provide this security service. This processing supports our legitimate interest in protecting the website and its forms. Further information: [https://www.cloudflare.com/turnstile-privacy-policy/](https://www.cloudflare.com/turnstile-privacy-policy/).
+
+**Google Maps:** an embedded map is provided on the dedicated contact page. Loading it connects your browser to Google and may disclose technical data, including your IP address. The map loads after the required consent; the written address remains available without loading the map.
+
+## 6. Recipients and hosting
+
+We share information only as needed with authorised personnel, hosting and infrastructure providers, email/newsletter services, security and consent-management services, and optional providers enabled by your choices. Professional advisers or public authorities may receive information where necessary for legal matters or obligations.
+
+## 7. Transfer of personal data
+
+We do not transfer your personal data outside of the Republic of North Macedonia.
+
+## 8. Marketing and newsletter
+
+We carry out direct marketing by sending newsletters to subscribers who have provided the required consent. Subscriber records are stored in our WordPress database.
+
+You can unsubscribe at any time using the mechanism in a newsletter or by emailing contact@blackboxsolutions.mk. Unsubscribing stops newsletter marketing; limited records may remain where necessary to demonstrate consent or honour an opt-out.
+
+## 9. Social networks and e-mail
+
+By connecting with us through social media and e-mail, you agree to allow us to interact with you in order to provide appropriate assistance or advice.
+
+## 10. Third-party privacy
+
+This policy applies to the data we collect on our site. Other websites accessible through links from our site may have their own privacy policies. We are not responsible for the policies or practices of third parties.
+
+## 11. Your rights
+
+Regarding the processing of your personal data, you have the right to: information; access; correction; deletion (“right to be forgotten”); restriction of processing; data portability; objection; and not to be subject to a decision based solely on automated processing. Contact contact@blackboxsolutions.mk to exercise your rights. We may ask for proportionate information to verify your identity.
+
+## 12. Personal Data Protection Agency
+
+You may complain directly to the Personal Data Protection Agency of North Macedonia. You do not have to contact us first.
+
+Blvd. Goce Delchev 18, 1000 Skopje  
+Tel: +389 (2) 3230 635  
+Email: info@privacy.mk  
+Web: [https://azlp.mk/](https://azlp.mk/)
+
+## 13. Using a web contact form
+
+Our forms require your name, so we know how to address you, and an email address where we can respond. For demo requests, we ask for your business email address.
+
+Your company name and phone number are optional. You may provide your company name to help us understand your business context and your phone number if you would like us to contact you by phone.
+
+We use the information you submit to respond to your enquiry or arrange a demonstration. Please include only personal information relevant to your request.
+
+## 14. Changes to this privacy policy
+
+This policy is regularly re-evaluated and, where necessary, changed and supplemented. It was adopted on 29 October 2026 and last changed on 29 October 2026.
+
+## 15. How to contact us
+
+For any questions or requests regarding your personal data, please contact us at:
+
+Black Box Solutions LTD Skopje  
+Address: St. Klenoec 61/10, 1000 Skopje, North Macedonia  
 Email: contact@blackboxsolutions.mk  
-Telephone: +389 75 444 908
+Phone: +389 75 444 908
 
-## 3. Personal Data We Collect
+## Cookie Policy
 
-We may collect personal data that you provide directly to us when you:
+When you first access our website you will be informed that we use cookies — small text files saved on your device to enhance the user experience. Our website uses both essential cookies (necessary to function) and non-essential cookies (preferences, performance and analytics). Essential cookies are set immediately; for non-essential cookies we obtain your prior consent.
 
-- contact us through the website;
-- request a product demonstration;
-- send us an email;
-- communicate with us regarding our products or services.
+Most browsers allow you to refuse and delete cookies. Blocking all cookies will negatively affect the functionality of our website. For questions, contact us at contact@blackboxsolutions.mk.
 
-Depending on the form or communication, this information may include:
+You can revisit your choices through “Cookie Preferences” in the footer. Withdrawing consent does not affect the lawfulness of earlier processing.
 
-- your name;
-- email address;
-- telephone number;
-- company or organisation;
-- job title, where provided;
-- information about the product or service you are interested in;
-- the contents of your message; and
-- any other information that you voluntarily provide.
-
-We may also process limited technical information generated when the website is accessed, such as IP address, browser and device information, request timestamps and server/security logs.
-
-Where optional analytics or other non-essential technologies are used, they are activated according to your cookie preferences.
-
-## 4. How We Use Personal Data
-
-We may process your personal data in order to:
-
-- respond to enquiries and requests;
-- arrange and follow up on product demonstrations;
-- provide information about our products and services;
-- communicate regarding a potential or existing business relationship;
-- operate, maintain and secure the website;
-- detect and prevent technical problems, misuse or security incidents;
-- comply with applicable legal obligations; and
-- analyse website usage where the required consent has been provided.
-
-We do not use information submitted through our contact or demo forms for unrelated advertising purposes without an appropriate legal basis.
-
-## 5. Legal Bases for Processing
-
-Depending on the circumstances, we process personal data on one or more of the following bases:
-
-### Pre-contractual steps or performance of a contract
-
-Where you contact us regarding products or services, processing may be necessary to take steps at your request before entering into a contract or to perform an existing agreement.
-
-### Legitimate interests
-
-We may process information where necessary for our legitimate interests in responding to business enquiries, communicating with customers and potential customers, operating our website, maintaining security and improving our services, provided that those interests are not overridden by your rights and interests.
-
-### Legal obligations
-
-We may process personal data where necessary to comply with obligations imposed by applicable law.
-
-### Consent
-
-Where processing requires your consent, including certain optional cookies or similar technologies, processing takes place only after consent has been provided. You may withdraw that consent at any time.
-
-## 6. Cookies and Similar Technologies
-
-Our website uses necessary cookies and may use optional technologies for purposes such as analytics, additional functionality or marketing.
-
-Non-essential technologies are controlled through our cookie consent system and are used only according to your preferences where consent is required.
-
-For detailed information about the technologies currently used by this website, their purposes, providers and duration, please see our [Cookie Policy](../cookie-policy/) or open [Cookie Preferences](#cookie-preferences) from the website footer.
-
-## 7. Sharing Personal Data
-
-We do not sell personal data.
-
-Personal data may be made available only where necessary to:
-
-- hosting and infrastructure providers;
-- email and communication service providers;
-- technical service providers involved in operating or maintaining the website;
-- analytics or other providers that you have permitted through your cookie preferences, where applicable;
-- professional advisers where reasonably necessary; or
-- courts, regulators, law-enforcement authorities or other public bodies where disclosure is required by law.
-
-Service providers processing personal data on our behalf are expected to process it only for the relevant service and subject to appropriate data-protection obligations.
-
-## 8. International Transfers
-
-Some service providers may process data outside the Republic of North Macedonia or the country in which you are located.
-
-Where an international transfer of personal data is subject to specific legal safeguards, we take appropriate steps required under applicable data-protection law.
-
-The actual third-party services used by this website should be reviewed together with this Privacy Policy whenever those services change.
-
-## 9. Data Retention
-
-We retain personal data only for as long as reasonably necessary for the purpose for which it was collected and for any applicable legal, accounting, security or contractual requirements.
-
-Where an enquiry results in a contractual or customer relationship, relevant information may be retained for longer where required for contractual, accounting or legal purposes.
-
-Technical and server logs are retained according to the security and hosting requirements applicable to the website.
-
-Cookie preference information is retained for the period specified in our Cookie Policy.
-
-## 10. Your Rights
-
-Depending on the applicable law and circumstances, you may have the right to:
-
-- receive information about the processing of your personal data;
-- request access to your personal data;
-- request correction of inaccurate or incomplete data;
-- request deletion of your personal data;
-- request restriction of processing;
-- object to certain processing;
-- receive or transfer certain personal data in a portable format, where applicable; and
-- withdraw consent at any time where processing is based on consent.
-
-Withdrawal of consent does not affect processing that was lawful before the withdrawal.
-
-To exercise your rights, contact us at:
-
-contact@blackboxsolutions.mk
-
-We may request reasonable information necessary to verify your identity before fulfilling a request.
-
-## 11. Complaints
-
-If you believe that your personal data has been processed unlawfully, you may contact us so that we can review your concern.
-
-You may also have the right to lodge a complaint with the Personal Data Protection Agency of the Republic of North Macedonia or another competent supervisory authority where applicable.
-
-## 12. Security
-
-We use appropriate technical and organisational measures designed to protect personal data against unauthorised access, loss, misuse, alteration or disclosure.
-
-No internet-based service can guarantee absolute security, but we periodically review the measures used to protect information processed through this website.
-
-## 13. Third-Party Websites
-
-Our website may contain links to websites or services operated by third parties.
-
-We are not responsible for the privacy practices or content of independent third-party websites. We recommend reviewing their privacy information before providing personal data.
-
-## 14. Changes to This Privacy Policy
-
-We may update this Privacy Policy when our website, services, processing activities or legal obligations change.
-
-The current version will be published on this page together with the date of the latest update.
-
-## 15. Contact
-
-For questions about this Privacy Policy or the processing of personal data, contact:
-
-BlackBox Solutions
-
-Email: contact@blackboxsolutions.mk  
-Telephone: +389 75 444 908  
-Address: St. Klenoec 61/10, 1000 Skopje, N. Macedonia
+Our separate [Cookie Policy](../cookie-policy/) and cookie declaration explain the technologies in use, their purposes, providers and durations.

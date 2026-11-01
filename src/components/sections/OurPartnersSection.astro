@@ -7,27 +7,24 @@ import type { HomePageContent } from '../../i18n/pages/home';
 interface Props { content: HomePageContent['partners']; }
 const { content } = Astro.props;
 
-const partnerGridCells = Array.from(
-  { length: 12 },
-  (_, index) => {
-    const partner = clientLogos[index % clientLogos.length];
+const partnerGridCells = Array.from({ length: 12 }, (_, index) => {
+  const partner = clientLogos[index % clientLogos.length];
 
-    return {
-      component: ClientLogoCell,
-      props: {
-        name: partner.name,
-        href: partner.href,
-        src: partner.src,
-        loading: index < 6 ? 'eager' : 'lazy',
-      },
-      ariaLabel: partner.name,
-    };
-  },
-);
+  return {
+    component: ClientLogoCell,
+    props: {
+      name: partner.name,
+      href: partner.href,
+      src: partner.src,
+      loading: index < 6 ? 'eager' : 'lazy',
+    },
+    ariaLabel: partner.name,
+  };
+});
 ---
 
 <section class="section partners" id="partners" aria-labelledby="partners-heading">
-  <div class="container partners__inner">
+  <div class="container partners__inner u-section-title-stack">
     <SectionTitleGroup
       class="partners__header"
       headlineClass="partners__headline"
@@ -47,15 +44,6 @@ const partnerGridCells = Array.from(
     background: var(--bg);
   }
 
-  .partners__inner {
-    display: grid;
-    gap: var(--sp-7);
-  }
-
-  .partners__header {
-    margin-bottom: 0;
-  }
-
   :global(.partners__headline) {
     max-width: 24ch;
     margin-bottom: 0;
@@ -65,14 +53,6 @@ const partnerGridCells = Array.from(
     max-width: 52ch;
   }
 
-  @media (max-width: 900px) {
-    .partners__inner {
-      gap: var(--sp-5);
-    }
-
-  }
-
-  /* Fewer, wider cells on small screens instead of shrinking every logo. */
   @media (max-width: 800px) {
     :global(.partners .content-grid) {
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -88,7 +68,7 @@ const partnerGridCells = Array.from(
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    :global(.partners .content-grid__cell:nth-child(n + 7)) {
+    :global(.partners .content-grid__cell:nth-child(n + 10)) {
       display: none;
     }
   }
@@ -96,6 +76,10 @@ const partnerGridCells = Array.from(
   @media (max-width: 260px) {
     :global(.partners .content-grid) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    :global(.partners .content-grid__cell:nth-child(n + 7)) {
+      display: none;
     }
   }
 </style>

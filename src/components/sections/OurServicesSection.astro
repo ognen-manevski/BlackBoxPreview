@@ -1,12 +1,9 @@
 ---
 import neoslideDark from '../../assets/images/home/neoslide-dark.jpg';
-import neoslideLight from '../../assets/images/home/neoslide-wh.jpg';
 import shelfLabelsDark from '../../assets/images/home/labels-dark.jpg';
-import shelfLabelsLight from '../../assets/images/home/labels-wh.jpg';
 import videoStreamingDark from '../../assets/images/home/video-dark.jpg';
-import videoStreamingLight from '../../assets/images/home/video-wh.jpg';
 import softwareDevelopmentDark from '../../assets/images/home/code-dark.jpg';
-import softwareDevelopmentLight from '../../assets/images/home/code-wh.jpg';
+import ProgressiveImage from '../atoms/ProgressiveImage.astro';
 import type { HomePageContent } from '../../i18n/pages/home';
 import ArrowForwardIcon from '../icons/ArrowForwardIcon.astro';
 import ArrowOutwardIcon from '../icons/ArrowOutwardIcon.astro';
@@ -14,15 +11,34 @@ import SectionTitleGroup from '../molecules/SectionTitleGroup.astro';
 
 interface Props { content: HomePageContent['services']; }
 const { content } = Astro.props;
-const images = [
-  { dark: neoslideDark, light: neoslideLight }, { dark: shelfLabelsDark, light: shelfLabelsLight },
-  { dark: videoStreamingDark, light: videoStreamingLight }, { dark: softwareDevelopmentDark, light: softwareDevelopmentLight },
-];
-const services = content.items.map((item, index) => ({ ...item, image: images[index] }));
+const images = [neoslideDark, shelfLabelsDark, videoStreamingDark, softwareDevelopmentDark];
+const splitTitle = (title: string) => {
+  const words = title.trim().split(/\s+/);
+  if (words.length < 2) return [title, ''];
+
+  let splitIndex = 1;
+  let smallestDifference = Number.POSITIVE_INFINITY;
+  for (let index = 1; index < words.length; index += 1) {
+    const firstLine = words.slice(0, index).join(' ');
+    const secondLine = words.slice(index).join(' ');
+    const difference = Math.abs(firstLine.length - secondLine.length);
+    if (difference < smallestDifference) {
+      splitIndex = index;
+      smallestDifference = difference;
+    }
+  }
+
+  return [words.slice(0, splitIndex).join(' '), words.slice(splitIndex).join(' ')];
+};
+const services = content.items.map((item, index) => ({
+  ...item,
+  image: images[index],
+  titleLines: splitTitle(item.title),
+}));
 ---
 
 <section class="section services-section" id="services" aria-labelledby="services-heading">
-  <div class="container">
+  <div class="container u-section-title-stack">
     <SectionTitleGroup
       class="services-section__header"
       headlineClass="services-section__headline"
@@ -41,21 +57,24 @@ const services = content.items.map((item, index) => ({ ...item, image: images[in
           data-services-card
           data-card-index={index}
         >
-          <div class="services-card__media" aria-hidden="true">
-            <img
-              class="services-card__image services-card__image--dark"
-              src={service.image.dark.src}
-              alt=""
-              loading={index === 0 ? 'eager' : 'lazy'}
-              decoding="async"
-            />
-            <img
-              class="services-card__image services-card__image--light"
-              src={service.image.light.src}
-              alt=""
-              loading={index === 0 ? 'eager' : 'lazy'}
-              decoding="async"
-            />
+          <div
+            class="services-card__media"
+            data-progressive-host
+            aria-hidden="true"
+          >
+            <ProgressiveImage
+              src={service.image}
+              bounds="top: var(--preview-top); right: auto; bottom: auto; left: var(--preview-left); width: var(--preview-width); height: var(--preview-height); transform: var(--preview-transform);"
+              fit="contain"
+            >
+              <img
+                class="services-card__image"
+                src={service.image.src}
+                alt=""
+                loading={index === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            </ProgressiveImage>
             <div class="services-card__gradient"></div>
           </div>
 
@@ -65,7 +84,10 @@ const services = content.items.map((item, index) => ({ ...item, image: images[in
 
           <div class="services-card__content">
             <p class="services-card__counter">{service.counter}</p>
-            <h3 class="services-card__title">{service.title}</h3>
+            <h3 class="services-card__title">
+              <span>{service.titleLines[0]}</span>{' '}
+              {service.titleLines[1] && <span>{service.titleLines[1]}</span>}
+            </h3>
 
             <div class="services-card__details" aria-hidden={index === 0 ? 'false' : 'true'}>
               <div class="services-card__details-inner">
@@ -227,6 +249,12 @@ const services = content.items.map((item, index) => ({ ...item, image: images[in
   }
 
   .services-card__media {
+    --preview-top: var(--card-pad);
+    --preview-left: 0;
+    --preview-width: 100%;
+    --preview-height: 52%;
+    --preview-transform: none;
+
     position: absolute;
     inset: 0;
     pointer-events: none;
@@ -258,11 +286,6 @@ const services = content.items.map((item, index) => ({ ...item, image: images[in
       bottom var(--services-transition),
       height var(--services-transition),
       opacity var(--t-base);
-  }
-
-  :global([data-theme='dark']) .services-card__image--light,
-  :global([data-theme='light']) .services-card__image--dark {
-    opacity: 0;
   }
 
   .services-card__gradient {
@@ -309,6 +332,10 @@ const services = content.items.map((item, index) => ({ ...item, image: images[in
     max-width: 22ch;
     color: var(--text-primary);
     transition: font-size var(--services-transition);
+  }
+
+  .services-card:not(.is-active) .services-card__title span {
+    display: block;
   }
 
   .services-card__details {
@@ -411,6 +438,13 @@ const services = content.items.map((item, index) => ({ ...item, image: images[in
     height: 60%;
   }
 
+  .services-card.is-active .services-card__media {
+    --preview-left: 50%;
+    --preview-width: 58%;
+    --preview-height: 60%;
+    --preview-transform: translateX(-50%);
+  }
+
   @media (max-width: 1080px) {
     .services-grid {
       flex-direction: column;
@@ -427,12 +461,18 @@ const services = content.items.map((item, index) => ({ ...item, image: images[in
       min-height: 0;
     }
 
-    .services-card__media {
+    .services-card__media,
+    .services-card.is-active .services-card__media {
       position: relative;
       inset: auto;
       flex: 0 0 26%;
       aspect-ratio: 1 / 1;
       overflow: hidden;
+      --preview-top: 50%;
+      --preview-left: 50%;
+      --preview-width: calc(100% - var(--card-pad));
+      --preview-height: calc(100% - var(--card-pad));
+      --preview-transform: translate(-50%, -50%);
     }
 
     .services-card__image,
@@ -504,12 +544,18 @@ const services = content.items.map((item, index) => ({ ...item, image: images[in
       min-height: 0;
     }
 
-    .services-card__media {
+    .services-card__media,
+    .services-card.is-active .services-card__media {
       position: relative;
       inset: auto;
       flex: none;
       aspect-ratio: 16 / 10;
       overflow: hidden;
+      --preview-top: var(--card-pad);
+      --preview-left: var(--card-pad);
+      --preview-width: calc(100% - (var(--card-pad) * 2));
+      --preview-height: calc(100% - (var(--card-pad) * 2));
+      --preview-transform: none;
     }
 
     .services-card__image,
@@ -544,12 +590,17 @@ const services = content.items.map((item, index) => ({ ...item, image: images[in
   }
 
   @media (max-width: 200px) {
-    .services-card__media {
+    .services-card__media,
+    .services-card.is-active .services-card__media {
       aspect-ratio: auto;
+      --preview-top: 0;
+      --preview-left: 0;
+      --preview-width: 100%;
+      --preview-height: 100%;
     }
 
-    .services-card__image--dark,
-    .services-card.is-active .services-card__image--dark {
+    .services-card__image,
+    .services-card.is-active .services-card__image {
       position: static;
       inset: auto;
       top: auto;
@@ -558,16 +609,5 @@ const services = content.items.map((item, index) => ({ ...item, image: images[in
       height: auto;
       display: block;
     }
-
-    .services-card__image--light,
-    .services-card.is-active .services-card__image--light {
-      position: absolute;
-      inset: 0;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
   }
 </style>
-

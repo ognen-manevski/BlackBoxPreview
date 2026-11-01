@@ -1,0 +1,72 @@
+---
+import saveTimeIcon from '../../../../assets/vectors/icons/shelf-labels/metrics/save-time.svg?raw';
+import accuratePricingIcon from '../../../../assets/vectors/icons/shelf-labels/metrics/accurate-pricing.svg?raw';
+import batteryLifeIcon from '../../../../assets/vectors/icons/shelf-labels/metrics/battery-life.svg?raw';
+import onePlatformIcon from '../../../../assets/vectors/icons/shelf-labels/metrics/one-platform.svg?raw';
+import DsCard from '../../../atoms/DsCard.astro';
+import SectionTitleGroup from '../../../molecules/SectionTitleGroup.astro';
+import type{ShelfLabelsContent}from'../../../../i18n/pages/digital-signage-displays/electronic-shelf-labels.ts'; interface Props{content:ShelfLabelsContent['performance']} const{content}=Astro.props; const stats=content.stats;
+const metricIcons = [saveTimeIcon, accuratePricingIcon, batteryLifeIcon, onePlatformIcon].map((icon) =>
+  icon.replace(/^<\?xml[^>]*>\s*/, '').replace('<svg ', '<svg aria-hidden="true" focusable="false" '),
+);
+---
+
+<section class="section sl-performance" id="proven-performance" aria-labelledby="proven-performance-heading">
+  <div class="container u-section-title-stack">
+    <SectionTitleGroup
+      class="sl-performance__header"
+      headlineClass="sl-performance__headline"
+      label={content.label}
+      heading={content.heading}
+      headingId="proven-performance-heading"
+      titleWidth="52%"
+      copy={content.copy}
+    />
+
+    <ul class="sl-performance__stats" aria-label={content.ariaLabel}>
+      {stats.map((stat, index) => (
+        <li class="sl-performance__stat-item">
+          <DsCard title={stat.value} text={stat.label}>
+            <span slot="icon" set:html={metricIcons[index]} />
+          </DsCard>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .sl-performance {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  :global(.sl-performance__headline) {
+    max-width: 30ch;
+  }
+
+  .sl-performance__stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--sp-2);
+  }
+
+  .sl-performance__stat-item {
+    display: grid;
+    list-style: none;
+  }
+
+  @media (max-width: 1200px) {
+    .sl-performance__stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 900px) {
+
+  @media (max-width: 420px) {
+    .sl-performance__stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,4 +1,5 @@
 ---
-import VideoStreamingPage from '../components/pages/VideoStreamingPage.astro';
+import { getLocalizedPath } from '../i18n/utils';
+
+return Astro.redirect(getLocalizedPath('/services/video-streaming/', 'en'), 301);
 ---
-<VideoStreamingPage lang="en"/>

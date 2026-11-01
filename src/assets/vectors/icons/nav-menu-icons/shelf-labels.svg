@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="nav-icon-shelf-labels" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="34" height="24" viewBox="0 0 34 24">
+  <defs>
+    <style>
+      #nav-icon-shelf-labels .b {
+        fill: none;
+        stroke: currentColor;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g>
+    <polygon class="b" points="30.12105 20.04908 6.87895 20.04908 6.87895 11.24303 3.87895 8.65355 3.87895 4.0325 30.12105 4.0325 30.12105 20.04908"/>
+    <g>
+      <line class="b" x1="4.47369" y1="13.63351" x2="4.47369" y2="12.18288"/>
+      <line class="b" x1="4.47369" y1="16.45254" x2="4.47369" y2="15.0019"/>
+      <line class="b" x1="4.47369" y1="19.27156" x2="4.47369" y2="17.82093"/>
+    </g>
+  </g>
+  <g>
+    <path class="b" d="M22.56588,7.59464l-7.70019,8.89229"/>
+    <circle class="b" cx="14.80105" cy="9.60806" r="2.46069"/>
+    <circle class="b" cx="22.63053" cy="14.47352" r="2.46069"/>
+  </g>
+</svg>

@@ -1,0 +1,49 @@
+---
+import LeadForm from './LeadForm.astro';
+import type { HomePageContent } from '../../i18n/pages/home';
+import { demoContent } from '../../i18n/pages/demo';
+import { getLocaleFromUrl, getTranslations } from '../../i18n/utils';
+
+interface Props {
+  content: HomePageContent['contact'];
+  heading?: string;
+}
+
+const { content, heading } = Astro.props;
+const lang = getLocaleFromUrl(Astro.url);
+const demoTranslations = getTranslations(demoContent, lang);
+const interestGroups = demoTranslations.interestGroups;
+const interestSummary = demoTranslations.compact.customize;
+---
+
+<div class="contact__form-wrap u-border-interactive">
+  {heading && <h2 class="contact__form-heading">{heading}</h2>}
+  <LeadForm
+    variant="contact"
+    content={content}
+    interestGroups={interestGroups}
+    interestSummary={interestSummary}
+    lang={lang}
+  />
+</div>
+
+<style>
+  .contact__form-wrap {
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--bg-secondary) 90%, var(--bg));
+    padding: var(--sp-6);
+  }
+
+  .contact__form-heading {
+    margin: 0 0 var(--sp-5);
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: 1.25;
+  }
+
+  @media (max-width: 700px) {
+    .contact__form-wrap {
+      padding: var(--sp-4);
+    }
+  }
+</style>

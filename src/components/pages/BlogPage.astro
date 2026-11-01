@@ -12,8 +12,11 @@ const { lang, posts } = Astro.props;
 const content = getTranslations(blogContent, lang);
 ---
 <BaseLayout lang={lang} title={content.seo.title} description={content.seo.description}>
-  <section class="blog-page" aria-labelledby="blog-heading"><div class="container blog-page__inner">
-    <EditorialListingHero kind="blog" headingId="blog-heading" label={content.label} heading={content.heading} copy={content.copy} />
-    <BlogGrid posts={posts} />
-  </div></section>
+  <section class="blog-page" aria-labelledby="blog-heading">
+    <EditorialListingHero kind="blog" fullWidth headingId="blog-heading" label={content.label} heading={content.heading} copy={content.copy} />
+    <div class="container blog-page__inner">
+      <h2 class="section-headline blog-page__grid-heading">{content.industryHeading}</h2>
+      <BlogGrid posts={posts} />
+    </div>
+  </section>
 </BaseLayout>

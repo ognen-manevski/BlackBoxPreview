@@ -1,0 +1,378 @@
+---
+import ArrowButton from '../atoms/ArrowButton.astro';
+import FileUpload from '../atoms/FileUpload.astro';
+import FormTurnstile from '../atoms/FormTurnstile.astro';
+import PrivacyConsent from '../atoms/PrivacyConsent.astro';
+import PrivacyNotice from '../atoms/PrivacyNotice.astro';
+import FormSubmissionError from '../molecules/FormSubmissionError.astro';
+import InterestSelectionDisclosure from '../molecules/InterestSelectionDisclosure.astro';
+import { formsAction, formsTurnstileEnabled } from '../../config/forms';
+import type { DemoContent } from '../../i18n/pages/demo';
+import type { HomePageContent } from '../../i18n/pages/home';
+import type { Lang } from '../../i18n/types';
+import { getLocalizedPath } from '../../i18n/utils';
+
+type CompactDemoProps = {
+  variant: 'compact-demo';
+  content: DemoContent['compact'];
+  interestGroups: DemoContent['interestGroups'];
+  lang: Lang;
+  checkedValues?: readonly string[];
+};
+
+type FullDemoProps = {
+  variant: 'full-demo';
+  content: DemoContent['page'];
+  interestGroups: DemoContent['interestGroups'];
+  interestSummary: string;
+  lang: Lang;
+};
+
+type ContactProps = {
+  variant: 'contact';
+  content: HomePageContent['contact'];
+  interestGroups: DemoContent['interestGroups'];
+  interestSummary: string;
+  lang: Lang;
+};
+
+type Props = CompactDemoProps | FullDemoProps | ContactProps;
+type FormFields = {
+  nameLabel: string;
+  emailLabel: string;
+  projectLabel: string;
+  projectPlaceholder: string;
+  submitLabel: string;
+  resetLabel: string;
+  addFileLabel: string;
+  company?: { label: string; placeholder: string };
+  phone?: { label: string; placeholder: string };
+  projectHelp?: string;
+  privacy?: { text: string; linkText: string };
+  footnote?: string;
+};
+
+const props = Astro.props as Props;
+const { variant, lang, interestGroups } = props;
+const formType = variant === 'contact' ? 'contact' : variant === 'full-demo' ? 'demo-full' : 'demo-compact';
+const formClass = variant === 'contact' ? 'contact__form' : 'book-demo__form';
+const fieldClass = variant === 'contact' ? 'contact__field' : 'book-demo__field';
+const textareaName = variant === 'compact-demo' ? 'message' : 'projectDetails';
+const textareaRows = variant === 'contact' ? '6' : '5';
+const textareaRequired = variant !== 'compact-demo';
+const fileId = variant === 'contact' ? 'contact-file' : variant === 'full-demo' ? 'full-demo-file' : 'compact-demo-file';
+const fields: FormFields = variant === 'contact'
+  ? {
+      nameLabel: props.content.nameLabel,
+      emailLabel: props.content.emailLabel,
+      projectLabel: props.content.projectLabel,
+      projectPlaceholder: props.content.projectPlaceholder,
+      submitLabel: props.content.send,
+      resetLabel: props.content.reset,
+      addFileLabel: props.content.addFile,
+      privacy: {
+        text: props.content.formConsent,
+        linkText: props.content.privacyPolicy,
+      },
+    }
+  : variant === 'full-demo'
+    ? {
+        nameLabel: props.content.name,
+        emailLabel: props.content.email,
+        projectLabel: props.content.project,
+        projectPlaceholder: props.content.projectPlaceholder,
+        projectHelp: props.content.projectHelp,
+        submitLabel: props.content.submit.replace(/\s*→\s*$/, ''),
+        resetLabel: props.content.reset,
+        addFileLabel: props.content.addFile,
+        company: { label: props.content.company, placeholder: props.content.companyPlaceholder },
+        phone: { label: props.content.phone, placeholder: props.content.phonePlaceholder },
+        footnote: props.content.footnote,
+      }
+    : {
+        nameLabel: props.content.name,
+        emailLabel: props.content.email,
+        projectLabel: props.content.message,
+        projectPlaceholder: props.content.messagePlaceholder,
+        submitLabel: props.content.submit,
+        resetLabel: props.content.reset,
+        addFileLabel: props.content.addFile,
+        phone: { label: props.content.phone, placeholder: props.content.phonePlaceholder },
+      };
+const interestName = variant === 'full-demo' ? 'solutions' : 'services';
+const interestSummary = variant === 'compact-demo' ? props.content.customize : props.interestSummary;
+---
+
+<form
+  class={formClass}
+  action={formsAction}
+  method="post"
+  data-submit-unavailable={!formsTurnstileEnabled ? 'true' : undefined}
+  enctype={formsTurnstileEnabled ? 'multipart/form-data' : undefined}
+>
+  <label class={fieldClass}>
+    <span>{fields.nameLabel}</span>
+    <input type="text" name="name" placeholder={props.content.namePlaceholder} autocomplete="name" required>
+  </label>
+
+  <label class={fieldClass}>
+    <span>{fields.emailLabel}</span>
+    <input type="email" name="email" placeholder={props.content.emailPlaceholder} autocomplete="email" required>
+  </label>
+
+  {fields.company && (
+    <label class={fieldClass}>
+      <span>{fields.company.label}</span>
+      <input type="text" name="company" placeholder={fields.company.placeholder} autocomplete="organization">
+    </label>
+  )}
+
+  {fields.phone && (
+    <label class={fieldClass}>
+      <span>{fields.phone.label}</span>
+      <input type="tel" name="phone" placeholder={fields.phone.placeholder} autocomplete="tel">
+    </label>
+  )}
+
+  <InterestSelectionDisclosure
+    groups={interestGroups}
+    name={interestName}
+    summary={interestSummary}
+    checkedValues={variant === 'compact-demo' ? props.checkedValues : undefined}
+  />
+
+  <label class={fieldClass}>
+    <span>{fields.projectLabel}</span>
+    {fields.projectHelp && <em>{fields.projectHelp}</em>}
+    <textarea
+      name={textareaName}
+      placeholder={fields.projectPlaceholder}
+      rows={textareaRows}
+      required={textareaRequired}
+    ></textarea>
+  </label>
+
+  <FileUpload id={fileId} label={fields.addFileLabel} />
+  <FormTurnstile formType={formType} />
+
+  <div class={variant === 'contact' ? 'contact__actions' : 'book-demo__actions'}>
+    {variant === 'contact' ? (
+      <button class="btn btn--primary" type="submit">{fields.submitLabel}</button>
+    ) : (
+      <ArrowButton type="submit" variant="primary">{fields.submitLabel}</ArrowButton>
+    )}
+    <button class="btn btn--outline" type="reset">{fields.resetLabel}</button>
+  </div>
+
+  {fields.privacy ? (
+    <PrivacyConsent
+      class="lead-form__consent"
+      id="contact-form-consent"
+      name="contactFormConsent"
+      required={true}
+      text={fields.privacy.text}
+      linkText={fields.privacy.linkText}
+      linkHref={getLocalizedPath('/privacy-policy/', lang)}
+    />
+  ) : (
+    <PrivacyNotice lang={lang} />
+  )}
+
+  {fields.footnote && <p class="book-demo__footnote">{fields.footnote}</p>}
+</form>
+
+<FormSubmissionError lang={lang} />
+
+<style>
+  .book-demo__form,
+  .contact__form {
+    display: grid;
+    gap: var(--sp-4);
+    min-width: 0;
+  }
+
+  .book-demo__field,
+  .contact__field {
+    display: grid;
+    gap: var(--sp-2);
+    min-width: 0;
+  }
+
+  .book-demo__field > span,
+  .contact__field > span {
+    color: var(--text-primary);
+    font-size: var(--text-sm);
+  }
+
+  .book-demo__field em {
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    font-style: normal;
+    line-height: 1.5;
+  }
+
+  .book-demo__field :is(input, textarea),
+  .contact__field :is(input, textarea) {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--bg-secondary) 82%, var(--bg));
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    padding: var(--sp-3) var(--sp-4);
+    transition: border-color var(--t-fast), background var(--t-fast);
+  }
+
+  .book-demo__field textarea,
+  .contact__field textarea {
+    min-height: 6rem;
+    resize: vertical;
+  }
+
+  .contact__field textarea {
+    min-height: 8rem;
+  }
+
+  .book-demo__field :is(input, textarea)::placeholder,
+  .contact__field :is(input, textarea)::placeholder {
+    color: var(--text-muted);
+  }
+
+  .book-demo__field :is(input, textarea):is(:focus, :focus-visible),
+  .contact__field :is(input, textarea):is(:focus, :focus-visible) {
+    border-color: var(--color-brand);
+    outline: none;
+  }
+
+  .book-demo__actions,
+  .contact__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-top: var(--sp-3);
+  }
+
+  .book-demo__actions .btn,
+  .contact__actions .btn {
+    justify-content: center;
+  }
+
+  .contact__actions {
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: var(--sp-1);
+  }
+
+  .contact__actions .btn {
+    align-items: center;
+    min-height: 2.375rem;
+    padding-top: var(--sp-2);
+    padding-bottom: var(--sp-2);
+  }
+
+  .lead-form__consent {
+    max-width: 52ch;
+  }
+
+  .book-demo__footnote {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 640px) {
+    .book-demo__actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .book-demo__actions .btn {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .contact__actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-2);
+    }
+  }
+
+  @media (max-width: 300px) {
+    .book-demo__form {
+      gap: var(--sp-4);
+    }
+
+    .book-demo__field {
+      gap: var(--sp-1);
+    }
+
+    .book-demo__field > span {
+      font-size: var(--text-xs);
+      line-height: 1.35;
+    }
+
+    .book-demo__field :is(input, textarea) {
+      font-size: var(--text-xs);
+      line-height: 1.35;
+      padding: var(--sp-2) var(--sp-3);
+    }
+
+    .book-demo__actions {
+      gap: var(--sp-2);
+      margin-top: var(--sp-2);
+    }
+
+    .book-demo__actions .btn {
+      width: 100%;
+      min-width: 0;
+      min-height: 2.25rem;
+      padding: var(--sp-2) var(--sp-3);
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
+    .book-demo__actions .btn--primary {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .book-demo__form :global(.file-upload) {
+      align-items: flex-start;
+      gap: var(--sp-1);
+    }
+
+    .book-demo__form :global(.file-upload__link) {
+      min-width: 0;
+      gap: var(--sp-1);
+      font-size: var(--text-xs);
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .book-demo__form :global(.file-upload__link svg) {
+      width: 1rem;
+      height: 1rem;
+      flex: 0 0 1rem;
+    }
+
+    .book-demo__form :global(.privacy-consent) {
+      align-items: flex-start;
+      gap: var(--sp-1);
+      min-width: 0;
+      padding: 0;
+      font-size: 0.625rem;
+      line-height: 1.35;
+    }
+
+    .book-demo__form :global(.privacy-consent__text) {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+  }
+</style>

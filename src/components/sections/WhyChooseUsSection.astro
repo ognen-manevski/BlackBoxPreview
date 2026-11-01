@@ -8,7 +8,7 @@ const { content } = Astro.props;
 ---
 
 <section class="section why-choose" id="why-choose" aria-labelledby="why-choose-heading">
-  <div class="container">
+  <div class="container u-section-title-stack">
     <SectionTitleGroup
       class="why-choose__header"
       label={content.label}
@@ -30,10 +30,6 @@ const { content } = Astro.props;
 <style>
   .why-choose {
     background: var(--bg);
-  }
-
-  .why-choose__header {
-    margin-bottom: var(--sp-8 );
   }
 
   .why-choose__stats {
@@ -71,10 +67,6 @@ const { content } = Astro.props;
   @media (max-width: 360px) {
     .why-choose {
       padding: clamp(3rem, 12vw, var(--sp-9)) 0;
-    }
-
-    .why-choose__header {
-      margin-bottom: var(--sp-6);
     }
 
     .why-choose .section-headline {

@@ -1,0 +1,295 @@
+---
+import ShelfLabelsDsCard from "../../../atoms/ShelfLabelsDsCard.astro";
+import SectionTitleGroup from "../../../molecules/SectionTitleGroup.astro";
+import type{ShelfLabelsContent}from'../../../../i18n/pages/digital-signage-displays/electronic-shelf-labels.ts'; interface Props{content:ShelfLabelsContent['features']} const{content}=Astro.props; const features=content.items;
+import iconRealtimeSync from "../../../../assets/vectors/icons/shelf-labels/ico_real-time-synch.svg?raw";
+import iconCloudManagement from "../../../../assets/vectors/icons/shelf-labels/ico_cloud-management.svg?raw";
+import iconSchedule from "../../../../assets/vectors/icons/shelf-labels/ico_schedule.svg?raw";
+import iconBarcode from "../../../../assets/vectors/icons/shelf-labels/ico_barcode.svg?raw";
+import iconScreenSizes from "../../../../assets/vectors/icons/shelf-labels/ico_screen-sizes.svg?raw";
+import iconBattery from "../../../../assets/vectors/icons/shelf-labels/ico_battery.svg?raw";
+import iconSecureWireless from "../../../../assets/vectors/icons/shelf-labels/ico_secure-wireless.svg?raw";
+import iconEasyInstall from "../../../../assets/vectors/icons/shelf-labels/ico_easy-install.svg?raw";
+import stackTop from "../../../../assets/images/services/shelf-labels/stack/top.png";
+import stackFrontLight from "../../../../assets/images/services/shelf-labels/stack/front-light.png";
+import stackTouchPanel from "../../../../assets/images/services/shelf-labels/stack/touch-panel.png";
+import stackColorFilter from "../../../../assets/images/services/shelf-labels/stack/color-filter.png";
+import stackMicroCapsules from "../../../../assets/images/services/shelf-labels/stack/micro-capsules.png";
+import stackTftMatrix from "../../../../assets/images/services/shelf-labels/stack/tft-matrix.png";
+import stackPcb from "../../../../assets/images/services/shelf-labels/stack/pcb.png";
+import stackBot from "../../../../assets/images/services/shelf-labels/stack/bot.png";
+
+const featureIcons = [
+    iconRealtimeSync,
+    iconCloudManagement,
+    iconSchedule,
+    iconBarcode,
+    iconScreenSizes,
+    iconBattery,
+    iconSecureWireless,
+    iconEasyInstall,
+] as string[];
+
+const stackSources=[stackBot.src,stackPcb.src,stackTftMatrix.src,stackMicroCapsules.src,stackColorFilter.src,stackTouchPanel.src,stackFrontLight.src,stackTop.src];
+const stackLayers = content.layers.map((alt, index) => ({
+    src: stackSources[index],
+    alt,
+    isEndLayer: index === 0 || index === content.layers.length - 1,
+}));
+---
+
+<section class="sl-scroll" aria-label={content.ariaLabel}>
+    <div class="container sl-scroll__frame u-section-title-stack">
+        <SectionTitleGroup
+            class="sl-scroll__intro"
+            label={content.label}
+            heading={content.heading}
+            headingId="sl-scroll-heading"
+            headlineWidth="30ch"
+            titleWidth="58%"
+            copy={content.copy}
+        />
+
+        <div class="sl-scroll__body">
+            <!-- <div class="sl-scroll__cards-col"> -->
+            <div class="sl-scroll__cards" aria-label={content.listAriaLabel}>
+                {
+                    features.map((feature, index) => (
+                        <div class="sl-scroll__card">
+                            <ShelfLabelsDsCard
+                                title={feature.title}
+                                text={feature.text}
+                            >
+                                <span
+                                    class="sl-scroll__icon"
+                                    slot="icon"
+                                    set:html={featureIcons[index]}
+                                />
+                            </ShelfLabelsDsCard>
+                        </div>
+                    ))
+                }
+            </div>
+            <!-- </div> -->
+
+            <div
+                class="sl-scroll__illustration-col"
+                aria-label={content.illustrationAriaLabel}
+            >
+                <!-- <div class="sl-scroll__illustration-bg"></div> -->
+
+                <div class="sl-scroll__illustration">
+                    {
+                        stackLayers.map((layer, index) => (
+                            <div
+                                class="sl-scroll__layer"
+                                style={`--stack-layer-index: ${index};`}
+                            >
+                                <picture class="sl-scroll__layer-picture">
+                                    <source media="(min-width: 885px)" srcset={layer.src} />
+                                    <img
+                                        class="sl-scroll__layer-image"
+                                        src={layer.isEndLayer ? layer.src : undefined}
+                                        alt={layer.alt}
+                                        loading={index === 0 ? "eager" : "lazy"}
+                                        decoding="async"
+                                    />
+                                </picture>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .sl-scroll {
+        background: var(--bg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .sl-scroll__frame {
+        margin-block: var(--sp-10);
+    }
+
+    .sl-scroll__body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: var(--sp-6);
+        /* align-items: start; */
+        align-items: stretch;
+    }
+
+    /* .sl-scroll__cards-col {
+        display: flex;
+        flex-direction: column-reverse;
+        min-width: 0;
+    } */
+
+    .sl-scroll__cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: 1fr;
+        gap: var(--sp-4);
+        width: 100%;
+    }
+
+    .sl-scroll__card {
+        display: grid;
+        width: 100%;
+    }
+
+    :global(.sl-ds-card) {
+        width: 100%;
+    }
+
+    .sl-scroll__icon :global(svg) {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .sl-scroll__illustration-col {
+        position: relative;
+        min-width: 0;
+        min-height: 0;
+        overflow: visible;
+    }
+
+    .sl-scroll__illustration-bg {
+        inset: 5%;
+        top: 80%;
+        position: absolute;
+        /* background: var(--color-brand); */
+        background: var(--color-aurora);
+        filter: blur(100px);
+        overflow: visible;
+    }
+
+    .sl-scroll__illustration {
+        position: relative;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding-bottom: 50%;
+    }
+
+    /* .sl-scroll__layer:after {
+        content: "test123";
+        position: absolute;
+        inset: 0;
+        height: var(--sp-7);
+        display: grid;
+        place-items: center;
+        width: var(--sp-10);
+        padding: var(--sp-2) var(--sp-6);
+        transform: translate(calc(var(--sp-10) + 100%), 400%);
+        background: red;
+        text-align: center;
+    } */
+
+    .sl-scroll__layer {
+        position: sticky;
+        top: calc(var(--navbar-height) + var(--sp-10));
+        flex: 0 0 var(--sp-4);
+        width: min(100%, 42rem);
+        height: var(--sp-6);
+        display: block;
+        margin-bottom: -5%; /* because of margin-top -5% in .sl-scroll__layer-image */
+        /* isolation: isolate; */
+    }
+
+    .sl-scroll__layer-image {
+        position: absolute;
+        inset: 0 auto auto 0;
+        display: block;
+        width: 100%;
+        height: auto;
+        -webkit-user-drag: none;
+        user-select: none;
+        margin-top: -5%;
+        transition: transform 0.5s ease;
+    }
+
+    .sl-scroll__layer-picture {
+        display: block;
+    }
+
+    /* .sl-scroll__layer:not(:last-child) .sl-scroll__layer-image {
+        transform: rotateX(calc(var(--stack-layer-index) * 10deg));
+    } */
+
+    .sl-scroll__layer:not(:last-child) .sl-scroll__layer-image {
+        --offset: calc(var(--stack-layer-index) * var(--sp-1));
+        transform: translateY(var(--offset));
+    }
+
+    @media (max-width: 1024px) {
+        .sl-scroll__cards {
+            grid-template-columns: 1fr;
+            gap: var(--sp-3);
+        }
+    }
+
+    @media (max-width: 884px) {
+        .sl-scroll__body {
+            grid-template-columns: 1fr;
+            gap: var(--sp-5);
+        }
+
+        .sl-scroll__cards {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .sl-scroll__illustration {
+            display: grid;
+            grid-template-columns: 1fr;
+            aspect-ratio: 16 / 9;
+            height: auto;
+            padding: 0;
+        }
+
+        .sl-scroll__layer:not(:first-child):not(:last-child) {
+            display: none;
+        }
+
+        .sl-scroll__layer {
+            position: relative;
+            top: auto;
+            flex: none;
+            width: 100%;
+            height: auto;
+            grid-area: 1 / 1;
+            margin: 0;
+        }
+
+        .sl-scroll__layer:last-child {
+            z-index: 1;
+        }
+
+        .sl-scroll__layer-picture,
+        .sl-scroll__layer-image {
+            width: 100%;
+            height: 100%;
+        }
+
+        .sl-scroll__layer-image {
+            position: relative;
+            inset: auto;
+            object-fit: contain;
+            margin: 0;
+            transform: none;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .sl-scroll__cards {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

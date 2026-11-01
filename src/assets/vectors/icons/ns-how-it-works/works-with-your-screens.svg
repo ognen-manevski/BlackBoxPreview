@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <defs>
+    <style>
+      .ns-wys {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.2px;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="ns-wys" d="M27,30.5H3V5.5h31v9M3,25.5h24M15,30.5v7M22,30.5v7M6,37.5h21"/>
+    <rect class="ns-wys" x="29" y="16.5" width="16" height="26"/>
+    <path class="ns-wys" d="M32,19.5h10v18h-10v-18ZM35,40h4"/>
+  </g>
+  <g>
+    <polyline class="ns-wys" points="15.85954 15.68882 17.57516 17.40444 21.84918 13.13043"/>
+    <circle class="ns-wys" cx="18.56842" cy="15.56842" r="5.77895"/>
+  </g>
+</svg>

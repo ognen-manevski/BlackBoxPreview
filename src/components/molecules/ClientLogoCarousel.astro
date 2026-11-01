@@ -23,10 +23,113 @@ const loopingItems = [...items, ...items];
   </div>
 </div>
 
+<script>
+  document.querySelectorAll<HTMLElement>('.logo-carousel').forEach((carousel) => {
+    if (carousel.dataset.dragReady) return;
+
+    const viewport = carousel.querySelector<HTMLElement>('.logo-carousel__viewport');
+    const track = carousel.querySelector<HTMLElement>('.logo-carousel__track');
+
+    if (!viewport || !track) return;
+
+    carousel.dataset.dragReady = 'true';
+
+    let activePointerId: number | null = null;
+    let startX = 0;
+    let startTime = 0;
+    let startOffset = 0;
+    let staticOffset = 0;
+    let dragged = false;
+    let suppressClick = false;
+    let animation: Animation | null = null;
+
+    const wrap = (value: number, length: number) =>
+      length > 0 ? ((value % length) + length) % length : value;
+
+    viewport.addEventListener('pointerdown', (event) => {
+      if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
+
+      activePointerId = event.pointerId;
+      startX = event.clientX;
+      startOffset = staticOffset;
+      dragged = false;
+      suppressClick = false;
+      animation = track.getAnimations()[0] ?? null;
+      startTime = Number(animation?.currentTime ?? 0);
+      carousel.classList.add('is-dragging');
+    });
+
+    viewport.addEventListener('pointermove', (event) => {
+      if (event.pointerId !== activePointerId) return;
+
+      const delta = event.clientX - startX;
+      if (Math.abs(delta) <= 3) return;
+
+      dragged = true;
+      if (!viewport.hasPointerCapture(event.pointerId)) {
+        viewport.setPointerCapture(event.pointerId);
+      }
+
+      track.style.setProperty('--drag-offset', `${(animation ? 0 : startOffset) + delta}px`);
+      event.preventDefault();
+    });
+
+    const finishDrag = (event: PointerEvent) => {
+      if (event.pointerId !== activePointerId) return;
+
+      const delta = event.clientX - startX;
+      const cycleWidth = track.getBoundingClientRect().width / 2;
+
+      if (dragged && animation && cycleWidth > 0) {
+        const duration = Number(animation.effect?.getTiming().duration);
+        if (duration > 0) {
+          animation.currentTime = wrap(startTime - (delta / cycleWidth) * duration, duration);
+        }
+      } else if (dragged) {
+        staticOffset = wrap(startOffset + delta, cycleWidth);
+      }
+
+      if (animation) {
+        track.style.removeProperty('--drag-offset');
+      } else {
+        track.style.setProperty('--drag-offset', `${staticOffset}px`);
+      }
+
+      suppressClick = dragged;
+      dragged = false;
+      activePointerId = null;
+      animation = null;
+      carousel.classList.remove('is-dragging');
+
+      if (viewport.hasPointerCapture(event.pointerId)) {
+        viewport.releasePointerCapture(event.pointerId);
+      }
+    };
+
+    viewport.addEventListener('pointerup', finishDrag);
+    viewport.addEventListener('pointercancel', finishDrag);
+    viewport.addEventListener('dragstart', (event) => event.preventDefault());
+    viewport.addEventListener(
+      'click',
+      (event) => {
+        if (!suppressClick || event.detail === 0) return;
+        event.preventDefault();
+        event.stopPropagation();
+        suppressClick = false;
+      },
+      true,
+    );
+  });
+</script>
+
 <style>
   .logo-carousel {
     position: relative;
-    overflow: hidden;
+    width: 100%;
+    min-width: 0;
+    padding-top: 2.5rem;
+    overflow-x: clip;
+    overflow-y: visible;
     /* background: var(--bg-secondary); */
     -webkit-mask-image: linear-gradient(
       to right,
@@ -49,8 +152,12 @@ const loopingItems = [...items, ...items];
   }
 
   .logo-carousel__viewport {
-    overflow: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
     padding: var(--sp-4) 0;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
   }
 
   .logo-carousel__track {
@@ -59,11 +166,22 @@ const loopingItems = [...items, ...items];
     gap: var(--sp-4);
     /* padding-inline: var(--sp-4); */
     animation: logo-carousel-scroll 28s linear infinite;
+    translate: var(--drag-offset, 0px) 0;
     will-change: transform;
   }
 
-  .logo-carousel:is(:hover, :focus-within) .logo-carousel__track {
+  .logo-carousel:is(:hover, .is-dragging) .logo-carousel__track,
+  .logo-carousel:has(:focus-visible) .logo-carousel__track {
     animation-play-state: paused;
+  }
+
+  .logo-carousel.is-dragging,
+  .logo-carousel.is-dragging * {
+    cursor: grabbing;
+  }
+
+  .logo-carousel__track img {
+    -webkit-user-drag: none;
   }
 
   .logo-carousel__item {

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="nav-icon-development" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="34" height="24" viewBox="0 0 34 24">
+  <defs>
+    <style>
+      #nav-icon-development .b {
+        fill: none;
+        stroke: currentColor;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="b" d="M17.7045,5.7961l-1.40901,9.86306"/>
+    <path class="b" d="M21.00266,8.3615l2.46576,2.46576-2.46576,2.46576"/>
+    <path class="b" d="M12.99734,13.29302l-2.46576-2.46576,2.46576-2.46576"/>
+  </g>
+  <rect class="b" x="3.87895" y="2.93079" width="26.24211" height="15.59368"/>
+  <g>
+    <line class="b" x1="30.12105" y1="21.06921" x2="10.34737" y2="21.06921"/>
+    <g>
+      <line class="b" x1="4.9" y1="21.06921" x2="3.87895" y2="21.06921"/>
+      <line class="b" x1="6.88421" y1="21.06921" x2="5.86316" y2="21.06921"/>
+      <line class="b" x1="8.86842" y1="21.06921" x2="7.84737" y2="21.06921"/>
+    </g>
+  </g>
+</svg>

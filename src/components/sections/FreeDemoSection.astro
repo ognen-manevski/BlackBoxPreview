@@ -1,11 +1,19 @@
 ---
 import IconBadge from "../atoms/IconBadge.astro";
 import Checkmark from '../atoms/Checkmark.astro';
-import FileUpload from '../atoms/FileUpload.astro';
-import ArrowButton from '../atoms/ArrowButton.astro';
-import PrivacyNotice from '../atoms/PrivacyNotice.astro';
+import LeadForm from './LeadForm.astro';
 import gradient1DarkPoster from '../../assets/images/video-thumbnails/gradients/dark/gradient-1-grain-0.jpg';
-import type{DemoContent}from'../../i18n/pages/demo';import type{Lang}from'../../i18n/types';interface Props{content:DemoContent['page'];lang:Lang}const{content,lang}=Astro.props;const submitLabel=content.submit.replace(/\s*→\s*$/,'');
+import type { DemoContent } from '../../i18n/pages/demo';
+import type { Lang } from '../../i18n/types';
+
+interface Props {
+    content: DemoContent['page'];
+    interestGroups: DemoContent['interestGroups'];
+    interestSummary: DemoContent['compact']['customize'];
+    lang: Lang;
+}
+
+const { content, interestGroups, interestSummary, lang } = Astro.props;
 ---
 
 <section
@@ -149,137 +157,13 @@ import type{DemoContent}from'../../i18n/pages/demo';import type{Lang}from'../../
                 {content.formCopy}
             </p>
 
-            <form class="book-demo__form" action="#" method="post">
-                <label class="book-demo__field">
-                    <span>{content.name}</span>
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder={content.namePlaceholder}
-                        autocomplete="name"
-                        required
-                    />
-                </label>
-
-                <label class="book-demo__field">
-                    <span>{content.email}</span>
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder={content.emailPlaceholder}
-                        autocomplete="email"
-                        required
-                    />
-                </label>
-
-                <label class="book-demo__field">
-                    <span>{content.company}</span>
-                    <input
-                        type="text"
-                        name="company"
-                        placeholder={content.companyPlaceholder}
-                        autocomplete="organization"
-                    />
-                </label>
-
-                <label class="book-demo__field">
-                    <span>{content.phone}</span>
-                    <input
-                        type="tel"
-                        name="phone"
-                        placeholder={content.phonePlaceholder}
-                        autocomplete="tel"
-                    />
-                </label>
-
-                <fieldset class="book-demo__services">
-                    <legend>{content.serviceLegend}</legend>
-                    <div class="book-demo__service-options">
-                        <label
-                            class="book-demo__service-option u-border-interactive"
-                        >
-                            <input
-                                type="checkbox"
-                                name="solutions"
-                                value={content.services[0]}
-                            />
-                            <span class="book-demo__check" aria-hidden="true">
-                                <Checkmark />
-                            </span>
-                            <span>{content.services[0]}</span>
-                        </label>
-
-                        <label
-                            class="book-demo__service-option u-border-interactive"
-                        >
-                            <input
-                                type="checkbox"
-                                name="solutions"
-                                value={content.services[1]}
-                            />
-                            <span class="book-demo__check" aria-hidden="true">
-                                <Checkmark />
-                            </span>
-                            <span>{content.services[1]}</span>
-                        </label>
-
-                        <label
-                            class="book-demo__service-option u-border-interactive"
-                        >
-                            <input
-                                type="checkbox"
-                                name="solutions"
-                                value={content.services[2]}
-                            />
-                            <span class="book-demo__check" aria-hidden="true">
-                                <Checkmark />
-                            </span>
-                            <span>{content.services[2]}</span>
-                        </label>
-
-                        <label
-                            class="book-demo__service-option u-border-interactive"
-                        >
-                            <input
-                                type="checkbox"
-                                name="solutions"
-                                value={content.services[3]}
-                            />
-                            <span class="book-demo__check" aria-hidden="true">
-                                <Checkmark />
-                            </span>
-                            <span>{content.services[3]}</span>
-                        </label>
-                    </div>
-                </fieldset>
-
-                <label class="book-demo__field">
-                    <span>{content.project}</span>
-                    <em
-                        >{content.projectHelp}</em
-                    >
-                    <textarea
-                        name="projectDetails"
-                        placeholder={content.projectPlaceholder}
-                        rows="5"
-                        required></textarea>
-                </label>
-
-                <FileUpload id="full-demo-file" label={content.addFile} />
-
-                <div class="book-demo__actions">
-                    <ArrowButton type="submit" variant="primary">{submitLabel}</ArrowButton>
-                    <button class="btn btn--outline" type="reset"
-                        >{content.reset}</button
-                    >
-                </div>
-
-                <PrivacyNotice lang={lang} />
-
-                <p class="book-demo__footnote">
-                    {content.footnote}
-                </p>
-            </form>
+            <LeadForm
+                variant="full-demo"
+                content={content}
+                interestGroups={interestGroups}
+                interestSummary={interestSummary}
+                lang={lang}
+            />
         </div>
     </div>
 </section>
@@ -446,150 +330,6 @@ import type{DemoContent}from'../../i18n/pages/demo';import type{Lang}from'../../
         line-height: 1.65;
     }
 
-    .book-demo__form {
-        display: grid;
-        gap: var(--sp-4);
-    }
-
-    .book-demo__field {
-        display: grid;
-        gap: var(--sp-2);
-    }
-
-    .book-demo__field > span,
-    .book-demo__services legend {
-        font-size: var(--text-sm);
-        color: var(--text-primary);
-    }
-
-    .book-demo__field em {
-        font-style: normal;
-        color: var(--text-muted);
-        font-size: var(--text-xs);
-        line-height: 1.5;
-    }
-
-    .book-demo__field :is(input, textarea) {
-        width: 100%;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius);
-        background: color-mix(in srgb, var(--bg-secondary) 82%, var(--bg));
-        color: var(--text-primary);
-        font-family: var(--font-ui);
-        font-size: var(--text-sm);
-        line-height: 1.5;
-        padding: var(--sp-3) var(--sp-4);
-        transition:
-            border-color var(--t-fast),
-            background var(--t-fast);
-    }
-
-    .book-demo__field textarea {
-        resize: vertical;
-        min-height: 6rem;
-    }
-
-    .book-demo__field :is(input, textarea)::placeholder {
-        color: var(--text-muted);
-    }
-
-    .book-demo__field :is(input, textarea):is(:focus, :focus-visible) {
-        border-color: var(--color-brand);
-        outline: none;
-    }
-
-    .book-demo__services {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        display: grid;
-        gap: var(--sp-3);
-    }
-
-    .book-demo__service-options {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: var(--sp-2);
-    }
-
-    .book-demo__service-option {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--sp-3);
-        border-radius: var(--radius);
-        background: color-mix(in srgb, var(--bg-secondary) 82%, var(--bg));
-        padding: var(--sp-2) var(--sp-3);
-        cursor: pointer;
-        font-size: var(--text-sm);
-        color: var(--text-secondary);
-        transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
-    }
-
-    .book-demo__service-option:hover {
-        background: var(--bg-secondary);
-    }
-
-    .book-demo__service-option input {
-        position: absolute;
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    .book-demo__check {
-        width: 1.2rem;
-        height: 1.2rem;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-sm);
-        color: transparent;
-        background: color-mix(in srgb, var(--bg-secondary) 70%, var(--bg));
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition:
-            border-color var(--t-fast),
-            background var(--t-fast),
-            color var(--t-fast);
-        flex-shrink: 0;
-    }
-
-    .book-demo__check :global(.checkmark) {
-        width: 0.8rem;
-        height: 0.8rem;
-    }
-
-    .book-demo__service-option input:checked + .book-demo__check {
-        color: var(--color-brand);
-        border-color: var(--color-brand);
-        background: var(--color-brand-bg);
-    }
-
-    .book-demo__service-option input:focus-visible + .book-demo__check {
-        outline: 2px solid var(--color-brand);
-        outline-offset: 2px;
-    }
-
-    .book-demo__service-option input:checked ~ span:last-child {
-        color: var(--text-primary);
-    }
-
-    .book-demo__actions {
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: var(--sp-3);
-        gap: var(--sp-3);
-    }
-
-    .book-demo__actions .btn {
-        justify-content: center;
-    }
-
-    .book-demo__footnote {
-        margin: 0;
-        color: var(--text-muted);
-        font-size: var(--text-xs);
-        line-height: 1.6;
-    }
-
     .book-demo__form-wrap {
         position: sticky;
         top: calc(var(--sp-6) + var(--navbar-height));
@@ -616,14 +356,6 @@ import type{DemoContent}from'../../i18n/pages/demo';import type{Lang}from'../../
             padding: var(--sp-5);
         }
 
-        .book-demo__actions {
-            display: grid;
-            grid-template-columns: 1fr;
-        }
-
-        .book-demo__service-options {
-            grid-template-columns: 1fr;
-        }
     }
 
     @media (max-width: 240px) {
@@ -632,30 +364,5 @@ import type{DemoContent}from'../../i18n/pages/demo';import type{Lang}from'../../
             gap: var(--sp-3);
         }
 
-        .book-demo__form {
-            gap: var(--sp-3);
-        }
-
-        .book-demo__field {
-            gap: var(--sp-1);
-        }
-
-        .book-demo__field :is(input, textarea) {
-            padding: var(--sp-2) var(--sp-3);
-        }
-
-        .book-demo__service-options {
-            gap: var(--sp-1);
-        }
-
-        .book-demo__service-option {
-            gap: var(--sp-2);
-            padding: var(--sp-1) var(--sp-2);
-        }
-
-        .book-demo__actions {
-            margin-top: var(--sp-2);
-            gap: var(--sp-2);
-        }
     }
 </style>

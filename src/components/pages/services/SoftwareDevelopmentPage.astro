@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SoftwareDevelopmentHeroSection from '../../sections/services/software-development/SoftwareDevelopmentHeroSection.astro';
+import SoftwareDevelopmentTechnologySection from '../../sections/services/software-development/SoftwareDevelopmentTechnologySection.astro';
+import SoftwareDevelopmentServicesSection from '../../sections/services/software-development/SoftwareDevelopmentServicesSection.astro';
+import BookDemoSection from '../../sections/BookDemoSection.astro';
+import { softwareDevelopmentContent } from '../../../i18n/pages/services/software-development.ts';
+import { getTranslations } from '../../../i18n/utils'; import type { Lang } from '../../../i18n/types';
+interface Props { lang: Lang } const { lang } = Astro.props; const c = getTranslations(softwareDevelopmentContent, lang);
+---
+<BaseLayout lang={lang} title={c.seo.title} description={c.seo.description} ogImage="thumbnails/services/Development_OG-Link-Preview.jpg"><SoftwareDevelopmentHeroSection content={c.hero}/><SoftwareDevelopmentTechnologySection content={c.technology}/><SoftwareDevelopmentServicesSection content={c.services}/><BookDemoSection lang={lang} defaultService={c.demoService}/></BaseLayout>

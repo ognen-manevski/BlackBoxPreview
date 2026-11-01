@@ -1,0 +1,158 @@
+---
+import { Image } from 'astro:assets';
+import ArrowForwardIcon from '../icons/ArrowForwardIcon.astro';
+import baseImage from '../../assets/images/errors/404/static-base.png';
+import chainTopImage from '../../assets/images/errors/404/chain-top.png';
+import chainBottomImage from '../../assets/images/errors/404/chain-bottom.png';
+import { getLocalizedPath } from '../../i18n/utils';
+import type { Lang } from '../../i18n/types';
+import type { NotFoundContent } from '../../i18n/pages/not-found';
+
+interface Props { lang: Lang; content: NotFoundContent }
+const { lang, content } = Astro.props;
+---
+<section class="section not-found" aria-labelledby="not-found-heading">
+  <div class="grid-bg not-found__bg" aria-hidden="true"></div>
+
+  <div class="container not-found__container">
+    <div class="not-found__content">
+      <div class="not-found__illustration" role="img" aria-label={content.imageAlt}>
+        <Image class="not-found__layer" src={baseImage} alt="" widths={[640, 1024]} sizes="(min-width: 640px) 32rem, 20rem" loading="eager" />
+        <Image class="not-found__layer not-found__layer--chain-bottom" src={chainBottomImage} alt="" widths={[640, 1024]} sizes="(min-width: 640px) 32rem, 20rem" loading="eager" />
+        <Image class="not-found__layer not-found__layer--chain-top" src={chainTopImage} alt="" widths={[640, 1024]} sizes="(min-width: 640px) 32rem, 20rem" loading="eager" />
+      </div>
+      <h1 id="not-found-heading" class="section-headline">{content.title}</h1>
+      <p class="section-copy">{content.copy}</p>
+      <a class="btn btn--primary btn--with-arrow not-found__cta" href={getLocalizedPath('/', lang)}>
+        <ArrowForwardIcon class="btn__arrow not-found__arrow" />
+        <span>{content.cta}</span>
+      </a>
+    </div>
+
+    <span class="not-found__code" aria-hidden="true">{content.code}</span>
+  </div>
+</section>
+
+<style>
+  .not-found {
+    position: relative;
+    display: grid;
+    min-height: calc(100svh - var(--navbar-height));
+    padding-block: calc(var(--navbar-height) + var(--sp-7)) var(--sp-8);
+    overflow: clip;
+    background: var(--bg);
+  }
+
+  /* Soft brand light rising from the bottom center */
+  .not-found__bg::before {
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.08) 80%, transparent);
+  }
+
+  .not-found__bg {
+    background:
+      linear-gradient( var(--bg) -50%, transparent 150%),
+      radial-gradient(ellipse 50% 100% at 50% 100%, color-mix(in srgb, var(--color-brand) 50%, transparent) 0, transparent 100%),
+      radial-gradient(ellipse 50% 30% at 50% 100%, color-mix(in srgb, var(--color-aurora) 100%, transparent) 0, color-mix(in srgb, var(--color-aurora) 20%, transparent), transparent 100%),
+      radial-gradient(ellipse 100% 50% at 50% 100%, color-mix(in srgb, var(--color-aurora) 50%, transparent) 0, color-mix(in srgb, var(--color-aurora) 20%, transparent), transparent 100%),
+      var(--bg);
+    filter: contrast(1.1);
+  }
+
+  .not-found__container {
+    margin-top: calc(-2 * var(--navbar-height));
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    place-items: center;
+    container-type: inline-size;
+  }
+
+  .not-found__container > * {
+    grid-area: 1 / 1;
+  }
+
+  .not-found__code {
+    width: 100%;
+    font-family: var(--font-display);
+    font-weight: var(--weight-bold);
+    font-size: 49.7cqw;
+    line-height: 0.8;
+    text-align: center;
+    white-space: nowrap;
+    color: color-mix(in srgb, var(--color-brand) 55%, var(--gray-300));
+    user-select: none;
+        z-index: 0;
+        -webkit-mask-image: linear-gradient(to top, transparent 0%, transparent 20%, rgba(0, 0, 0, 0.8) 150%);
+        mask-image: linear-gradient(to top, transparent 0%, transparent 20%, rgba(0, 0, 0, 0.8) 150%);
+    margin-top: calc(-2 * var(--navbar-height));
+  }
+
+  .not-found__content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: min(100%, 40rem);
+    min-width: 0;
+    justify-items: center;
+    align-content: end;
+    gap: var(--sp-4);
+    text-align: center;
+  }
+
+  .not-found__content > p {
+    max-width: 34rem;
+  }
+
+  .not-found__content > * {
+    margin: 0;
+  }
+
+  .not-found__illustration {
+    display: grid;
+    width: min(100%, 40rem);
+  }
+
+  .not-found__illustration > :global(.not-found__layer) {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: auto;
+  }
+
+  .not-found__illustration > :global(.not-found__layer--chain-top) {
+    animation: not-found-float-top 6s ease-in-out infinite;
+  }
+
+  .not-found__illustration > :global(.not-found__layer--chain-bottom) {
+    animation: not-found-float-bottom 7s ease-in-out infinite;
+  }
+
+  @keyframes not-found-float-top {
+    0%, 100% { transform: translate(0, 0) rotate(2deg); }
+    50% { transform: translate(-0.6%, -3%) rotate(-2deg); }
+  }
+
+  @keyframes not-found-float-bottom {
+    0%, 100% { transform: translate(0, 0) rotate(-2deg); }
+    50% { transform: translate(0.6%, 3%) rotate(2deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .not-found__illustration > :global(.not-found__layer) {
+      animation: none;
+    }
+  }
+
+  .not-found__cta {
+    max-width: 100%;
+    margin-top: var(--sp-3);
+  }
+
+  .not-found__cta :global(.not-found__arrow) {
+    transform: scaleX(-1);
+  }
+
+  .not-found__cta:is(:hover, :focus-visible) :global(.not-found__arrow) {
+    transform: scaleX(-1) translateX(0.3125rem);
+  }
+</style>

@@ -1,0 +1,71 @@
+---
+import DsCard from '../../atoms/DsCard.astro';
+import SectionTitleGroup from '../../molecules/SectionTitleGroup.astro';
+import placeholderIcon from '../../../assets/vectors/icons/ns-how-it-works/centralized-management.svg?raw';
+import type { TotemsContent } from '../../../i18n/pages/digital-signage-displays/totems';
+
+interface Props {
+  content: TotemsContent['whyTotems'];
+}
+
+const { content } = Astro.props;
+const placeholderIconMarkup = placeholderIcon
+  .replace(/^<\?xml[^>]*>\s*/, '')
+  .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+---
+
+<section class="section totems-why" aria-labelledby="totems-why-heading">
+  <div class="container u-section-title-stack">
+    <SectionTitleGroup
+      class="totems-why__intro"
+      label={content.label}
+      heading={content.heading}
+      headingId="totems-why-heading"
+      headlineWidth="30ch"
+      titleWidth="58%"
+      copy={content.copy}
+    />
+
+    <ul class="totems-why__cards" aria-label={content.ariaLabel}>
+      {content.cards.map((card) => (
+        <li class="totems-why__item">
+          <DsCard title={card.title} text={card.text}>
+            <span slot="icon" set:html={placeholderIconMarkup} />
+          </DsCard>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .totems-why {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .totems-why__cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-2);
+    margin: 0;
+    padding: 0;
+  }
+
+  .totems-why__item {
+    display: grid;
+    list-style: none;
+  }
+
+  @media (max-width: 1200px) {
+    .totems-why__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 600px) {
+    .totems-why__cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

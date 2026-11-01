@@ -5,7 +5,6 @@ import SectionGradientBackground from '../atoms/SectionGradientBackground.astro'
 import ArrowButton from '../atoms/ArrowButton.astro';
 import { getCollection } from 'astro:content';
 import waveDarkPoster from '../../assets/images/video-thumbnails/bg-videos/wave.jpg';
-import waveLightPoster from '../../assets/images/video-thumbnails/bg-videos/wave-wh.jpg';
 import type { HomePageContent } from '../../i18n/pages/home';
 import type { Lang } from '../../i18n/types';
 
@@ -21,7 +20,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lan
       number: String(index + 1).padStart(2, '0'),
       title: post.data.title,
       excerpt: post.data.description,
-      href: `${base}${lang === 'mk' ? 'mk/' : ''}blog/${slug}/`,
+      href: `${base}${lang === 'mk' ? 'mk/' : ''}use-cases/${slug}/`,
       thumbnailSrc: post.data.cover,
       thumbnailAlt: post.data.coverAlt,
       ctaLabel: content.readMore,
@@ -36,13 +35,12 @@ const caseStudyGridCells = posts.map((post) => ({
 }));
 ---
 
-<!-- video needs edits, slower + white version + loop glitch -->
+<!-- video needs edits, slower + loop glitch -->
 
 <section class="section case-studies" id="case-studies" aria-labelledby="case-studies-heading">
   <SectionGradientBackground
     videoSrc={`${import.meta.env.BASE_URL}videos/bg-videos/wave.mp4`}
     posterSrc={waveDarkPoster}
-    posterSrcLight={waveLightPoster}
     overlayColor="var(--video-overlay)"
     videoBlur="1px"
   />
@@ -61,7 +59,7 @@ const caseStudyGridCells = posts.map((post) => ({
 
       <div class="case-studies__actions">
         <p class="case-studies__explore-copy section-copy">{content.exploreCopy}</p>
-        <ArrowButton class="case-studies__view-all" href={`${base}${lang === 'mk' ? 'mk/' : ''}blog/`} variant="primary">
+        <ArrowButton class="case-studies__view-all" href={`${base}${lang === 'mk' ? 'mk/' : ''}use-cases/`} variant="primary">
           {content.viewAll}
         </ArrowButton>
       </div>

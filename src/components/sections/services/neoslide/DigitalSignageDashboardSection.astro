@@ -1,0 +1,500 @@
+---
+import adminVideoThumbnail from "../../../../assets/images/services/neoslide/admin-video/NS_THUMBNAIL.jpg";
+import type { DigitalSignageContent } from '../../../../i18n/pages/services/neoslide.ts';
+interface Props { content: DigitalSignageContent['dashboard'] } const { content } = Astro.props;
+---
+
+<section
+    class="ds-dashboard"
+    aria-label={content.ariaLabel}
+    data-ds-dashboard
+>
+    <div class="grid-bg ds-dashboard__grid-bg" aria-hidden="true"></div>
+    <div class="ds-dashboard__bottom-light" aria-hidden="true"></div>
+    <div class="container ds-dashboard__container">
+        <div class="ds-dashboard__sticky">
+            <div class="ds-dashboard__text">
+                <p class="ds-dashboard__eyebrow section-label">{content.label}</p>
+                <h2 class="ds-dashboard__title section-headline">
+                    {content.heading}
+                </h2>
+                <p class="ds-dashboard__copy section-copy">
+                    {content.copy}
+                </p>
+            </div>
+
+            <div class="ds-dashboard__videos" data-ds-dashboard-videos>
+                <div class="ds-dashboard__laptop-shell u-border-interactive" data-ds-dashboard-laptop-shell>
+                    <video
+                        class="ds-dashboard__laptop-video"
+                        data-ds-dashboard-frame-video
+                        muted
+                        playsinline
+                        preload="none"
+                        poster={adminVideoThumbnail.src}
+                        aria-label={content.laptopAriaLabel}
+                        src={`${import.meta.env.BASE_URL}videos/digital-signage/admin-video/laptop-onscroll-60frames.mp4`}
+                    >
+                    </video>
+
+                    <div class="ds-dashboard__teaser-stage" data-ds-dashboard-teaser>
+                        <button
+                            class="ds-dashboard__teaser-poster"
+                            type="button"
+                            data-ds-dashboard-play
+                            aria-label={content.playAriaLabel}
+                        >
+                            <span class="ds-dashboard__teaser-play-chip btn btn--primary btn--lg">
+                                <svg class="ds-dashboard__play-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                                    <circle class="ds-dashboard__play-pulse" cx="24" cy="24" r="20" />
+                                    <circle class="ds-dashboard__play-disc" cx="24" cy="24" r="14" />
+                                    <path class="ds-dashboard__play-triangle" d="M21 17.5v13l10-6.5z" />
+                                </svg>
+                                {content.playLabel}
+                            </span>
+                        </button>
+
+                        <video
+                            class="ds-dashboard__explainer-video"
+                            data-ds-dashboard-explainer
+                            controls
+                            playsinline
+                            preload="metadata"
+                            poster={adminVideoThumbnail.src}
+                            aria-label={content.videoAriaLabel}
+                            src={`${import.meta.env.BASE_URL}videos/digital-signage/admin-video/NS_ADMIN_VIDEO.mp4`}
+                        >
+                        </video>
+                    </div>
+                    <p class="ds-dashboard__play-error" data-ds-dashboard-play-error role="status" hidden>
+                        {content.playbackError}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+    const root = document.querySelector<HTMLElement>("[data-ds-dashboard]");
+
+    if (root) {
+        const teaser = root.querySelector<HTMLElement>(
+            "[data-ds-dashboard-teaser]",
+        );
+        const playButton = root.querySelector<HTMLButtonElement>(
+            "[data-ds-dashboard-play]",
+        );
+        const playError = root.querySelector<HTMLElement>(
+            "[data-ds-dashboard-play-error]",
+        );
+        const explainerVideo = root.querySelector<HTMLVideoElement>(
+            "[data-ds-dashboard-explainer]",
+        );
+        const introVideo = root.querySelector<HTMLVideoElement>(
+            "[data-ds-dashboard-frame-video]",
+        );
+
+        if (
+            teaser &&
+            playButton &&
+            playError &&
+            explainerVideo &&
+            introVideo
+        ) {
+            const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
+            let introStarted = false;
+            let introFinished = false;
+
+            const showPlayButton = (): void => {
+                root.classList.add("is-teaser-ready");
+            };
+
+            const pauseAtMidpoint = (): void => {
+                if (!introVideo.duration || !Number.isFinite(introVideo.duration)) {
+                    return;
+                }
+
+                introVideo.pause();
+                introVideo.currentTime = introVideo.duration / 2;
+                introFinished = true;
+                showPlayButton();
+            };
+
+            const finishIntro = (): void => {
+                if (introFinished || !introVideo.duration) {
+                    return;
+                }
+
+                pauseAtMidpoint();
+            };
+
+            const startIntro = (): void => {
+                if (introStarted) {
+                    return;
+                }
+
+                introStarted = true;
+                introVideo.preload = "auto";
+                introVideo.load();
+
+                const playIntro = (): void => {
+                    if (reducedMotion.matches) {
+                        pauseAtMidpoint();
+                        return;
+                    }
+
+                    void introVideo.play().catch(() => {
+                        pauseAtMidpoint();
+                    });
+                };
+
+                if (introVideo.readyState >= HTMLMediaElement.HAVE_METADATA) {
+                    playIntro();
+                } else {
+                    introVideo.addEventListener("loadedmetadata", playIntro, {
+                        once: true,
+                    });
+                    introVideo.addEventListener("error", showPlayButton, {
+                        once: true,
+                    });
+                }
+            };
+
+            const handleIntroTimeUpdate = (): void => {
+                if (
+                    !introFinished &&
+                    introVideo.duration &&
+                    introVideo.currentTime >= introVideo.duration / 2
+                ) {
+                    finishIntro();
+                }
+            };
+
+            const onPlayClick = async (): Promise<void> => {
+                playError.hidden = true;
+                explainerVideo.muted = false;
+
+                try {
+                    await explainerVideo.play();
+                    root.classList.add("is-explainer-playing");
+                } catch {
+                    root.classList.add("is-explainer-error");
+                    playError.hidden = false;
+                    explainerVideo.controls = true;
+                }
+            };
+
+            let observer: IntersectionObserver | null = null;
+
+            if ("IntersectionObserver" in window) {
+                observer = new IntersectionObserver((entries) => {
+                    if (entries.some((entry) => entry.isIntersecting)) {
+                        observer?.disconnect();
+                        startIntro();
+                    }
+                }, { threshold: 0.25 });
+            }
+
+            introVideo.addEventListener("timeupdate", handleIntroTimeUpdate);
+            playButton.addEventListener("click", onPlayClick);
+
+            if (observer) {
+                observer.observe(teaser);
+            } else {
+                startIntro();
+            }
+
+            const cleanup = (): void => {
+                observer?.disconnect();
+                introVideo.removeEventListener("timeupdate", handleIntroTimeUpdate);
+                playButton.removeEventListener("click", onPlayClick);
+            };
+
+            document.addEventListener("astro:before-swap", cleanup, {
+                once: true,
+            });
+            window.addEventListener("beforeunload", cleanup, { once: true });
+        }
+    }
+</script>
+
+<style>
+    .ds-dashboard {
+        position: relative;
+        background: var(--bg);
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .ds-dashboard__bottom-light {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(
+            ellipse at bottom right,
+            color-mix(in srgb, var(--color-aurora) 18%, transparent),
+            transparent 38%
+        );
+    }
+
+    .ds-dashboard__container {
+        position: relative;
+        z-index: 1;
+        padding-top: var(--sp-10);
+        padding-bottom: var(--sp-10);
+    }
+
+    .ds-dashboard__sticky {
+        display: flex;
+        flex-direction: column;
+        gap: var(--sp-8);
+    }
+
+    .ds-dashboard__text {
+        margin-inline: auto;
+        max-width: 52rem;
+        text-align: center;
+        display: grid;
+        gap: var(--sp-3);
+    }
+
+    .ds-dashboard__eyebrow,
+    .ds-dashboard__title,
+    .ds-dashboard__copy {
+        margin: 0;
+    }
+
+    .ds-dashboard__videos {
+        position: relative;
+        margin-inline: auto;
+        width: 100%;
+    }
+
+    /* videos */
+    .ds-dashboard__laptop-shell {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        border-radius: var(--radius-lg);
+    }
+
+    .ds-dashboard__laptop-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .ds-dashboard__teaser-stage {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+        visibility: hidden;
+    }
+
+    .ds-dashboard__teaser-poster {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        display: block;
+        cursor: pointer;
+        background: transparent;
+        color: var(--text-primary);
+    }
+
+    .ds-dashboard__teaser-poster::before {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background: linear-gradient(0deg, rgb(0 0 0 / 45%), transparent 55%);
+    }
+
+    .ds-dashboard__teaser-play-chip {
+        position: absolute;
+        top: 56%;
+        left: 50%;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--sp-3);
+        transform: translate(-50%, -50%);
+        max-width: calc(100% - 1.5rem);
+        text-align: center;
+        text-wrap: nowrap;
+        transition: transform var(--t-base);
+    }
+
+    .ds-dashboard__play-mark {
+        width: 3.5rem;
+        height: 3.5rem;
+        flex: 0 0 auto;
+        overflow: visible;
+        transition: transform var(--t-base);
+    }
+
+    .ds-dashboard__play-pulse {
+        fill: none;
+        stroke: var(--gray-25);
+        stroke-width: 3;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: ds-dashboard-play-pulse 2s ease-out infinite;
+    }
+
+    .ds-dashboard__play-disc {
+        fill: var(--gray-25);
+    }
+
+    .ds-dashboard__play-triangle {
+        fill: var(--color-brand);
+    }
+
+    .ds-dashboard__teaser-poster:hover .ds-dashboard__teaser-play-chip {
+        transform: translate(-50%, -50%) scale(1.04);
+    }
+
+    .ds-dashboard__teaser-poster:hover .ds-dashboard__play-mark {
+        transform: scale(1.08);
+    }
+
+    .ds-dashboard__teaser-poster:active .ds-dashboard__teaser-play-chip {
+        transform: translate(-50%, -50%) scale(0.98);
+    }
+
+    .ds-dashboard__teaser-poster:hover .ds-dashboard__play-pulse {
+        animation-duration: 1s;
+    }
+
+    .ds-dashboard__teaser-poster:focus-visible {
+        outline: 3px solid var(--color-brand);
+        outline-offset: -3px;
+    }
+
+    .ds-dashboard__explainer-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .ds-dashboard__play-error {
+        position: absolute;
+        z-index: 4;
+        right: var(--sp-3);
+        bottom: var(--sp-3);
+        margin: 0;
+        padding: var(--sp-2) var(--sp-3);
+        border-radius: var(--radius);
+        background: var(--bg-primary);
+        color: var(--text-primary);
+    }
+
+    .ds-dashboard.is-teaser-ready .ds-dashboard__teaser-stage {
+        pointer-events: auto;
+        visibility: visible;
+    }
+
+    .ds-dashboard.is-explainer-playing .ds-dashboard__teaser-poster {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .ds-dashboard.is-explainer-playing .ds-dashboard__explainer-video {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .ds-dashboard.is-explainer-error .ds-dashboard__explainer-video {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .ds-dashboard.is-explainer-error .ds-dashboard__teaser-stage {
+        visibility: hidden;
+    }
+
+    @media (max-width: 1024px) {
+        .ds-dashboard__sticky {
+            gap: var(--sp-8);
+        }
+
+        .ds-dashboard__videos {
+            min-height: 18rem;
+        }
+
+    }
+
+    @media (max-width: 768px) {
+        .ds-dashboard__sticky {
+            gap: var(--sp-8);
+        }
+
+        .ds-dashboard__text {
+            text-align: left;
+        }
+
+        .ds-dashboard__videos {
+            min-height: 14rem;
+        }
+
+        .ds-dashboard__teaser-play-chip {
+            gap: var(--sp-2);
+            max-width: calc(100% - 1rem);
+        }
+
+        .ds-dashboard__play-mark {
+            width: 2.75rem;
+            height: 2.75rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .ds-dashboard__teaser-play-chip {
+            top: 60%;
+            gap: var(--sp-1);
+            max-width: calc(100% - 1rem);
+            white-space: nowrap;
+            text-wrap: nowrap;
+        }
+
+        .ds-dashboard__play-mark {
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+
+    @keyframes ds-dashboard-play-pulse {
+        0% {
+            opacity: 0.85;
+            transform: scale(0.82);
+        }
+        75%,
+        100% {
+            opacity: 0;
+            transform: scale(1.35);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ds-dashboard__play-pulse {
+            animation: none;
+        }
+    }
+
+</style>

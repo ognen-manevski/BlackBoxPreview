@@ -1,0 +1,167 @@
+---
+import ProgressiveImage from "../../../atoms/ProgressiveImage.astro";
+import SectionTitleGroup from "../../../molecules/SectionTitleGroup.astro";
+import standardImage from "../../../../assets/images/services/neoslide/display-types/standard.jpg";
+import totemsImage from "../../../../assets/images/services/neoslide/display-types/totems.jpg";
+import menuBoardsImage from "../../../../assets/images/services/neoslide/display-types/menu-boards.jpg";
+import type { VideoStreamingContent } from "../../../../i18n/pages/services/video-streaming.ts";
+
+interface Props {
+  content: VideoStreamingContent["howItWorks"];
+}
+
+const { content } = Astro.props;
+const images = [standardImage, totemsImage, menuBoardsImage, standardImage, totemsImage, menuBoardsImage];
+---
+
+<section class="section vs-how-it-works" aria-labelledby="vs-how-it-works-heading">
+  <div class="container vs-how-it-works__inner u-section-title-stack">
+    <SectionTitleGroup
+      class="vs-how-it-works__intro"
+      label={content.label}
+      heading={content.heading}
+      headingId="vs-how-it-works-heading"
+      copy={content.copy}
+    />
+
+    <div class="vs-how-it-works__grid">
+      {content.cards.map((card, index) => (
+        <article class="vs-how-it-works__card u-border-interactive">
+          <figure class="vs-how-it-works__media" data-progressive-host="relative">
+            <!-- TODO: Replace temporary NeoSlide images with visuals for the six streaming use cases. -->
+            <ProgressiveImage src={images[index]}>
+              <img
+                src={images[index].src}
+                alt=""
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
+                class="vs-how-it-works__image"
+              />
+            </ProgressiveImage>
+          </figure>
+
+          <div class="vs-how-it-works__details">
+            <span class="vs-how-it-works__counter" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <div class="vs-how-it-works__text">
+              <h3 class="vs-how-it-works__title">{card.title}</h3>
+              <p class="vs-how-it-works__description">{card.copy}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .vs-how-it-works {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .vs-how-it-works__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: var(--sp-4);
+  }
+
+  .vs-how-it-works__card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    min-width: 0;
+    padding: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .vs-how-it-works__media {
+    width: 100%;
+    margin: 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  .vs-how-it-works__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-out;
+  }
+
+  .vs-how-it-works__card:hover .vs-how-it-works__image,
+  .vs-how-it-works__card:focus-within .vs-how-it-works__image {
+    transform: scale(1.04);
+  }
+
+  .vs-how-it-works__details {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-content: start;
+    align-items: start;
+    gap: var(--sp-4);
+    padding: var(--sp-5);
+  }
+
+  .vs-how-it-works__counter {
+    color: var(--color-brand);
+    font-family: var(--font-mono);
+    font-size: clamp(1rem, 0.9rem + 0.35vw, 1.25rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.08em;
+  }
+
+  .vs-how-it-works__text {
+    display: grid;
+    align-content: start;
+    gap: var(--sp-2);
+  }
+
+  .vs-how-it-works__title,
+  .vs-how-it-works__description {
+    margin: 0;
+  }
+
+  .vs-how-it-works__title {
+    font-size: clamp(1.05rem, 0.98rem + 0.35vw, 1.25rem);
+    line-height: 1.2;
+  }
+
+  .vs-how-it-works__description {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 1024px) {
+    .vs-how-it-works__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .vs-how-it-works__details {
+      gap: var(--sp-3);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .vs-how-it-works__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vs-how-it-works__image {
+      transition: none;
+    }
+
+    .vs-how-it-works__card:hover .vs-how-it-works__image,
+    .vs-how-it-works__card:focus-within .vs-how-it-works__image {
+      transform: none;
+    }
+  }
+</style>

@@ -1,4 +1,4 @@
-// Single source of truth for the cookie consent system.
+﻿// Single source of truth for the cookie consent system.
 // Change enabled/autoShow/version/duration/categories/registry here only.
 
 export type CookieCategoryId = 'necessary' | 'analytics' | 'functional' | 'marketing';
@@ -42,11 +42,5 @@ export const cookieRegistry: CookieRegistryEntry[] = [
     provider: 'BlackBox Solutions',
     category: 'necessary',
     type: 'cookie',
-  },
-  {
-    id: 'bb-theme',
-    provider: 'BlackBox Solutions',
-    category: 'functional',
-    type: 'localStorage',
   },
 ];

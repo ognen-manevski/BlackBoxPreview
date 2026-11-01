@@ -1,0 +1,181 @@
+---
+import ProgressiveImage from '../../../atoms/ProgressiveImage.astro';
+import sizeTotem4Sides from '../../../../assets/images/services/neoslide/sizes/01-4-sides-totem.png';
+import sizePortrait from '../../../../assets/images/services/neoslide/sizes/02-portrait.png';
+import sizeTotem from '../../../../assets/images/services/neoslide/sizes/03-totem.png';
+import sizeBillboard from '../../../../assets/images/services/neoslide/sizes/04-builboard.png';
+import sizeSmallKiosk from '../../../../assets/images/services/neoslide/sizes/05-small-kiosk.png';
+import sizeLargeKiosk from '../../../../assets/images/services/neoslide/sizes/06-large-kiosk.png';
+import type { DigitalSignageContent } from '../../../../i18n/pages/services/neoslide.ts';
+interface Props { content: DigitalSignageContent['anyScreen'] } const { content } = Astro.props;
+
+const sizeImages = [
+    { asset: sizeTotem4Sides, layer: 1 },
+    { asset: sizePortrait, layer: 2 },
+    { asset: sizeTotem, layer: 7 },
+    { asset: sizeBillboard, layer: 4 },
+    { asset: sizeSmallKiosk, layer: 5 },
+    { asset: sizeLargeKiosk, layer: 6 },
+];
+---
+
+<section class="section ds-any-screen" aria-labelledby="ds-any-screen-heading" data-ds-any-screen>
+    <div class="container ds-any-screen__inner">
+        <div class="ds-any-screen__content">
+            <p class="section-label">{content.label}</p>
+            <h2 class="section-headline ds-any-screen__headline" id="ds-any-screen-heading">
+                {content.heading}
+            </h2>
+            <div class="ds-any-screen__copy-wrap">
+                <p class="section-copy ds-any-screen__copy">
+                    {content.paragraphs[0]}
+                </p>
+                <p class="section-copy ds-any-screen__copy">
+                    {content.paragraphs[1]}
+                </p>
+            </div>
+        </div>
+
+        <figure class="ds-any-screen__media" aria-hidden="true">
+            {
+                sizeImages.map((image, index) => (
+                    <div
+                        class="ds-any-screen__image-layer"
+                        data-progressive-host="relative"
+                        style={`--ds-size-layer: ${image.layer}; --ds-size-index: ${index};`}
+                    >
+                        <ProgressiveImage src={image.asset} fit="contain">
+                            <img
+                                class="ds-any-screen__image"
+                                src={image.asset.src}
+                                alt=""
+                                loading="lazy"
+                                decoding="async"
+                            />
+                        </ProgressiveImage>
+                    </div>
+                ))
+            }
+        </figure>
+    </div>
+</section>
+
+<script>
+    const section = document.querySelector<HTMLElement>("[data-ds-any-screen]");
+
+    if (section) {
+        const media = section.querySelector<HTMLElement>(".ds-any-screen__media");
+
+        if (media && "IntersectionObserver" in window) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    if (entries.some((entry) => entry.isIntersecting)) {
+                        media.classList.add("is-visible");
+                        observer.disconnect();
+                    }
+                },
+                { threshold: 0.15 },
+            );
+
+            observer.observe(media);
+            document.addEventListener(
+                "astro:before-swap",
+                () => observer.disconnect(),
+                { once: true },
+            );
+        } else if (media) {
+            media.classList.add("is-visible");
+        }
+    }
+</script>
+
+<style>
+    .ds-any-screen {
+        background: var(--bg-secondary);
+        /* border-bottom: 1px solid var(--border-color); */
+        overflow: hidden;
+    }
+
+    .ds-any-screen__inner {
+        display: grid;
+        gap: var(--sp-6);
+    }
+
+    .ds-any-screen__headline {
+        margin-bottom: var(--sp-3);
+    }
+
+    .ds-any-screen__content {
+        position: relative;
+    }
+
+    .ds-any-screen__copy-wrap {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--sp-8);
+    }
+
+    .ds-any-screen__copy {
+        max-width: none;
+    }
+
+    @media (max-width: 900px) {
+        .ds-any-screen__copy-wrap {
+            grid-template-columns: 1fr;
+            gap: var(--sp-3);
+        }
+    }
+
+    .ds-any-screen__media {
+        margin: var(--sp-4) 0 0;
+        width: 100%;
+        aspect-ratio: 12 / 5;
+        display: grid;
+        isolation: isolate;
+    }
+
+    .ds-any-screen__image-layer {
+        width: 100%;
+        height: 100%;
+        display: block;
+        grid-area: 1 / 1;
+        z-index: var(--ds-size-layer, 0);
+    }
+
+    .ds-any-screen__image {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: contain;
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    .ds-any-screen__media.is-visible .ds-any-screen__image {
+        animation: ds-any-screen-rise 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        animation-delay: calc(var(--ds-size-index) * 140ms);
+    }
+
+    @keyframes ds-any-screen-rise {
+        from {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ds-any-screen__image {
+            opacity: 1;
+            transform: none;
+        }
+
+        .ds-any-screen__media.is-visible .ds-any-screen__image {
+            animation: none;
+        }
+    }
+
+</style>

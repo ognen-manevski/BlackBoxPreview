@@ -1,0 +1,90 @@
+---
+import type { HomePageContent } from '../../i18n/pages/home';
+
+interface Props {
+  principles: HomePageContent['about']['principles'];
+  ariaLabel: string;
+}
+
+const { principles, ariaLabel } = Astro.props;
+---
+
+<div class="about-principles" aria-label={ariaLabel}>
+  {principles.map((principle) => (
+    <article class="about-principle">
+      <p class="about-principle__number">{principle.number}</p>
+      <div class="about-principle__body">
+        <h3 class="about-principle__title">{principle.title}</h3>
+        <p class="about-principle__text">{principle.text}</p>
+      </div>
+    </article>
+  ))}
+</div>
+
+<style>
+  .about-principles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-3);
+  }
+
+  .about-principle {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: var(--sp-5);
+    background: color-mix(in srgb, var(--bg-secondary) 84%, var(--bg));
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--sp-4);
+    align-items: start;
+  }
+
+  .about-principle__number {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--color-brand);
+    font-weight: var(--weight-bold);
+  }
+
+  .about-principle__body {
+    display: grid;
+    gap: var(--sp-2);
+  }
+
+  .about-principle__title {
+    font-size: var(--text-lg);
+    line-height: 1.2;
+  }
+
+  .about-principle__text {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1100px) {
+    .about-principle__number {
+      font-size: var(--text-xl);
+    }
+  }
+
+  @media (max-width: 840px) {
+    .about-principle {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .about-principles {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .about-principle {
+      gap: var(--sp-2);
+    }
+  }
+</style>

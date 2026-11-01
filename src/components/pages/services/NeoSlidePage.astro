@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import DigitalSignageHeroSection from '../../sections/services/neoslide/DigitalSignageHeroSection.astro';
+import DigitalSignageHowItWorksSection from '../../sections/services/neoslide/DigitalSignageHowItWorksSection.astro';
+import DigitalSignageDashboardSection from '../../sections/services/neoslide/DigitalSignageDashboardSection.astro';
+import DigitalSignageRealtimeContentSection from '../../sections/services/neoslide/DigitalSignageRealtimeContentSection.astro';
+import DigitalSignageIndustrySolutionsSection from '../../sections/services/neoslide/DigitalSignageIndustrySolutionsSection.astro';
+import DigitalSignageAnyScreenSection from '../../sections/services/neoslide/DigitalSignageAnyScreenSection.astro';
+import DigitalSignageDisplayTypesSection from '../../sections/services/neoslide/DigitalSignageDisplayTypesSection.astro';
+import DigitalSignageNeoSlideSection from '../../sections/services/neoslide/DigitalSignageNeoSlideSection.astro';
+import DigitalSignagePurchaseSection from '../../sections/services/neoslide/DigitalSignagePurchaseSection.astro';
+import BookDemoSection from '../../sections/BookDemoSection.astro';
+import { digitalSignageContent } from '../../../i18n/pages/services/neoslide.ts';
+import { getTranslations } from '../../../i18n/utils';
+import type { Lang } from '../../../i18n/types';
+
+interface Props { lang: Lang }
+
+const { lang } = Astro.props;
+const c = getTranslations(digitalSignageContent, lang);
+---
+<BaseLayout lang={lang} title={c.seo.title} description={c.seo.description} ogImage="thumbnails/services/NeoSlide_OG-Link-Preview.jpg">
+  <DigitalSignageHeroSection content={c.hero} />
+  <DigitalSignageRealtimeContentSection content={c.realtime} />
+  <DigitalSignageHowItWorksSection content={c.howItWorks} cards={c.hero.cards} lang={lang} />
+  <DigitalSignageNeoSlideSection content={c.neoSlide} />
+  <DigitalSignageDashboardSection content={c.dashboard} />
+  <DigitalSignageDisplayTypesSection content={c.displayTypes} />
+  <DigitalSignageIndustrySolutionsSection content={c.industries} lang={lang} />
+  <DigitalSignagePurchaseSection content={c.purchase} lang={lang} />
+  <DigitalSignageAnyScreenSection content={c.anyScreen} />
+  <BookDemoSection lang={lang} defaultService={c.demoService} />
+</BaseLayout>

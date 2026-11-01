@@ -1,4 +1,8 @@
 ---
-import ShelfLabelsPage from '../../components/pages/ShelfLabelsPage.astro';
+import { getLocalizedPath } from '../../i18n/utils';
+
+return Astro.redirect(
+  getLocalizedPath('/digital-signage-displays/electronic-shelf-labels/', 'mk'),
+  301,
+);
 ---
-<ShelfLabelsPage lang="mk"/>

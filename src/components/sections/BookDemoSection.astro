@@ -1,37 +1,41 @@
 ---
 import IconBadge from '../atoms/IconBadge.astro';
 import Checkmark from '../atoms/Checkmark.astro';
-import FileUpload from '../atoms/FileUpload.astro';
-import ArrowButton from '../atoms/ArrowButton.astro';
-import PrivacyNotice from '../atoms/PrivacyNotice.astro';
+import LeadForm from './LeadForm.astro';
 import gradient1DarkPoster from '../../assets/images/video-thumbnails/gradients/dark/gradient-1-grain-0.jpg';
-import gradient1LightPoster from '../../assets/images/video-thumbnails/gradients/light/gradient-1-grain-wh-0.jpg';
-import{demoContent}from'../../i18n/pages/demo';import{getTranslations}from'../../i18n/utils';import type{Lang}from'../../i18n/types';
-
-interface ServiceOption {
-  label: string;
-  value: string;
-}
+import { demoContent } from '../../i18n/pages/demo';
+import { getTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/types';
 
 interface Props {
   defaultService?: string;
-  serviceOptions?: ServiceOption[];
   lang: Lang;
 }
 
-const {
-  lang,
-  defaultService = '',
-  serviceOptions,
-} = Astro.props as Props;
-const content=getTranslations(demoContent,lang).compact;
-const localizedOptions=serviceOptions??content.services;
-
+const { lang, defaultService = '' } = Astro.props as Props;
+const demoTranslations = getTranslations(demoContent, lang);
+const content = demoTranslations.compact;
+const interestGroups = demoTranslations.interestGroups;
 const normalizedDefaultService = defaultService.trim().toLowerCase();
-const options = localizedOptions.map(option => ({
-  ...option,
-  checked: Boolean(normalizedDefaultService) && option.value.trim().toLowerCase() === normalizedDefaultService,
-}));
+const defaultInterestByService: Record<string, string> = {
+  'digital signage': 'Digital Signage Platform',
+  'digital signage platform': 'Digital Signage Platform',
+  'digital totems': 'Totems',
+  totems: 'Totems',
+  'интерактивни екрани': 'Interactive Displays',
+  'интерактивни дисплеи': 'Interactive Displays',
+  'interactive displays': 'Interactive Displays',
+  'electronic shelf labels': 'Electronic Shelf Labels',
+  'електронски ценовни етикети': 'Electronic Shelf Labels',
+  'video streaming': 'Video Streaming Platform',
+  'видео стриминг': 'Video Streaming Platform',
+  'video streaming platform': 'Video Streaming Platform',
+  'custom software': 'Custom Software',
+  'сопствен софтвер': 'Custom Software',
+  'дигитални тотеми': 'Totems',
+};
+const selectedDefaultInterest = defaultInterestByService[normalizedDefaultService];
+const selectedInterestValues = selectedDefaultInterest ? [selectedDefaultInterest] : [];
 ---
 
 <section
@@ -42,7 +46,7 @@ const options = localizedOptions.map(option => ({
   data-default-service={defaultService}
 >
   <video
-    class="book-demo__bg-video book-demo__bg-video--dark"
+    class="book-demo__bg-video"
     autoplay
     loop
     muted
@@ -52,18 +56,6 @@ const options = localizedOptions.map(option => ({
     aria-hidden="true"
   >
     <source src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-1.mp4`} type="video/mp4" media="(min-width: 641px)" />
-  </video>
-  <video
-    class="book-demo__bg-video book-demo__bg-video--light"
-    autoplay
-    loop
-    muted
-    playsinline
-    preload="metadata"
-    poster={gradient1LightPoster.src}
-    aria-hidden="true"
-  >
-    <source src={`${import.meta.env.BASE_URL}videos/gradients/light/base-gradient-1.mp4`} type="video/mp4" media="(min-width: 641px)" />
   </video>
   <div class="book-demo__bg-overlay" aria-hidden="true"></div>
 
@@ -113,89 +105,39 @@ const options = localizedOptions.map(option => ({
         {content.formTitleStart}<span class="book-demo__service-name" data-demo-service>{defaultService}</span>{content.formTitleEnd}
       </h3>
 
-      <form class="book-demo__form" action="#" method="post">
-        <label class="book-demo__field">
-          <span>{content.name}</span>
-          <input type="text" name="name" placeholder={content.namePlaceholder} autocomplete="name" required>
-        </label>
-
-        <label class="book-demo__field">
-          <span>{content.email}</span>
-          <input type="email" name="email" placeholder={content.emailPlaceholder} autocomplete="email" required>
-        </label>
-
-        <details class="book-demo__customize u-border-interactive">
-          <summary class="book-demo__customize-summary">
-            <span>{content.customize}</span>
-            <svg class="book-demo__customize-icon" viewBox="0 0 10 6" fill="none" aria-hidden="true">
-              <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </summary>
-
-          <div class="book-demo__customize-content-wrap">
-            <div class="book-demo__customize-content">
-            <label class="book-demo__field">
-              <span>{content.phone}</span>
-              <input type="tel" name="phone" placeholder={content.phonePlaceholder} autocomplete="tel">
-            </label>
-
-            <fieldset class="book-demo__services">
-              <legend>{content.serviceLegend}</legend>
-              <div class="book-demo__service-options">
-                {
-                  options.map(option => (
-                    <label class="book-demo__service-option u-border-interactive">
-                      <input
-                        type="checkbox"
-                        name="services"
-                        value={option.value}
-                        checked={option.checked}
-                      >
-                      <span class="book-demo__check" aria-hidden="true">
-                        <Checkmark />
-                      </span>
-                      <span>{option.label}</span>
-                    </label>
-                  ))
-                }
-              </div>
-            </fieldset>
-
-            <label class="book-demo__field">
-              <span>{content.message}</span>
-              <textarea
-                name="message"
-                placeholder={content.messagePlaceholder}
-                rows="5"
-              ></textarea>
-            </label>
-            </div>
-          </div>
-        </details>
-
-        <FileUpload id="compact-demo-file" label={content.addFile} />
-
-        <div class="book-demo__actions">
-          <ArrowButton type="submit" variant="primary">{content.submit}</ArrowButton>
-          <button class="btn btn--outline" type="reset">{content.reset}</button>
-        </div>
-        <PrivacyNotice lang={lang} />
-      </form>
+      <LeadForm
+        variant="compact-demo"
+        content={content}
+        interestGroups={interestGroups}
+        checkedValues={selectedInterestValues}
+        lang={lang}
+      />
     </div>
   </div>
 </section>
 
 <script>
+  const requestedIntent = new URLSearchParams(window.location.search).get('interest');
+  if (requestedIntent) {
+    document.querySelectorAll<HTMLInputElement>('input[data-service-intent]:not([data-service-intent=""])').forEach(input => {
+      const intents = input.dataset.serviceIntent?.split(/\s+/) ?? [];
+      if (intents.includes(requestedIntent)) {
+        input.checked = true;
+      }
+    });
+  }
+
   const demoSections = document.querySelectorAll('[data-book-demo]');
 
   demoSections.forEach(section => {
     const serviceSlot = section.querySelector('[data-demo-service]');
-    const checkboxes = Array.from(section.querySelectorAll('input[name="services"]'));
+    const checkboxes = Array.from(section.querySelectorAll<HTMLInputElement>('input[name="services"]'));
+    const titleOptions = checkboxes.filter(input => input.hasAttribute('data-demo-title-option'));
     const defaultService = section.getAttribute('data-default-service') || '';
 
     const updateTitle = () => {
-      const selected = checkboxes.find(input => input.matches(':checked'));
-      const serviceName = selected ? selected.getAttribute('value') || '' : defaultService;
+      const selected = titleOptions.find(input => input.matches(':checked'));
+      const serviceName = selected?.dataset.demoTitleLabel || defaultService;
 
       if (serviceSlot) {
         serviceSlot.textContent = serviceName;
@@ -225,22 +167,6 @@ const options = localizedOptions.map(option => ({
     object-fit: cover;
     z-index: 0;
     transition: opacity var(--t-base);
-  }
-
-  .book-demo__bg-video--dark {
-    opacity: 1;
-  }
-
-  .book-demo__bg-video--light {
-    opacity: 0;
-  }
-
-  :global([data-theme='light']) .book-demo__bg-video--dark {
-    opacity: 0;
-  }
-
-  :global([data-theme='light']) .book-demo__bg-video--light {
-    opacity: 1;
   }
 
   .book-demo__bg-overlay {
@@ -317,194 +243,6 @@ const options = localizedOptions.map(option => ({
     color: var(--color-brand);
   }
 
-  .book-demo__form {
-    display: grid;
-    gap: var(--sp-4);
-    min-width: 0;
-  }
-
-  .book-demo__field {
-    display: grid;
-    gap: var(--sp-2);
-    min-width: 0;
-  }
-
-  .book-demo__field > span,
-  .book-demo__services legend {
-    font-size: var(--text-sm);
-    color: var(--text-primary);
-  }
-
-  .book-demo__field :is(input, textarea) {
-    width: 100%;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    background: color-mix(in srgb, var(--bg-secondary) 82%, var(--bg));
-    color: var(--text-primary);
-    font-family: var(--font-ui);
-    font-size: var(--text-sm);
-    line-height: 1.5;
-    padding: var(--sp-3) var(--sp-4);
-    transition: border-color var(--t-fast), background var(--t-fast);
-  }
-
-  .book-demo__field textarea {
-    resize: vertical;
-    min-height: 6rem;
-  }
-
-  .book-demo__field :is(input, textarea)::placeholder {
-    color: var(--text-muted);
-  }
-
-  .book-demo__field :is(input, textarea):is(:focus, :focus-visible) {
-    border-color: var(--color-brand);
-    outline: none;
-  }
-
-  .book-demo__customize {
-    border-radius: var(--radius);
-    background: color-mix(in srgb, var(--bg-secondary) 88%, var(--bg));
-    overflow: hidden;
-  }
-
-  .book-demo__customize-summary {
-    list-style: none;
-    display: inline-flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--sp-3);
-    padding: var(--sp-3) var(--sp-4);
-    cursor: pointer;
-    font-family: var(--font-ui);
-    font-size: var(--text-sm);
-    color: var(--text-primary);
-    user-select: none;
-  }
-
-  .book-demo__customize-summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .book-demo__customize-icon {
-    width: 0.7rem;
-    height: 0.45rem;
-    color: var(--text-secondary);
-    transition: transform var(--t-base);
-    flex-shrink: 0;
-  }
-
-  .book-demo__customize[open] .book-demo__customize-icon {
-    transform: rotate(180deg);
-  }
-
-  .book-demo__customize-content {
-    border-top: 1px solid var(--border-color);
-    padding: var(--sp-4);
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--sp-4);
-    min-width: 0;
-  }
-
-  .book-demo__customize-content-wrap {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows var(--t-slow);
-  }
-
-  .book-demo__customize[open] .book-demo__customize-content-wrap {
-    grid-template-rows: 1fr;
-  }
-
-  .book-demo__customize-content-wrap > .book-demo__customize-content {
-    min-height: 0;
-    min-width: 0;
-    overflow: hidden;
-  }
-
-  .book-demo__services {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    display: grid;
-    min-width: 0;
-    gap: var(--sp-3);
-  }
-
-  .book-demo__service-options {
-    display: grid;
-    min-width: 0;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--sp-2);
-  }
-
-  .book-demo__service-option {
-    display: inline-flex;
-    min-width: 0;
-    align-items: center;
-    gap: var(--sp-3);
-    border-radius: var(--radius);
-    background: color-mix(in srgb, var(--bg-secondary) 82%, var(--bg));
-    padding: var(--sp-2) var(--sp-3);
-    cursor: pointer;
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
-  }
-
-  .book-demo__service-option:hover {
-    background: var(--bg-secondary);
-  }
-
-  .book-demo__service-option input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .book-demo__check {
-    width: 1.2rem;
-    height: 1.2rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    color: transparent;
-    background: color-mix(in srgb, var(--bg-secondary) 70%, var(--bg));
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color var(--t-fast), background var(--t-fast), color var(--t-fast);
-    flex-shrink: 0;
-  }
-
-  .book-demo__check :global(.checkmark) {
-    width: 0.8rem;
-    height: 0.8rem;
-  }
-
-  .book-demo__service-option input:checked + .book-demo__check {
-    color: var(--color-brand);
-    border-color: var(--color-brand);
-    background: var(--color-brand-bg);
-  }
-
-  .book-demo__service-option input:focus-visible + .book-demo__check {
-    outline: 2px solid var(--color-brand);
-    outline-offset: 2px;
-  }
-
-  .book-demo__service-option input:checked ~ span:last-child {
-    color: var(--text-primary);
-  }
-
-  .book-demo__actions {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: var(--sp-3);
-    gap: var(--sp-3);
-  }
-
   @media (max-width: 1024px) {
     .book-demo__inner {
       grid-template-columns: 1fr;
@@ -521,18 +259,6 @@ const options = localizedOptions.map(option => ({
       padding: var(--sp-5);
     }
 
-    .book-demo__actions {
-      display: grid;
-      grid-template-columns: 1fr;
-    }
-
-    .book-demo__actions :global(.btn) {
-      justify-content: center;
-    }
-
-    .book-demo__service-options {
-      grid-template-columns: 1fr;
-    }
   }
 
   @media (max-width: 300px) {
@@ -541,123 +267,12 @@ const options = localizedOptions.map(option => ({
       gap: var(--sp-3);
     }
 
-    .book-demo__form {
-      gap: var(--sp-4);
-    }
-
     .book-demo__form-title {
       font-size: var(--text-md);
       line-height: 1.15;
       overflow-wrap: anywhere;
     }
 
-    .book-demo__field {
-      gap: var(--sp-1);
-    }
-
-    .book-demo__field > span,
-    .book-demo__services legend,
-    .book-demo__service-option {
-      font-size: var(--text-xs);
-      line-height: 1.35;
-    }
-
-    .book-demo__field :is(input, textarea) {
-      font-size: var(--text-xs);
-      line-height: 1.35;
-      padding: var(--sp-2) var(--sp-3);
-    }
-
-    .book-demo__customize-summary {
-      gap: var(--sp-2);
-      padding: var(--sp-2) var(--sp-3);
-      font-size: var(--text-xs);
-      line-height: 1.35;
-      text-align: left;
-    }
-
-    .book-demo__customize-content {
-      padding: var(--sp-4) var(--sp-3);
-      gap: var(--sp-3);
-    }
-
-    .book-demo__services {
-      gap: var(--sp-2);
-    }
-
-    .book-demo__service-options {
-      gap: var(--sp-1);
-    }
-
-    .book-demo__service-option {
-      align-items: flex-start;
-      gap: var(--sp-2);
-      padding: var(--sp-2);
-      overflow-wrap: anywhere;
-    }
-
-    .book-demo__check {
-      width: 1rem;
-      height: 1rem;
-    }
-
-    .book-demo__check :global(.checkmark) {
-      width: 0.65rem;
-      height: 0.65rem;
-    }
-
-    .book-demo__actions {
-      gap: var(--sp-2);
-      margin-top: var(--sp-2);
-    }
-
-    .book-demo__actions :global(.btn) {
-      width: 100%;
-      min-width: 0;
-      min-height: 2.25rem;
-      padding: var(--sp-2) var(--sp-3);
-      white-space: normal;
-      line-height: 1.2;
-      overflow-wrap: anywhere;
-    }
-
-    .book-demo__actions :global(.btn--primary) {
-      justify-content: flex-start;
-      text-align: left;
-    }
-
-    .book-demo :global(.file-upload) {
-      align-items: flex-start;
-      gap: var(--sp-1);
-    }
-
-    .book-demo :global(.file-upload__link) {
-      min-width: 0;
-      gap: var(--sp-1);
-      font-size: var(--text-xs);
-      line-height: 1.35;
-      overflow-wrap: anywhere;
-    }
-
-    .book-demo :global(.file-upload__link svg) {
-      width: 1rem;
-      height: 1rem;
-      flex: 0 0 1rem;
-    }
-
-    .book-demo :global(.privacy-consent) {
-      align-items: flex-start;
-      gap: var(--sp-1);
-      min-width: 0;
-      padding: 0;
-      font-size: 0.625rem;
-      line-height: 1.35;
-    }
-
-    .book-demo :global(.privacy-consent__text) {
-      min-width: 0;
-      overflow-wrap: anywhere;
-    }
   }
 
   @media (max-width: 400px) {

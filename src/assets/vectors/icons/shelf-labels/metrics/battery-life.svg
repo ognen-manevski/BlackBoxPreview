@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="sl-icon-battery-life__a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      .sl-icon-battery-life__b, .sl-icon-battery-life__c, .sl-icon-battery-life__d {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2px;
+      }
+
+      .sl-icon-battery-life__c {
+        stroke-miterlimit: 10;
+      }
+
+      .sl-icon-battery-life__d {
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="sl-icon-battery-life__b" d="M7.5,13.08947h44v8h5v12h-5v8H7.5V13.08947Z"/>
+    <path class="sl-icon-battery-life__d" d="M31.87237,17.43684l-6.86184,12.06579h5.48947l-1.37237,7.23947,6.86184-12.06579h-5.48947l1.37237-7.23947Z"/>
+  </g>
+  <rect class="sl-icon-battery-life__c" x="7.5" y="46.86842" width="11.02959" height="4.04211"/>
+  <rect class="sl-icon-battery-life__c" x="23.87205" y="46.86842" width="11.02959" height="4.04211"/>
+  <rect class="sl-icon-battery-life__c" x="40.24409" y="46.86842" width="11.02959" height="4.04211"/>
+</svg>

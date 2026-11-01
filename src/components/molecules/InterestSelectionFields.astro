@@ -1,0 +1,193 @@
+---
+import Checkmark from '../atoms/Checkmark.astro';
+import type { DemoContent } from '../../i18n/pages/demo';
+
+interface Props {
+  groups: DemoContent['interestGroups'];
+  name: string;
+  checkedValues?: readonly string[];
+}
+
+const { groups, name, checkedValues = [] } = Astro.props;
+---
+
+<div class="interest-fields-container">
+  <div class="interest-fields">
+    {groups.map((group) => (
+      <fieldset class="interest-fields__group" data-interest-group={group.id}>
+        <legend>{group.label}</legend>
+        <div class="interest-fields__options">
+          {group.options.map((option) => (
+            <label class="interest-fields__option u-border-interactive">
+              <input
+                type="checkbox"
+                name={name}
+                value={option.value}
+                checked={checkedValues.includes(option.value)}
+                data-service-intent={option.intent}
+                data-demo-title-option={group.titleOptions ? '' : undefined}
+                data-demo-title-label={group.titleOptions ? option.label : undefined}
+              >
+              <span class="interest-fields__check" aria-hidden="true">
+                <Checkmark />
+              </span>
+              <span>{option.label}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    ))}
+  </div>
+</div>
+
+<style>
+  .interest-fields-container {
+    container-name: interest-fields;
+    container-type: inline-size;
+    min-width: 0;
+  }
+
+  .interest-fields {
+    display: grid;
+    grid-template-areas:
+      "services"
+      "displays"
+      "purchase";
+    gap: var(--sp-4);
+    min-width: 0;
+  }
+
+  .interest-fields__group[data-interest-group="services"] {
+    grid-area: services;
+  }
+
+  .interest-fields__group[data-interest-group="displays"] {
+    grid-area: displays;
+  }
+
+  .interest-fields__group[data-interest-group="purchase"] {
+    grid-area: purchase;
+  }
+
+  .interest-fields__group {
+    display: grid;
+    gap: var(--sp-2);
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .interest-fields__group legend {
+    margin-bottom: var(--sp-2);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .interest-fields__group:has(input:checked) legend {
+    color: var(--text-primary);
+  }
+
+  .interest-fields__options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-2);
+    min-width: 0;
+  }
+
+  .interest-fields__option {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    min-width: 0;
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--bg-secondary) 82%, var(--bg));
+    padding: var(--sp-2) var(--sp-3);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.35;
+    cursor: pointer;
+    transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+  }
+
+  .interest-fields__option:hover {
+    background: var(--bg-secondary);
+  }
+
+  .interest-fields__option input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .interest-fields__check {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--bg-secondary) 70%, var(--bg));
+    color: transparent;
+    transition: border-color var(--t-fast), background var(--t-fast), color var(--t-fast);
+  }
+
+  .interest-fields__check :global(.checkmark) {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
+  .interest-fields__option input:checked + .interest-fields__check {
+    border-color: var(--color-brand);
+    background: var(--color-brand-bg);
+    color: var(--color-brand);
+  }
+
+  .interest-fields__option input:focus-visible + .interest-fields__check {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  .interest-fields__option input:checked ~ span:last-child {
+    color: var(--text-primary);
+  }
+
+  @container interest-fields (min-width: 28rem) {
+    .interest-fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-areas:
+        "services displays"
+        "purchase purchase";
+    }
+
+    .interest-fields__group[data-interest-group="purchase"] .interest-fields__options {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .interest-fields__group[data-interest-group="purchase"] .interest-fields__option:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @container interest-fields (min-width: 40rem) {
+    .interest-fields {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-areas: "services displays purchase";
+    }
+
+    .interest-fields__group[data-interest-group="purchase"] .interest-fields__options {
+      grid-template-columns: 1fr;
+    }
+
+    .interest-fields__group[data-interest-group="purchase"] .interest-fields__option:last-child {
+      grid-column: auto;
+    }
+  }
+</style>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="nav-icon-video-streaming" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="34" height="24" viewBox="0 0 34 24">
+  <defs>
+    <style>
+      #nav-icon-video-streaming .b, #nav-icon-video-streaming .c {
+        fill: none;
+        stroke: currentColor;
+        stroke-miterlimit: 10;
+      }
+
+      .c {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <polygon class="b" points="30.51128 6.30591 30.51128 18.0489 24.22777 15.14179 24.22777 20.4181 3.48872 20.4181 3.48872 3.5819 24.22777 3.5819 24.22777 9.21301 30.51128 6.30591"/>
+  <g>
+    <path class="c" d="M17.01014,16.26763c-.80098-.80098-1.90676-1.2971-3.12593-1.2971s-2.32494.49611-3.12593,1.29702h0"/>
+    <path class="c" d="M19.28362,13.99391c-1.38323-1.38339-3.2932-2.24018-5.3994-2.24018s-4.01618.8568-5.3994,2.24018h0"/>
+    <path class="c" d="M21.55789,11.72025c-1.96627-1.96584-4.68045-3.18332-7.67368-3.18332h0c-2.99324,0-5.70741,1.2175-7.67368,3.18343"/>
+  </g>
+</svg>

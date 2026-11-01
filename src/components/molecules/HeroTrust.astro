@@ -1,0 +1,246 @@
+---
+import spkLogo from '../../assets/images/company-logos/clients/sm/spk-sm.jpg';
+import halkLogo from '../../assets/images/company-logos/clients/sm/halk-sm.jpg';
+import specLogo from '../../assets/images/company-logos/clients/sm/spec-sm.jpg';
+import popovLogo from '../../assets/images/company-logos/clients/sm/popov-sm.jpg';
+import neotelLogo from '../../assets/images/company-logos/clients/sm/neotel-sm.jpg';
+import type { HomePageContent } from '../../i18n/pages/home';
+
+interface Props {
+  content: HomePageContent['hero'];
+}
+
+const { content } = Astro.props;
+---
+
+<div class="hero-proof">
+  <div class="hero-proof__badge">
+    <span class="hero-proof__rating" aria-hidden="true">
+      <span class="hero-proof__score">{content.rating}</span>
+      <span class="hero-proof__stars">{content.stars}</span>
+    </span>
+    <span class="hero-proof__clients">
+        <strong class="hero-proof__count">{content.trustedCount}</strong>
+        <div class="hero-proof__label">
+          <span class="hero-proof__label--line">{content.trustedLabel}&nbsp;</span>
+          <span class="hero-proof__label--line">{content.trustedLabelSecondLine}</span>
+        </div>
+    </span>
+    <span class="hero-proof__logos" aria-label="Trusted client logos">
+      <img class="hero-proof__logo hero-proof__logo--front" src={spkLogo.src} alt="Sparkasse Bank" />
+      <img class="hero-proof__logo" src={halkLogo.src} alt="Halkbank" />
+      <img class="hero-proof__logo" src={neotelLogo.src} alt="Neotel" />
+      <img class="hero-proof__logo" src={specLogo.src} alt="SPEC" />
+      <img class="hero-proof__logo" src={popovLogo.src} alt="Popov" />
+    </span>
+  </div>
+</div>
+
+<style>
+  .hero-proof {
+    width: 100%;
+    container: hero-proof / inline-size;
+  }
+
+  .hero-proof__badge {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: var(--sp-2) var(--sp-5);
+    background: var(--bg-secondary);
+  }
+
+  .hero-proof__rating,
+  .hero-proof__clients,
+  .hero-proof__logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: var(--sp-2);
+  }
+
+  /* ---- Rating ---- */
+
+  .hero-proof__rating {
+    gap: var(--sp-2);
+  }
+  
+  .hero-proof__score {
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+  }
+
+  .hero-proof__stars {
+    font-size: var(--text-sm);
+    letter-spacing: var(--letter-spacing-label);
+  }
+
+
+  /* ---- Clients ---- */
+
+  .hero-proof__clients {
+    gap: var(--sp-2);
+    border-left: 1px solid var(--border-color);
+    padding-inline: var(--sp-4);
+  }
+
+  .hero-proof__count {
+    display: block;
+    flex: 0 0 auto;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .hero-proof__label {
+    display: flex;
+    flex-wrap: wrap;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    line-height: 1.4;
+    text-align: left;
+  }
+
+  .hero-proof__label--line {
+    white-space: nowrap;
+    text-wrap: nowrap;
+  }
+
+  /* ---- Logos ---- */
+
+  .hero-proof__logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    /* width: 100%; */
+  }
+
+  .hero-proof__logo {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    aspect-ratio: 1;
+    flex: 0 0 auto;
+    margin-left: -0.55rem;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    background: var(--bg);
+    object-fit: cover;
+  }
+
+  .hero-proof__logo:first-child {
+    margin-left: 0;
+  }
+
+  .hero-proof__logo:nth-child(1) {
+    z-index: 5;
+  }
+
+  .hero-proof__logo:nth-child(2) {
+    z-index: 4;
+  }
+
+  .hero-proof__logo:nth-child(3) {
+    z-index: 3;
+  }
+
+  .hero-proof__logo:nth-child(4) {
+    z-index: 2;
+  }
+
+  .hero-proof__logo:nth-child(5) {
+    z-index: 1;
+  }
+
+  @container hero-proof (max-width: 30rem) {
+    .hero-proof__badge {
+      padding: var(--sp-2);
+    }
+
+    .hero-proof__clients {
+      gap: var(--sp-1);
+    }
+
+    .hero-proof__label {
+      overflow-wrap: anywhere;
+    }
+
+    .hero-proof__logo {
+      margin-left: -0.8rem;
+    }
+  }
+
+  @container hero-proof (max-width: 30rem) {
+    .hero-proof__logo {
+      margin-left: -1rem;
+    }
+  }
+
+    @container hero-proof (max-width: 25rem) {
+    .hero-proof__logo {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+    .hero-proof__stars{
+      max-width: 0.75rem;
+      text-overflow: clip;
+      overflow: hidden;      
+    }
+    .hero-proof__rating{
+      flex: 1 0 auto;
+    }
+    .hero-proof__clients{
+      flex: 1 1 auto;
+    }
+    .hero-proof__logos{
+      flex: 1 1 auto;
+    }
+
+  }
+
+  @container hero-proof (max-width: 20rem) {
+    .hero-proof__badge {
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: var(--sp-1);
+    }
+
+    .hero-proof__rating,
+    .hero-proof__clients {
+      flex: 1 1 100%;
+      min-width: 0;
+      justify-content: flex-start;
+      padding-inline: var(--sp-2);
+    }
+
+    .hero-proof__clients {
+      border-left: 0;
+    }
+
+    .hero-proof__logos {
+      display: none;
+    }
+
+    .hero-proof__stars {
+      max-width: unset;
+    }
+
+    .hero-proof__label--line {
+      white-space: normal;
+      text-wrap: wrap;
+      overflow-wrap: anywhere;
+    }
+  }
+</style>

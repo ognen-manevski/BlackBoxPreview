@@ -1,0 +1,27 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { Lang } from '../i18n/types';
+import { legalTranslations } from '../i18n/pages/legal';
+import PageHero from '../components/sections/PageHero.astro';
+import '../styles/legal.css';
+
+interface Props { lang: Lang; title: string; description: string; updatedDate: string; subtitle?: string; restoreListMarkers?: boolean; heroImage?: ImageMetadata; }
+const { lang, title, description, updatedDate, subtitle, restoreListMarkers = false, heroImage } = Astro.props;
+const t = legalTranslations[lang];
+---
+
+<BaseLayout lang={lang} title={`${title} | BlackBox Solutions`} description={description}>
+  <div class="legal-page">
+    <PageHero
+      eyebrow={t.eyebrow}
+      title={title}
+      subtitle={subtitle}
+      updatedDate={updatedDate}
+      updatedLabel={t.lastUpdated}
+      heroImage={heroImage}
+    />
+    <article class="legal-page__article container">
+      <div class="legal-page__content" data-list-markers={restoreListMarkers || undefined}><slot /></div>
+    </article>
+  </div>
+</BaseLayout>

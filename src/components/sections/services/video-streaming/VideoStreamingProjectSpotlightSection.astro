@@ -1,0 +1,102 @@
+---
+import ProgressiveImage from "../../../atoms/ProgressiveImage.astro";
+import spotlightImage from "../../../../assets/images/services/neoslide/real-time content/weather.png";
+import type { VideoStreamingContent } from "../../../../i18n/pages/services/video-streaming.ts";
+
+interface Props {
+  content: VideoStreamingContent["projectSpotlight"];
+}
+
+const { content } = Astro.props;
+---
+
+<section class="vs-spotlight" aria-labelledby="vs-spotlight-heading">
+  <div class="container vs-spotlight__container">
+    <div class="vs-spotlight__content">
+      <div class="vs-spotlight__text">
+        <p class="section-label">{content.label}</p>
+        <h2 class="section-headline vs-spotlight__title" id="vs-spotlight-heading">
+          {content.heading}
+        </h2>
+        <p class="section-copy vs-spotlight__copy">{content.copy}</p>
+        <a class="btn btn--primary vs-spotlight__link" href={content.linkHref}>
+          {content.linkLabel}
+        </a>
+      </div>
+
+      <div class="vs-spotlight__media" data-progressive-host="relative">
+        <!-- TODO: Replace the temporary NeoSlide visual and add accurate alt text. -->
+        <ProgressiveImage src={spotlightImage} fit="contain">
+          <img
+            class="vs-spotlight__image"
+            src={spotlightImage.src}
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        </ProgressiveImage>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .vs-spotlight {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .vs-spotlight__container {
+    padding-block: var(--sp-10);
+  }
+
+  .vs-spotlight__content {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-8);
+    align-items: center;
+  }
+
+  .vs-spotlight__text {
+    display: grid;
+    gap: var(--sp-3);
+    max-width: 38rem;
+  }
+
+  .vs-spotlight__title,
+  .vs-spotlight__copy {
+    margin: 0;
+  }
+
+  .vs-spotlight__media,
+  .vs-spotlight__image {
+    width: 100%;
+  }
+
+  .vs-spotlight__image {
+    display: block;
+    height: auto;
+  }
+
+  .vs-spotlight__link {
+    justify-self: start;
+    margin-top: var(--sp-2);
+  }
+
+  @media (max-width: 900px) {
+    .vs-spotlight__content {
+      grid-template-columns: 1fr;
+      gap: var(--sp-6);
+    }
+
+    .vs-spotlight__text {
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .vs-spotlight__content {
+      gap: var(--sp-7);
+    }
+  }
+</style>

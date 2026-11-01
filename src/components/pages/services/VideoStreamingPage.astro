@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import VideoStreamingHeroSection from '../../sections/services/video-streaming/VideoStreamingHeroSection.astro';
+import VideoStreamingHowItWorksSection from '../../sections/services/video-streaming/VideoStreamingHowItWorksSection.astro';
+import VideoStreamingProjectSpotlightSection from '../../sections/services/video-streaming/VideoStreamingProjectSpotlightSection.astro';
+import VideoStreamingCustomDevelopmentSection from '../../sections/services/video-streaming/VideoStreamingCustomDevelopmentSection.astro';
+import VideoStreamingAnyScreenSection from '../../sections/services/video-streaming/VideoStreamingAnyScreenSection.astro';
+import VideoStreamingConsultingSection from '../../sections/services/video-streaming/VideoStreamingConsultingSection.astro';
+import BookDemoSection from '../../sections/BookDemoSection.astro';
+import { videoStreamingContent } from '../../../i18n/pages/services/video-streaming.ts';
+import { getTranslations } from '../../../i18n/utils';
+import type { Lang } from '../../../i18n/types';
+
+interface Props { lang: Lang }
+
+const { lang } = Astro.props;
+const c = getTranslations(videoStreamingContent, lang);
+---
+
+<BaseLayout lang={lang} title={c.seo.title} description={c.seo.description} ogImage="thumbnails/services/Video-Streaming_OG-Link-Preview.jpg">
+  <VideoStreamingHeroSection content={c.hero} />
+  <VideoStreamingConsultingSection content={c.consulting} />
+  <VideoStreamingHowItWorksSection content={c.howItWorks} />
+  <VideoStreamingProjectSpotlightSection content={c.projectSpotlight} />
+  <VideoStreamingCustomDevelopmentSection content={c.customDevelopment} />
+  <VideoStreamingAnyScreenSection content={c.hero} />
+  <BookDemoSection lang={lang} defaultService={c.demoService} />
+</BaseLayout>

@@ -1,0 +1,204 @@
+---
+import howItWorksIllustration from '../../../../assets/vectors/illustrations/neoslide/how-it-works-digital-signage.svg?raw';
+import DsCard from "../../../atoms/DsCard.astro";
+import type { DigitalSignageContent } from '../../../../i18n/pages/services/neoslide.ts';
+import type { Lang } from '../../../../i18n/types';
+
+interface Props {
+    content: DigitalSignageContent['howItWorks'];
+    cards: DigitalSignageContent['hero']['cards'];
+    lang: Lang;
+}
+
+const { content, cards, lang } = Astro.props;
+const illustrationMarkup = lang === 'mk'
+    ? howItWorksIllustration
+        .replace('Cloud Management', 'Управување со')
+        .replace('Dashboard', 'дисплеи')
+        .replace('Playlists &amp; Display Groups', 'Плејлисти и групи на дисплеи')
+        .replace('· Images', '· Слики')
+        .replace('· Video', '· Видео')
+        .replace('· Templates', '· Шаблони')
+        .replace('· Weather', '· Време')
+        .replace('Large Format', 'Голем формат')
+        .replace('Cluster A', 'Кластер A')
+        .replace('Standard Displays', 'Стандардни дисплеи')
+        .replace('Cluster C', 'Кластер C')
+        .replace('Video Walls', 'Видеоѕидови')
+        .replace('Cluster D', 'Кластер D')
+        .replace('Digital Totems', 'Дигитални тотеми')
+        .replace('Cluster B', 'Кластер B')
+    : howItWorksIllustration;
+const cardIconModules = import.meta.glob<string>(
+    '../../../../assets/vectors/icons/ns-how-it-works/*.svg',
+    { query: '?raw', import: 'default' },
+);
+const cardIconNames = [
+    'centralized-management',
+    'instant-updates',
+    'monthly-pricing',
+    'works-with-your-screens',
+] as const;
+const cardIcons = await Promise.all(cardIconNames.map(async (name) => {
+    const iconPath = `../../../../assets/vectors/icons/ns-how-it-works/${name}.svg`;
+    const loadIcon = cardIconModules[iconPath];
+
+    if (!loadIcon) {
+        throw new Error(`Missing NeoSlide feature icon: ${name}`);
+    }
+
+    return (await loadIcon())
+        .replace(/^<\?xml[^>]*>\s*/, '')
+        .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+}));
+---
+
+<section class="section ds-how" aria-labelledby="ds-how-heading">
+    <div class="ds-how__lights" aria-hidden="true"></div>
+    <div class="container ds-how__container">
+        <div class="ds-how__left">
+            <div class="ds-how__content">
+                <p class="section-label">{content.label}</p>
+                <h2 class="section-headline ds-how__headline" id="ds-how-heading">
+                    {content.heading}
+                </h2>
+                <p class="section-copy ds-how__lead">
+                    {content.copy}
+                </p>
+            </div>
+
+            <div class="ds-how__cards">
+                {cards.map((card, index) => (
+                    <DsCard title={card.title} text={card.text}>
+                        <span slot="icon" set:html={cardIcons[index]} />
+                    </DsCard>
+                ))}
+            </div>
+        </div>
+
+        <div class="ds-how__visual" aria-label={content.visualAriaLabel}>
+            <div
+                class="ds-how__illustration"
+                role="img"
+                aria-label={content.illustrationAriaLabel}
+                set:html={illustrationMarkup}
+            />
+        </div>
+    </div>
+</section>
+
+<style>
+    .ds-how {
+        isolation: isolate;
+        background: var(--bg);
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .ds-how__lights {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(
+            circle at 100% -50%,
+            color-mix(in srgb, var(--color-aurora) 30%, transparent) 0,
+            transparent 40%
+        );
+    }
+
+    .ds-how__container {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: clamp(var(--sp-6), 7vw, var(--sp-9));
+        row-gap: var(--sp-6);
+        align-items: center;
+    }
+
+    .ds-how__left {
+        display: grid;
+        align-content: start;
+        gap: var(--sp-8);
+        container: ds-how-left / inline-size;
+    }
+
+    .ds-how__cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--sp-3);
+    }
+
+    @container ds-how-left (max-width: 37.99rem) {
+        .ds-how__cards {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .ds-how__content {
+        display: grid;
+        gap: var(--sp-3);
+    }
+
+    .ds-how__headline {
+        max-width: 30ch;
+    }
+
+    .ds-how__headline,
+    .ds-how__subhead,
+    .ds-how__lead {
+        margin: 0;
+    }
+
+    .ds-how__subhead {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    .ds-how__lead {
+        max-width: 56ch;
+    }
+
+    @media (max-width: 1024px) {
+        .ds-how__headline,
+        .ds-how__lead {
+            max-width: none;
+        }
+    }
+
+    .ds-how__visual {
+        width: 100%;
+        min-height: clamp(16rem, 36vw, 28rem);
+    }
+
+    .ds-how__illustration {
+        width: 100%;
+        max-width: 100%;
+        display: block;
+    }
+
+    .ds-how__illustration :global(svg) {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    @media (max-width: 1024px) {
+        .ds-how__container {
+            grid-template-columns: 1fr;
+            gap: var(--sp-4);
+            align-items: start;
+        }
+
+        .ds-how__left {
+            gap: var(--sp-6);
+        }
+
+        .ds-how__visual {
+            max-width: 40rem;
+            margin-inline: auto;
+            min-height: clamp(14rem, 56vw, 22rem);
+        }
+    }
+</style>

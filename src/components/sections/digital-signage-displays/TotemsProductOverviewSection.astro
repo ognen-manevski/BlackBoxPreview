@@ -1,0 +1,109 @@
+---
+import type { TotemsContent } from '../../../i18n/pages/digital-signage-displays/totems';
+
+interface Props {
+  content: TotemsContent['productOverview'];
+}
+
+const { content } = Astro.props;
+---
+
+<section class="section totems-product" aria-labelledby="totems-product-heading">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="blue-light" aria-hidden="true"></div>
+
+  <div class="container totems-product__container u-section-title-stack">
+    <header class="totems-product__intro">
+      <p class="section-label">{content.label}</p>
+      <div class="totems-product__title-group">
+        <h2 class="section-headline totems-product__heading" id="totems-product-heading">{content.heading}</h2>
+        <div class="totems-product__copy">
+          {content.paragraphs.map((paragraph) => (
+            <p class="section-copy">{paragraph}</p>
+          ))}
+        </div>
+      </div>
+    </header>
+
+    <div class="totems-product__model" aria-hidden="true">
+      <!-- TODO: Add the digital totem 3D model here. -->
+    </div>
+  </div>
+</section>
+
+<style>
+  .totems-product {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .totems-product__container {
+    position: relative;
+    gap: var(--sp-1);
+    overflow: visible;
+  }
+
+  .totems-product__intro {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--sp-3);
+    margin-bottom: 0;
+  }
+
+  .totems-product__title-group {
+    display: grid;
+    grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
+    gap: var(--sp-3);
+    align-items: start;
+  }
+
+  .totems-product__heading,
+  .totems-product__copy p {
+    margin: 0;
+  }
+
+  .totems-product__heading {
+    max-width: 20ch;
+  }
+
+  .totems-product__copy {
+    display: grid;
+    gap: var(--sp-3);
+  }
+
+  .totems-product__model {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: transparent;
+  }
+
+  .blue-light {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  @media (max-width: 1024px) {
+    .totems-product__container {
+      gap: var(--sp-6);
+    }
+
+    .totems-product__title-group {
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+
+    .totems-product__heading {
+      max-width: none;
+    }
+
+    .totems-product__model {
+      aspect-ratio: 12 / 10;
+    }
+  }
+</style>

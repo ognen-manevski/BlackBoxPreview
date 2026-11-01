@@ -2,7 +2,7 @@
 import ProgressiveImage from '../atoms/ProgressiveImage.astro';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import BlogTag from './BlogTag.astro';
+import arrowForwardRaw from '../../assets/vectors/icons/material/custom/arrow_forward-300w.svg?raw';
 import { getLocalizedPath } from '../../i18n/utils';
 type EditorialEntry = CollectionEntry<'blog'> | CollectionEntry<'news'>;
 interface Props { post: EditorialEntry }
@@ -10,11 +10,11 @@ const { post } = Astro.props;
 const slug = post.id.split('/')[0];
 const section = post.collection;
 const imageTransitionName = `editorial-image-${section}-${slug}`;
-const href = getLocalizedPath(`/${section}/${slug}/`, post.data.lang);
-const dateLabel = post.data.lang === 'mk' ? 'Датум на објава' : 'Published date';
-const publishedDate = new Intl.DateTimeFormat(post.data.lang === 'mk' ? 'mk-MK' : 'en-GB', {
-  day: 'numeric', month: 'long', year: 'numeric',
-}).format(post.data.publishedAt);
+const href = getLocalizedPath(`/${section === 'blog' ? 'use-cases' : section}/${slug}/`, post.data.lang);
+const ctaLabel = post.data.lang === 'mk' ? 'Дознај повеќе' : 'Find out more';
+const arrowIcon = arrowForwardRaw
+  .replace('fill="CurrentColor"', 'fill="currentColor"')
+  .replace('<svg ', '<svg class="blog-card__arrow-svg" ');
 ---
 <article class="blog-card u-border-interactive">
   <a class="blog-card__link" href={href}>
@@ -22,7 +22,10 @@ const publishedDate = new Intl.DateTimeFormat(post.data.lang === 'mk' ? 'mk-MK' 
     <div class="blog-card__body">
       <h2 class="blog-card__title">{post.data.title}</h2>
       <p class="blog-card__description">{post.data.description}</p>
-      <div class="blog-card__tags" aria-label={dateLabel}><BlogTag label={publishedDate} /></div>
+      <span class="blog-card__cta">
+        {ctaLabel}
+        <span class="blog-card__arrow" aria-hidden="true" set:html={arrowIcon} />
+      </span>
     </div>
   </a>
 </article>

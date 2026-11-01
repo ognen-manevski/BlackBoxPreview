@@ -1,0 +1,310 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="680" viewBox="0 0 780 680" fill="none">
+  <title>Interactive display user experience</title>
+  <desc>A touchscreen experience connects customer content and services with product browsing, information, wayfinding, and service access.</desc>
+  <defs>
+    <style>
+      .id-card {
+        fill: var(--bg-secondary);
+        stroke: var(--border-color);
+        stroke-width: 1.5px;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .id-card-main {
+        fill: var(--bg-secondary);
+        stroke: var(--color-brand);
+        stroke-width: 1.5px;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .id-icon-tile {
+        fill: var(--icon-bg);
+        stroke: var(--color-brand);
+        stroke-width: 1.4px;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .id-icon {
+        fill: none;
+        stroke: var(--color-brand);
+        stroke-width: 1.6px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .id-title {
+        fill: var(--text-primary);
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .id-copy {
+        fill: var(--text-secondary);
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 12px;
+      }
+
+      .id-display-text {
+        fill: var(--text-primary);
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .id-display-label {
+        fill: var(--text-primary);
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+      }
+
+      .id-connector {
+        fill: none;
+        stroke: var(--color-brand);
+        stroke-width: 1.4px;
+        stroke-dasharray: 5px 5px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .id-flow-out {
+        animation: id-flow-out 2.4s linear infinite;
+      }
+
+      .id-flow-in {
+        animation: id-flow-in 2.4s linear infinite;
+        opacity: 0.62;
+      }
+
+      .id-screen {
+        fill: var(--bg);
+        stroke: var(--border-color);
+        stroke-width: 1px;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .id-option {
+        fill: var(--bg-secondary);
+        stroke: var(--border-color);
+        stroke-width: 1px;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .id-option-selected {
+        fill: color-mix(in srgb, var(--color-brand) 14%, var(--bg-secondary));
+        stroke: var(--color-brand);
+        stroke-width: 1.2px;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .id-hand {
+        fill: var(--icon-bg);
+        stroke: var(--color-brand);
+        stroke-width: 1.5px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .id-tap {
+        fill: none;
+        stroke: var(--color-brand);
+        stroke-width: 1.2px;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: id-tap-pulse 1.8s ease-out infinite;
+        vector-effect: non-scaling-stroke;
+      }
+
+      @keyframes id-flow-out {
+        to {
+          stroke-dashoffset: -20px;
+        }
+      }
+
+      @keyframes id-flow-in {
+        to {
+          stroke-dashoffset: 20px;
+        }
+      }
+
+      @keyframes id-tap-pulse {
+        0% {
+          opacity: 0.8;
+          transform: scale(0.7);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1.7);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .id-flow-out,
+        .id-flow-in,
+        .id-tap {
+          animation: none;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .id-title {
+          font-size: 18px;
+        }
+
+        .id-copy {
+          font-size: 15px;
+        }
+
+        .id-source-copy {
+          font-size: 14px;
+        }
+
+        .id-display-text {
+          font-size: 15px;
+        }
+
+        .id-display-label {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </defs>
+
+  <g aria-hidden="true">
+    <path class="id-connector id-flow-out" d="M130 136A42 42 0 0 0 172 178H280A6 6 0 0 1 286 184V185" />
+    <path class="id-connector id-flow-in" d="M304 185V184A24 24 0 0 0 280 160H172A24 24 0 0 1 148 136" />
+    <path class="id-connector id-flow-out" d="M650 136A42 42 0 0 1 608 178H500A6 6 0 0 0 494 184V185" />
+    <path class="id-connector id-flow-in" d="M476 185V184A24 24 0 0 1 500 160H608A24 24 0 0 0 632 136" />
+
+    <path class="id-connector id-flow-out" d="M286 495V496A6 6 0 0 1 280 502H172A42 42 0 0 0 130 544" />
+    <path class="id-connector id-flow-in" d="M148 544A24 24 0 0 1 172 520H280A24 24 0 0 0 304 496V495" />
+    <path class="id-connector id-flow-out" d="M494 495V496A6 6 0 0 0 500 502H608A42 42 0 0 1 650 544" />
+    <path class="id-connector id-flow-in" d="M632 544A24 24 0 0 0 608 520H500A24 24 0 0 1 476 496V495" />
+
+    <path class="id-connector id-flow-out" d="M525 337H544" />
+    <path class="id-connector id-flow-in" d="M544 355H525" />
+  </g>
+
+  <g>
+    <g transform="translate(-220 0)">
+      <rect class="id-card" x="230" y="18" width="240" height="118" rx="10" />
+      <rect class="id-icon-tile" x="246" y="51" width="52" height="52" rx="5" />
+    <g class="id-icon">
+      <path d="M257 64h30v25h-30z" />
+      <path d="M262 70h20M262 76h20M262 82h13" />
+      <path d="M260 93h24" />
+    </g>
+    <text class="id-title" x="310" y="59">Browse products</text>
+    <text class="id-copy" x="310" y="82">
+      <tspan x="310">Explore your range and</tspan>
+      <tspan x="310" dy="16">view product details.</tspan>
+    </text>
+    </g>
+  </g>
+
+  <g>
+    <g transform="translate(40 0)">
+      <rect class="id-card" x="490" y="18" width="240" height="118" rx="10" />
+      <rect class="id-icon-tile" x="506" y="51" width="52" height="52" rx="5" />
+    <g class="id-icon">
+      <path d="M518 65h28a5 5 0 0 1 5 5v15a5 5 0 0 1-5 5h-12l-8 6v-6h-8a5 5 0 0 1-5-5V70a5 5 0 0 1 5-5Z" />
+      <path d="M532 73v9M532 87h.01" />
+    </g>
+    <text class="id-title" x="570" y="59">Find information</text>
+    <text class="id-copy" x="570" y="82">
+      <tspan x="570">Get answers to common</tspan>
+      <tspan x="570" dy="16">questions.</tspan>
+    </text>
+    </g>
+  </g>
+
+  <g>
+    <g transform="translate(532 0)">
+      <rect class="id-card" x="12" y="292" width="212" height="122" rx="10" />
+      <rect class="id-icon-tile" x="26" y="327" width="52" height="52" rx="5" />
+    <g class="id-icon">
+      <path d="M52 339c-8 0-14 6-14 14 0 10 14 24 14 24s14-14 14-24c0-8-6-14-14-14Z" />
+      <circle cx="52" cy="353" r="4" />
+    </g>
+    <text class="id-title" x="90" y="321">
+      <tspan x="90">Your content</tspan>
+      <tspan x="90" dy="18">&amp; services</tspan>
+    </text>
+    <text class="id-copy id-source-copy" x="90" y="363">
+      <tspan x="90">Product information,</tspan>
+      <tspan x="90" dy="15">location details,</tspan>
+      <tspan x="90" dy="15">and customer services.</tspan>
+    </text>
+    </g>
+  </g>
+
+  <g>
+    <rect class="id-card-main" x="255" y="185" width="270" height="310" rx="12" />
+    <g transform="translate(10 0)">
+    <rect class="id-screen" x="262" y="202" width="236" height="184" rx="8" />
+    <text class="id-copy" x="278" y="226">Choose an option</text>
+
+    <rect class="id-option" x="278" y="239" width="204" height="37" rx="5" />
+    <rect class="id-option-selected" x="278" y="283" width="204" height="37" rx="5" />
+    <rect class="id-option" x="278" y="327" width="204" height="37" rx="5" />
+
+    <g class="id-icon">
+      <path d="M290 250h16v16h-16zM293 253h10v10h-10z" />
+      <circle cx="298" cy="258" r="1.5" />
+      <circle cx="298" cy="301" r="8" />
+      <path d="M304 307l6 6M294 301h8M298 297v8" />
+      <path d="M291 338h14v14h-14zM294 342h8M294 346h8" />
+    </g>
+    <text class="id-display-text" x="316" y="263">Browse products</text>
+    <text class="id-display-text" x="316" y="307">Find information</text>
+    <text class="id-display-text" x="316" y="351">Access services</text>
+
+    <circle class="id-tap" cx="465" cy="300" r="10" />
+    <path class="id-hand" d="M454 359l-13-14a5 5 0 0 1 7-7l8 8v-35a5 5 0 0 1 10 0v24l6-6a5 5 0 0 1 7 7l-4 5a15 15 0 0 1 2 8v7a18 18 0 0 1-18 18h-3a18 18 0 0 1-14-7l-7-9a5 5 0 0 1 8-6Z" />
+
+    <text class="id-display-label" text-anchor="middle" x="380" y="420">
+      <tspan x="380">Tap. Explore.</tspan>
+      <tspan x="380" dy="23">Get things done.</tspan>
+    </text>
+    </g>
+  </g>
+
+  <g>
+    <g transform="translate(-220 2)">
+      <rect class="id-card" x="230" y="542" width="240" height="118" rx="10" />
+      <rect class="id-icon-tile" x="246" y="575" width="52" height="52" rx="5" />
+    <g class="id-icon">
+      <path d="M272 585c-8 0-14 6-14 14 0 10 14 24 14 24s14-14 14-24c0-8-6-14-14-14Z" />
+      <circle cx="272" cy="599" r="4" />
+      <path d="M259 621h26" />
+    </g>
+    <text class="id-title" x="310" y="583">Find your way</text>
+    <text class="id-copy" x="310" y="606">
+      <tspan x="310">Locate shops,</tspan>
+      <tspan x="310" dy="16">departments, or</tspan>
+      <tspan x="310" dy="16">facilities.</tspan>
+    </text>
+    </g>
+  </g>
+
+  <g>
+    <g transform="translate(40 2)">
+      <rect class="id-card" x="490" y="542" width="240" height="118" rx="10" />
+      <rect class="id-icon-tile" x="506" y="575" width="52" height="52" rx="5" />
+    <g class="id-icon">
+      <rect x="517" y="585" width="30" height="28" rx="3" />
+      <path d="M517 593h30M524 582v7M540 582v7M523 601l5 5 11-11" />
+    </g>
+    <text class="id-title" x="570" y="583">Access services</text>
+    <text class="id-copy" x="570" y="606">
+      <tspan x="570">Check in, submit</tspan>
+      <tspan x="570" dy="16">a request, or book</tspan>
+      <tspan x="570" dy="16">an appointment.</tspan>
+    </text>
+    </g>
+  </g>
+</svg>

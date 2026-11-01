@@ -1,11 +1,11 @@
 ---
 import missionIcon from '../../assets/vectors/icons/mission-vision/mission-icon.svg?raw';
 import visionIcon from '../../assets/vectors/icons/mission-vision/vision-icon.svg?raw';
+import AboutPrinciples from '../molecules/AboutPrinciples.astro';
 import ClientLogoCarousel from '../molecules/ClientLogoCarousel.astro';
 import IconBadge from '../atoms/IconBadge.astro';
 import { clientLogos } from '../../data/clientLogos';
 import logoDarkPoster from '../../assets/images/video-thumbnails/bg-videos/3D-Logo.jpg';
-import logoLightPoster from '../../assets/images/video-thumbnails/bg-videos/3D-Logo-wh.jpg';
 import type { HomePageContent } from '../../i18n/pages/home';
 
 const missionIconMarkup = missionIcon as unknown as string;
@@ -28,7 +28,7 @@ const { content } = Astro.props;
         </p>
 
         <div class="about__cards" aria-label={content.cardsAriaLabel}>
-          <article class="mk-card about-card u-border-interactive">
+          <article class="mk-card about-card">
             <IconBadge
               class="about-card__icon"
               aria-hidden="true"
@@ -42,7 +42,7 @@ const { content } = Astro.props;
             </p>
           </article>
 
-          <article class="mk-card about-card u-border-interactive">
+          <article class="mk-card about-card">
             <IconBadge
               class="about-card__icon"
               aria-hidden="true"
@@ -58,9 +58,9 @@ const { content } = Astro.props;
         </div>
       </div>
 
-      <div class="about__media u-border-interactive">
+      <div class="about__media">
         <video
-          class="about__video about__video--dark"
+          class="about__video"
           autoplay
           loop
           muted
@@ -71,34 +71,15 @@ const { content } = Astro.props;
         >
           <source src={`${import.meta.env.BASE_URL}videos/bg-videos/3D-Logo.mp4`} type="video/mp4" />
         </video>
-        <video
-          class="about__video about__video--light"
-          autoplay
-          loop
-          muted
-          playsinline
-          preload="metadata"
-          poster={logoLightPoster.src}
-          aria-label={content.videoAriaLabel}
-        >
-          <source src={`${import.meta.env.BASE_URL}videos/bg-videos/3D-Logo-wh.mp4`} type="video/mp4" />
-        </video>
       </div>
     </div>
 
     <ClientLogoCarousel items={clientLogos} ariaLabel={content.logosAriaLabel} />
 
-    <div class="about__principles" aria-label={content.principlesAriaLabel}>
-      {content.principles.map((principle) => (
-        <article class="about-principle u-border-interactive">
-          <p class="about-principle__number">{principle.number}</p>
-          <div class="about-principle__body">
-            <h3 class="about-principle__title">{principle.title}</h3>
-            <p class="about-principle__text">{principle.text}</p>
-          </div>
-        </article>
-      ))}
-    </div>
+    <AboutPrinciples
+      principles={content.principles}
+      ariaLabel={content.principlesAriaLabel}
+    />
   </div>
 </section>
 
@@ -113,7 +94,7 @@ const { content } = Astro.props;
   }
 
   .about__inner :global(.logo-carousel) {
-    margin-top: var(--sp-2);
+    margin-top: calc(var(--sp-2) - 2.5rem);
   }
 
   .about__grid {
@@ -146,6 +127,7 @@ const { content } = Astro.props;
   }
 
   .about-card {
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     padding: var(--sp-5);
     background: var(--surface, var(--bg-secondary));
@@ -179,7 +161,8 @@ const { content } = Astro.props;
 
   .about__media {
     position: relative;
-    border-radius: calc(var(--radius) * 1.2);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
     overflow: hidden;
     background: linear-gradient(180deg, color-mix(in srgb, var(--bg-secondary) 80%, var(--bg)) 0%, var(--bg) 100%);
     min-height: 0;
@@ -195,65 +178,7 @@ const { content } = Astro.props;
     object-fit: cover;
     object-position: center;
     margin: 0 auto;
-  }
-
-  .about__video--dark {
     position: relative;
-  }
-
-  .about__video--light {
-    display: none;
-    position: absolute;
-    inset: 0;
-  }
-
-  .about__principles {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--sp-3);
-  }
-
-  .about-principle {
-    border-radius: var(--radius);
-    padding: var(--sp-5);
-    background: color-mix(in srgb, var(--bg-secondary) 84%, var(--bg));
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: var(--sp-4);
-    align-items: start;
-  }
-
-  .about-principle__number {
-    font-family: var(--font-mono);
-    font-size: var(--text-2xl);
-    line-height: 1;
-    letter-spacing: 0.04em;
-    color: var(--color-brand);
-    font-weight: var(--weight-bold);
-  }
-
-  .about-principle__body {
-    display: grid;
-    gap: var(--sp-2);
-  }
-
-  .about-principle__title {
-    font-size: var(--text-lg);
-    line-height: 1.2;
-  }
-
-  .about-principle__text {
-    color: var(--text-secondary);
-    font-size: var(--text-sm);
-    line-height: 1.6;
-  }
-
-  :global([data-theme='light']) .about__video--dark {
-    display: none;
-  }
-
-  :global([data-theme='light']) .about__video--light {
-    display: block;
   }
 
   @media (max-width: 1100px) {
@@ -265,30 +190,15 @@ const { content } = Astro.props;
       max-height: 24rem;
     }
 
-    .about-principle__number {
-      font-size: var(--text-xl);
-    }
-  }
-
-  @media (max-width: 840px) {
-    .about-principle {
-      grid-template-columns: 1fr;
-    }
   }
 
   @media (max-width: 600px) {
-    .about__cards,
-    .about__principles {
+    .about__cards {
       grid-template-columns: 1fr;
     }
   }
 
   @media (max-width: 480px) {
-    .about-principle {
-      grid-template-columns: 1fr;
-      gap: var(--sp-2);
-    }
-
     .about__video {
       min-height: 20rem;
     }

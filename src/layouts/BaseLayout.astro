@@ -1,17 +1,17 @@
----
+﻿---
 import Navbar from '../components/molecules/Navbar.astro';
 import Footer from '../components/molecules/Footer.astro';
-import CookieConsent from '../components/cookies/CookieConsent.astro';
 import { getLocaleFromUrl } from '../i18n/utils';
 import type { Lang } from '../i18n/types';
 import { commonTranslations } from '../i18n/common';
 import { getTranslations } from '../i18n/utils';
+import { formsTurnstileEnabled } from '../config/forms';
+import { cookiebotDomainGroupId } from '../config/cookiebot';
 
 import '../styles/reset.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
 import '../styles/utilities.css';
-import '../styles/cookies.css';
 
 interface Props {
   title: string;
@@ -25,27 +25,35 @@ const {
   title,
   description,
   canonical,
-  ogImage = '/brand/thumbnails/og-default.jpg',
+  ogImage = 'thumbnails/Black-Box-Solutions_OG-Link-Preview.jpg',
   lang = getLocaleFromUrl(Astro.url),
 } = Astro.props;
 const resolvedDescription = description ?? getTranslations(commonTranslations, lang).seo.defaultDescription;
 
 const canonicalURL = canonical ?? (Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href);
+const baseURL = new URL(import.meta.env.BASE_URL, Astro.site ?? Astro.url);
+const resolvedOgImage = new URL(
+  ogImage.startsWith('http://') || ogImage.startsWith('https://')
+    ? ogImage
+    : ogImage.replace(/^\/+/, ''),
+  baseURL,
+).href;
 ---
 <!doctype html>
-<html lang={lang} data-theme="dark">
+<html lang={lang}>
 <head>
+  {cookiebotDomainGroupId && (
+    <script
+      id="Cookiebot"
+      src="https://consent.cookiebot.com/uc.js"
+      data-cbid={cookiebotDomainGroupId}
+      data-blockingmode="auto"
+      type="text/javascript"
+      is:inline
+    ></script>
+  )}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Theme init — must run before first paint to prevent flash -->
-  <script is:inline>
-    (function () {
-      var t = localStorage.getItem('bb-theme') || 'dark';
-      document.documentElement.setAttribute('data-theme', t);
-    })();
-  </script>
-
   <!-- SEO -->
   <title>{title}</title>
   <meta name="description" content={resolvedDescription}>
@@ -57,13 +65,13 @@ const canonicalURL = canonical ?? (Astro.site ? new URL(Astro.url.pathname, Astr
   <meta property="og:url" content={canonicalURL}>
   <meta property="og:title" content={title}>
   <meta property="og:description" content={resolvedDescription}>
-  <meta property="og:image" content={ogImage}>
+  <meta property="og:image" content={resolvedOgImage}>
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content={title}>
   <meta name="twitter:description" content={resolvedDescription}>
-  <meta name="twitter:image" content={ogImage}>
+  <meta name="twitter:image" content={resolvedOgImage}>
 
   <!-- Favicons -->
   <link rel="icon" href={`${import.meta.env.BASE_URL}brand/favicons/favicon-adaptive.svg`} type="image/svg+xml">
@@ -71,21 +79,27 @@ const canonicalURL = canonical ?? (Astro.site ? new URL(Astro.url.pathname, Astr
   <!-- <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}brand/favicons/apple-touch-icon.png`}> -->
   <link rel="manifest" href={`${import.meta.env.BASE_URL}brand/favicons/site.webmanifest`}>
 
-  <!-- Theme color -->
-  <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#111111">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFAFA">
+  <!-- Theme color --><meta name="theme-color" content="#111111">
 
   <!-- Sitemap -->
   <link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap-index.xml`}>
 
   <!-- Fonts -->
   <link rel="preload" href={`${import.meta.env.BASE_URL}fonts/Roboto/Roboto-VariableFont_wdth,wght.woff2`} as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href={`${import.meta.env.BASE_URL}fonts/Inter/Inter-VariableFont_opsz,wght.woff2`} as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..700,0,0"
   >
+  {formsTurnstileEnabled && (
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    ></script>
+  )}
 </head>
 <body>
 
@@ -96,8 +110,6 @@ const canonicalURL = canonical ?? (Astro.site ? new URL(Astro.url.pathname, Astr
   </main>
 
   <Footer lang={lang} />
-
-  <CookieConsent lang={lang} />
 
   <!-- Entrance animations -->
   <script>

@@ -1,5 +1,7 @@
 ---
 import ArrowButton from './ArrowButton.astro';
+import ProgressiveImage from './ProgressiveImage.astro';
+import { industryImageMetadata } from '../../i18n/pages/data/industrySolutions';
 
 interface Props {
     counter?: string;
@@ -22,6 +24,7 @@ const {
     href,
     ctaLabel,
 } = Astro.props as Props;
+const imageMetadata = imageSrc ? industryImageMetadata.get(imageSrc) : undefined;
 ---
 
 <details
@@ -70,13 +73,17 @@ const {
                     </div>
                     {
                         imageSrc && (
-                            <img
-                                class="disclosure-item__image"
-                                src={imageSrc}
-                                alt={imageAlt}
-                                loading="lazy"
-                                decoding="async"
-                            />
+                            <div class="disclosure-item__image-wrap" data-progressive-host="relative">
+                                <ProgressiveImage src={imageMetadata}>
+                                    <img
+                                        class="disclosure-item__image"
+                                        src={imageSrc}
+                                        alt={imageAlt}
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                </ProgressiveImage>
+                            </div>
                         )
                     }
                 </div>
@@ -215,13 +222,19 @@ const {
         transform: translateY(0);
     }
 
-    .disclosure-item__image {
+    .disclosure-item__image-wrap {
         width: 100%;
-        margin: 0;
         aspect-ratio: 16 / 9;
-        object-fit: cover;
         border-radius: var(--radius-sm);
         border: 1px solid var(--border-color);
+        overflow: hidden;
+    }
+
+    .disclosure-item__image {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        object-fit: cover;
         display: block;
         opacity: 0;
         transform: translateY(-0.35rem);

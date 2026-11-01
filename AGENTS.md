@@ -121,6 +121,7 @@ Rules:
 - Keep responsive rules with the component they modify.
 - Do not create a separate "responsive" section at the bottom of the file.
 - Use mobile-first CSS.
+- Prefer container queries when a component should respond to its available space rather than the viewport.
 - Keep media queries and animations close to the related selector.
 - One component = one place for its styles. Avoid scattering styles across multiple files.
 

@@ -3,7 +3,6 @@ import { Picture } from "astro:assets";
 import TechnologyGrid from "../molecules/TechnologyGrid.astro";
 import SectionTitleGroup from "../molecules/SectionTitleGroup.astro";
 import orbDarkPoster from "../../assets/images/video-thumbnails/bg-videos/orb.jpg";
-import orbLightPoster from "../../assets/images/video-thumbnails/bg-videos/orb-wh.jpg";
 import type { HomePageContent } from "../../i18n/pages/home";
 interface Props {
   content: HomePageContent["technology"];
@@ -33,19 +32,9 @@ const { content } = Astro.props;
 
           <div class="technology__orb" aria-hidden="true">
             <video
-              class="technology__bg-video technology__bg-video--dark"
+              class="technology__bg-video"
               src={`${import.meta.env.BASE_URL}videos/bg-videos/orb.mp4`}
               poster={orbDarkPoster.src}
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-            />
-            <video
-              class="technology__bg-video technology__bg-video--light"
-              src={`${import.meta.env.BASE_URL}videos/bg-videos/orb-wh.mp4`}
-              poster={orbLightPoster.src}
               autoplay
               muted
               loop
@@ -62,18 +51,9 @@ const { content } = Astro.props;
 
   <div class="technology__bg" aria-hidden="true">
     <video
-      class="technology__bg-video technology__bg-video--dark"
+      class="technology__bg-video"
       src={`${import.meta.env.BASE_URL}videos/bg-videos/orb.mp4`}
       poster={orbDarkPoster.src}
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="metadata"></video>
-    <video
-      class="technology__bg-video technology__bg-video--light"
-      src={`${import.meta.env.BASE_URL}videos/bg-videos/orb-wh.mp4`}
-      poster={orbLightPoster.src}
       autoplay
       muted
       loop
@@ -82,16 +62,8 @@ const { content } = Astro.props;
 
     <!-- Mobile: swap the video for a static poster (no video download/decode on mobile). -->
     <Picture
-      class="technology__bg-poster technology__bg-poster--dark"
+      class="technology__bg-poster"
       src={orbDarkPoster}
-      widths={[480, 800, 1200]}
-      sizes="100vw"
-      alt=""
-      loading="lazy"
-    />
-    <Picture
-      class="technology__bg-poster technology__bg-poster--light"
-      src={orbLightPoster}
       widths={[480, 800, 1200]}
       sizes="100vw"
       alt=""
@@ -102,16 +74,8 @@ const { content } = Astro.props;
   <!-- Mobile-only accent image, pinned to the top-right corner. -->
   <div class="technology__corner" aria-hidden="true">
     <Picture
-      class="technology__corner-img technology__corner-img--dark"
+      class="technology__corner-img"
       src={orbDarkPoster}
-      widths={[240, 360]}
-      sizes="9rem"
-      alt=""
-      loading="lazy"
-    />
-    <Picture
-      class="technology__corner-img technology__corner-img--light"
-      src={orbLightPoster}
       widths={[240, 360]}
       sizes="9rem"
       alt=""
@@ -119,7 +83,7 @@ const { content } = Astro.props;
     />
   </div>
 
-  <div class="container technology__inner">
+  <div class="container technology__inner u-section-title-stack">
     <SectionTitleGroup
       class="technology__header"
       headlineClass="technology__headline"
@@ -150,7 +114,6 @@ const { content } = Astro.props;
 
   .technology__header {
     max-width: none;
-    margin-bottom: var(--sp-6);
   }
 
   :global(.technology__headline) {
@@ -222,7 +185,7 @@ const { content } = Astro.props;
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--video-overlay);
+    background: color-mix(in srgb, var(--video-overlay) 50%, transparent);
   }
 
   .technology__bg-video {
@@ -240,22 +203,6 @@ const { content } = Astro.props;
     transition: opacity var(--t-base);
   }
 
-  .technology__bg-video--dark {
-    opacity: 1;
-  }
-
-  .technology__bg-video--light {
-    opacity: 0;
-  }
-
-  :global([data-theme="light"]) .technology__bg-video--dark {
-    opacity: 0;
-  }
-
-  :global([data-theme="light"]) .technology__bg-video--light {
-    opacity: 1;
-  }
-
   /* Static stand-ins for the video on mobile (hidden on desktop). */
   .technology__bg-poster {
     display: none;
@@ -269,22 +216,6 @@ const { content } = Astro.props;
     transform: translate(-50%, 56%);
     object-fit: contain;
     transition: opacity var(--t-base);
-  }
-
-  .technology__bg-poster--dark {
-    opacity: 1;
-  }
-
-  .technology__bg-poster--light {
-    opacity: 0;
-  }
-
-  :global([data-theme="light"]) .technology__bg-poster--dark {
-    opacity: 0;
-  }
-
-  :global([data-theme="light"]) .technology__bg-poster--light {
-    opacity: 1;
   }
 
   /* Mobile-only accent, pinned to the top-right corner (hidden on desktop). */
@@ -310,22 +241,6 @@ const { content } = Astro.props;
     transition: opacity var(--t-base);
   }
 
-  .technology__corner-img--dark {
-    opacity: 1;
-  }
-
-  .technology__corner-img--light {
-    opacity: 0;
-  }
-
-  :global([data-theme="light"]) .technology__corner-img--dark {
-    opacity: 0;
-  }
-
-  :global([data-theme="light"]) .technology__corner-img--light {
-    opacity: 1;
-  }
-
   @media (max-width: 700px) {
     .technology__bg-video {
       display: none;
@@ -334,6 +249,11 @@ const { content } = Astro.props;
     .technology__bg-poster,
     .technology__corner {
       display: block;
+    }
+
+    .technology__bg-poster,
+    .technology__corner-img {
+      opacity: 0.5;
     }
   }
 </style>

@@ -3,11 +3,8 @@ import ProgressiveImage from '../components/atoms/ProgressiveImage.astro';
 import { Image, Picture } from 'astro:assets';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import neoslideTotemDark from '../assets/images/blog-sidebar/digital signage/digital-signage-card.jpg';
-import neoslideTotemLight from '../assets/images/blog-sidebar/digital signage/digital-signage-card-wh.jpg';
 import neoslideTotemThinDark from '../assets/images/blog-sidebar/digital signage/mobile-thin.jpg';
-import neoslideTotemThinLight from '../assets/images/blog-sidebar/digital signage/mobile-thin-wh.jpg';
 import neoslideTotemWideDark from '../assets/images/blog-sidebar/digital signage/mobile-wide.jpg';
-import neoslideTotemWideLight from '../assets/images/blog-sidebar/digital signage/mobile-wide-wh.jpg';
 import ArrowButton from '../components/atoms/ArrowButton.astro';
 import ArrowForwardIcon from '../components/icons/ArrowForwardIcon.astro';
 import BlogTag from '../components/blog/BlogTag.astro';
@@ -25,9 +22,10 @@ const dateLabel = data.lang === 'mk' ? 'Датум на објава' : 'Publish
 const publishedDate = new Intl.DateTimeFormat(data.lang === 'mk' ? 'mk-MK' : 'en-GB', {
   day: 'numeric', month: 'long', year: 'numeric',
 }).format(data.publishedAt);
-const path = `/${post.collection}/${slug}/`;
+const routeCollection = post.collection === 'blog' ? 'use-cases' : post.collection;
+const path = `/${routeCollection}/${slug}/`;
 const localizedPath = (value: string) => getLocalizedPath(value, data.lang);
-const entryPath = (entry: EditorialEntry) => localizedPath(`/${entry.collection}/${entry.id.split('/')[0]}/`);
+const entryPath = (entry: EditorialEntry) => localizedPath(`/${entry.collection === 'blog' ? 'use-cases' : entry.collection}/${entry.id.split('/')[0]}/`);
 
 const editorialEntries = (await getCollection(post.collection, ({ data: entryData }) =>
   !entryData.draft && entryData.lang === data.lang
@@ -40,11 +38,11 @@ const useCases = (await getCollection('blog', ({ data: entryData }) =>
 )).sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()).slice(0, 6);
 
 const labels = data.lang === 'mk' ? {
-  home: 'Почетна', blog: 'Проекти', news: 'Новости', previous: 'Претходно', next: 'Следно',
+  home: 'Почетна', blog: 'Индустрии', news: 'Новости', previous: 'Претходно', next: 'Следно',
   explore: 'Истражете проекти', viewAll: 'Види ги сите', neoslide: 'NEOSLIDE',
   neoHeading: 'Дигитална сигнализација за секој екран.', bookDemo: 'Закажете демо', breadcrumb: 'Навигациска патека',
 } : {
-  home: 'Home', blog: 'Case studies', news: 'News', previous: 'Previous', next: 'Next',
+  home: 'Home', blog: 'Use Cases', news: 'News', previous: 'Previous', next: 'Next',
   explore: 'Explore case studies', viewAll: 'View all', neoslide: 'NEOSLIDE',
   neoHeading: 'Digital signage for any screen.', bookDemo: 'Book a demo', breadcrumb: 'Breadcrumb',
 };
@@ -55,7 +53,7 @@ const collectionLabel = post.collection === 'blog' ? labels.blog : labels.news;
     <nav class="container blog-post__breadcrumbs" aria-label={labels.breadcrumb}>
       <ol>
         <li><a href={localizedPath('/')}>{labels.home}</a></li>
-        <li><a href={localizedPath(`/${post.collection}/`)}>{collectionLabel}</a></li>
+        <li><a href={localizedPath(`/${routeCollection}/`)}>{collectionLabel}</a></li>
         <li aria-current="page"><span>{data.title}</span></li>
       </ol>
     </nav>
@@ -116,7 +114,7 @@ const collectionLabel = post.collection === 'blog' ? labels.blog : labels.news;
                 </li>
               ))}
             </ol>
-            <ArrowButton class="blog-post__view-all" href={localizedPath('/blog/')} variant="outline" size="sm">{labels.viewAll}</ArrowButton>
+            <ArrowButton class="blog-post__view-all" href={localizedPath('/use-cases/')} variant="outline" size="sm">{labels.viewAll}</ArrowButton>
           </section>
         )}
 
@@ -128,11 +126,8 @@ const collectionLabel = post.collection === 'blog' ? labels.blog : labels.news;
               </div>
               <div class="blog-post__neoslide-media" aria-hidden="true">
                 <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--thin blog-post__neoslide-picture--dark" src={neoslideTotemThinDark} alt="" formats={['avif', 'webp']} widths={[160, 240]} sizes="14rem" loading="lazy" />
-                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--thin blog-post__neoslide-picture--light" src={neoslideTotemThinLight} alt="" formats={['avif', 'webp']} widths={[160, 240]} sizes="14rem" loading="lazy" />
                 <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--medium blog-post__neoslide-picture--dark" src={neoslideTotemDark} alt="" formats={['avif', 'webp']} widths={[240, 400]} sizes="20rem" loading="lazy" />
-                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--medium blog-post__neoslide-picture--light" src={neoslideTotemLight} alt="" formats={['avif', 'webp']} widths={[240, 400]} sizes="20rem" loading="lazy" />
                 <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--wide blog-post__neoslide-picture--dark" src={neoslideTotemWideDark} alt="" formats={['avif', 'webp']} widths={[480, 768, 1024]} sizes="60cqw" loading="lazy" />
-                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--wide blog-post__neoslide-picture--light" src={neoslideTotemWideLight} alt="" formats={['avif', 'webp']} widths={[480, 768, 1024]} sizes="60cqw" loading="lazy" />
               </div>
             </section>
           </div>

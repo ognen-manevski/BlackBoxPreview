@@ -8,27 +8,33 @@ const { title, text } = Astro.props as Props;
 ---
 
 <article class="sl-ds-card" data-sl-ds-card>
-  <div class="sl-ds-card__icon" aria-hidden="true">
-    <slot name="icon" />
-  </div>
-  <div>
-    <h3 class="sl-ds-card__title">{title}</h3>
-    <p class="sl-ds-card__text">{text}</p>
+  <div class="sl-ds-card__layout">
+    <div class="sl-ds-card__icon" aria-hidden="true">
+      <slot name="icon" />
+    </div>
+    <div>
+      <h3 class="sl-ds-card__title">{title}</h3>
+      <p class="sl-ds-card__text">{text}</p>
+    </div>
   </div>
 </article>
 
 <style>
   .sl-ds-card {
     position: relative;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: center;
-    gap: var(--sp-5);
+    container-type: inline-size;
     padding: var(--sp-5);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     background: var(--surface);
-    height: auto;
+    height: 100%;
+  }
+
+  .sl-ds-card__layout {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--sp-5);
   }
 
   .sl-ds-card__icon {
@@ -68,10 +74,10 @@ const { title, text } = Astro.props as Props;
     vector-effect: non-scaling-stroke;
   }
 
-  @media (max-width: 1024px) {
-    .sl-ds-card {
-      position: relative;
-      top: auto;
+  @container (max-width: 22rem) {
+    .sl-ds-card__layout {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
     }
   }
 </style>

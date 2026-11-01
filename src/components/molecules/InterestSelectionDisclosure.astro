@@ -1,0 +1,74 @@
+---
+import InterestSelectionFields from './InterestSelectionFields.astro';
+import type { DemoContent } from '../../i18n/pages/demo';
+
+interface Props {
+  groups: DemoContent['interestGroups'];
+  name: string;
+  summary: string;
+  checkedValues?: readonly string[];
+}
+
+const { groups, name, summary, checkedValues } = Astro.props;
+---
+
+<details class="interest-disclosure u-border-interactive">
+  <summary class="interest-disclosure__summary">
+    <span>{summary}</span>
+    <svg class="interest-disclosure__icon" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+      <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </summary>
+  <div class="interest-disclosure__content">
+    <InterestSelectionFields groups={groups} name={name} checkedValues={checkedValues} />
+  </div>
+</details>
+
+<style>
+  .interest-disclosure {
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--bg-secondary) 88%, var(--bg));
+  }
+
+  .interest-disclosure__summary {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    padding: var(--sp-3) var(--sp-4);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .interest-disclosure__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .interest-disclosure__summary:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: -2px;
+  }
+
+  .interest-disclosure__icon {
+    width: 0.7rem;
+    height: 0.45rem;
+    flex-shrink: 0;
+    color: var(--text-secondary);
+    transition: transform var(--t-base);
+  }
+
+  .interest-disclosure[open] .interest-disclosure__icon {
+    transform: rotate(180deg);
+  }
+
+  .interest-disclosure__content {
+    border-top: 1px solid var(--border-color);
+    padding: var(--sp-4);
+  }
+</style>

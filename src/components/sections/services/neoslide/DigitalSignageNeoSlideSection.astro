@@ -1,0 +1,224 @@
+---
+import neoSlideLogo from '../../../../assets/vectors/brand/neoslide-logo-solid.svg';
+import neoSlideGlow from '../../../../assets/images/services/neoslide/neoslide-section/ns-section-lights.jpg';
+import type { DigitalSignageContent } from '../../../../i18n/pages/services/neoslide.ts';
+interface Props { content: DigitalSignageContent['neoSlide'] } const { content } = Astro.props;
+---
+<section class="ds-neoslide" aria-labelledby="ds-neoslide-heading" data-ds-neoslide>
+    <div class="container ds-neoslide__container">
+        <div class="ds-neoslide__content">
+            <p class="section-label">{content.label}</p>
+            <h2 class="section-headline ds-neoslide__headline" id="ds-neoslide-heading">
+                {content.heading}
+            </h2>
+            <p class="section-copy ds-neoslide__copy">
+                {content.copy}
+            </p>
+        </div>
+        <div class="ds-neoslide__visual" data-ds-neoslide-visual aria-hidden="true">
+            <img
+                class="ds-neoslide__glow ds-neoslide__glow--top"
+                src={neoSlideGlow.src}
+                alt=""
+                loading="eager"
+                decoding="async"
+            />
+            <img
+                class="ds-neoslide__logo"
+                src={neoSlideLogo.src}
+                alt=""
+                loading="eager"
+                decoding="async"
+            />
+            <img
+                class="ds-neoslide__glow ds-neoslide__glow--bottom"
+                src={neoSlideGlow.src}
+                alt=""
+                loading="eager"
+                decoding="async"
+            />
+        </div>
+    </div>
+</section>
+
+<script>
+    const section = document.querySelector<HTMLElement>("[data-ds-neoslide]");
+    const visual = section?.querySelector<HTMLElement>("[data-ds-neoslide-visual]");
+
+    if (visual && "IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries.some((entry) => entry.isIntersecting)) {
+                    visual.classList.add("is-visible");
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.2 },
+        );
+
+        observer.observe(visual);
+        document.addEventListener(
+            "astro:before-swap",
+            () => observer.disconnect(),
+            { once: true },
+        );
+    } else {
+        visual?.classList.add("is-visible");
+    }
+</script>
+
+<style>
+    .ds-neoslide {
+        background: var(--bg);
+        border-top: 1px solid var(--border-color);
+        padding: var(--sp-9) 0;
+        overflow: hidden;
+    }
+
+    .ds-neoslide__container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: center;
+        gap: var(--sp-6);
+    }
+
+    .ds-neoslide__content {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        gap: var(--sp-3);
+        max-width: 36rem;
+    }
+
+    .ds-neoslide__headline,
+    .ds-neoslide__copy {
+        margin: 0;
+    }
+
+    .ds-neoslide__headline {
+        max-width: 18ch;
+    }
+
+    .ds-neoslide__copy {
+        max-width: 58ch;
+    }
+
+    .ds-neoslide__visual {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--sp-6);
+        min-width: 0;
+        min-height: clamp(18rem, 34vw, 30rem);
+        overflow: visible;
+    }
+
+    .ds-neoslide__logo {
+        position: relative;
+        z-index: 1;
+        display: block;
+        width: min(72%, 24rem);
+        flex: 0 0 auto;
+        height: auto;
+        opacity: 0.5;
+        transform: scale(0.7);
+    }
+
+    .ds-neoslide__glow {
+        display: block;
+        width: 150%;
+        max-width: none;
+        flex: 0 0 auto;
+        height: auto;
+        opacity: 0.5;
+    }
+
+    .ds-neoslide__glow--top {
+        transform: scale(1.5);
+        transform-origin: 50% 100%;
+    }
+
+    .ds-neoslide__glow--bottom {
+        transform: translateY(-100%) scaleY(-1) scale(1.5);
+        transform-origin: 50% 100%;
+    }
+
+    .ds-neoslide__visual.is-visible .ds-neoslide__logo {
+        animation: ds-neoslide-logo-in 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .ds-neoslide__visual.is-visible .ds-neoslide__glow {
+        animation: ds-neoslide-glow-in 1200ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes ds-neoslide-logo-in {
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes ds-neoslide-glow-in {
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes ds-neoslide-glow-in-flipped {
+        to {
+            opacity: 1;
+            transform: translateY(-100%) scaleY(-1) scale(1);
+        }
+    }
+
+    .ds-neoslide__visual.is-visible .ds-neoslide__glow--bottom {
+        animation-name: ds-neoslide-glow-in-flipped;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ds-neoslide__logo {
+            opacity: 1;
+            transform: none;
+        }
+
+        .ds-neoslide__glow {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .ds-neoslide__glow--bottom {
+            transform: translateY(-100%) scaleY(-1) scale(1);
+        }
+
+        .ds-neoslide__visual.is-visible .ds-neoslide__logo,
+        .ds-neoslide__visual.is-visible .ds-neoslide__glow {
+            animation: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .ds-neoslide__container {
+            grid-template-columns: 1fr;
+        }
+
+        .ds-neoslide__visual {
+            min-height: 16rem;
+        }
+
+        .ds-neoslide__glow {
+            width: 130%;
+        }
+
+
+    }
+
+    @media (max-width: 768px) {
+        .ds-neoslide {
+            padding: var(--sp-8) 0;
+        }
+    }
+</style>

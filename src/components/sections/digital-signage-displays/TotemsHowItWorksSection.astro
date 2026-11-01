@@ -1,0 +1,302 @@
+---
+import howItWorksTotemsIllustration from '../../../assets/vectors/illustrations/neoslide/how-it-works-digital-totems.svg?raw';
+import neoslideLogoRaw from '../../../assets/vectors/icons/nav-menu-icons/neoslide-logo-gradient.svg?raw';
+import ArrowButton from '../../atoms/ArrowButton.astro';
+import DsCard from '../../atoms/DsCard.astro';
+import { getLocalizedPath } from '../../../i18n/utils';
+import type { TotemsContent } from '../../../i18n/pages/digital-signage-displays/totems';
+import type { Lang } from '../../../i18n/types';
+
+interface Props {
+  content: TotemsContent['howItWorks'] & {
+    ctaHref?: string;
+    showNeoSlideLogo?: boolean;
+  };
+  illustration?: string;
+  lang: Lang;
+}
+
+const { content, illustration, lang } = Astro.props;
+const neoslideLogoMarkup = neoslideLogoRaw
+  .replace(/^<\?xml[^>]*>\s*/, '')
+  .replaceAll('nav-neoslide-gradient-logo', 'totems-neoslide-gradient-logo')
+  .replaceAll('linear-gradient', 'totems-neoslide-gradient')
+  .replaceAll('ns-logo-gradient', 'totems-neoslide-logo-gradient')
+  .replaceAll('ns-logo-fill', 'totems-neoslide-logo-fill')
+  .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+const illustrationMarkup = illustration ?? (lang === 'mk'
+  ? howItWorksTotemsIllustration
+      .replace('NeoSlide Dashboard', 'Контролен панел NeoSlide')
+      .replace('Upload and organise', 'Прикачи и организирај')
+      .replace('content</tspan>', 'содржина</tspan>')
+      .replace('Playlists &amp; Schedules', 'Плејлисти и распореди')
+      .replace('Assign content to individual', 'Додели содржина на')
+      .replace('totems or groups', 'поединечни тотеми или групи')
+      .replace('Entrance Totem', 'Тотем на влез')
+      .replace('Welcome messages', 'Пораки за добредојде')
+      .replace('Showroom Totem', 'Изложбен тотем')
+      .replace('Product highlights', 'Претставување производи')
+      .replace('Reception Totem', 'Тотем на рецепција')
+      .replace('Visitor information', 'Корисни информации')
+      .replace('Outdoor Totem', 'Надворешен тотем')
+      .replace('Offers &amp; updates', 'Промоции и известувања')
+  : howItWorksTotemsIllustration);
+const cardIconModules = import.meta.glob<string>(
+  '../../../assets/vectors/icons/ns-how-it-works/*.svg',
+  { query: '?raw', import: 'default' },
+);
+const cardIconNames = ['centralized-management', 'instant-updates', 'monthly-pricing'] as const;
+const cardIcons = await Promise.all(cardIconNames.map(async (name) => {
+  const iconPath = `../../../assets/vectors/icons/ns-how-it-works/${name}.svg`;
+  const loadIcon = cardIconModules[iconPath];
+
+  if (!loadIcon) {
+    throw new Error(`Missing digital totems feature icon: ${name}`);
+  }
+
+  return (await loadIcon()).replace(/^<\?xml[^>]*>\s*/, '').replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+}));
+---
+
+<section class="section totems-how" aria-labelledby="totems-how-heading">
+  <div class="totems-how__lights" aria-hidden="true"></div>
+  <div class="container totems-how__container">
+    <div class="totems-how__left">
+      <div class="totems-how__content">
+        <p class="section-label">{content.label}</p>
+        <h2 class="section-headline totems-how__headline" id="totems-how-heading">{content.heading}</h2>
+        {content.copy.split('\n\n').map((paragraph) => (
+          <p class="section-copy totems-how__lead">{paragraph}</p>
+        ))}
+      </div>
+
+      <div class="totems-how__cards">
+        {content.cards.map((card, index) => (
+          <DsCard title={card.title} text={card.text}>
+            <span slot="title">
+              <span class="totems-how__card-number">{card.number}/</span>{' '}{card.title}
+            </span>
+            <span slot="icon" set:html={cardIcons[index]} />
+          </DsCard>
+        ))}
+        <article
+          class:list={[
+            'totems-how__neoslide-card',
+            'u-border-interactive',
+            content.showNeoSlideLogo === false && 'totems-how__neoslide-card--no-logo',
+          ]}
+        >
+          {content.showNeoSlideLogo !== false && (
+            <div class="totems-how__neoslide-logo" set:html={neoslideLogoMarkup} />
+          )}
+          <div class="totems-how__neoslide-card-content">
+            <h3 class="totems-how__neoslide-title">{content.neoslideCardTitle}</h3>
+            <p class="totems-how__neoslide-copy">{content.neoslideCardText}</p>
+            <ArrowButton
+              class="totems-how__neoslide-cta"
+              href={getLocalizedPath(content.ctaHref ?? '/services/neoslide/', lang)}
+              variant="primary"
+              size="sm"
+            >
+              {content.neoslideCtaText}
+            </ArrowButton>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="totems-how__visual" aria-label={content.visualAriaLabel}>
+      <div
+        class="totems-how__illustration"
+        role="img"
+        aria-label={content.illustrationAriaLabel}
+        set:html={illustrationMarkup}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .totems-how {
+    isolation: isolate;
+    background: var(--bg);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .totems-how__lights {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 100% -50%, color-mix(in srgb, var(--color-aurora) 30%, transparent) 0, transparent 40%);
+  }
+
+  .totems-how__container {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(var(--sp-6), 7vw, var(--sp-9));
+    row-gap: var(--sp-6);
+    align-items: center;
+  }
+
+  .totems-how__left {
+    display: grid;
+    align-content: start;
+    gap: var(--sp-8);
+    container: totems-how-left / inline-size;
+  }
+
+  .totems-how__cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-3);
+  }
+
+  .totems-how__neoslide-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    align-content: space-between;
+    gap: var(--sp-4);
+    min-width: 0;
+    padding: var(--sp-4);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(
+        ellipse 135% 110% at 100% -10%,
+        color-mix(in srgb, var(--color-brand) 40%, transparent),
+        transparent 76%
+      ),
+      radial-gradient(
+        ellipse 115% 95% at 100% 70%,
+        color-mix(in srgb, var(--color-aurora) 20%, transparent),
+        transparent 78%
+      ),
+      var(--surface);
+  }
+
+  .totems-how__neoslide-card--no-logo {
+    grid-template-rows: 1fr;
+  }
+
+  .totems-how__neoslide-logo {
+    color: var(--text-secondary);
+  }
+
+  .totems-how__neoslide-logo :global(svg) {
+    display: block;
+    width: min(8rem, 100%);
+    height: auto;
+  }
+
+  .totems-how__neoslide-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-3);
+    min-height: 100%;
+  }
+
+  .totems-how__neoslide-title {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    font-size: var(--text-base);
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+
+  .totems-how__neoslide-copy {
+    max-width: 32ch;
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.45;
+  }
+
+  .totems-how__neoslide-card--no-logo .totems-how__neoslide-copy {
+    width: 100%;
+    max-width: none;
+  }
+
+  :global(.totems-how__neoslide-cta) {
+    width: fit-content;
+    margin-top: auto;
+  }
+
+  :global(.totems-how__neoslide-cta.btn--sm) {
+    min-height: 1.5rem;
+    padding: 2px var(--sp-2);
+    font-size: var(--text-xs);
+  }
+
+  .totems-how__content {
+    display: grid;
+    gap: var(--sp-3);
+  }
+
+  .totems-how__headline,
+  .totems-how__lead {
+    margin: 0;
+  }
+
+  :global(.totems-how__card-number) {
+    color: var(--color-brand);
+  }
+
+  .totems-how__headline {
+    max-width: 30ch;
+  }
+
+  .totems-how__lead {
+    max-width: 56ch;
+  }
+
+  .totems-how__visual {
+    width: 100%;
+    min-height: clamp(16rem, 36vw, 28rem);
+  }
+
+  .totems-how__illustration {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .totems-how__illustration :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @container totems-how-left (max-width: 37.99rem) {
+    .totems-how__cards {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .totems-how__container {
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+      align-items: start;
+    }
+
+    .totems-how__left {
+      gap: var(--sp-6);
+    }
+
+    .totems-how__headline,
+    .totems-how__lead {
+      max-width: none;
+    }
+
+    .totems-how__visual {
+      max-width: 40rem;
+      min-height: clamp(14rem, 56vw, 22rem);
+      margin-inline: auto;
+    }
+  }
+</style>

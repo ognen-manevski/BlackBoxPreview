@@ -7,29 +7,30 @@ export interface ShelfLabelsPerformanceStat {
 
 export const shelfLabelsPerformanceStats: ShelfLabelsPerformanceStat[] = [
   {
-    value: '95%',
-    label: 'Less time spent replacing\npaper labels',
-  },
-  {
-    value: 'Instant',
-    label: 'Store-wide\nprice updates',
+    value: 'Save time',
+    label: 'Automate price updates',
     compactValue: true,
   },
   {
-    value: '10+',
-    valueSuffixSmall: '',
-    label: 'Years\nBattery life',
+    value: 'Accurate pricing',
+    label: 'Consistent prices at the shelf and checkout',
+    compactValue: true,
   },
   {
-    value: 'Thousands',
-    label: 'Labels managed\nfrom one dashboard',
+    value: 'Long battery life',
+    label: 'Years of operation without replacing the battery',
+    compactValue: true,
+  },
+  {
+    value: 'One platform',
+    label: 'Manage all labels from one place',
     compactValue: true,
   },
 ];
 
 export const macedonianShelfLabelsPerformanceStats: ShelfLabelsPerformanceStat[] = [
-  { value: '95%', label: 'Помалку време за замена на\nхартиени етикети' },
-  { value: 'Веднаш', label: 'Ажурирање на цените\nво целата продавница', compactValue: true },
-  { value: '10+', valueSuffixSmall: '', label: 'Години\nтраење на батеријата' },
-  { value: 'Илјадници', label: 'Етикети управувани\nод еден dashboard', compactValue: true },
+  { value: 'Заштеда на време', label: 'Автоматизирајте ја промената на цените', compactValue: true },
+  { value: 'Точни цени', label: 'Усогласени цени на полицата и на касата', compactValue: true },
+  { value: 'Долг век', label: 'Години работа без замена на батеријата', compactValue: true },
+  { value: 'Една платформа', label: 'Управувајте со сите етикети од едно место', compactValue: true },
 ];

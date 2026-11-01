@@ -98,8 +98,8 @@
 
   <rect class="d-demo-chart" x="186.29378" y="25.22467" width="234.3598" height="166.21053" rx="7.57895" ry="7.57895"/>
   <g>
-    <text class="i-demo-chart" x="224.47192" y="141.95514">Cloud Management</text>
-    <text class="i-demo-chart" x="257.66821" y="163.55475">Dashboard</text>
+    <text class="i-demo-chart" text-anchor="middle" x="303.47368" y="141.95514">Cloud Management</text>
+    <text class="i-demo-chart" text-anchor="middle" x="303.47368" y="163.55475">Dashboard</text>
     <g>
       <rect class="ico-border" x="271.63238" y="48.22694" width="63.68294" height="63.68293" rx="4" ry="4"/>
       <g>
@@ -116,98 +116,98 @@
     </g>
   </g>
   <g>
-    <rect class="d-demo-chart" x="161.22045" y="252.33446" width="284.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <rect class="d-demo-chart" x="123.47368" y="252.33446" width="360" height="77.88078" rx="7.57895" ry="7.57895"/>
     <g>
-      <text class="j-demo-chart" x="242.18024" y="278.96599">Playlists &amp; Display Groups</text>
-      <text class="f-demo-chart" x="242.18036" y="299.39636">· Images</text>
-      <text class="f-demo-chart" x="242.18036" y="320.52841">· Video</text>
-      <text class="f-demo-chart" x="305.08563" y="299.39636">· Templates</text>
-      <text class="f-demo-chart" x="305.08563" y="320.52841">· Weather</text>
+      <text class="j-demo-chart" x="204.43347" y="275.96599">Playlists &amp; Display Groups</text>
+      <text class="f-demo-chart" x="204.43359" y="296.39636">· Images</text>
+      <text class="f-demo-chart" x="204.43359" y="317.52841">· Video</text>
+      <text class="f-demo-chart" x="267.33886" y="296.39636">· Templates</text>
+      <text class="f-demo-chart" x="267.33886" y="317.52841">· Weather</text>
     </g>
     <g>
-      <rect class="ico-border" x="172.6634" y="264.14309" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <rect class="ico-border" x="134.91663" y="264.14309" width="54.26352" height="54.26352" rx="4" ry="4"/>
       <g>
-        <rect class="e-demo-chart" x="181.58608" y="283.81051" width="28.42105" height="22.92632"/>
-        <polyline class="e-demo-chart" points="212.00423 302.73287 214.00423 302.73287 214.00423 279.81287 185.58423 279.81287 185.58423 281.81287"/>
-        <polyline class="e-demo-chart" points="216.00423 298.73287 218.00423 298.73287 218.00423 275.81287 189.58423 275.81287 189.58423 277.81287"/>
-        <polygon class="e-demo-chart" points="200.0087 295.27367 191.58453 290.03061 191.58453 300.51674 200.0087 295.27367"/>
+        <rect class="e-demo-chart" x="143.83976" y="283.81051" width="28.42105" height="22.92632"/>
+        <polyline class="e-demo-chart" points="174.25791 302.73287 176.25791 302.73287 176.25791 279.81287 147.83791 279.81287 147.83791 281.81287"/>
+        <polyline class="e-demo-chart" points="178.25791 298.73287 180.25791 298.73287 180.25791 275.81287 151.83791 275.81287 151.83791 277.81287"/>
+        <polygon class="e-demo-chart" points="162.26238 295.27367 153.83821 290.03061 153.83821 300.51674 162.26238 295.27367"/>
       </g>
     </g>
   </g>
   <g>
-    <rect class="d-demo-chart" x="26.24522" y="391.11451" width="203.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <rect class="d-demo-chart" x="1.5" y="391.11451" width="260" height="77.88078" rx="7.57895" ry="7.57895"/>
     <g>
-      <text class="j-demo-chart" x="109.20497" y="425.54635">Cluster A</text>
-      <text class="f-demo-chart" x="109.20511" y="444.72823">Large Format</text>
+      <text class="j-demo-chart" x="83" y="425.54635">Large Format</text>
+      <text class="f-demo-chart" x="83" y="444.72823">Cluster A</text>
     </g>
     <g>
-      <rect class="ico-border" x="37.68817" y="402.92314" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <rect class="ico-border" x="13" y="402.92314" width="54.26352" height="54.26352" rx="4" ry="4"/>
       <g>
-        <rect class="e-demo-chart" x="44.08395" y="413.82964" width="41.47194" height="27.28893"/>
-        <rect class="e-demo-chart" x="44.08395" y="441.11857" width="41.47194" height="2.1323"/>
+        <rect class="e-demo-chart" x="19.39578" y="413.82964" width="41.47194" height="27.28893"/>
+        <rect class="e-demo-chart" x="19.39578" y="441.11857" width="41.47194" height="2.1323"/>
         <g>
-          <line class="e-demo-chart" x1="48.65093" y1="446.28015" x2="48.65093" y2="443.25087"/>
-          <line class="e-demo-chart" x1="46.13205" y1="446.27934" x2="51.1714" y2="446.27934"/>
+          <line class="e-demo-chart" x1="23.96276" y1="446.28015" x2="23.96276" y2="443.25087"/>
+          <line class="e-demo-chart" x1="21.44388" y1="446.27934" x2="26.48323" y2="446.27934"/>
         </g>
         <g>
-          <line class="e-demo-chart" x1="80.98376" y1="446.28015" x2="80.98376" y2="443.25087"/>
-          <line class="e-demo-chart" x1="78.46408" y1="446.27934" x2="83.50344" y2="446.27934"/>
+          <line class="e-demo-chart" x1="56.29559" y1="446.28015" x2="56.29559" y2="443.25087"/>
+          <line class="e-demo-chart" x1="53.77591" y1="446.27934" x2="58.81527" y2="446.27934"/>
         </g>
       </g>
     </g>
   </g>
   <g>
-    <rect class="d-demo-chart" x="26.24522" y="529.89455" width="203.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <rect class="d-demo-chart" x="1.5" y="529.89455" width="260" height="77.88078" rx="7.57895" ry="7.57895"/>
     <g>
-      <text class="j-demo-chart" x="109.20497" y="564.3264">Cluster C</text>
-      <text class="f-demo-chart" x="109.20511" y="583.50828">Standard Displays</text>
+      <text class="j-demo-chart" x="83" y="564.3264">Standard Displays</text>
+      <text class="f-demo-chart" x="83" y="583.50828">Cluster C</text>
     </g>
     <g>
-      <rect class="ico-border" x="37.68817" y="541.70318" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <rect class="ico-border" x="13" y="541.70318" width="54.26352" height="54.26352" rx="4" ry="4"/>
       <g>
-        <rect class="e-demo-chart" x="45.15626" y="565.25211" width="26.66997" height="14.50018"/>
+        <rect class="e-demo-chart" x="20.46809" y="565.25211" width="26.66997" height="14.50018"/>
         <g>
-          <line class="e-demo-chart" x1="59.55206" y1="583.17639" x2="59.55206" y2="579.7531"/>
-          <line class="e-demo-chart" x1="57.43044" y1="583.17639" x2="57.43044" y2="579.7531"/>
+          <line class="e-demo-chart" x1="34.86389" y1="583.17639" x2="34.86389" y2="579.7531"/>
+          <line class="e-demo-chart" x1="32.74227" y1="583.17639" x2="32.74227" y2="579.7531"/>
         </g>
-        <rect class="e-demo-chart" x="52.77211" y="583.17639" width="11.43828" height="1.40929"/>
-        <polyline class="e-demo-chart" points="72.85054 579.7531 84.48359 579.7531 84.48359 553.08421 69.98072 553.08421 69.98072 564.22528"/>
+        <rect class="e-demo-chart" x="28.08394" y="583.17639" width="11.43828" height="1.40929"/>
+        <polyline class="e-demo-chart" points="48.16237 579.7531 59.79542 579.7531 59.79542 553.08421 45.29255 553.08421 45.29255 564.22528"/>
         <g>
-          <line class="e-demo-chart" x1="78.29224" y1="583.17639" x2="78.29224" y2="579.7531"/>
-          <line class="e-demo-chart" x1="76.17062" y1="583.17639" x2="76.17062" y2="579.7531"/>
+          <line class="e-demo-chart" x1="53.60407" y1="583.17639" x2="53.60407" y2="579.7531"/>
+          <line class="e-demo-chart" x1="51.48245" y1="583.17639" x2="51.48245" y2="579.7531"/>
         </g>
-        <rect class="e-demo-chart" x="71.51229" y="583.17639" width="11.43828" height="1.40929"/>
+        <rect class="e-demo-chart" x="46.82412" y="583.17639" width="11.43828" height="1.40929"/>
       </g>
     </g>
   </g>
   <g>
-    <rect class="d-demo-chart" x="377.19568" y="529.89455" width="203.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <rect class="d-demo-chart" x="345" y="529.89455" width="260" height="77.88078" rx="7.57895" ry="7.57895"/>
     <g>
-      <text class="j-demo-chart" x="460.15545" y="564.3264">Cluster D</text>
-      <text class="f-demo-chart" x="460.15558" y="583.50828">Video Walls</text>
+      <text class="j-demo-chart" x="425" y="564.3264">Video Walls</text>
+      <text class="f-demo-chart" x="425" y="583.50828">Cluster D</text>
     </g>
     <g>
-      <rect class="ico-border" x="388.63863" y="541.70318" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <rect class="ico-border" x="356.44295" y="541.70318" width="54.26352" height="54.26352" rx="4" ry="4"/>
       <g>
-        <rect class="e-demo-chart" x="397.20197" y="555.36151" width="17.32298" height="12.11476"/>
-        <rect class="e-demo-chart" x="417.01583" y="555.36151" width="17.32298" height="12.11476"/>
-        <rect class="e-demo-chart" x="397.20197" y="570.19361" width="17.32298" height="12.11476"/>
-        <rect class="e-demo-chart" x="417.01583" y="570.19361" width="17.32298" height="12.11476"/>
+        <rect class="e-demo-chart" x="365.00629" y="555.36151" width="17.32298" height="12.11476"/>
+        <rect class="e-demo-chart" x="384.82015" y="555.36151" width="17.32298" height="12.11476"/>
+        <rect class="e-demo-chart" x="365.00629" y="570.19361" width="17.32298" height="12.11476"/>
+        <rect class="e-demo-chart" x="384.82015" y="570.19361" width="17.32298" height="12.11476"/>
       </g>
     </g>
   </g>
   <g>
-    <rect class="d-demo-chart" x="377.19568" y="391.11451" width="203.50646" height="77.88078" rx="7.57895" ry="7.57895"/>
+    <rect class="d-demo-chart" x="345" y="391.11451" width="260" height="77.88078" rx="7.57895" ry="7.57895"/>
     <g>
-      <text class="j-demo-chart" x="460.15545" y="425.54635">Cluster B</text>
-      <text class="f-demo-chart" x="460.15558" y="444.72823">Digital Totems</text>
+      <text class="j-demo-chart" x="425" y="425.54635">Digital Totems</text>
+      <text class="f-demo-chart" x="425" y="444.72823">Cluster B</text>
     </g>
     <g>
-      <rect class="ico-border" x="388.63863" y="402.92314" width="54.26352" height="54.26352" rx="4" ry="4"/>
+      <rect class="ico-border" x="356.44295" y="402.92314" width="54.26352" height="54.26352" rx="4" ry="4"/>
       <g>
-        <polyline class="e-demo-chart" points="407.08303 448.56502 407.08303 409.28407 424.45769 409.28407 424.45769 448.56502"/>
-        <rect class="e-demo-chart" x="409.08369" y="411.35014" width="13.37361" height="25.45509"/>
-        <rect class="e-demo-chart" x="404.6587" y="448.56503" width="22.22338" height="2.26069"/>
+        <polyline class="e-demo-chart" points="374.88735 448.56502 374.88735 409.28407 392.26201 409.28407 392.26201 448.56502"/>
+        <rect class="e-demo-chart" x="376.88801" y="411.35014" width="13.37361" height="25.45509"/>
+        <rect class="e-demo-chart" x="372.46302" y="448.56503" width="22.22338" height="2.26069"/>
       </g>
     </g>
   </g>

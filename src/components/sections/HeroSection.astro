@@ -1,31 +1,25 @@
 ---
 import ArrowButton from "../atoms/ArrowButton.astro";
+import ProgressiveImage from "../atoms/ProgressiveImage.astro";
+import HeroTrust from "../molecules/HeroTrust.astro";
 import neoslideDarkLong from '../../assets/images/home/long/neoslide-dark-long.jpg';
-import neoslideLightLong from '../../assets/images/home/long/neoslide-wh-long.jpg';
 import shelfLabelsDarkLong from '../../assets/images/home/long/labels-dark-long.jpg';
-import shelfLabelsLightLong from '../../assets/images/home/long/labels-wh-long.jpg';
 import videoStreamingDarkLong from '../../assets/images/home/long/video-dark-long.jpg';
-import videoStreamingLightLong from '../../assets/images/home/long/video-wh-long.jpg';
 import softwareDevelopmentDarkLong from '../../assets/images/home/long/code-dark-long.jpg';
-import softwareDevelopmentLightLong from '../../assets/images/home/long/code-wh-long.jpg';
 import bgGradient2DarkPoster from '../../assets/images/video-thumbnails/gradients/dark/gradient-2-grain-0.jpg';
-import bgGradient2LightPoster from '../../assets/images/video-thumbnails/gradients/light/gradient-2-grain-wh-0.jpg';
-import spkLogo from '../../assets/images/company-logos/clients/sm/spk-sm.jpg';
-import vinLogo from '../../assets/images/company-logos/clients/sm/vin-sm.jpg';
-import specLogo from '../../assets/images/company-logos/clients/sm/spec-sm.jpg';
-import popovLogo from '../../assets/images/company-logos/clients/sm/popov-sm.jpg';
-import neotelLogo from '../../assets/images/company-logos/clients/sm/neotel-sm.jpg';
 import arrowForwardSvg from '../../assets/vectors/icons/material/custom/arrow_forward-400w.svg?raw';
+import { getLocalizedPath } from '../../i18n/utils';
 import type { HomePageContent } from '../../i18n/pages/home';
-interface Props { content: HomePageContent['hero']; }
-const { content } = Astro.props;
+import type { Lang } from '../../i18n/types';
+interface Props { content: HomePageContent['hero']; lang: Lang; }
+const { content, lang } = Astro.props;
 const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${content.slides.length}: ${label}`;
 ---
 
 <section class="hero" id="hero" aria-label={content.ariaLabel}>
   <div class="hero__background" aria-hidden="true">
     <video
-      class="hero__bg-video hero__bg-video--dark"
+      class="hero__bg-video"
       src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-2.mp4`}
       poster={bgGradient2DarkPoster.src}
       autoplay
@@ -33,50 +27,52 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
       loop
       playsinline
     ></video>
-    <video
-      class="hero__bg-video hero__bg-video--light"
-      src={`${import.meta.env.BASE_URL}videos/gradients/light/base-gradient-2.mp4`}
-      poster={bgGradient2LightPoster.src}
-      autoplay
-      muted
-      loop
-      playsinline
-    ></video>
   </div>
 
-  <div class="hero__inner container">
+  <div class="container">
+    <div class="hero__inner">
     <!-- ========== LEFT: CONTENT ========== -->
     <div class="hero__content">
-      <!-- Trust badge -->
-      <div class="hero__trust">
-        <span class="hero__trust-rating" aria-hidden="true">
-          <span class="hero__trust-score">{content.rating}</span>
-          <span class="hero__trust-stars">{content.stars}</span>
-        </span>
-        <span class="hero__trust-divider" aria-hidden="true"></span>
-        <span class="hero__trust-clients">
-          <strong class="hero__trust-count">{content.trustedCount}</strong>
-          <span class="hero__trust-label">{content.trustedLabel}<br />{content.trustedLabelSecondLine}</span>
-        </span>
-        <span class="hero__trust-logos" aria-label="Trusted client logos">
-          <img class="hero__trust-logo hero__trust-logo--front" src={spkLogo.src} alt="Sparkasse Bank" />
-          <img class="hero__trust-logo" src={neotelLogo.src} alt="Neotel" />
-          <img class="hero__trust-logo" src={specLogo.src} alt="SPEC" />
-          <img class="hero__trust-logo" src={popovLogo.src} alt="Popov" />
-          <img class="hero__trust-logo" src={vinLogo.src} alt="VIN" />
-        </span>
-      </div>
-
       <!-- Headline -->
-      <h1 class="hero__headline section-headline section-headline--hero">
-        <span class="hero__headline-static"
-          >{content.headlineStart}
-        </span>
-        <span class="hero-highlight-group">
-          <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: 0s;">{content.highlights[0]}</span>&#32;
-          <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: -1.67s;">{content.highlights[1]}</span>&#32; {content.conjunction} <span
-            class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: -3.33s;">{content.highlights[2]}</span
-          >
+      <h1 class="hero__headline section-headline section-headline--hero" data-lang={lang}>
+        {lang === 'en' ? (
+          <>
+            <span class="hero__headline-layout hero__headline-layout--english-wide">
+              {content.headlineLineOne}<br />
+              {content.headlineLineTwo}<br />
+              <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: 0s;">{content.highlights[0]}</span>{' '}
+              <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: -1.67s;">{content.highlights[1]}</span><br />
+              {content.conjunction}{' '}
+              <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: -3.33s;">{content.highlights[2]}</span>
+            </span>
+            <span class="hero__headline-layout hero__headline-layout--english-narrow">
+              {content.headlineLineOne}<br />
+              {content.headlineLineTwoNarrow}<br />
+              {content.headlineLineThreeNarrow}{' '}
+              <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: 0s;">{content.highlights[0]}</span><br />
+              <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: -1.67s;">{content.highlights[1]}</span>{' '}
+              {content.conjunction}{' '}
+              <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: -3.33s;">{content.highlights[2]}</span>
+            </span>
+          </>
+        ) : (
+          <span class="hero__headline-layout hero__headline-layout--macedonian">
+            {content.headlineLineOne}<br />
+            {content.headlineLineTwoNarrow}{' '}
+            <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: 0s;">{content.highlights[0]}</span><br />
+            <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: -1.67s;">{content.highlights[1]}</span>{' '}
+            {content.headlineLineThreeSuffix}<br />
+            {content.headlineLineFour}
+          </span>
+        )}
+        <span class="hero__headline-layout hero__headline-layout--mobile">
+          {content.headlineStart}
+          <span class="hero-highlight-group">
+            <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: 0s;">{content.highlights[0]}</span>&#32;
+            <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: -1.67s;">{content.highlights[1]}</span>&#32; {content.conjunction} <span
+              class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: -3.33s;">{content.highlights[2]}</span
+            >
+          </span>
         </span>
       </h1>
 
@@ -88,87 +84,104 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
       <!-- CTAs -->
       <div class="hero__actions">
         <div class="hero__cta-group">
-          <ArrowButton href={`${import.meta.env.BASE_URL}book-a-free-demo/`} variant="primary"
+          <ArrowButton href={getLocalizedPath('/book-a-free-demo/', lang)} variant="primary"
             >{content.primaryCta}</ArrowButton
           >
-          <a href={`${import.meta.env.BASE_URL}#about`} class="btn btn--ghost">{content.secondaryCta}</a>
+          <a href={getLocalizedPath('/about/', lang)} class="btn btn--ghost">{content.secondaryCta}</a>
         </div>
         <div class="hero__cta-note">{content.ctaNote}</div>
       </div>
     </div>
 
-    <!-- ========== RIGHT: CAROUSEL ========== -->
-    <div
-      class="hero__carousel"
-      role="region"
-      aria-roledescription="carousel"
-      aria-label={content.carouselAriaLabel}
-    >
-      <div class="carousel__viewport" id="carouselViewport">
-        <div class="carousel__track" id="heroCarouselTrack">
-          <div
-            class="carousel__slide"
-            role="group"
-            aria-roledescription={content.slideRole}
-            aria-label={slideAriaLabel(0, content.slides[0])}
-          >
-            <div class="carousel__field">
-              <div class="carousel__media-frame">
-                <img class="carousel__media carousel__media--dark" src={neoslideDarkLong.src} alt="" loading="eager" decoding="async" />
-                <img class="carousel__media carousel__media--light" src={neoslideLightLong.src} alt="" loading="eager" decoding="async" />
+    <!-- ========== RIGHT: CAROUSEL AND PROOF ========== -->
+    <div class="hero__showcase">
+      <div
+        class="hero__carousel"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label={content.carouselAriaLabel}
+      >
+        <div class="carousel__viewport">
+          <div class="carousel__track">
+            <div
+              class="carousel__slide"
+              role="group"
+              aria-roledescription={content.slideRole}
+              aria-label={slideAriaLabel(0, content.slides[0])}
+            >
+              <div class="carousel__field">
+                <div class="carousel__media-frame" data-progressive-host="relative">
+                  <ProgressiveImage src={neoslideDarkLong}>
+                    <img class="carousel__media" src={neoslideDarkLong.src} alt="" loading="eager" decoding="async" />
+                  </ProgressiveImage>
+                </div>
+                <div class="carousel__field-title-row">
+                  <h3 class="carousel__slide-title">{content.slides[0]}</h3>
+                  <ArrowButton class="carousel__field-cta" href={getLocalizedPath('/services/neoslide/', lang)} variant="primary" size="sm">{content.secondaryCta}</ArrowButton>
+                </div>
               </div>
-              <h3 class="carousel__slide-title">{content.slides[0]}</h3>
             </div>
-          </div>
 
-          <div
-            class="carousel__slide"
-            role="group"
-            aria-roledescription={content.slideRole}
-            aria-label={slideAriaLabel(1, content.slides[1])}
-          >
-            <div class="carousel__field">
-              <div class="carousel__media-frame">
-                <img class="carousel__media carousel__media--dark" src={shelfLabelsDarkLong.src} alt="" loading="lazy" decoding="async" />
-                <img class="carousel__media carousel__media--light" src={shelfLabelsLightLong.src} alt="" loading="lazy" decoding="async" />
+            <div
+              class="carousel__slide"
+              role="group"
+              aria-roledescription={content.slideRole}
+              aria-label={slideAriaLabel(1, content.slides[1])}
+            >
+              <div class="carousel__field">
+                <div class="carousel__media-frame" data-progressive-host="relative">
+                  <ProgressiveImage src={shelfLabelsDarkLong}>
+                    <img class="carousel__media" src={shelfLabelsDarkLong.src} alt="" loading="lazy" decoding="async" />
+                  </ProgressiveImage>
+                </div>
+                <div class="carousel__field-title-row">
+                  <h3 class="carousel__slide-title">{content.slides[1]}</h3>
+                  <ArrowButton class="carousel__field-cta" href={getLocalizedPath('/digital-signage-displays/electronic-shelf-labels/', lang)} variant="primary" size="sm">{content.secondaryCta}</ArrowButton>
+                </div>
               </div>
-              <h3 class="carousel__slide-title">{content.slides[1]}</h3>
             </div>
-          </div>
 
-          <div
-            class="carousel__slide"
-            role="group"
-            aria-roledescription={content.slideRole}
-            aria-label={slideAriaLabel(2, content.slides[2])}
-          >
-            <div class="carousel__field">
-              <div class="carousel__media-frame">
-                <img class="carousel__media carousel__media--dark" src={videoStreamingDarkLong.src} alt="" loading="lazy" decoding="async" />
-                <img class="carousel__media carousel__media--light" src={videoStreamingLightLong.src} alt="" loading="lazy" decoding="async" />
+            <div
+              class="carousel__slide"
+              role="group"
+              aria-roledescription={content.slideRole}
+              aria-label={slideAriaLabel(2, content.slides[2])}
+            >
+              <div class="carousel__field">
+                <div class="carousel__media-frame" data-progressive-host="relative">
+                  <ProgressiveImage src={videoStreamingDarkLong}>
+                    <img class="carousel__media" src={videoStreamingDarkLong.src} alt="" loading="lazy" decoding="async" />
+                  </ProgressiveImage>
+                </div>
+                <div class="carousel__field-title-row">
+                  <h3 class="carousel__slide-title">{content.slides[2]}</h3>
+                  <ArrowButton class="carousel__field-cta" href={getLocalizedPath('/services/video-streaming/', lang)} variant="primary" size="sm">{content.secondaryCta}</ArrowButton>
+                </div>
               </div>
-              <h3 class="carousel__slide-title">{content.slides[2]}</h3>
             </div>
-          </div>
 
-          <div
-            class="carousel__slide"
-            role="group"
-            aria-roledescription={content.slideRole}
-            aria-label={slideAriaLabel(3, content.slides[3])}
-          >
-            <div class="carousel__field">
-              <div class="carousel__media-frame">
-                <img class="carousel__media carousel__media--dark" src={softwareDevelopmentDarkLong.src} alt="" loading="lazy" decoding="async" />
-                <img class="carousel__media carousel__media--light" src={softwareDevelopmentLightLong.src} alt="" loading="lazy" decoding="async" />
+            <div
+              class="carousel__slide"
+              role="group"
+              aria-roledescription={content.slideRole}
+              aria-label={slideAriaLabel(3, content.slides[3])}
+            >
+              <div class="carousel__field">
+                <div class="carousel__media-frame" data-progressive-host="relative">
+                  <ProgressiveImage src={softwareDevelopmentDarkLong}>
+                    <img class="carousel__media" src={softwareDevelopmentDarkLong.src} alt="" loading="lazy" decoding="async" />
+                  </ProgressiveImage>
+                </div>
+                <div class="carousel__field-title-row">
+                  <h3 class="carousel__slide-title">{content.slides[3]}</h3>
+                  <ArrowButton class="carousel__field-cta" href={getLocalizedPath('/services/software-development/', lang)} variant="primary" size="sm">{content.secondaryCta}</ArrowButton>
+                </div>
               </div>
-              <h3 class="carousel__slide-title">{content.slides[3]}</h3>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="carousel__nav">
+        <div class="carousel__nav">
         <button
           class="carousel__arrow carousel__arrow--prev"
           type="button"
@@ -217,22 +230,17 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
         >
           <span class="carousel__arrow-icon" set:html={arrowForwardSvg} />
         </button>
+        </div>
       </div>
+
+      <HeroTrust content={content} />
+    </div>
     </div>
   </div>
 </section>
 
 <style>
-  .hero__content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-6);
-    min-width: 0;
-  }
 
-  .hero__lead {
-    max-width: 64ch;
-  }
 
   /* ---- Section shell ---- */
   .hero {
@@ -265,14 +273,6 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     transition: opacity var(--t-base);
   }
 
-  .hero__bg-video--dark {
-    opacity: 1;
-  }
-
-  .hero__bg-video--light {
-    opacity: 0;
-  }
-
   .hero::after {
     content: '';
     position: absolute;
@@ -291,116 +291,150 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
   .hero__inner {
     position: relative;
     z-index: 1;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: var(--sp-10);
-    row-gap: var(--sp-10);
-    align-items: center;
+    display: flex;
+    gap: var(--sp-9);
+    align-items: stretch;
     padding-top: var(--sp-9);
     padding-bottom: var(--sp-9);
+    container-type: inline-size;
   }
 
-  /* ---- Trust badge ---- */
-  .hero__trust {
-    display: inline-flex;
-    align-items: center;
+  /*---- Content ----*/
+
+  .hero__content {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    container-type: inline-size;
+  }
+
+  .hero__lead {
+    max-width: 64ch;
+  }
+
+  .hero__headline-layout {
+    display: none;
+  }
+
+  /* ---- Showcase ---- */
+
+  .hero__showcase {
+    flex: 1 1 0;
+    display: flex;
+    max-width: 35rem;
+    flex-direction: column;
+    justify-content: space-between;
     gap: var(--sp-4);
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    padding: var(--sp-2) var(--sp-5);
-    /* margin-bottom: var(--sp-6); */
-    width: fit-content;
+    min-width: 0;
   }
 
-  .hero__trust-rating {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
+  @media (min-width: 900px) {
+
+    .hero__headline {
+      font-size: var(--hero-headline-fit-size, clamp(2.5rem, 7cqi, 3.75rem));
+    }
+
+    .hero__headline-layout--english-wide,
+    .hero__headline-layout--english-narrow,
+    .hero__headline-layout--macedonian {
+      white-space: nowrap;
+    }
+
+    .hero__headline-layout--english-narrow,
+    .hero__headline-layout--macedonian {
+      display: inline;
+    }
+
+    .hero__carousel {
+      width: 100%;
+      box-sizing: border-box;
+    }
   }
 
-  .hero__trust-score {
-    font-family: var(--font-display);
-    font-size: var(--text-base);
-    font-weight: 700;
-    color: var(--text-primary);
+  @media (min-width: 900px) and (max-height: 930px) {
+    .hero {
+      height: min(calc(100dvh - 6rem), 60rem);
+    }
+
+    .hero > .container {
+      height: 100%;
+    }
+
+    .hero__inner {
+      height: 100%;
+      box-sizing: border-box;
+      padding-block: clamp(1rem, 7dvh, 4rem);
+    }
+
+    .hero__showcase {
+      min-height: 0;
+    }
+
+    .hero__carousel,
+    .carousel__viewport {
+      flex: 1;
+      min-height: 0;
+    }
+
+    .carousel__track,
+    .carousel__slide,
+    .carousel__field {
+      height: 100%;
+    }
+
+    .carousel__media-frame {
+      flex: 1;
+      min-height: 0;
+      aspect-ratio: auto;
+    }
   }
 
-  .hero__trust-stars {
-    font-size: var(--text-sm);
-    letter-spacing: var(--letter-spacing-label);
+  @media (min-width: 900px) and (max-height: 760px) {
+    .hero__inner {
+      padding-block: clamp(1rem, 6dvh, 3rem);
+    }
+
+    .hero__content {
+      gap: clamp(0.875rem, 2.5dvh, 1rem);
+    }
   }
 
-  .hero__trust-divider {
-    display: block;
-    width: 1px;
-    height: 1.75rem;
-    background: var(--border-color);
-    flex-shrink: 0;
+    @media (max-width: 1300px) {
+    .hero__inner {
+      gap: var(--sp-8);
+    }
   }
 
-  .hero__trust-clients {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
+  @media (max-width: 1200px) {
+    .hero__inner {
+      gap: var(--sp-7);
+    }
   }
 
-  .hero__trust-count {
-    font-family: var(--font-display);
-    font-size: var(--text-lg);
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1;
+
+  @media (max-width: 1000px) {
+    .hero__inner {
+      gap: var(--sp-6);
+    }
   }
 
-  .hero__trust-label {
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
-    color: var(--text-secondary);
-    line-height: 1.4;
-  }
+  @media (max-width: 899px) {
+    .hero__headline {
+      font-size: clamp(2.2rem, 1.3rem + 2.6cqi, 2.4rem);
+    }
 
-  .hero__trust-logos {
-    display: flex;
-    align-items: center;
-    padding-left: var(--sp-2);
-  }
+    .hero__headline-layout--english-wide,
+    .hero__headline-layout--english-narrow,
+    .hero__headline-layout--macedonian {
+      display: none;
+    }
 
-  .hero__trust-logo {
-    position: relative;
-    width: 2rem;
-    height: 2rem;
-    margin-left: -0.55rem;
-    object-fit: cover;
-    border: 2px solid var(--border-color);
-    border-radius: 50%;
-    background: var(--bg);
+    .hero__headline-layout--mobile {
+      display: inline;
+    }
   }
-
-  .hero__trust-logo:first-child {
-    margin-left: 0;
-  }
-
-  .hero__trust-logo:nth-child(1) {
-    z-index: 5;
-  }
-
-  .hero__trust-logo:nth-child(2) {
-    z-index: 4;
-  }
-
-  .hero__trust-logo:nth-child(3) {
-    z-index: 3;
-  }
-
-  .hero__trust-logo:nth-child(4) {
-    z-index: 2;
-  }
-
-  .hero__trust-logo:nth-child(5) {
-    z-index: 1;
-  }
-
 
   /* ---- Lead ---- */
 
@@ -477,6 +511,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
   }
 
   .carousel__field {
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
@@ -507,14 +542,6 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     transition: opacity var(--t-base);
   }
 
-  .carousel__media--dark {
-    opacity: 1;
-  }
-
-  .carousel__media--light {
-    opacity: 0;
-  }
-
   .carousel__slide-title {
     font-family: var(--font-display);
     font-size: var(--text-base);
@@ -522,23 +549,19 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     color: var(--text-primary);
     line-height: 1.3;
     margin: 0;
-    text-align: center;
+    text-align: left;
   }
 
-  :global([data-theme='light']) .carousel__media--dark {
-    opacity: 0;
+  .carousel__field-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    margin-top: auto;
   }
 
-  :global([data-theme='light']) .carousel__media--light {
-    opacity: 1;
-  }
-
-  :global([data-theme='light']) .hero__bg-video--dark {
-    opacity: 0;
-  }
-
-  :global([data-theme='light']) .hero__bg-video--light {
-    opacity: 1;
+  .carousel__field-cta {
+    flex: 0 0 auto;
   }
 
   /* Dot indicators */
@@ -589,6 +612,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     fill: currentColor;
   }
 
+
   .carousel__arrow--prev .carousel__arrow-icon {
     transform: scaleX(-1);
   }
@@ -610,13 +634,15 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
   }
 
   .carousel__dot {
+    position: relative;
     height: var(--width);
     width: var(--width);
-    /* border-radius: var(--radius-sm); */
+    border-radius: var(--radius-sm);
     background: var(--text-muted);
     border: none;
     padding: 0;
     cursor: pointer;
+    overflow: hidden;
     transition:
       background var(--t-base),
       width var(--t-base);
@@ -627,15 +653,77 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
   }
 
   .carousel__dot[aria-selected="true"] {
-    background: var(--color-brand);
+    background: var(--color-brand-darkest);
     width: calc(var(--width) * 5);
   }
 
+  .carousel__dot[aria-selected="true"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-brand);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .carousel__dot.is-progressing::after {
+    animation: carousel-dot-progress 4.5s linear forwards;
+  }
+
+  @keyframes carousel-dot-progress {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
   /* ---- Responsive ---- */
-  @media (max-width: 1024px) {
+  @media (max-width: 899px) {
     .hero__inner {
-      grid-template-columns: 1fr;
-      gap: var(--sp-8);
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero__content,
+    .hero__showcase {
+      display: contents;
+    }
+
+    .hero__headline,
+    .hero__lead {
+      text-align: center;
+    }
+
+    .hero__lead {
+      align-self: center;
+    }
+
+    .hero__actions {
+      align-self: center;
+      align-items: center;
+    }
+
+    .hero__cta-group {
+      justify-content: center;
+    }
+
+    .hero__cta-note {
+      padding-left: 0;
+      text-align: center;
+    }
+
+    .hero__carousel {
+      order: 1;
+      margin-top: var(--sp-2);
+      width: 100%;
+      max-width: 35rem;
+      align-self: center;
+      box-sizing: border-box;
+    }
+
+    .hero__showcase > :global(.hero-proof) {
+      order: -1;
+      max-width: 35rem;
+      margin-inline: auto;
     }
 
     .hero {
@@ -644,10 +732,16 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 580px) {
     .hero__inner {
       padding-top: var(--sp-7);
       padding-bottom: var(--sp-7);
+      align-items: stretch;
+    }
+
+    .hero__headline,
+    .hero__lead {
+      text-align: left;
     }
 
     .hero__lead {
@@ -657,36 +751,31 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     .hero__actions {
       flex-direction: column;
       align-items: flex-start;
+      align-self: stretch;
+    }
+
+    .hero__cta-group {
+      justify-content: flex-start;
+    }
+
+    .hero__cta-note {
+      text-align: left;
     }
 
     .hero__carousel {
       padding: var(--sp-4);
     }
+
+    .hero__carousel {
+      max-width: none;
+    }
+
+    .hero__showcase > :global(.hero-proof) {
+      max-width: none;
+    }
   }
 
   @media (max-width: 480px) {
-    .hero__trust {
-      box-sizing: border-box;
-      width: fit-content;
-      max-width: 100%;
-      flex-wrap: nowrap;
-      gap: var(--sp-2);
-      padding: var(--sp-2);
-    }
-
-    .hero__trust-clients {
-      min-width: 0;
-      flex: 1 1 auto;
-    }
-
-    .hero__trust-label {
-      overflow-wrap: anywhere;
-    }
-
-    .hero__trust-logos {
-      padding-left: 0;
-    }
-
     .hero__cta-group {
       width: 100%;
       flex-direction: column;
@@ -699,69 +788,106 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     }
   }
 
-  @media (max-width: 320px) {
-    .hero__trust {
-      flex-wrap: wrap;
-      align-items: flex-start;
-    }
-
-    .hero__trust-rating {
-      flex: 0 0 100%;
-    }
-
-    .hero__trust-divider {
-      flex: 0 0 100%;
-      width: 100%;
-      height: 1px;
-    }
-
-    .hero__trust-clients {
-      flex: 0 1 auto;
-    }
-
-    .hero__trust-logos {
-      width: auto;
-      flex: 0 0 auto;
-      justify-content: flex-start;
-      align-self: center;
-    }
-
-    .hero__trust-logo {
-      width: 1.5rem;
-      height: 1.5rem;
-      margin-left: -0.5rem;
-    }
-
-    .hero__trust-logo:first-child {
-      margin-left: 0;
+  @media (max-width: 370px) {
+    .hero__headline {
+      font-size: clamp(1.9rem, 6.5vw, 2rem);
     }
   }
 
-  @media (max-width: 240px) {
-    .hero__trust-divider {
-      display: none;
-    }
-
-    .hero__trust-rating,
-    .hero__trust-clients,
-    .hero__trust-logos {
-      flex: 0 0 100%;
-    }
-  }
 </style>
 
 <script>
-  const viewport = document.getElementById(
-    "carouselViewport",
-  ) as HTMLElement | null;
-  const track = document.getElementById(
-    "heroCarouselTrack",
-  ) as HTMLElement | null;
-  const dots = Array.from(
-    document.querySelectorAll<HTMLButtonElement>(".carousel__dot"),
-  );
-  const prevBtn = document.querySelector<HTMLButtonElement>("[data-carousel-prev]");
-  const nextBtn = document.querySelector<HTMLButtonElement>("[data-carousel-next]");
+  const root = document.getElementById("hero");
+  const headline = root?.querySelector<HTMLElement>(".hero__headline");
+  const headlineContent = headline?.parentElement ?? null;
+  const headlineLead = headlineContent?.querySelector<HTMLElement>(".hero__lead") ?? null;
+  const headlineActions = headlineContent?.querySelector<HTMLElement>(".hero__actions") ?? null;
+
+  if (headline && headlineContent && headlineLead && headlineActions) {
+    const fitHeadline = () => {
+      if (window.innerWidth < 900) {
+        headline.style.removeProperty("--hero-headline-fit-size");
+        return;
+      }
+
+      const activeLayout = Array.from(
+        headline.querySelectorAll<HTMLElement>(".hero__headline-layout"),
+      ).find((layout) => getComputedStyle(layout).display !== "none");
+      if (!activeLayout) return;
+
+      const sampleFontSize = 48;
+      const probe = headline.cloneNode(true) as HTMLElement;
+      probe.setAttribute("aria-hidden", "true");
+      Object.assign(probe.style, {
+        position: "fixed",
+        left: "-10000px",
+        top: "0",
+        width: "max-content",
+        maxWidth: "none",
+        margin: "0",
+        fontSize: `${sampleFontSize}px`,
+        lineHeight: "1.1",
+        whiteSpace: "nowrap",
+        visibility: "hidden",
+        pointerEvents: "none",
+      });
+      document.body.append(probe);
+      const probeBounds = probe.getBoundingClientRect();
+      probe.remove();
+
+      const headlineStyle = getComputedStyle(headline);
+      const leadStyle = getComputedStyle(headlineLead);
+      const actionsStyle = getComputedStyle(headlineActions);
+      const margins =
+        parseFloat(headlineStyle.marginBlockStart) +
+        parseFloat(headlineStyle.marginBlockEnd) +
+        parseFloat(leadStyle.marginBlockStart) +
+        parseFloat(leadStyle.marginBlockEnd) +
+        parseFloat(actionsStyle.marginBlockStart) +
+        parseFloat(actionsStyle.marginBlockEnd);
+      const availableWidth =
+        headlineContent.clientWidth -
+        parseFloat(headlineStyle.marginInlineStart) -
+        parseFloat(headlineStyle.marginInlineEnd);
+      const availableHeight =
+        headlineContent.clientHeight -
+        headlineLead.offsetHeight -
+        headlineActions.offsetHeight -
+        margins -
+        2 * 16;
+      const heightScale = Math.min(1, window.innerHeight / 930);
+      const shortViewportScale =
+        window.innerHeight <= 760
+          ? Math.max(0.5, (window.innerHeight - 80) / window.innerHeight)
+          : 1;
+      const scale = Math.min(
+        availableWidth / probeBounds.width,
+        availableHeight / probeBounds.height,
+      ) * heightScale * shortViewportScale;
+
+      if (Number.isFinite(scale) && scale > 0) {
+        headline.style.setProperty(
+          "--hero-headline-fit-size",
+          `${Math.max(12, sampleFontSize * scale)}px`,
+        );
+      }
+    };
+
+    const fitOnFrame = () => window.requestAnimationFrame(fitHeadline);
+    const resizeObserver = new ResizeObserver(fitOnFrame);
+    resizeObserver.observe(headlineContent);
+    resizeObserver.observe(headlineLead);
+    resizeObserver.observe(headlineActions);
+    window.addEventListener("resize", fitOnFrame);
+    document.fonts.ready.then(fitOnFrame);
+    fitOnFrame();
+  }
+
+  const viewport = root?.querySelector<HTMLElement>(".carousel__viewport") ?? null;
+  const track = root?.querySelector<HTMLElement>(".carousel__track") ?? null;
+  const dots = Array.from(root?.querySelectorAll<HTMLButtonElement>(".carousel__dot") ?? []);
+  const prevBtn = root?.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+  const nextBtn = root?.querySelector<HTMLButtonElement>("[data-carousel-next]");
 
   if (viewport && track) {
     const carouselTrack = track;
@@ -809,6 +935,24 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
         dots.forEach((dot, i) =>
           dot.setAttribute("aria-selected", String(i === real)),
         );
+        startProgress();
+      }
+
+      function pauseProgress() {
+        dots.forEach((dot) => dot.classList.remove("is-progressing"));
+      }
+
+      function startProgress() {
+        const activeDot = dots.find((dot) => dot.getAttribute("aria-selected") === "true");
+        pauseProgress();
+        if (reduced || !activeDot) return;
+        void activeDot.offsetWidth;
+        activeDot.classList.add("is-progressing");
+      }
+
+      function pauseAutoplay() {
+        clearInterval(timer);
+        pauseProgress();
       }
 
       function setPosition(idx: number, animated = true) {
@@ -921,11 +1065,12 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
       function startAutoplay() {
         if (reduced) return;
         clearInterval(timer);
+        startProgress();
         timer = window.setInterval(tick, 4500);
       }
 
       function resetAutoplay() {
-        clearInterval(timer);
+        pauseAutoplay();
         startAutoplay();
       }
 
@@ -933,6 +1078,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
       viewport.addEventListener("pointerdown", (e) => {
         if (isAnimating) return;
         if (e.pointerType === "mouse" && e.button !== 0) return;
+        if (e.target instanceof Element && e.target.closest("a")) return;
 
         e.preventDefault();
         dragging = true;
@@ -940,7 +1086,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
         dragDiff = 0;
         carouselTrack.style.transition = "none";
         viewport.setPointerCapture(e.pointerId);
-        clearInterval(timer);
+        pauseAutoplay();
       });
 
       viewport.addEventListener("pointermove", (e) => {
@@ -977,7 +1123,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
       viewport.addEventListener("lostpointercapture", finishDrag);
 
       // Pause autoplay on hover
-      viewport.addEventListener("mouseenter", () => clearInterval(timer));
+      viewport.addEventListener("mouseenter", pauseAutoplay);
       viewport.addEventListener("mouseleave", () => {
         if (!dragging) startAutoplay();
       });

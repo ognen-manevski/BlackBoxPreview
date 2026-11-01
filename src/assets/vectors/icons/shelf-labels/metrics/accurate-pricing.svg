@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="sl-icon-accurate-pricing__a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      .sl-icon-accurate-pricing__b {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <g>
+    <g>
+      <path class="sl-icon-accurate-pricing__b" d="M56.25595,25.77308c-4.14676-13.6565-18.57915-21.36568-32.23566-17.21892-8.53531,2.59172-14.74745,9.20127-17.19389,17.12808"/>
+      <polyline class="sl-icon-accurate-pricing__b" points="47.63973 22.48285 56.31 26.25171 60.07886 17.58144"/>
+    </g>
+    <g>
+      <path class="sl-icon-accurate-pricing__b" d="M7.74405,38.22692c4.14676,13.6565,18.57915,21.36568,32.23566,17.21892,8.53531-2.59172,14.74745-9.20127,17.19389-17.12808"/>
+      <polyline class="sl-icon-accurate-pricing__b" points="16.36027 41.51715 7.69 37.74829 3.92114 46.41856"/>
+    </g>
+  </g>
+  <g>
+    <polygon class="sl-icon-accurate-pricing__b" points="20.24342 20.57919 31.51581 19.2316 47.68803 35.40382 35.18277 47.90908 19.01055 31.73687 20.24342 20.57919"/>
+    <polyline class="sl-icon-accurate-pricing__b" points="26.89474 31.94737 30.17895 35.23158 36.24211 29.16842"/>
+  </g>
+</svg>

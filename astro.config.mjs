@@ -7,6 +7,17 @@ import { remarkInlineEditorialImage } from './scripts/remark-inline-editorial-im
 
 const isGitHubPages = process.env.DEPLOY_TARGET === "github";
 const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'BlackBoxPreview';
+const basePath = isGitHubPages ? `/${repoName}` : '';
+const legacyProductRoutes = new Set([
+  '/digital-signage',
+  '/shelf-labels',
+  '/video-streaming',
+  '/software-development',
+  '/mk/digital-signage',
+  '/mk/shelf-labels',
+  '/mk/video-streaming',
+  '/mk/software-development',
+]);
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,7 +38,17 @@ export default defineConfig({
     ? `/${repoName}/`
     : "/",
 
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => {
+        const pathname = new URL(page).pathname;
+        const route = basePath && pathname.startsWith(`${basePath}/`)
+          ? pathname.slice(basePath.length)
+          : pathname;
+        return !legacyProductRoutes.has(route.replace(/\/+$/, '') || '/');
+      },
+    }),
+  ],
 
   markdown: {
     processor: unified({
@@ -35,5 +56,4 @@ export default defineConfig({
     }),
   },
 });
-
 

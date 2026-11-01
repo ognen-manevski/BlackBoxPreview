@@ -1,4 +1,5 @@
 ---
-import DigitalSignagePage from '../components/pages/DigitalSignagePage.astro';
+import { getLocalizedPath } from '../i18n/utils';
+
+return Astro.redirect(getLocalizedPath('/services/neoslide/', 'en'), 301);
 ---
-<DigitalSignagePage lang="en" />

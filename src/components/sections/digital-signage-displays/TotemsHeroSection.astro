@@ -1,0 +1,239 @@
+---
+import darkBlurBg from '../../../assets/images/services/shelf-labels/hero/dark-bg-blur.jpg';
+import darkRotatedCover from '../../../assets/images/services/shelf-labels/hero/dark-rotated-loop.jpg';
+import videoMask from '../../../assets/images/services/shelf-labels/hero/video-mask.svg';
+import type { TotemsContent } from '../../../i18n/pages/digital-signage-displays/totems';
+
+interface Props {
+  content: TotemsContent['hero'] & { headingHighlightEnd?: string };
+  wideHeading?: boolean;
+}
+
+const { content, wideHeading = false } = Astro.props;
+---
+
+<section class:list={['totems-hero', wideHeading && 'totems-hero--wide-heading']} aria-label={content.ariaLabel} style={`--totems-video-mask: url(${videoMask.src});`}>
+  <div class="totems-hero__media" aria-hidden="true">
+    <img
+      class="totems-hero__background"
+      src={darkBlurBg.src}
+      alt=""
+      width={darkBlurBg.width}
+      height={darkBlurBg.height}
+      loading="eager"
+      decoding="async"
+    />
+  </div>
+
+  <div class="container totems-hero__inner">
+    <div class="totems-hero__content">
+      <h1 class="section-headline section-headline--hero larger-title">
+        <span class="hero__headline-static">{content.headingStart}</span>
+        <span class="hero-highlight-group">
+          <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: 0s">
+            {content.headingHighlight}
+          </span>
+        </span>
+        {wideHeading && <br class="totems-hero__wide-break" />}
+        {content.headingEnd}
+        {content.headingHighlightEnd && (
+          <span class="hero-highlight-group">
+            <span class="hero-highlight hero-highlight--animated" style="--hero-highlight-delay: 0.12s">
+              {content.headingHighlightEnd}
+            </span>
+          </span>
+        )}
+      </h1>
+      <p class="section-copy totems-hero__lead">{content.lead}</p>
+    </div>
+    <div class="totems-hero__stage" aria-hidden="true">
+      <div class="totems-hero__video-mask">
+        <video
+          class="totems-hero__video"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="auto"
+          poster={darkRotatedCover.src}
+          src={`${import.meta.env.BASE_URL}videos/shelf-labels/dark-rotated-loop.mp4`}
+        ></video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .totems-hero {
+    position: relative;
+    overflow: clip;
+    width: 100%;
+    min-height: min(56rem, calc(60svh + var(--navbar-height)));
+    background: var(--bg);
+  }
+
+  .totems-hero__inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(22rem, 1.1fr);
+    align-items: center;
+    gap: clamp(var(--sp-4), 3vw, var(--sp-7));
+    min-height: inherit;
+    padding-top: var(--sp-4);
+    padding-bottom: calc(var(--navbar-height) + var(--sp-4));
+  }
+
+  .totems-hero__content {
+    position: relative;
+    z-index: 3;
+    max-width: 38rem;
+  }
+
+  .totems-hero__content h1 {
+    margin: 0;
+  }
+
+  @media (min-width: 769px) and (max-width: 1199px) {
+    .totems-hero--wide-heading .totems-hero__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .totems-hero--wide-heading .totems-hero__content {
+      max-width: 45rem;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .totems-hero--wide-heading .totems-hero__lead {
+      margin-inline: auto;
+    }
+
+    .totems-hero--wide-heading .totems-hero__stage {
+      width: min(36rem, 90vw);
+      justify-self: center;
+    }
+
+    .totems-hero--wide-heading h1 {
+      font-size: clamp(3.25rem, 4.2vw, 3.5rem);
+      line-height: 1.1;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .totems-hero--wide-heading .totems-hero__inner {
+      grid-template-columns: minmax(0, 1.2fr) minmax(22rem, 0.8fr);
+    }
+
+    .totems-hero--wide-heading .totems-hero__content {
+      max-width: 52rem;
+    }
+
+    .totems-hero--wide-heading h1 {
+      font-size: clamp(3rem, 4.1vw, 3.75rem);
+      line-height: 1.1;
+    }
+
+    .totems-hero--wide-heading .totems-hero__wide-break {
+      display: block;
+    }
+  }
+
+  .totems-hero__wide-break {
+    display: none;
+  }
+
+  .totems-hero__lead {
+    max-width: 60ch;
+    margin-top: var(--sp-4);
+  }
+
+  .totems-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .totems-hero__background {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 62% center;
+  }
+
+  .totems-hero__media::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--bg) 82%, transparent),
+      color-mix(in srgb, var(--bg) 46%, transparent) 42%,
+      color-mix(in srgb, var(--bg) 14%, transparent)
+    );
+    content: "";
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  .totems-hero__stage {
+    position: relative;
+    z-index: 3;
+    width: min(42rem, 100%);
+    justify-self: end;
+  }
+
+  .totems-hero__video-mask {
+    width: 100%;
+    aspect-ratio: 1920 / 1362;
+    overflow: hidden;
+    -webkit-mask: var(--totems-video-mask) center / 100% 100% no-repeat;
+    mask: var(--totems-video-mask) center / 100% 100% no-repeat;
+  }
+
+  .totems-hero__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 1024px) {
+    .totems-hero {
+      min-height: 0;
+    }
+
+    .totems-hero__inner {
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+      padding-top: var(--navbar-height);
+      padding-bottom: calc(var(--navbar-height) + var(--sp-4));
+    }
+
+    .totems-hero__content {
+      max-width: 45rem;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .totems-hero__lead {
+      margin-inline: auto;
+      margin-top: var(--sp-3);
+    }
+
+    .totems-hero__stage {
+      width: min(36rem, 90vw);
+      justify-self: center;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .totems-hero__stage {
+      width: min(30rem, 100%);
+    }
+  }
+</style>

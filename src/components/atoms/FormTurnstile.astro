@@ -1,0 +1,42 @@
+---
+import {
+  formsTurnstileEnabled,
+  formsVerificationPreviewEnabled,
+  publicTurnstileSiteKey,
+} from '../../config/forms';
+
+interface Props {
+  formType: string;
+}
+
+const { formType } = Astro.props;
+---
+
+{
+  formsTurnstileEnabled && (
+    <>
+      <input type="hidden" name="formType" value={formType}>
+      <div
+        class="cf-turnstile"
+        data-sitekey={publicTurnstileSiteKey}
+        data-theme="auto"
+      ></div>
+    </>
+  )
+}
+
+{
+  !formsTurnstileEnabled && formsVerificationPreviewEnabled && (
+    <div class="form-verification-preview" aria-hidden="true"></div>
+  )
+}
+
+<style>
+  .form-verification-preview {
+    width: min(100%, 18.75rem);
+    height: 4.0625rem;
+    border: 1px solid #d6d6d6;
+    border-radius: 0.25rem;
+    background: #fff;
+  }
+</style>

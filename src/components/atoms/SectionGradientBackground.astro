@@ -5,7 +5,6 @@ import type { ImageMetadata } from 'astro';
 interface Props {
   videoSrc: string;
   posterSrc?: ImageMetadata;
-  posterSrcLight?: ImageMetadata;
   objectPosition?: string;
   widthMd?: string;
   widthSm?: string;
@@ -18,7 +17,6 @@ interface Props {
 const {
   videoSrc,
   posterSrc,
-  posterSrcLight,
   objectPosition = 'center right',
   widthMd = 'min(64vw, 32rem)',
   widthSm = '100%',
@@ -35,20 +33,9 @@ const {
   style={`--section-bg-width-md: ${widthMd}; --section-bg-width-sm: ${widthSm}; --section-bg-opacity-md: ${opacityMd}; --section-bg-opacity-sm: ${opacitySm}; --section-bg-overlay: ${overlayColor}; --section-bg-video-blur: ${videoBlur};`}
 >
   <video
-    class="section-gradient-bg__video section-gradient-bg__video--dark"
+    class="section-gradient-bg__video"
     src={videoSrc}
     poster={posterSrc?.src}
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="metadata"
-    style={`object-position: ${objectPosition};`}
-  ></video>
-  <video
-    class="section-gradient-bg__video section-gradient-bg__video--light"
-    src={videoSrc.replace(/\.mp4$/, '-wh.mp4')}
-    poster={posterSrcLight?.src}
     autoplay
     muted
     loop
@@ -59,18 +46,8 @@ const {
 
   {posterSrc && (
     <Picture
-      class="section-gradient-bg__poster section-gradient-bg__poster--dark"
+      class="section-gradient-bg__poster"
       src={posterSrc}
-      widths={[480, 800, 1200]}
-      sizes="100vw"
-      alt=""
-      loading="lazy"
-    />
-  )}
-  {posterSrcLight && (
-    <Picture
-      class="section-gradient-bg__poster section-gradient-bg__poster--light"
-      src={posterSrcLight}
       widths={[480, 800, 1200]}
       sizes="100vw"
       alt=""
@@ -107,22 +84,6 @@ const {
     background: var(--section-bg-overlay);
   }
 
-  .section-gradient-bg__video--dark {
-    opacity: 1;
-  }
-
-  .section-gradient-bg__video--light {
-    opacity: 0;
-  }
-
-  :global([data-theme='light']) .section-gradient-bg__video--dark {
-    opacity: 0;
-  }
-
-  :global([data-theme='light']) .section-gradient-bg__video--light {
-    opacity: 1;
-  }
-
   .section-gradient-bg__poster {
     display: none;
     position: absolute;
@@ -130,28 +91,13 @@ const {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    opacity: 1;
   }
 
   .section-gradient-bg__poster :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-
-  .section-gradient-bg__poster--dark {
-    opacity: 1;
-  }
-
-  .section-gradient-bg__poster--light {
-    opacity: 0;
-  }
-
-  :global([data-theme='light']) .section-gradient-bg__poster--dark {
-    opacity: 0;
-  }
-
-  :global([data-theme='light']) .section-gradient-bg__poster--light {
-    opacity: 1;
   }
 
   @media (max-width: 700px) {
@@ -161,25 +107,10 @@ const {
 
     .section-gradient-bg__poster {
       display: block;
+      opacity: 0.5;
       filter: blur(0.5rem);
       transform: scale(1.03);
       transform-origin: center;
-    }
-
-    .section-gradient-bg__poster--dark {
-      opacity: 0.5;
-    }
-
-    .section-gradient-bg__poster--light {
-      opacity: 0;
-    }
-
-    :global([data-theme='light']) .section-gradient-bg__poster--dark {
-      opacity: 0;
-    }
-
-    :global([data-theme='light']) .section-gradient-bg__poster--light {
-      opacity: 0.7;
     }
   }
 </style>

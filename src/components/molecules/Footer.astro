@@ -10,7 +10,6 @@ import { commonTranslations } from '../../i18n/common';
 import { getLocalizedPath, getTranslations } from '../../i18n/utils';
 import type { Lang } from '../../i18n/types';
 import mapsDark from '../../assets/images/maps-ss/maps-dark.jpg';
-import mapsWhite from '../../assets/images/maps-ss/maps-white.jpg';
 import openInNewIconRaw from '../../assets/vectors/icons/material/custom/open_in_new-600w.svg?raw';
 import smLinkedInRaw from '../../assets/vectors/icons/sm-icons/sm_linkedin.svg?raw';
 import smInstagramRaw from '../../assets/vectors/icons/sm-icons/sm_ig.svg?raw';
@@ -76,8 +75,7 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
           </ul>
 
           <a class="footer__map u-border-interactive" data-progressive-host href={mapsUrl} target="_blank" rel="noopener noreferrer" aria-label={t.mapTitle}>
-            <ProgressiveImage src={mapsDark} theme="dark"><img class="footer__map-img footer__map-img--dark" src={mapsDark.src} alt="" loading="lazy" decoding="async" /></ProgressiveImage>
-            <ProgressiveImage src={mapsWhite} theme="light"><img class="footer__map-img footer__map-img--light" src={mapsWhite.src} alt="" loading="lazy" decoding="async" /></ProgressiveImage>
+            <ProgressiveImage src={mapsDark}><img class="footer__map-img" src={mapsDark.src} alt="" loading="lazy" decoding="async" /></ProgressiveImage>
             <span class="btn btn--primary btn--sm btn--with-arrow footer__map-cta">
               <span>{t.openInMaps}</span>
               <Fragment set:html={openInNewIcon} />
@@ -89,7 +87,7 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
       <!-- RIGHT: Nav + Legal + CTA + Social -->
       <div class="footer__right">
 
-        <!-- Nav: Legal + Services + Company -->
+        <!-- Nav: Legal + Services + Displays + Company -->
         <nav class="footer__nav" aria-label={t.navigationAriaLabel}>
           <div class="footer__nav-col">
             <p class="footer__col-head">{t.legal}</p>
@@ -107,19 +105,27 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
           </div>
 
           <div class="footer__nav-col">
-            <p class="footer__col-head">{t.services}</p>
+            <p class="footer__col-head">{common.navigation.services}</p>
             <ul>
-              <li><a href={href('/digital-signage/')}>{common.navigation.serviceLinks.digitalSignage}</a></li>
-              <li><a href={href('/shelf-labels/')}>{common.navigation.serviceLinks.shelfLabels}</a></li>
-              <li><a href={href('/software-development/')}>{common.navigation.serviceLinks.softwareDevelopment}</a></li>
-              <li><a href={href('/video-streaming/')}>{common.navigation.serviceLinks.videoStreaming}</a></li>
+              <li><a href={href('/services/neoslide/')}>{common.navigation.serviceLinks.digitalSignage}</a></li>
+              <li><a href={href('/services/video-streaming/')}>{common.navigation.serviceLinks.videoStreaming}</a></li>
+              <li><a href={href('/services/software-development/')}>{common.navigation.serviceLinks.softwareDevelopment}</a></li>
+            </ul>
+          </div>
+          <div class="footer__nav-col">
+            <p class="footer__col-head">{common.navigation.digitalSignageDisplays}</p>
+            <ul>
+              <li><a href={href('/digital-signage-displays/totems/')}>{common.navigation.displayLinks.totems}</a></li>
+              <li><a href={href('/digital-signage-displays/interactive-displays/')}>{common.navigation.displayLinks.interactiveDisplays}</a></li>
+              <li><a href={href('/digital-signage-displays/electronic-shelf-labels/')}>{common.navigation.displayLinks.shelfLabels}</a></li>
             </ul>
           </div>
           <div class="footer__nav-col">
             <p class="footer__col-head">{t.company}</p>
             <ul>
-              <li><a href={href('/#about')}>{t.about}</a></li>
-              <li><a href={href('/#contact')}>{t.contactLink}</a></li>
+              <li><a href={href('/use-cases/')}>{common.navigation.caseStudies}</a></li>
+              <li><a href={href('/about/')}>{t.about}</a></li>
+              <li><a href={href('/contact/')}>{t.contactLink}</a></li>
               <li><a href={href('/faq/')}>{t.faq}</a></li>
             </ul>
           </div>
@@ -188,16 +194,18 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
   .footer {
     background: var(--bg-secondary);
     padding-top: var(--sp-6);
+    border-radius: var(--radius);
+    overflow: clip;
   }
 
   /* ---- Main grid: left panel | right panel ---- */
   .footer__grid {
     display: grid;
-    grid-template-columns: 22rem repeat(3, minmax(0, 1fr));
+    grid-template-columns: 22rem repeat(4, minmax(0, 1fr));
     grid-template-areas:
-      "left legal services company"
-      "left newsletter newsletter demo"
-      "left actions actions actions";
+      "left legal services displays company"
+      "left newsletter newsletter newsletter demo"
+      "left actions actions actions actions";
     gap: 1px;
     padding: 1px;
     background: var(--border-color);
@@ -301,18 +309,6 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
     object-fit: cover;
   }
 
-  .footer__map-img--light {
-    display: none;
-  }
-
-  :global([data-theme="light"]) .footer__map-img--dark {
-    display: none;
-  }
-
-  :global([data-theme="light"]) .footer__map-img--light {
-    display: block;
-  }
-
   .footer__map-cta {
     position: absolute;
     left: var(--sp-3);
@@ -357,6 +353,10 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
   }
 
   .footer__nav-col:nth-child(3) {
+    grid-area: displays;
+  }
+
+  .footer__nav-col:nth-child(4) {
     grid-area: company;
   }
 
@@ -392,7 +392,11 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
     margin: 0;
   }
 
-  .footer__nav-col a {
+  .footer__nav-col ul li{
+    line-height: 1.3;
+  }
+
+  .footer__nav-col :is(a, span) {
     font-size: var(--text-sm);
     color: var(--text-secondary);
     transition: color var(--t-fast);
@@ -445,6 +449,8 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
     flex-direction: column;
     align-items: flex-start;
     gap: var(--sp-3);
+    width: 100%;
+    min-width: 0;
   }
 
   .footer__legal-links a {
@@ -460,12 +466,20 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
   .footer__cookie-link {
     gap: var(--sp-2);
     margin-top: var(--sp-1);
-    white-space: nowrap;
-    flex-shrink: 0;
+    max-width: 100%;
+    min-width: 0;
+    flex-shrink: 1;
+    white-space: normal;
+    text-transform: none;
+    padding-inline: var(--sp-2);
+    font-size: 0.625rem;
+    letter-spacing: normal;
   }
 
   .footer__cookie-link span {
-    white-space: nowrap;
+    min-width: 0;
+    white-space: normal;
+    text-align: left;
   }
 
   .footer__cookie-link svg {
@@ -489,11 +503,15 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
 
   :global(.footer__subscribe) {
     width: 100%;
-    max-width: 30rem;
+    max-width: none;
   }
 
   :global(.footer__demo-cta) {
     justify-self: start;
+  }
+
+  :global(html[lang="mk"]) :global(.footer__demo-cta) {
+    padding-inline: var(--sp-3);
   }
 
   :global(.footer__subscribe) :global(.subscribe-field__button) {
@@ -562,12 +580,26 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
   }
 
   /* ---- Responsive ---- */
+  @media (max-width: 1300px) {
+    .footer__grid {
+      grid-template-areas:
+        "left legal services displays company"
+        "left newsletter newsletter demo demo"
+        "left actions actions actions actions";
+    }
+
+    :global(.footer__demo-cta) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+
   @media (max-width: 1150px) {
     .footer__grid {
       grid-template-columns: 22rem minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas:
-        "left services company"
-        "left legal legal"
+        "left services displays"
+        "left company legal"
         "newsletter newsletter demo"
         "actions actions actions";
     }
@@ -585,15 +617,25 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
       grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-template-areas:
         "left services"
-        "left company"
-        "demo legal"
-        "newsletter newsletter"
+        "left displays"
+        "company legal"
+        "demo newsletter"
         "actions actions";
     }
 
   }
 
   @media (max-width: 586px) {
+    .footer__grid {
+      grid-template-areas:
+        "left services"
+        "left displays"
+        "company legal"
+        "demo demo"
+        "newsletter newsletter"
+        "actions actions";
+    }
+
     .footer__left,
     .footer__nav-col,
     .footer__engagement-row,
@@ -604,20 +646,34 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
 
   @media (max-width: 443px) {
     .footer__grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-template-areas:
-        "left"
-        "services"
-        "company"
-        "legal"
-        "demo"
-        "newsletter"
-        "actions";
+        "left left"
+        "services displays"
+        "company legal"
+        "demo demo"
+        "newsletter newsletter"
+        "actions actions";
     }
 
     .footer__actions {
       flex-direction: column;
       align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 340px) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "left"
+        "services"
+        "displays"
+        "company"
+        "legal"
+        "demo"
+        "newsletter"
+        "actions";
     }
   }
 
@@ -685,13 +741,14 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
 </style>
 
 <script>
-  import { OPEN_COOKIE_PREFERENCES_EVENT } from '../../scripts/cookie-consent';
+  type CookiebotApi = { renew: () => void };
 
   const cookieButtons = document.querySelectorAll('[data-open-cookie-preferences], a[href="#cookie-preferences"]');
   cookieButtons.forEach((btn) => {
     btn.addEventListener('click', (event) => {
       event.preventDefault();
-      window.dispatchEvent(new CustomEvent(OPEN_COOKIE_PREFERENCES_EVENT));
+      const cookiebot = (window as Window & { Cookiebot?: CookiebotApi }).Cookiebot;
+      if (typeof cookiebot?.renew === 'function') cookiebot.renew();
     });
   });
 </script>

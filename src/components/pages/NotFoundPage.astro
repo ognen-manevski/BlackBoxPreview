@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NotFoundSection from '../sections/NotFoundSection.astro';
+import { notFoundContent } from '../../i18n/pages/not-found';
+import { getTranslations } from '../../i18n/utils'; import type { Lang } from '../../i18n/types';
+interface Props { lang: Lang } const { lang } = Astro.props; const c = getTranslations(notFoundContent, lang);
+---
+<BaseLayout lang={lang} title={c.seo.title} description={c.seo.description}><NotFoundSection lang={lang} content={c}/></BaseLayout>

@@ -1,10 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import HeroSection from '../sections/HeroSection.astro';
-import AboutSection from '../sections/AboutSection.astro';
+import HomeHeroPreview from '../sections/HomeHeroPreview.astro';
 import OurServicesSection from '../sections/OurServicesSection.astro';
 import CaseStudiesSection from '../sections/CaseStudiesSection.astro';
 import WhyChooseUsSection from '../sections/WhyChooseUsSection.astro';
+import HomeAboutSection from '../sections/HomeAboutSection.astro';
 import OurPartnersSection from '../sections/OurPartnersSection.astro';
 import TechnologySection from '../sections/TechnologySection.astro';
 import FaqSection from '../sections/FaqSection.astro';
@@ -22,13 +22,13 @@ const content = getTranslations(homePageContent, lang);
 ---
 
 <BaseLayout lang={lang} title={content.seo.title} description={content.seo.description}>
-  <HeroSection content={content.hero} />
-  <AboutSection content={content.about} />
+  <HomeHeroPreview content={content.hero} lang={lang} />
   <OurServicesSection content={content.services} />
   <CaseStudiesSection content={content.caseStudies} lang={lang} />
   <WhyChooseUsSection content={content.whyChoose} />
+  <HomeAboutSection content={content.about} />
   <OurPartnersSection content={content.partners} />
   <TechnologySection content={content.technology} />
-  <FaqSection content={content.faq} />
+  <FaqSection content={content.faq} lang={lang} />
   <ContactSection content={content.contact} />
 </BaseLayout>

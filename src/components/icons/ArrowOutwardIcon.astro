@@ -1,11 +1,24 @@
 ---
 import arrowOutward from '../../assets/vectors/icons/material/custom/arrow_outward_400w.svg?raw';
 
-interface Props { class?: string }
-const { class: className = '' } = Astro.props;
+interface Props {
+  class?: string;
+  variant?: 'filled' | 'outline';
+}
+const { class: className = '', variant = 'filled' } = Astro.props;
 ---
 
-<span class:list={['arrow-outward-icon', className]} aria-hidden="true" set:html={arrowOutward} />
+{
+  variant === 'outline' ? (
+    <span class:list={['arrow-outward-icon', 'arrow-outward-icon--outline', className]} aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+        <path d="M5 19 19 5M9 5h10v10" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter" />
+      </svg>
+    </span>
+  ) : (
+    <span class:list={['arrow-outward-icon', className]} aria-hidden="true" set:html={arrowOutward} />
+  )
+}
 
 <style>
   .arrow-outward-icon {
@@ -21,5 +34,9 @@ const { class: className = '' } = Astro.props;
     width: 100%;
     height: 100%;
     fill: currentColor;
+  }
+
+  .arrow-outward-icon--outline :global(svg) {
+    fill: none;
   }
 </style>

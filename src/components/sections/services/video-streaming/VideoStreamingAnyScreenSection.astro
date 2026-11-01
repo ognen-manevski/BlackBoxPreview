@@ -1,0 +1,141 @@
+---
+import devicesTv from "../../../../assets/images/services/video-streaming/devices-scroll/1-tv.png";
+import devicesMonitor from "../../../../assets/images/services/video-streaming/devices-scroll/2-monitor.png";
+import devicesLaptop from "../../../../assets/images/services/video-streaming/devices-scroll/3-laptop.png";
+import devicesTablet from "../../../../assets/images/services/video-streaming/devices-scroll/4-tablet.png";
+import devicesTel from "../../../../assets/images/services/video-streaming/devices-scroll/5-tel.png";
+import devicesWatch from "../../../../assets/images/services/video-streaming/devices-scroll/6-watch.png";
+import SectionTitleGroup from "../../../molecules/SectionTitleGroup.astro";
+import type { VideoStreamingContent } from "../../../../i18n/pages/services/video-streaming.ts";
+
+interface Props {
+  content: VideoStreamingContent["hero"];
+}
+
+const { content } = Astro.props;
+const devices = [
+  devicesTv,
+  devicesMonitor,
+  devicesLaptop,
+  devicesTablet,
+  devicesTel,
+  devicesWatch,
+];
+---
+
+<section class="section vs-any-screen" aria-labelledby="vs-any-screen-heading" data-vs-any-screen>
+  <div class="container vs-any-screen__inner">
+    <SectionTitleGroup
+      class="vs-any-screen__content"
+      label={content.nextLabel}
+      heading={content.nextHeading}
+      headingId="vs-any-screen-heading"
+      headlineClass="vs-any-screen__headline"
+      headlineWidth="23ch"
+      titleWidth="40%"
+      copy={content.nextCopy}
+      copyClass="vs-any-screen__copy"
+    />
+
+    <figure class="vs-any-screen__media" aria-hidden="true">
+      {devices.map((device, index) => (
+        <img
+          class="vs-any-screen__image"
+          src={device.src}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          style={`--vs-device-layer: ${index + 1}; --vs-device-index: ${index};`}
+        />
+      ))}
+    </figure>
+  </div>
+</section>
+
+<script>
+  const section = document.querySelector<HTMLElement>("[data-vs-any-screen]");
+
+  if (section) {
+    const media = section.querySelector<HTMLElement>(".vs-any-screen__media");
+
+    if (media && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            media.classList.add("is-visible");
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.15 },
+      );
+
+      observer.observe(media);
+      document.addEventListener(
+        "astro:before-swap",
+        () => observer.disconnect(),
+        { once: true },
+      );
+    } else if (media) {
+      media.classList.add("is-visible");
+    }
+  }
+</script>
+
+<style>
+  .vs-any-screen {
+    overflow: hidden;
+    background: var(--bg-secondary);
+  }
+
+  .vs-any-screen__inner {
+    display: grid;
+    gap: var(--sp-6);
+  }
+
+  .vs-any-screen__media {
+    display: grid;
+    isolation: isolate;
+    width: 100%;
+    aspect-ratio: 12 / 5;
+    margin: var(--sp-4) 0 0;
+  }
+
+  .vs-any-screen__image {
+    grid-area: 1 / 1;
+    z-index: var(--vs-device-layer);
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  .vs-any-screen__media.is-visible .vs-any-screen__image {
+    animation: vs-any-screen-rise 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--vs-device-index) * 140ms);
+  }
+
+  @keyframes vs-any-screen-rise {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vs-any-screen__image {
+      opacity: 1;
+      transform: none;
+    }
+
+    .vs-any-screen__media.is-visible .vs-any-screen__image {
+      animation: none;
+    }
+  }
+</style>

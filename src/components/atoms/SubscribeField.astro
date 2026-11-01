@@ -1,6 +1,10 @@
 ---
 import ArrowForwardIcon from '../icons/ArrowForwardIcon.astro';
+import FormTurnstile from './FormTurnstile.astro';
 import PrivacyConsent from './PrivacyConsent.astro';
+import FormSubmissionError from '../molecules/FormSubmissionError.astro';
+import { formsAction } from '../../config/forms';
+import { getLocaleFromUrl } from '../../i18n/utils';
 
 interface Props {
   buttonLabel?: string;
@@ -17,6 +21,7 @@ interface Props {
   privacyId?: string;
   class?: string;
   label: string;
+  visibleLabel?: boolean;
 }
 
 const {
@@ -26,7 +31,7 @@ const {
   inputName = 'email',
   inputId = `subscribe-${Math.random().toString(36).slice(2, 9)}`,
   inputType = 'email',
-  action = '#',
+  action = formsAction,
   method = 'post',
   buttonClass = '',
   privacyText,
@@ -34,11 +39,18 @@ const {
   privacyLinkHref = '#',
   privacyId,
   class: className = '',
+  visibleLabel = false,
 } = Astro.props;
+const lang = getLocaleFromUrl(Astro.url);
 ---
 
-<form class:list={['subscribe-field', className]} action={action} method={method}>
-  <label class="sr-only" for={inputId}>{label}</label>
+<form
+  class:list={['subscribe-field', className]}
+  action={action}
+  method={method}
+  data-submit-unavailable={action === '#' && method === 'post' ? 'true' : undefined}
+>
+  <label class:list={['subscribe-field__label', !visibleLabel && 'sr-only']} for={inputId}>{label}</label>
   <input
     id={inputId}
     class="subscribe-field__input"
@@ -52,20 +64,20 @@ const {
     <span>{buttonLabel}</span>
     <ArrowForwardIcon />
   </button>
-  {
-    privacyText && privacyLinkText && (
-      <div class="subscribe-field__consent">
-        <PrivacyConsent
-          id={privacyId}
-          text={privacyText}
-          linkText={privacyLinkText}
-          linkHref={privacyLinkHref}
-          required={true}
-        />
-      </div>
-    )
-  }
+  {privacyText && privacyLinkText && (
+    <div class="subscribe-field__consent">
+      <PrivacyConsent
+        id={privacyId}
+        text={privacyText}
+        linkText={privacyLinkText}
+        linkHref={privacyLinkHref}
+        required={true}
+      />
+    </div>
+  )}
+  <FormTurnstile formType="newsletter" />
 </form>
+{action === '#' && method === 'post' && <FormSubmissionError lang={lang} compact />}
 
 <style>
   .sr-only {
@@ -85,7 +97,7 @@ const {
     align-items: stretch;
     flex-wrap: wrap;
     width: 100%;
-    max-width: 64ch;
+    max-width: none;
     min-height: 2.375rem;
   }
 
@@ -102,6 +114,13 @@ const {
     padding: var(--sp-2) var(--sp-4);
     outline: none;
     transition: border-color var(--t-fast), background var(--t-fast);
+  }
+
+  .subscribe-field__label:not(.sr-only) {
+    flex-basis: 100%;
+    margin-bottom: var(--sp-1);
+    color: var(--text-primary);
+    font-size: var(--text-sm);
   }
 
   .subscribe-field__input::placeholder {

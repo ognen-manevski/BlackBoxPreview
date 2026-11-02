@@ -116,6 +116,12 @@ Rules:
 * Use `px` only for small fixed values like borders.
 * Keep `html { font-size: 100%; }`.
 
+### Cascade and production parity
+
+* Do not rely on equal-specificity source order between Astro component stylesheets; development and production CSS bundle order can differ.
+* When a section overrides styles from a reusable child component, ensure the override has higher specificity than the child’s scoped selector, especially for `:global()` rules.
+* Verify cascade-sensitive changes with a production build and compare affected routes at relevant responsive breakpoints.
+
 ### Responsive CSS
 
 - Keep responsive rules with the component they modify.

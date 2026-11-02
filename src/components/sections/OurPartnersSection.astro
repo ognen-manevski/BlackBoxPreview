@@ -54,7 +54,7 @@ const partnerGridCells = Array.from({ length: 12 }, (_, index) => {
   }
 
   @media (max-width: 800px) {
-    :global(.partners .content-grid) {
+    .partners :global(.content-grid) {
       grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 
@@ -64,7 +64,7 @@ const partnerGridCells = Array.from({ length: 12 }, (_, index) => {
   }
 
   @media (max-width: 700px) {
-    :global(.partners .content-grid) {
+    .partners :global(.content-grid) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
@@ -74,7 +74,7 @@ const partnerGridCells = Array.from({ length: 12 }, (_, index) => {
   }
 
   @media (max-width: 260px) {
-    :global(.partners .content-grid) {
+    .partners :global(.content-grid) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 

@@ -146,13 +146,13 @@ const caseStudyGridCells = posts.map((post) => ({
     background: var(--bg-secondary);
   }
 
-  :global(.case-studies .content-grid) {
+  .case-studies :global(.content-grid) {
     gap: 1px;
     border: 0;
     background: var(--border-color);
   }
 
-  :global(.case-studies .content-grid__cell) {
+  .case-studies :global(.content-grid__cell) {
     border: 0;
     background: var(--bg-secondary);
   }
@@ -192,23 +192,23 @@ const caseStudyGridCells = posts.map((post) => ({
       gap: var(--sp-6);
     }
 
-    :global(.case-studies .content-grid) {
+    .case-studies :global(.content-grid) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (max-width: 700px) {
-    :global(.case-studies .content-grid) {
+    .case-studies :global(.content-grid) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    :global(.case-studies .content-grid__cell) {
+    .case-studies :global(.content-grid__cell) {
       min-height: auto;
     }
   }
 
   @media (max-width: 360px) {
-    :global(.case-studies .content-grid) {
+    .case-studies :global(.content-grid) {
       grid-template-columns: 1fr;
     }
   }

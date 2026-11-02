@@ -152,18 +152,7 @@
     </g>
     <g>
       <rect class="ico-border" x="13" y="402.92314" width="54.26352" height="54.26352" rx="4" ry="4"/>
-      <g>
-        <rect class="e-demo-chart" x="19.39578" y="413.82964" width="41.47194" height="27.28893"/>
-        <rect class="e-demo-chart" x="19.39578" y="441.11857" width="41.47194" height="2.1323"/>
-        <g>
-          <line class="e-demo-chart" x1="23.96276" y1="446.28015" x2="23.96276" y2="443.25087"/>
-          <line class="e-demo-chart" x1="21.44388" y1="446.27934" x2="26.48323" y2="446.27934"/>
-        </g>
-        <g>
-          <line class="e-demo-chart" x1="56.29559" y1="446.28015" x2="56.29559" y2="443.25087"/>
-          <line class="e-demo-chart" x1="53.77591" y1="446.27934" x2="58.81527" y2="446.27934"/>
-        </g>
-      </g>
+      <!-- totems-how-icon-slot:entrance-totem -->
     </g>
   </g>
   <g>
@@ -174,20 +163,7 @@
     </g>
     <g>
       <rect class="ico-border" x="13" y="541.70318" width="54.26352" height="54.26352" rx="4" ry="4"/>
-      <g>
-        <rect class="e-demo-chart" x="20.46809" y="565.25211" width="26.66997" height="14.50018"/>
-        <g>
-          <line class="e-demo-chart" x1="34.86389" y1="583.17639" x2="34.86389" y2="579.7531"/>
-          <line class="e-demo-chart" x1="32.74227" y1="583.17639" x2="32.74227" y2="579.7531"/>
-        </g>
-        <rect class="e-demo-chart" x="28.08394" y="583.17639" width="11.43828" height="1.40929"/>
-        <polyline class="e-demo-chart" points="48.16237 579.7531 59.79542 579.7531 59.79542 553.08421 45.29255 553.08421 45.29255 564.22528"/>
-        <g>
-          <line class="e-demo-chart" x1="53.60407" y1="583.17639" x2="53.60407" y2="579.7531"/>
-          <line class="e-demo-chart" x1="51.48245" y1="583.17639" x2="51.48245" y2="579.7531"/>
-        </g>
-        <rect class="e-demo-chart" x="46.82412" y="583.17639" width="11.43828" height="1.40929"/>
-      </g>
+      <!-- totems-how-icon-slot:reception-totem -->
     </g>
   </g>
   <g>
@@ -198,12 +174,7 @@
     </g>
     <g>
       <rect class="ico-border" x="356.44295" y="541.70318" width="54.26352" height="54.26352" rx="4" ry="4"/>
-      <g>
-        <rect class="e-demo-chart" x="365.00629" y="555.36151" width="17.32298" height="12.11476"/>
-        <rect class="e-demo-chart" x="384.82015" y="555.36151" width="17.32298" height="12.11476"/>
-        <rect class="e-demo-chart" x="365.00629" y="570.19361" width="17.32298" height="12.11476"/>
-        <rect class="e-demo-chart" x="384.82015" y="570.19361" width="17.32298" height="12.11476"/>
-      </g>
+      <!-- totems-how-icon-slot:outdoor-totem -->
     </g>
   </g>
   <g>
@@ -214,11 +185,7 @@
     </g>
     <g>
       <rect class="ico-border" x="356.44295" y="402.92314" width="54.26352" height="54.26352" rx="4" ry="4"/>
-      <g>
-        <polyline class="e-demo-chart" points="374.88735 448.56502 374.88735 409.28407 392.26201 409.28407 392.26201 448.56502"/>
-        <rect class="e-demo-chart" x="376.88801" y="411.35014" width="13.37361" height="25.45509"/>
-        <rect class="e-demo-chart" x="372.46302" y="448.56503" width="22.22338" height="2.26069"/>
-      </g>
+      <!-- totems-how-icon-slot:showroom-totem -->
     </g>
   </g>
 </svg>

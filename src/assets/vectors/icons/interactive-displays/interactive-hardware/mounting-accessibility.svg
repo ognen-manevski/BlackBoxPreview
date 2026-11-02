@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="interactive-displays-hardware-mounting-accessibility" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 64 64">
+  <!-- Generator: Adobe Illustrator 29.0.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 186)  -->
+  <defs>
+    <style>
+      #interactive-displays-hardware-mounting-accessibility .st0 {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="st0" d="M13.5,41v-24h-4l8-9,8,9h-4v14.5"/>
+    <path class="st0" d="M26.5,33.5v13.5h-4l8,9,8-9h-4v-24"/>
+  </g>
+  <path class="st0" d="M54.5,9h-9v46h9M45.5,17h5M45.5,25h9M45.5,33h5M45.5,41h9M45.5,49h5"/>
+</svg>

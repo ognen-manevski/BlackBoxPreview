@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="totems-benefit-reduce-printing-manual-work" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="butt" stroke-linejoin="miter" aria-hidden="true" focusable="false">
+  <path d="M13.1,4.8h27v31M6.1,11.8h27v42H6.1V11.8ZM13.1,21.8h13M13.1,29.8h13M13.1,37.8h8"/>
+  <g>
+    <circle cx="46.9" cy="48.2" r="11"/>
+    <g>
+      <path d="M46.9,42.2v12"/>
+      <polyline points="41.2 48.6 46.9 54.2 52.5 48.6"/>
+    </g>
+  </g>
+</svg>

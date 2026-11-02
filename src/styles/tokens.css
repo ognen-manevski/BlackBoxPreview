@@ -11,6 +11,20 @@
   --color-brand-border: rgba(60, 153, 223, 0.28);
   --color-aurora: #2d81ff;
 
+  /* Notification-only status colors; do not use for general UI. */
+  --color-notification-success: #78BD91;
+  --color-notification-success-body: #98AA9D;
+  --color-notification-success-bg: rgba(120, 189, 145, 0.08);
+  --color-notification-success-border: rgba(120, 189, 145, 0.26);
+  --color-notification-info: #D2B563;
+  --color-notification-info-body: #A49A7B;
+  --color-notification-info-bg: rgba(210, 181, 99, 0.08);
+  --color-notification-info-border: rgba(210, 181, 99, 0.26);
+  --color-notification-fail: #D98670;
+  --color-notification-fail-body: #A18C85;
+  --color-notification-fail-bg: rgba(217, 134, 112, 0.08);
+  --color-notification-fail-border: rgba(217, 134, 112, 0.26);
+
   /* --- Gray scale (dark → light) --- */
   --gray-900: #0D0D0D;
   --gray-800: #141414;

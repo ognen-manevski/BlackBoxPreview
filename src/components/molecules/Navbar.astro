@@ -7,13 +7,13 @@ import type { Lang } from "../../i18n/types";
 import logoRaw from "../../assets/vectors/brand/logo-horizontal.svg?raw";
 import neoslideLogoRaw from "../../assets/vectors/icons/nav-menu-icons/neoslide-logo-gradient.svg?raw";
 
-const serviceIconModules = import.meta.glob<string>(
-  "../../assets/vectors/icons/nav-menu-icons/{development,digital-signage,shelf-labels,video-streaming}.svg",
+const navIconModules = import.meta.glob<string>(
+  "../../assets/vectors/icons/nav-menu-icons/{development,digital-signage,interactive-displays,shelf-labels,totems,video-streaming}.svg",
   { query: "?raw", import: "default" },
 );
-const loadServiceIcon = async (name: string) => {
+const loadNavIcon = async (name: string) => {
   const iconPath = `../../assets/vectors/icons/nav-menu-icons/${name}.svg`;
-  const loadIcon = serviceIconModules[iconPath];
+  const loadIcon = navIconModules[iconPath];
   if (!loadIcon) {
     throw new Error(`Missing navigation icon: ${name}`);
   }
@@ -32,13 +32,17 @@ const href = (path: string) => getLocalizedPath(path, currentLang);
 const [
   developmentIcon,
   digitalSignageIcon,
+  interactiveDisplaysIcon,
   shelfLabelsIcon,
+  totemsIcon,
   videoStreamingIcon,
 ] = await Promise.all([
-  loadServiceIcon("development"),
-  loadServiceIcon("digital-signage"),
-  loadServiceIcon("shelf-labels"),
-  loadServiceIcon("video-streaming"),
+  loadNavIcon("development"),
+  loadNavIcon("digital-signage"),
+  loadNavIcon("interactive-displays"),
+  loadNavIcon("shelf-labels"),
+  loadNavIcon("totems"),
+  loadNavIcon("video-streaming"),
 ]);
 const digitalSignageLabel = t.serviceLinks.digitalSignage.replace(
   /^NeoSlide\s*[–-]\s*/,
@@ -215,7 +219,7 @@ const isActive = (path: string) => {
                 ]}
                 aria-current={isActive("/digital-signage-displays/totems/") ? "page" : undefined}
               >
-                <span class="nav-dropdown__icon-wrap" set:html={digitalSignageIcon}></span>
+                <span class="nav-dropdown__icon-wrap" set:html={totemsIcon}></span>
                 <span>{common.navigation.displayLinks.totems}</span>
                 <span class="nav-dropdown__active-indicator" aria-hidden="true"></span>
               </a>
@@ -228,7 +232,7 @@ const isActive = (path: string) => {
                 ]}
                 aria-current={isActive("/digital-signage-displays/interactive-displays/") ? "page" : undefined}
               >
-                <span class="nav-dropdown__icon-wrap" set:html={digitalSignageIcon}></span>
+                <span class="nav-dropdown__icon-wrap" set:html={interactiveDisplaysIcon}></span>
                 <span>{common.navigation.displayLinks.interactiveDisplays}</span>
                 <span class="nav-dropdown__active-indicator" aria-hidden="true"></span>
               </a>

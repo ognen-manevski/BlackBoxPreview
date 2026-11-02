@@ -311,6 +311,7 @@ const { content, interestGroups, interestSummary, lang } = Astro.props;
         padding: var(--sp-6);
         display: grid;
         gap: var(--sp-5);
+        position: static;
     }
 
     .book-demo__form-wrap {
@@ -330,20 +331,10 @@ const { content, interestGroups, interestSummary, lang } = Astro.props;
         line-height: 1.65;
     }
 
-    .book-demo__form-wrap {
-        position: sticky;
-        top: calc(var(--sp-6) + var(--navbar-height));
-    }
-
     @media (max-width: 1024px) {
         .book-demo__inner {
             grid-template-columns: 1fr;
             gap: var(--sp-6);
-        }
-
-        .book-demo__form-wrap {
-            position: static;
-            top: auto;
         }
 
         .book-demo__headline {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="totems-how-icon-start-playback" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      #totems-how-icon-start-playback .b {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <path class="b" d="M12.80561,33.15171V8.34118h44v38H29.44771"/>
+  <path class="b" d="M12.80561,15.34118h44"/>
+  <path class="b" d="M29.80561,22.34118l12,8-12,8v-16Z"/>
+  <path class="b" d="M18.48909,41.57284l4.98055.44057.44057-4.98055M23.25825,41.8675c-1.47652-2.60011-4.27062-4.35412-7.47439-4.35412-4.74384,0-8.58947,3.84564-8.58947,8.58947M13.51023,51.11884l-4.98055-.44057-.44057,4.98055M8.61475,50.69787c1.47652,2.60011,4.27062,4.35412,7.47439,4.35412,4.74384,0,8.58947-3.84564,8.58947-8.58947"/>
+</svg>

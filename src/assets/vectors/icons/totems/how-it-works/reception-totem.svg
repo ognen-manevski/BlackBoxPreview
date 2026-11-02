@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="totems-how-icon-reception-totem" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      #totems-how-icon-reception-totem .b {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <path class="b" d="M17,5h30v50h-30V5ZM14,59h36M21,55v4M43,55v4M21,10h22v35h-22V10Z"/>
+  <circle class="b" cx="32" cy="21" r="2"/>
+  <path class="b" d="M30,27h2v9M29,36h6M28,50h8"/>
+</svg>

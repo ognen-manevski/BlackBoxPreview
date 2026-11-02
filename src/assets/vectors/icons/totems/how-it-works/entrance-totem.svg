@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="totems-how-icon-entrance-totem" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      #totems-how-icon-entrance-totem .b {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="b" d="M17,5h30v50h-30V5ZM14,59h36M21,55v4M43,55v4M21,10h22v35h-22V10Z"/>
+    <path class="b" d="M28,49h8"/>
+  </g>
+  <line class="b" x1="24" y1="15" x2="35" y2="15"/>
+  <line class="b" x1="24" y1="20" x2="33" y2="20"/>
+  <line class="b" x1="24" y1="32" x2="39" y2="32"/>
+  <polyline class="b" points="35 28 39 32 35 36"/>
+</svg>

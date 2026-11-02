@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="totems-how-icon-connect-totem" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      #totems-how-icon-connect-totem .b {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <path class="b" d="M21.07105,5.83684h22v27h-22V5.83684ZM25.07105,10.83684h14v17h-14V10.83684ZM21.07105,36.83684h22M27.07105,32.83684v4M37.07105,32.83684v4"/>
+  <rect class="b" x="6.09211" y="49.57368" width="10.48421" height="8.58947"/>
+  <g>
+    <rect class="b" x="26.75789" y="49.57368" width="10.48421" height="8.58947"/>
+    <line class="b" x1="32.00316" y1="49.44368" x2="32.00316" y2="36.83368"/>
+  </g>
+  <g>
+    <rect class="b" x="47.42368" y="49.57368" width="10.48421" height="8.58947"/>
+    <polyline class="b" points="52.66579 49.44737 52.66579 43.51053 11.33421 43.51053 11.33421 49.44737"/>
+  </g>
+</svg>

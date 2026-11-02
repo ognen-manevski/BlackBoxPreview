@@ -74,7 +74,7 @@ Web: [https://azlp.mk/](https://azlp.mk/)
 
 Our forms require your name, so we know how to address you, and an email address where we can respond. For demo requests, we ask for your business email address.
 
-Your company name and phone number are optional. You may provide your company name to help us understand your business context and your phone number if you would like us to contact you by phone.
+Your company name, company website, and phone number are optional. You may provide the company name or website to help us understand your business context, and your phone number if you would like us to contact you by phone.
 
 We use the information you submit to respond to your enquiry or arrange a demonstration. Please include only personal information relevant to your request.
 

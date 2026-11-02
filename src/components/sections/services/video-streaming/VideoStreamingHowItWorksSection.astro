@@ -1,9 +1,12 @@
 ---
 import ProgressiveImage from "../../../atoms/ProgressiveImage.astro";
 import SectionTitleGroup from "../../../molecules/SectionTitleGroup.astro";
-import standardImage from "../../../../assets/images/services/neoslide/display-types/standard.jpg";
-import totemsImage from "../../../../assets/images/services/neoslide/display-types/totems.jpg";
-import menuBoardsImage from "../../../../assets/images/services/neoslide/display-types/menu-boards.jpg";
+import liveConcertImage from "../../../../assets/images/services/video-streaming/categories/live-concert-1.png";
+import liveSportImage from "../../../../assets/images/services/video-streaming/categories/live-sport-2.png";
+import conferenceImage from "../../../../assets/images/services/video-streaming/categories/conference-3.png";
+import potteryClassImage from "../../../../assets/images/services/video-streaming/categories/pottery-class-4.png";
+import homeYogaImage from "../../../../assets/images/services/video-streaming/categories/home-yoga-5.png";
+import premiumTelevisionImage from "../../../../assets/images/services/video-streaming/categories/premium-television-6.png";
 import type { VideoStreamingContent } from "../../../../i18n/pages/services/video-streaming.ts";
 
 interface Props {
@@ -11,7 +14,14 @@ interface Props {
 }
 
 const { content } = Astro.props;
-const images = [standardImage, totemsImage, menuBoardsImage, standardImage, totemsImage, menuBoardsImage];
+const images = [
+  liveConcertImage,
+  liveSportImage,
+  conferenceImage,
+  potteryClassImage,
+  homeYogaImage,
+  premiumTelevisionImage,
+];
 ---
 
 <section class="section vs-how-it-works" aria-labelledby="vs-how-it-works-heading">
@@ -28,7 +38,6 @@ const images = [standardImage, totemsImage, menuBoardsImage, standardImage, tote
       {content.cards.map((card, index) => (
         <article class="vs-how-it-works__card u-border-interactive">
           <figure class="vs-how-it-works__media" data-progressive-host="relative">
-            <!-- TODO: Replace temporary NeoSlide images with visuals for the six streaming use cases. -->
             <ProgressiveImage src={images[index]}>
               <img
                 src={images[index].src}
@@ -81,7 +90,7 @@ const images = [standardImage, totemsImage, menuBoardsImage, standardImage, tote
   .vs-how-it-works__media {
     width: 100%;
     margin: 0;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
   }
 

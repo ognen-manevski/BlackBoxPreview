@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="totems-buy-rent-rent-totem" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+  <g>
+    <circle cx="51.5" cy="42.1" r="11"/>
+    <path d="M51.5,34.1v8l6,4"/>
+  </g>
+  <path d="M5.5,5h30v48H5.5V5ZM10,9.2h20.9v32.3H10V9.2ZM10.5,53v6M30.5,53v6M1.5,59h38M15.5,47h10"/>
+</svg>

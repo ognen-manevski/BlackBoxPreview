@@ -36,14 +36,43 @@ interface Props {
   lang: Lang;
   bookDemoHref?: string;
   headlineWidth?: string;
+  iconSet?: 'totems' | 'interactive-displays';
 }
 
-const { content, lang, bookDemoHref, headlineWidth } = Astro.props;
+const { content, lang, bookDemoHref, headlineWidth, iconSet } = Astro.props;
 const prepareIcon = (icon: string) => icon
   .replace(/^<\?xml[^>]*>\s*/, '')
   .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
-const buyDisplaysIconMarkup = prepareIcon(buyDisplaysIcon);
-const rentDisplaysIconMarkup = prepareIcon(rentDisplaysIcon);
+const totemPurchaseIconModules = import.meta.glob<string>(
+  '../../../../assets/vectors/icons/totems/totem-buy-rent-icons/*.svg',
+  { query: '?raw', import: 'default' },
+);
+const interactiveDisplaysPurchaseIconModules = import.meta.glob<string>(
+  '../../../../assets/vectors/icons/interactive-displays/buy-rent/*.svg',
+  { query: '?raw', import: 'default' },
+);
+const loadPurchaseIcon = async (name: string) => {
+  const iconDirectory = iconSet === 'totems' ? 'totems/totem-buy-rent-icons' : 'interactive-displays/buy-rent';
+  const iconPath = `../../../../assets/vectors/icons/${iconDirectory}/${name}.svg`;
+  const iconModules = iconSet === 'totems' ? totemPurchaseIconModules : interactiveDisplaysPurchaseIconModules;
+  const loadIcon = iconModules[iconPath];
+
+  if (!loadIcon) {
+    throw new Error(`Missing ${iconSet} purchase icon: ${name}`);
+  }
+
+  return prepareIcon(await loadIcon());
+};
+const buyDisplaysIconMarkup = iconSet === 'totems'
+  ? await loadPurchaseIcon('buy-totem')
+  : iconSet === 'interactive-displays'
+    ? await loadPurchaseIcon('buy-interactive-display')
+  : prepareIcon(buyDisplaysIcon);
+const rentDisplaysIconMarkup = iconSet === 'totems'
+  ? await loadPurchaseIcon('rent-totem')
+  : iconSet === 'interactive-displays'
+    ? await loadPurchaseIcon('rent-interactive-display')
+  : prepareIcon(rentDisplaysIcon);
 const isPricingCard = (card: PurchaseCard): card is PricingCard => card.type === 'buy' || card.type === 'rent';
 const pricingCards = content.cards.filter(isPricingCard);
 const customSetupCard = content.cards.find((card) => card.type === 'custom' || card.type === 'existing');
@@ -194,13 +223,13 @@ const getBookDemoHref = (intent: string) => {
     background:
       radial-gradient(
         ellipse 150% 100% at 140% -40%,
-        color-mix(in srgb, var(--color-aurora) 50%, transparent) 0%,
-        transparent 100%
+        color-mix(in srgb, var(--color-aurora) 40%, transparent) 0%,
+        transparent 90%
       ),
       radial-gradient(
         ellipse 100% 50% at 0% 100%,
-        color-mix(in srgb, var(--color-brand) 30%, transparent) 0%,
-        transparent 100%
+        color-mix(in srgb, var(--color-brand) 10%, transparent) 0%,
+        transparent 70%
       ),
       radial-gradient(
         ellipse 200% 100% at 50% 0%,
@@ -230,7 +259,7 @@ const getBookDemoHref = (intent: string) => {
     color: var(--color-brand);
   }
 
-  .ds-purchase__icon svg {
+  .ds-purchase__icon :global(svg) {
     display: block;
     width: 3.5rem;
     height: 3.5rem;

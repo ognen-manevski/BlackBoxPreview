@@ -14,9 +14,10 @@ interface Props {
   };
   illustration?: string;
   lang: Lang;
+  iconSet: 'totems' | 'interactive-displays';
 }
 
-const { content, illustration, lang } = Astro.props;
+const { content, illustration, lang, iconSet } = Astro.props;
 const neoslideLogoMarkup = neoslideLogoRaw
   .replace(/^<\?xml[^>]*>\s*/, '')
   .replaceAll('nav-neoslide-gradient-logo', 'totems-neoslide-gradient-logo')
@@ -41,21 +42,75 @@ const illustrationMarkup = illustration ?? (lang === 'mk'
       .replace('Outdoor Totem', 'Надворешен тотем')
       .replace('Offers &amp; updates', 'Промоции и известувања')
   : howItWorksTotemsIllustration);
-const cardIconModules = import.meta.glob<string>(
-  '../../../assets/vectors/icons/ns-how-it-works/*.svg',
+const totemsHowItWorksIconModules = import.meta.glob<string>(
+  '../../../assets/vectors/icons/totems/how-it-works/*.svg',
   { query: '?raw', import: 'default' },
 );
-const cardIconNames = ['centralized-management', 'instant-updates', 'monthly-pricing'] as const;
-const cardIcons = await Promise.all(cardIconNames.map(async (name) => {
-  const iconPath = `../../../assets/vectors/icons/ns-how-it-works/${name}.svg`;
-  const loadIcon = cardIconModules[iconPath];
+const interactiveDisplaysIconModules = import.meta.glob<string>(
+  '../../../assets/vectors/icons/interactive-displays/interactive-how-it-works-icons/*.svg',
+  { query: '?raw', import: 'default' },
+);
+const loadTotemsIcon = async (name: string) => {
+  const iconPath = `../../../assets/vectors/icons/totems/how-it-works/${name}.svg`;
+  const loadIcon = totemsHowItWorksIconModules[iconPath];
 
   if (!loadIcon) {
-    throw new Error(`Missing digital totems feature icon: ${name}`);
+    throw new Error(`Missing digital totems how-it-works icon: ${name}`);
+  }
+
+  return (await loadIcon()).replace(/^<\?xml[^>]*>\s*/, '');
+};
+const cardIconNames = iconSet === 'totems'
+  ? ['connect-totem', 'assign-playlist', 'start-playback']
+  : ['choose-display', 'define-experience', 'connect-systems'];
+const cardIcons = await Promise.all(cardIconNames.map(async (name) => {
+  if (iconSet === 'totems') {
+    return (await loadTotemsIcon(name)).replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+  }
+
+  const iconPath = `../../../assets/vectors/icons/interactive-displays/interactive-how-it-works-icons/${name}.svg`;
+  const loadIcon = interactiveDisplaysIconModules[iconPath];
+
+  if (!loadIcon) {
+    throw new Error(`Missing ${iconSet} how-it-works icon: ${name}`);
   }
 
   return (await loadIcon()).replace(/^<\?xml[^>]*>\s*/, '').replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
 }));
+const totemIllustrationIconSlots = [
+  { name: 'entrance-totem', x: 13, y: 402.92314 },
+  { name: 'reception-totem', x: 13, y: 541.70318 },
+  { name: 'outdoor-totem', x: 356.44295, y: 541.70318 },
+  { name: 'showroom-totem', x: 356.44295, y: 402.92314 },
+] as const;
+const illustrationIconInset = 5;
+const illustrationIconSize = 54.26352 - illustrationIconInset * 2;
+const totemIllustrationIcons = iconSet === 'totems'
+  ? await Promise.all(totemIllustrationIconSlots.map(async ({ name, x, y }) => {
+      const slot = `<!-- totems-how-icon-slot:${name} -->`;
+      if (!illustrationMarkup.includes(slot)) {
+        throw new Error(`Missing totems how-it-works illustration slot: ${name}`);
+      }
+
+      const iconMarkup = await loadTotemsIcon(name);
+      const dimensions = 'width="64" height="64"';
+      if (!iconMarkup.includes(dimensions)) {
+        throw new Error(`Unexpected dimensions in totems how-it-works icon: ${name}`);
+      }
+
+      return {
+        slot,
+        icon: iconMarkup.replace(
+          dimensions,
+          `x="${x + illustrationIconInset}" y="${y + illustrationIconInset}" width="${illustrationIconSize}" height="${illustrationIconSize}" style="color: var(--color-brand)" aria-hidden="true" focusable="false"`,
+        ),
+      };
+    }))
+  : [];
+const illustrationWithTotemIcons = totemIllustrationIcons.reduce(
+  (markup, { slot, icon }) => markup.replace(slot, icon),
+  illustrationMarkup,
+);
 ---
 
 <section class="section totems-how" aria-labelledby="totems-how-heading">
@@ -70,7 +125,7 @@ const cardIcons = await Promise.all(cardIconNames.map(async (name) => {
         ))}
       </div>
 
-      <div class="totems-how__cards">
+      <div class="totems-how__cards totems-how__cards--replacement-icons">
         {content.cards.map((card, index) => (
           <DsCard title={card.title} text={card.text}>
             <span slot="title">
@@ -110,7 +165,7 @@ const cardIcons = await Promise.all(cardIconNames.map(async (name) => {
         class="totems-how__illustration"
         role="img"
         aria-label={content.illustrationAriaLabel}
-        set:html={illustrationMarkup}
+        set:html={illustrationWithTotemIcons}
       />
     </div>
   </div>
@@ -153,6 +208,15 @@ const cardIcons = await Promise.all(cardIconNames.map(async (name) => {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--sp-3);
+  }
+
+  .totems-how__cards--replacement-icons :global(.ds-card__icon > span) {
+    display: contents;
+  }
+
+  .totems-how__cards--replacement-icons :global(.ds-card__icon svg) {
+    width: 92%;
+    height: 92%;
   }
 
   .totems-how__neoslide-card {
@@ -224,12 +288,6 @@ const cardIcons = await Promise.all(cardIconNames.map(async (name) => {
   :global(.totems-how__neoslide-cta) {
     width: fit-content;
     margin-top: auto;
-  }
-
-  :global(.totems-how__neoslide-cta.btn--sm) {
-    min-height: 1.5rem;
-    padding: 2px var(--sp-2);
-    font-size: var(--text-xs);
   }
 
   .totems-how__content {

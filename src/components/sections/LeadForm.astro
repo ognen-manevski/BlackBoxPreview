@@ -1,12 +1,14 @@
 ---
 import ArrowButton from '../atoms/ArrowButton.astro';
 import FileUpload from '../atoms/FileUpload.astro';
+import FormHoneypot from '../atoms/FormHoneypot.astro';
 import FormTurnstile from '../atoms/FormTurnstile.astro';
 import PrivacyConsent from '../atoms/PrivacyConsent.astro';
 import PrivacyNotice from '../atoms/PrivacyNotice.astro';
-import FormSubmissionError from '../molecules/FormSubmissionError.astro';
+import FormSubmissionFeedback from '../molecules/FormSubmissionFeedback.astro';
 import InterestSelectionDisclosure from '../molecules/InterestSelectionDisclosure.astro';
 import { formsAction, formsTurnstileEnabled } from '../../config/forms';
+import { demoWebsiteFieldContent } from '../../i18n/pages/demo';
 import type { DemoContent } from '../../i18n/pages/demo';
 import type { HomePageContent } from '../../i18n/pages/home';
 import type { Lang } from '../../i18n/types';
@@ -46,6 +48,7 @@ type FormFields = {
   resetLabel: string;
   addFileLabel: string;
   company?: { label: string; placeholder: string };
+  website?: { label: string; placeholder: string };
   phone?: { label: string; placeholder: string };
   projectHelp?: string;
   privacy?: { text: string; linkText: string };
@@ -86,6 +89,7 @@ const fields: FormFields = variant === 'contact'
         resetLabel: props.content.reset,
         addFileLabel: props.content.addFile,
         company: { label: props.content.company, placeholder: props.content.companyPlaceholder },
+        website: demoWebsiteFieldContent[lang],
         phone: { label: props.content.phone, placeholder: props.content.phonePlaceholder },
         footnote: props.content.footnote,
       }
@@ -110,6 +114,8 @@ const interestSummary = variant === 'compact-demo' ? props.content.customize : p
   data-submit-unavailable={!formsTurnstileEnabled ? 'true' : undefined}
   enctype={formsTurnstileEnabled ? 'multipart/form-data' : undefined}
 >
+  <FormHoneypot />
+
   <label class={fieldClass}>
     <span>{fields.nameLabel}</span>
     <input type="text" name="name" placeholder={props.content.namePlaceholder} autocomplete="name" required>
@@ -124,6 +130,13 @@ const interestSummary = variant === 'compact-demo' ? props.content.customize : p
     <label class={fieldClass}>
       <span>{fields.company.label}</span>
       <input type="text" name="company" placeholder={fields.company.placeholder} autocomplete="organization">
+    </label>
+  )}
+
+  {fields.website && (
+    <label class={fieldClass}>
+      <span>{fields.website.label}</span>
+      <input type="url" name="website" placeholder={fields.website.placeholder} autocomplete="url">
     </label>
   )}
 
@@ -181,7 +194,7 @@ const interestSummary = variant === 'compact-demo' ? props.content.customize : p
   {fields.footnote && <p class="book-demo__footnote">{fields.footnote}</p>}
 </form>
 
-<FormSubmissionError lang={lang} />
+<FormSubmissionFeedback lang={lang} />
 
 <style>
   .book-demo__form,

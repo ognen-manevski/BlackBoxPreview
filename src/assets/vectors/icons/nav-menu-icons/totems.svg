@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="nav-icon-totems" xmlns="http://www.w3.org/2000/svg" width="34" height="24" viewBox="0 0 34 24">
+  <defs>
+    <style>
+      #nav-icon-totems .nav-icon-totems-stroke {
+        fill: none;
+        stroke: currentColor;
+        stroke-miterlimit: 10;
+        stroke-width: 1;
+      }
+    </style>
+  </defs>
+  <polyline class="nav-icon-totems-stroke" points="16.94687 18.76842 2.51628 18.76842 2.51628 4.5 16.94687 4.5"/>
+  <polyline class="nav-icon-totems-stroke" points="16.98372 21 16.98372 2.5 28.98372 2.5 28.98372 21"/>
+  <line class="nav-icon-totems-stroke" x1="13.87895" y1="21.5" x2="31.48372" y2="21.5"/>
+  <rect class="nav-icon-totems-stroke" x="18.98372" y="4.5" width="8" height="12"/>
+  <line class="nav-icon-totems-stroke" x1="6.03684" y1="18.70526" x2="6.03684" y2="21.5"/>
+  <line class="nav-icon-totems-stroke" x1="4.18947" y1="21.5" x2="7.88421" y2="21.5"/>
+</svg>

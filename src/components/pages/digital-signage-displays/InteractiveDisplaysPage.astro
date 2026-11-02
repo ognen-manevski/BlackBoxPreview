@@ -89,12 +89,19 @@ const interactiveDisplaysIndustryContent = {
     content={content.howItWorks}
     lang={lang}
     illustration={interactiveDisplaysIllustration}
+    iconSet="interactive-displays"
   />
-  <TotemsWhySection content={content.whyTotems} />
+  <TotemsWhySection content={content.whyTotems} iconSet="interactive-displays" />
   <TotemsProductOverviewSection content={content.productOverview} />
   <ShelfLabelsHardwareDetailsSection content={hardwareContent} />
-  <TotemsTechnicalDetailsSection content={content.technicalDetails} />
-  <DigitalSignagePurchaseSection content={content.purchase} lang={lang} bookDemoHref="#book-demo" headlineWidth="22ch" />
+  <TotemsTechnicalDetailsSection content={content.technicalDetails} iconSet="interactive-displays" />
+  <DigitalSignagePurchaseSection
+    content={content.purchase}
+    lang={lang}
+    bookDemoHref="#book-demo"
+    headlineWidth="22ch"
+    iconSet="interactive-displays"
+  />
   <DigitalSignageIndustrySolutionsSection
     content={interactiveDisplaysIndustryContent}
     lang={lang}

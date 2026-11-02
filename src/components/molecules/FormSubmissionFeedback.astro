@@ -1,0 +1,690 @@
+---
+import { getImage, Image } from 'astro:assets';
+import sparksImage from '../../assets/images/errors/500/01-sparks.png';
+import cloudImage from '../../assets/images/errors/500/02-cloud.png';
+import cableLeftImage from '../../assets/images/errors/500/03-cable-left.png';
+import cableRightImage from '../../assets/images/errors/500/04-cable-right.png';
+import InfoIcon from '../icons/InfoIcon.astro';
+import CheckCircleIcon from '../icons/CheckCircleIcon.astro';
+import type { Lang } from '../../i18n/types';
+
+interface Props {
+  lang: Lang;
+  compact?: boolean;
+}
+
+const { lang, compact = false } = Astro.props;
+const message = lang === 'mk'
+  ? compact
+    ? {
+        title: 'Не успеавме да ја испратиме вашата пријава.',
+        copy: 'Услугата моментално не е достапна. Обидете се повторно подоцна.',
+      }
+    : {
+        title: 'Не успеавме да го испратиме формуларот.',
+        copy: 'Испраќањето формулари моментално не е достапно. Обидете се повторно подоцна.',
+      }
+  : compact
+    ? {
+        title: 'We couldn’t send your submission.',
+        copy: "The service isn't available right now. Please try again later.",
+      }
+    : {
+        title: 'We couldn’t send your form.',
+        copy: 'Form submissions aren’t available right now. Please try again later.',
+      };
+const successMessage = lang === 'mk'
+    ? compact
+      ? {
+          title: 'Успешно се пријавивте!',
+          copy: 'Ви благодариме што се пријавивте за новости.',
+        }
+      : {
+          title: 'Ви благодариме!',
+          copy: 'Ја добивме вашата порака и наскоро ќе ве контактираме.',
+        }
+    : compact
+      ? {
+          title: 'Thanks for subscribing!',
+          copy: 'Your email address has been added to our mailing list.',
+        }
+      : {
+          title: 'Thank you!',
+          copy: 'We’ve received your message and will be in touch soon.',
+        };
+
+const layers = [
+  { name: 'sparks', src: sparksImage, zIndex: 4 },
+  { name: 'cloud', src: cloudImage, zIndex: 3 },
+  { name: 'cable-left', src: cableLeftImage, zIndex: 2 },
+  { name: 'cable-right', src: cableRightImage, zIndex: 1 },
+] as const;
+
+const previews = await Promise.all(
+  layers.map(({ src }) => getImage({ src, width: 32, format: 'webp', quality: 25 })),
+);
+---
+
+<div
+  class:list={['form-submission-error', compact && 'form-submission-error--compact']}
+  data-submit-feedback
+  data-submit-error
+  hidden
+>
+  {!compact && (
+    <div class="form-submission-error__panel" data-submit-failure role="alert">
+      <div class="form-submission-error__illustration" data-form-error-illustration aria-hidden="true">
+        {layers.map((layer, index) => (
+          <div
+            class:list={['form-submission-error__layer', `form-submission-error__layer--${layer.name}`]}
+            style={`--layer-z-index: ${layer.zIndex};`}
+          >
+            <span
+              class="form-submission-error__preview"
+              data-form-error-preview
+              style={`background-image: url("${previews[index].src}");`}
+            />
+            <Image
+              class="form-submission-error__image"
+              src={layer.src}
+              alt=""
+              widths={[256, 384]}
+              sizes="(max-width: 40rem) 100vw, 14rem"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        ))}
+      </div>
+      <div class="form-submission-error__card-container">
+        <div class="form-submission-error__content form-submission-feedback__card">
+          <span class="form-submission-error__icon">
+            <InfoIcon />
+          </span>
+          <div class="form-submission-error__copy">
+            <h3>{message.title}</h3>
+            <p class="section-copy">{message.copy}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+  {compact && (
+    <div class="form-submission-error__card-container" data-submit-failure role="alert">
+      <div class="form-submission-error__content form-submission-feedback__card">
+        <span class="form-submission-error__icon">
+          <InfoIcon />
+        </span>
+        <div class="form-submission-error__copy">
+          <h3>{message.title}</h3>
+          <p class="section-copy">{message.copy}</p>
+        </div>
+      </div>
+    </div>
+  )}
+  <div
+    class="form-submission-success__container"
+    data-submit-success
+    hidden
+    role="status"
+    aria-live="polite"
+  >
+    <div class="form-submission-success__content form-submission-feedback__card">
+      <span class="form-submission-success__icon">
+        <CheckCircleIcon />
+      </span>
+      <div class="form-submission-error__copy">
+        <h3>{successMessage.title}</h3>
+        <p class="section-copy">{successMessage.copy}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const minimumLoadingDuration = 500;
+  const submissionCooldownDuration = 1000;
+
+  const encodeFormData = (formData: FormData) => {
+    const encoded = new URLSearchParams();
+    formData.forEach((value, key) => {
+      encoded.append(key, typeof value === 'string' ? value : value.name);
+    });
+    return encoded;
+  };
+
+  const hasSuccessConfirmation = (payload: unknown) =>
+    typeof payload === 'object'
+    && payload !== null
+    && 'success' in payload
+    && payload.success === true;
+
+  const sendForm = async (form: HTMLFormElement): Promise<boolean> => {
+    const honeypot = form.querySelector<HTMLInputElement>('input[name="jobTitle"]');
+    if (honeypot?.value.trim()) return false;
+    if (form.dataset.submitUnavailable === 'true') return false;
+
+    const method = form.method.toUpperCase();
+    const endpoint = new URL(form.action, window.location.href);
+    const formData = new FormData(form);
+    const request: RequestInit = {
+      method,
+      headers: { Accept: 'application/json' },
+    };
+
+    if (method === 'GET') {
+      encodeFormData(formData).forEach((value, key) => endpoint.searchParams.append(key, value));
+    } else if (form.enctype === 'multipart/form-data') {
+      request.body = formData;
+    } else {
+      request.body = encodeFormData(formData);
+    }
+
+    let response: Response;
+    try {
+      response = await fetch(endpoint, request);
+    } catch (error) {
+      console.error('Form submission request failed.', error);
+      return false;
+    }
+
+    if (!response.ok) {
+      console.error(`Form submission endpoint returned HTTP ${response.status}.`);
+      return false;
+    }
+
+    let payload: unknown;
+    try {
+      payload = await response.json();
+    } catch (error) {
+      console.error('Form submission endpoint returned invalid JSON.', error);
+      return false;
+    }
+
+    if (!hasSuccessConfirmation(payload)) {
+      console.error('Form submission endpoint did not confirm success.');
+      return false;
+    }
+
+    return true;
+  };
+
+  const scrollFeedbackIntoViewIfNeeded = (feedback: HTMLElement) => {
+    const bounds = feedback.getBoundingClientRect();
+    const topMargin = Number.parseFloat(window.getComputedStyle(feedback).scrollMarginTop) || 0;
+    if (bounds.top >= topMargin && bounds.bottom <= window.innerHeight) return;
+
+    feedback.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      block: 'nearest',
+    });
+  };
+
+  const initializeFormFeedback = () => {
+    document.querySelectorAll<HTMLFormElement>('form').forEach((form) => {
+      const feedback = form.nextElementSibling;
+      if (
+        !(feedback instanceof HTMLElement)
+        || !feedback.hasAttribute('data-submit-feedback')
+        || form.dataset.submitFeedbackBound
+      ) return;
+
+      const failure = feedback.querySelector<HTMLElement>('[data-submit-failure]');
+      const success = feedback.querySelector<HTMLElement>('[data-submit-success]');
+      if (!failure || !success) {
+        console.error('Form submission feedback is missing its success or failure state.', form);
+        return;
+      }
+
+      form.dataset.submitFeedbackBound = 'true';
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const now = performance.now();
+        const lastSubmissionAt = Number(form.dataset.lastSubmissionAt);
+        if (
+          form.dataset.formSubmitting === 'true'
+          || (Number.isFinite(lastSubmissionAt) && now - lastSubmissionAt < submissionCooldownDuration)
+        ) return;
+
+        const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+        const wasButtonDisabled = submitButton?.disabled ?? false;
+        form.dataset.lastSubmissionAt = String(now);
+        const startedAt = now;
+        feedback.hidden = true;
+        delete feedback.dataset.state;
+        form.dataset.formSubmitting = 'true';
+        form.setAttribute('aria-busy', 'true');
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.setAttribute('aria-busy', 'true');
+        }
+
+        void (async () => {
+          let submitted = false;
+          try {
+            submitted = await sendForm(form);
+          } catch (error) {
+            console.error('Unable to prepare form submission.', error);
+          }
+
+          const remainingLoadingTime = minimumLoadingDuration - (performance.now() - startedAt);
+          if (remainingLoadingTime > 0) {
+            await new Promise<void>((resolve) => window.setTimeout(resolve, remainingLoadingTime));
+          }
+
+          if (submitted) form.reset();
+          feedback.dataset.state = submitted ? 'success' : 'error';
+          failure.hidden = submitted;
+          success.hidden = !submitted;
+          feedback.hidden = false;
+          scrollFeedbackIntoViewIfNeeded(feedback);
+          form.removeAttribute('aria-busy');
+          delete form.dataset.formSubmitting;
+          if (submitButton) {
+            submitButton.disabled = wasButtonDisabled;
+            submitButton.removeAttribute('aria-busy');
+          }
+        })();
+      });
+    });
+
+    document.querySelectorAll<HTMLElement>('[data-form-error-illustration] [data-form-error-preview]').forEach((preview) => {
+      if (preview.dataset.formErrorPreviewBound) return;
+
+      const image = preview.parentElement?.querySelector('img');
+      if (!image) return;
+
+      preview.dataset.formErrorPreviewBound = 'true';
+      const hidePreview = () => preview.classList.add('form-submission-error__preview--loaded');
+      image.addEventListener('load', hidePreview, { once: true });
+      image.addEventListener('error', () => preview.remove(), { once: true });
+      if (image.complete && image.naturalWidth > 0) hidePreview();
+    });
+  };
+
+  initializeFormFeedback();
+  document.addEventListener('astro:page-load', initializeFormFeedback);
+</script>
+
+<style>
+  :global(form[data-form-submitting="true"] button[type="submit"]) {
+    cursor: progress;
+  }
+
+  :global(form[data-form-submitting="true"] button[type="submit"] .cta-arrow-icon) {
+    display: none;
+  }
+
+  :global(form[data-form-submitting="true"] button[type="submit"]::after) {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    flex: 0 0 1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: form-submission-spinner 700ms linear infinite;
+    content: '';
+  }
+
+  @keyframes form-submission-spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .form-submission-error {
+    display: grid;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: var(--sp-4);
+    padding: var(--sp-4);
+    scroll-margin-block: calc(var(--navbar-height) + var(--sp-3)) var(--sp-3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--bg-secondary) 90%, var(--bg));
+  }
+
+  .form-submission-error[hidden] {
+    display: none;
+  }
+
+  .form-submission-error:not([hidden]) {
+    animation: form-submission-feedback-enter 280ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  }
+
+  .form-submission-error[data-state='success'] {
+    grid-template-columns: minmax(0, 1fr);
+    border-color: var(--color-notification-success-border);
+    background: var(--color-notification-success-bg);
+  }
+
+  .form-submission-error--compact {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .form-submission-error--compact[data-state='success'] {
+    padding: var(--sp-3);
+  }
+
+  .form-submission-error[data-state='success'] .form-submission-feedback__card {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .form-submission-error[data-state='success'] .form-submission-success__icon,
+  .form-submission-error[data-state='success'] .form-submission-error__copy h3 {
+    color: var(--color-notification-success);
+  }
+
+  .form-submission-error[data-state='success'] .form-submission-error__copy p {
+    color: var(--color-notification-success-body);
+  }
+
+  .form-submission-error[data-state='error'] .form-submission-feedback__card {
+    border-color: var(--color-notification-fail-border);
+    background: var(--color-notification-fail-bg);
+  }
+
+  .form-submission-error[data-state='error'] .form-submission-error__icon,
+  .form-submission-error[data-state='error'] .form-submission-error__copy h3 {
+    color: var(--color-notification-fail);
+  }
+
+  .form-submission-error[data-state='error'] .form-submission-error__copy p {
+    color: var(--color-notification-fail-body);
+  }
+
+  .form-submission-error__panel {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--sp-4);
+  }
+
+  .form-submission-error__panel[hidden],
+  .form-submission-error__card-container[hidden],
+  .form-submission-success__container[hidden] {
+    display: none;
+  }
+
+  .form-submission-error__card-container,
+  .form-submission-success__container {
+    width: 100%;
+    min-width: 0;
+    container: form-feedback-card / inline-size;
+  }
+
+  .form-submission-feedback__card {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: var(--sp-2);
+    padding: var(--sp-3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .form-submission-success__icon {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    color: var(--color-notification-success);
+  }
+
+  .form-submission-error__icon :global(svg),
+  .form-submission-success__icon :global(svg) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .form-submission-error__illustration {
+    display: grid;
+    width: 100%;
+    max-width: 14rem;
+    margin-inline: auto;
+  }
+
+  .form-submission-error__layer {
+    position: relative;
+    z-index: var(--layer-z-index);
+    display: grid;
+    grid-area: 1 / 1;
+    width: 100%;
+  }
+
+  .form-submission-error__preview {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    image-rendering: pixelated;
+    opacity: 1;
+    transition: opacity 240ms ease;
+  }
+
+  .form-submission-error__preview--loaded {
+    opacity: 0;
+  }
+
+  .form-submission-error__image {
+    z-index: 1;
+    grid-area: 1 / 1;
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .form-submission-error__layer--sparks {
+    animation: form-error-sparks-impact 12s ease-in-out infinite;
+  }
+
+  .form-submission-error__layer--cloud {
+    animation: form-error-float-cloud 5s ease-in-out infinite;
+  }
+
+  .form-submission-error__layer--cable-left {
+    transform-origin: 0% 76%;
+    animation: form-error-cable-left 12s ease-in-out infinite;
+  }
+
+  .form-submission-error__layer--cable-right {
+    transform-origin: 100% 76%;
+    animation: form-error-cable-right 12s ease-in-out infinite;
+  }
+
+  .form-submission-error__copy > :first-child {
+    margin-top: 0;
+  }
+
+  .form-submission-error__copy > :last-child {
+    margin-bottom: 0;
+  }
+
+  .form-submission-error__copy h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    line-height: 1.25;
+  }
+
+  .form-submission-error__content {
+    min-width: 0;
+  }
+
+  .form-submission-error__icon {
+    display: grid;
+    width: 1.5rem;
+    height: 1.5rem;
+    place-items: center;
+  }
+
+  .form-submission-error__copy {
+    width: 100%;
+  }
+
+  .form-submission-error--compact {
+    align-self: stretch;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-width: none;
+  }
+
+  .form-submission-error--compact .form-submission-error__copy {
+    width: auto;
+    min-width: 0;
+  }
+
+  .form-submission-error__copy p {
+    font-size: var(--text-sm);
+  }
+
+  @container form-feedback-card (max-width: 18rem) {
+    .form-submission-feedback__card {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .form-submission-success__icon,
+    .form-submission-error__icon {
+      margin-bottom: var(--sp-1);
+    }
+  }
+
+  @container form-feedback-card (min-width: 30rem) {
+    .form-submission-feedback__card {
+      gap: var(--sp-3);
+      padding: var(--sp-4);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .form-submission-error__panel {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+  }
+
+  @keyframes form-error-sparks-impact {
+    0%, 100% { transform: translateY(0) rotate(1deg); }
+    21% {
+      transform: translateY(0) rotate(1deg);
+      animation-timing-function: cubic-bezier(0.75, 0, 0.9, 1);
+    }
+    22% { transform: translateY(-7%) rotate(-2deg); }
+    23% {
+      transform: translateY(-7%) rotate(-2deg);
+      animation-timing-function: cubic-bezier(0.3, 0, 0.65, 1);
+    }
+    26% { transform: translateY(1%) rotate(2deg); }
+    30% { transform: translateY(0) rotate(1deg); }
+    64% {
+      transform: translateY(0) rotate(1deg);
+      animation-timing-function: cubic-bezier(0.75, 0, 0.9, 1);
+    }
+    65% { transform: translateY(-7%) rotate(-2deg); }
+    66% {
+      transform: translateY(-7%) rotate(-2deg);
+      animation-timing-function: cubic-bezier(0.3, 0, 0.65, 1);
+    }
+    69% { transform: translateY(1%) rotate(2deg); }
+    73% { transform: translateY(0) rotate(1deg); }
+  }
+
+  @keyframes form-submission-feedback-enter {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem) scale(0.99);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes form-error-float-cloud {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4%); }
+  }
+
+  @keyframes form-error-cable-left {
+    0%, 40%, 100% { transform: translateX(0) rotate(0); }
+    8% {
+      transform: translateX(0) rotate(0);
+      animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+    }
+    14% {
+      transform: translateX(-1.3%) rotate(0);
+      animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+    }
+    21% {
+      transform: translateX(2.2%) rotate(0);
+      animation-timing-function: cubic-bezier(0.15, 0.85, 0.25, 1.2);
+    }
+    22% {
+      transform: translateX(2.3%) rotate(-5deg);
+      animation-timing-function: cubic-bezier(0.15, 0.85, 0.25, 1.2);
+    }
+    25% {
+      transform: translateX(-1.8%) rotate(1deg);
+      animation-timing-function: cubic-bezier(0.2, 0.75, 0.25, 1.2);
+    }
+    33% { transform: translateX(0.4%) rotate(-0.3deg); }
+  }
+
+  @keyframes form-error-cable-right {
+    0%, 100% { transform: translateX(0) rotate(0); }
+    51% {
+      transform: translateX(0) rotate(0);
+      animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+    }
+    57% {
+      transform: translateX(1.3%) rotate(0);
+      animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+    }
+    64% {
+      transform: translateX(-2.2%) rotate(0);
+      animation-timing-function: cubic-bezier(0.15, 0.85, 0.25, 1.2);
+    }
+    65% {
+      transform: translateX(-2.3%) rotate(5deg);
+      animation-timing-function: cubic-bezier(0.15, 0.85, 0.25, 1.2);
+    }
+    68% {
+      transform: translateX(1.8%) rotate(-1deg);
+      animation-timing-function: cubic-bezier(0.2, 0.75, 0.25, 1.2);
+    }
+    76% { transform: translateX(-0.4%) rotate(0.3deg); }
+    83% { transform: translateX(0) rotate(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(form[data-form-submitting="true"] button[type="submit"]::after) {
+      animation: none;
+    }
+
+    .form-submission-error:not([hidden]) {
+      animation: none;
+    }
+
+    .form-submission-error__layer {
+      animation: none;
+    }
+
+    .form-submission-error__preview {
+      transition: none;
+    }
+  }
+</style>

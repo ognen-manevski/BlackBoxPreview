@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="interactive-displays-hardware-connectivity-peripherals" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 64 64">
+  <!-- Generator: Adobe Illustrator 29.0.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 186)  -->
+  <defs>
+    <style>
+      #interactive-displays-hardware-connectivity-peripherals .st0 {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <path class="st0" d="M6,5h20v16H6V5ZM10,10h12M16,21v11h32v-11M16,32v11M6,43h20v16H6v-16ZM11,49h10M11,54h10M48,32v11M38,43h20v16h-20v-16ZM44,48h8M38,5h20v16h-20V5ZM43,9h10v5h-10v-5Z"/>
+</svg>

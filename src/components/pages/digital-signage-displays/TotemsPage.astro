@@ -84,12 +84,18 @@ const totemsIndustryContent = {
 
 <BaseLayout lang={lang} title={content.seo.title} description={content.seo.description}>
   <TotemsHeroSection content={content.hero} />
-  <TotemsHowItWorksSection content={content.howItWorks} lang={lang} />
+  <TotemsHowItWorksSection content={content.howItWorks} lang={lang} iconSet="totems" />
   <TotemsWhySection content={content.whyTotems} />
   <TotemsProductOverviewSection content={content.productOverview} />
   <ShelfLabelsHardwareDetailsSection content={hardwareContent} />
   <TotemsTechnicalDetailsSection content={content.technicalDetails} />
-  <DigitalSignagePurchaseSection content={content.purchase} lang={lang} bookDemoHref="#book-demo" headlineWidth="22ch" />
+  <DigitalSignagePurchaseSection
+    content={content.purchase}
+    lang={lang}
+    bookDemoHref="#book-demo"
+    headlineWidth="22ch"
+    iconSet="totems"
+  />
   <DigitalSignageIndustrySolutionsSection
     content={totemsIndustryContent}
     lang={lang}

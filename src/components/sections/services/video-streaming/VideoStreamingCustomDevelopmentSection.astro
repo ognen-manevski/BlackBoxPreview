@@ -1,7 +1,9 @@
 ---
 import DsCard from '../../../atoms/DsCard.astro';
 import ArrowButton from '../../../atoms/ArrowButton.astro';
-import placeholderIcon from '../../../../assets/vectors/icons/ns-how-it-works/centralized-management.svg?raw';
+import streamingDeliveryIcon from '../../../../assets/vectors/icons/video-streaming/video-streaming-development-icons/streaming-delivery.svg?raw';
+import systemIntegrationsIcon from '../../../../assets/vectors/icons/video-streaming/video-streaming-development-icons/system-integrations.svg?raw';
+import platformPlanningIcon from '../../../../assets/vectors/icons/video-streaming/video-streaming-development-icons/platform-planning.svg?raw';
 import type { VideoStreamingContent } from '../../../../i18n/pages/services/video-streaming.ts';
 
 interface Props {
@@ -9,9 +11,14 @@ interface Props {
 }
 
 const { content } = Astro.props;
-const placeholderIconMarkup = placeholderIcon
+const prepareIcon = (icon: string) => icon
   .replace(/^<\?xml[^>]*>\s*/, '')
   .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+const cardIcons = [
+  platformPlanningIcon,
+  systemIntegrationsIcon,
+  streamingDeliveryIcon,
+].map(prepareIcon);
 ---
 
 <section class="section vs-custom-development" aria-labelledby="vs-custom-development-heading">
@@ -41,10 +48,10 @@ const placeholderIconMarkup = placeholderIcon
     </div>
 
     <ul class="vs-custom-development__cards" aria-label={content.ariaLabel}>
-      {content.cards.map((card) => (
+      {content.cards.map((card, index) => (
         <li class="vs-custom-development__item">
           <DsCard title={card.title} text={card.copy}>
-            <span slot="icon" set:html={placeholderIconMarkup} />
+            <span slot="icon" set:html={cardIcons[index]} />
           </DsCard>
         </li>
       ))}

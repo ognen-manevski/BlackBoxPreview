@@ -1,17 +1,28 @@
 ---
-import type{VideoStreamingContent}from'../../../../i18n/pages/services/video-streaming.ts';interface Props{content:VideoStreamingContent['consulting']}const{content}=Astro.props;
+import type { VideoStreamingContent } from '../../../../i18n/pages/services/video-streaming.ts';
+import ProgressiveImage from '../../../atoms/ProgressiveImage.astro';
+import streamingEventsDashboardImage from '../../../../assets/images/services/video-streaming/how-it-works/streaming-events-dashboard.jpg';
+import checkoutImage from '../../../../assets/images/services/video-streaming/how-it-works/checkout.jpg';
+import eventGalleryImage from '../../../../assets/images/services/video-streaming/how-it-works/event-gallery.jpg';
+import livePerformancePoster from '../../../../assets/images/video-thumbnails/video-streaming/how-it-works/live-performance-poster.jpg';
+import reachBeyondVenueIcon from '../../../../assets/vectors/icons/video-streaming/video-streaming-benefits-icons/reach-beyond-the-venue.svg?raw';
+import anotherSourceOfRevenueIcon from '../../../../assets/vectors/icons/video-streaming/video-streaming-benefits-icons/another-source-of-revenue.svg?raw';
+import brandAtTheCentreIcon from '../../../../assets/vectors/icons/video-streaming/video-streaming-benefits-icons/brand-at-the-centre.svg?raw';
 
-const posterModules = import.meta.glob<{ default: ImageMetadata }>(
-  '../../../../assets/images/video-thumbnails/video-streaming/*.jpg',
-  { eager: true }
-);
-const posterByFilename = new Map(
-  Object.entries(posterModules).map(([path, mod]) => [path.split('/').pop(), mod.default])
-);
-const consultingCards = content.cards.map((card) => ({
-  ...card,
-  poster: posterByFilename.get(card.video.split('/').pop()!.replace(/\.mp4$/, '.jpg'))?.src,
-}));
+interface Props {
+  content: VideoStreamingContent['consulting'];
+}
+
+const { content } = Astro.props;
+const prepareIcon = (icon: string) => icon
+  .replace(/^<\?xml[^>]*>\s*/, '')
+  .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+const featureIcons = [
+  reachBeyondVenueIcon,
+  anotherSourceOfRevenueIcon,
+  brandAtTheCentreIcon,
+].map(prepareIcon);
+const cardImages = [streamingEventsDashboardImage, checkoutImage, eventGalleryImage];
 ---
 
 <section class="section vs-consulting" aria-labelledby="vs-consulting-heading">
@@ -31,9 +42,9 @@ const consultingCards = content.cards.map((card) => ({
       </div>
 
       <ul class="vs-consulting__feature-list">
-        {content.featureCards.map((card) => (
+        {content.featureCards.map((card, index) => (
           <li class="vs-consulting__feature">
-            <span class="vs-consulting__icon-placeholder" aria-hidden="true">ICON</span>
+            <span class="vs-consulting__feature-icon" aria-hidden="true" set:html={featureIcons[index]} />
             <div class="vs-consulting__feature-content">
               <h3 class="vs-consulting__feature-title">{card.title}</h3>
               <p class="vs-consulting__feature-copy">{card.copy}</p>
@@ -44,23 +55,37 @@ const consultingCards = content.cards.map((card) => ({
     </div>
 
     <div class="vs-consulting__cards">
-      {consultingCards.map((card, index) => (
+      {content.cards.map((card, index) => (
         <article
-          class="vs-consulting__card u-border-interactive"
+          class="vs-consulting__card"
           style={`--vs-card-z:${index + 1};`}
           tabindex="0"
         >
-          <div class="vs-consulting__card-media">
-            <video
-              class="vs-consulting__card-video"
-              src={card.video}
-              poster={card.poster}
-              muted
-              loop
-              playsinline
-              preload="metadata"
-              aria-hidden="true"
-            />
+          <div class="vs-consulting__card-media" data-progressive-host="relative">
+            {index === 2 ? (
+              <video
+                class="vs-consulting__card-visual"
+                data-vs-how-it-works-video
+                muted
+                playsinline
+                preload="none"
+                poster={livePerformancePoster.src}
+                aria-hidden="true"
+              >
+                <source src="/videos/video-streaming/how-it-works/live-performance.mp4" type="video/mp4" />
+              </video>
+            ) : (
+              <ProgressiveImage src={cardImages[index < 2 ? index : 2]}>
+                <img
+                  class="vs-consulting__card-visual"
+                  src={cardImages[index < 2 ? index : 2].src}
+                  alt=""
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  aria-hidden="true"
+                />
+              </ProgressiveImage>
+            )}
             <div class="vs-consulting__card-overlay" />
           </div>
 
@@ -81,30 +106,52 @@ const consultingCards = content.cards.map((card) => ({
 </section>
 
 <script>
-  const cards = document.querySelectorAll(".vs-consulting__card");
+  const video = document.querySelector<HTMLVideoElement>('[data-vs-how-it-works-video]');
 
-  cards.forEach((card) => {
-    const video = card.querySelector("video");
-
-    if (!video) {
-      return;
-    }
-
+  if (video && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const card = video.closest<HTMLElement>('.vs-consulting__card') ?? video;
     const playVideo = () => {
-      video.play().catch(() => {});
-    };
+      if (video.ended) {
+        video.currentTime = 0;
+      }
 
+      video.play().catch((error: unknown) => {
+        console.error('Unable to play the video-streaming how-it-works video.', error);
+      });
+    };
     const pauseVideo = () => {
       video.pause();
       video.currentTime = 0;
     };
 
-    pauseVideo();
-    card.addEventListener("mouseenter", playVideo);
-    card.addEventListener("mouseleave", pauseVideo);
-    card.addEventListener("focusin", playVideo);
-    card.addEventListener("focusout", pauseVideo);
-  });
+    card.addEventListener('mouseenter', playVideo);
+    card.addEventListener('mouseleave', pauseVideo);
+    card.addEventListener('focusin', playVideo);
+    card.addEventListener('focusout', pauseVideo);
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            observer.disconnect();
+            playVideo();
+          }
+        },
+        { threshold: 0.35 },
+      );
+
+      observer.observe(card);
+      document.addEventListener('astro:before-swap', () => {
+        observer.disconnect();
+        card.removeEventListener('mouseenter', playVideo);
+        card.removeEventListener('mouseleave', pauseVideo);
+        card.removeEventListener('focusin', playVideo);
+        card.removeEventListener('focusout', pauseVideo);
+      }, { once: true });
+    } else {
+      playVideo();
+    }
+  }
 </script>
 
 <style>
@@ -185,7 +232,7 @@ const consultingCards = content.cards.map((card) => ({
     color: var(--text-secondary);
   }
 
-  .vs-consulting__icon-placeholder {
+  .vs-consulting__feature-icon {
     display: grid;
     width: var(--sp-8);
     height: var(--sp-8);
@@ -197,6 +244,12 @@ const consultingCards = content.cards.map((card) => ({
     font-size: 0.5rem;
     font-weight: 600;
     line-height: 1;
+  }
+
+  .vs-consulting__feature-icon :global(svg) {
+    display: block;
+    width: 3.5rem;
+    height: 3.5rem;
   }
 
   @media (min-width: 1101px) {
@@ -222,7 +275,7 @@ const consultingCards = content.cards.map((card) => ({
     position: sticky;
     top: calc(var(--navbar-height) + var(--sp-8));
     min-height: 0;
-    /* border: 1px solid var(--border-color); */
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     overflow: hidden;
     background: var(--surface);
@@ -239,7 +292,7 @@ const consultingCards = content.cards.map((card) => ({
     background: color-mix(in srgb, var(--surface) 88%, black 12%);
   }
 
-  .vs-consulting__card-video {
+  .vs-consulting__card-visual {
     position: relative;
     width: 100%;
     height: 100%;
@@ -321,8 +374,8 @@ const consultingCards = content.cards.map((card) => ({
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .vs-consulting__card-video {
-      display: none;
+    .vs-consulting__card-visual {
+      transition: none;
     }
   }
 

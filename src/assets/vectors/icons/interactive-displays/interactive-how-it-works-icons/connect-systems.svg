@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="interactive-displays-how-connect-systems" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 64 64">
+  <!-- Generator: Adobe Illustrator 29.0.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 186)  -->
+  <defs>
+    <style>
+      #interactive-displays-how-connect-systems .st0 {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <path class="st0" d="M4,8h22v17H4V8ZM9,13h12M9,19h8M4,39h22v17H4v-17ZM9,44h12M9,50h8M15,25v14M26,17h8v15h8M26,47h8v-15"/>
+  <ellipse class="st0" cx="51" cy="23" rx="9" ry="4"/>
+  <path class="st0" d="M42,23v18c0,2.2,4,4,9,4s9-1.8,9-4v-18M42,32c0,2.2,4,4,9,4s9-1.8,9-4"/>
+</svg>

@@ -1,27 +1,59 @@
 ---
 import ShelfLabelsDsCard from '../../atoms/ShelfLabelsDsCard.astro';
 import SectionTitleGroup from '../../molecules/SectionTitleGroup.astro';
-import iconRealtimeSync from '../../../assets/vectors/icons/shelf-labels/ico_real-time-synch.svg?raw';
-import iconCloudManagement from '../../../assets/vectors/icons/shelf-labels/ico_cloud-management.svg?raw';
-import iconSchedule from '../../../assets/vectors/icons/shelf-labels/ico_schedule.svg?raw';
-import iconBarcode from '../../../assets/vectors/icons/shelf-labels/ico_barcode.svg?raw';
 import iconScreenSizes from '../../../assets/vectors/icons/shelf-labels/ico_screen-sizes.svg?raw';
-import iconBattery from '../../../assets/vectors/icons/shelf-labels/ico_battery.svg?raw';
 import totemsDisplayImage from '../../../assets/images/services/neoslide/display-types/totems.jpg';
 import type { TotemsContent } from '../../../i18n/pages/digital-signage-displays/totems';
 
 interface Props {
   content: TotemsContent['technicalDetails'];
+  iconSet?: 'totems' | 'interactive-displays';
 }
 
-const { content } = Astro.props;
+const { content, iconSet = 'totems' } = Astro.props;
+const totemsSpecificationIconModules = import.meta.glob<string>(
+  '../../../assets/vectors/icons/totems/totem-specification-icons/*.svg',
+  { query: '?raw', import: 'default' },
+);
+const interactiveDisplaysHardwareIconModules = import.meta.glob<string>(
+  '../../../assets/vectors/icons/interactive-displays/interactive-hardware/*.svg',
+  { query: '?raw', import: 'default' },
+);
+const specificationIconNames = iconSet === 'totems'
+  ? [
+      'screen-brightness',
+      'connectivity-ports',
+      'power-operating-costs',
+      'operating-system-compatibility',
+      'touch-technology',
+    ]
+  : [
+      'touch-technology',
+      'computing-software',
+      'connectivity-peripherals',
+      'visibility-durability',
+      'mounting-accessibility',
+    ];
+const specificationIconModules = iconSet === 'totems'
+  ? totemsSpecificationIconModules
+  : interactiveDisplaysHardwareIconModules;
+const specificationIconDirectory = iconSet === 'totems'
+  ? 'totems/totem-specification-icons'
+  : 'interactive-displays/interactive-hardware';
+const loadSpecificationIcon = async (name: string) => {
+  const iconPath = `../../../assets/vectors/icons/${specificationIconDirectory}/${name}.svg`;
+  const loadIcon = specificationIconModules[iconPath];
+
+  if (!loadIcon) {
+    throw new Error(`Missing ${iconSet} technical specification icon: ${name}`);
+  }
+
+  return (await loadIcon()).replace(/^<\?xml[^>]*>\s*/, '');
+};
+const replacementIcons = await Promise.all(specificationIconNames.map(loadSpecificationIcon));
 const featureIcons = [
-  iconScreenSizes,
-  iconRealtimeSync,
-  iconCloudManagement,
-  iconBattery,
-  iconBarcode,
-  iconSchedule,
+  iconScreenSizes.replace(/^<\?xml[^>]*>\s*/, ''),
+  ...replacementIcons,
 ];
 
 if (featureIcons.length !== content.features.length) {
@@ -104,6 +136,15 @@ const features = content.features.map((feature, index) => {
   .totems-technical__card {
     display: grid;
     width: 100%;
+  }
+
+  .totems-technical__cards :global(.sl-ds-card__icon > span) {
+    display: contents;
+  }
+
+  .totems-technical__cards :global(.sl-ds-card__icon svg) {
+    width: 88%;
+    height: 88%;
   }
 
   .totems-technical__image {

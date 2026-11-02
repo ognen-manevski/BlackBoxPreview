@@ -1,17 +1,51 @@
 ---
 import DsCard from '../../atoms/DsCard.astro';
 import SectionTitleGroup from '../../molecules/SectionTitleGroup.astro';
-import placeholderIcon from '../../../assets/vectors/icons/ns-how-it-works/centralized-management.svg?raw';
 import type { TotemsContent } from '../../../i18n/pages/digital-signage-displays/totems';
 
 interface Props {
   content: TotemsContent['whyTotems'];
+  iconSet?: 'totems' | 'interactive-displays';
 }
 
-const { content } = Astro.props;
-const placeholderIconMarkup = placeholderIcon
-  .replace(/^<\?xml[^>]*>\s*/, '')
-  .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+const { content, iconSet = 'totems' } = Astro.props;
+const totemsBenefitIconModules = import.meta.glob<string>(
+  '../../../assets/vectors/icons/totems/totem-benefit-icons/*.svg',
+  { query: '?raw', import: 'default' },
+);
+const interactiveDisplaysBenefitIconModules = import.meta.glob<string>(
+  '../../../assets/vectors/icons/interactive-displays/interactive-benefit-icons/*.svg',
+  { query: '?raw', import: 'default' },
+);
+const totemsBenefitIconNames = [
+  'capture-attention',
+  'keep-information-current',
+  'reduce-printing-manual-work',
+  'strengthen-your-brand',
+  'help-customers-find-answers',
+  'support-sales',
+] as const;
+const interactiveDisplaysBenefitIconNames = [
+  'easy-to-find',
+  'self-service',
+  'fewer-repetitive-questions',
+  'help-customers-decide',
+  'encourage-participation',
+  'consistent-experience',
+] as const;
+const benefitIconNames = iconSet === 'totems' ? totemsBenefitIconNames : interactiveDisplaysBenefitIconNames;
+const benefitIconModules = iconSet === 'totems' ? totemsBenefitIconModules : interactiveDisplaysBenefitIconModules;
+const benefitIconDirectory = iconSet === 'totems' ? 'totems/totem-benefit-icons' : 'interactive-displays/interactive-benefit-icons';
+const benefitIcons = await Promise.all(benefitIconNames.map(async (name) => {
+  const iconPath = `../../../assets/vectors/icons/${benefitIconDirectory}/${name}.svg`;
+  const loadIcon = benefitIconModules[iconPath];
+
+  if (!loadIcon) {
+    throw new Error(`Missing digital totems benefit icon: ${name}`);
+  }
+
+  return (await loadIcon()).replace(/^<\?xml[^>]*>\s*/, '');
+}));
 ---
 
 <section class="section totems-why" aria-labelledby="totems-why-heading">
@@ -27,10 +61,10 @@ const placeholderIconMarkup = placeholderIcon
     />
 
     <ul class="totems-why__cards" aria-label={content.ariaLabel}>
-      {content.cards.map((card) => (
+      {content.cards.map((card, index) => (
         <li class="totems-why__item">
           <DsCard title={card.title} text={card.text}>
-            <span slot="icon" set:html={placeholderIconMarkup} />
+            <span slot="icon" set:html={benefitIcons[index]} />
           </DsCard>
         </li>
       ))}
@@ -55,6 +89,15 @@ const placeholderIconMarkup = placeholderIcon
   .totems-why__item {
     display: grid;
     list-style: none;
+  }
+
+  .totems-why__cards :global(.ds-card__icon > span) {
+    display: contents;
+  }
+
+  .totems-why__cards :global(.ds-card__icon svg) {
+    width: 80%;
+    height: 80%;
   }
 
   @media (max-width: 1200px) {

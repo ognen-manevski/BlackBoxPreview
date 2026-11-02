@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="interactive-displays-buy-rent-buy-display" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 64 64">
+  <!-- Generator: Adobe Illustrator 29.0.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 186)  -->
+  <defs>
+    <style>
+      #interactive-displays-buy-rent-buy-display .st0 {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <path class="st0" d="M48,33l12,5v9c0,6-7,11-12,14-5-3-12-8-12-14v-9l12-5ZM42,46l4,4,8-10"/>
+  <g>
+    <polyline class="st0" points="31.1 49.9 3.3 49.9 3.3 4.1 60.7 4.1 60.7 30.9"/>
+    <line class="st0" x1="13.6" y1="59.9" x2="13.6" y2="49.9"/>
+    <line class="st0" x1="3.3" y1="59.9" x2="40.6" y2="59.9"/>
+    <path class="st0" d="M18.1,32.8v-11.1c0-1.2,1-2.1,2.1-2.1s2.1,1,2.1,2.1v7.4l2.6-1.6,3.2,1.6,3.2,1.1v6.9l-3.7,4.8h-7.4l-6.9-6.9c-.5-1-.1-2.3.9-2.9.7-.4,1.6-.3,2.3.2l1.6,1.6v-1.1h0Z"/>
+    <g>
+      <line class="st0" x1="33.6" y1="23" x2="28.3" y2="23"/>
+      <line class="st0" x1="29.7" y1="13.6" x2="26" y2="17.3"/>
+      <line class="st0" x1="20.3" y1="9.7" x2="20.3" y2="14.9"/>
+      <line class="st0" x1="11" y1="13.6" x2="14.7" y2="17.3"/>
+      <line class="st0" x1="7.1" y1="23" x2="12.4" y2="23"/>
+    </g>
+  </g>
+</svg>

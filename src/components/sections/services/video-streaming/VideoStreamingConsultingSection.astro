@@ -72,7 +72,7 @@ const cardImages = [streamingEventsDashboardImage, checkoutImage, eventGalleryIm
                 poster={livePerformancePoster.src}
                 aria-hidden="true"
               >
-                <source src="/videos/video-streaming/how-it-works/live-performance.mp4" type="video/mp4" />
+                <source src={`${import.meta.env.BASE_URL}videos/video-streaming/how-it-works/live-performance.mp4`} type="video/mp4" />
               </video>
             ) : (
               <ProgressiveImage src={cardImages[index < 2 ? index : 2]}>
@@ -368,7 +368,7 @@ const cardImages = [streamingEventsDashboardImage, checkoutImage, eventGalleryIm
     line-height: 1.6;
   }
 
-  .vs-consulting__card:focus-within {
+  .vs-consulting__card:focus-visible {
     outline: 2px solid color-mix(in srgb, var(--color-brand) 65%, white 35%);
     outline-offset: 2px;
   }

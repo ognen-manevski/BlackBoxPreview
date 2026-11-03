@@ -10,6 +10,11 @@ publishedAt: 2026-10-31
 lang: mk
 translationKey: shopping-centres
 draft: false
+inlineImages:
+  - src: "../../../assets/images/services/neoslide/usecases/totems-shopping-centres-wayfinding.jpg"
+    alt: "Дигитален тотем за навигација во трговски центар"
+    afterParagraph: 2
+    paragraphCount: 2
 ---
 
 Помогнете им на посетителите полесно да најдат продавници, да откријат понуди и да дознаат што се случува во вашиот трговски центар. Дигиталните тотеми и интерактивните дисплеи ги поставуваат корисните информации таму каде што се потребни, а на продавниците и брендовите им нудат простор за промоција на своите новости.

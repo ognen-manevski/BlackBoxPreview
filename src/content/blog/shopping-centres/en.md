@@ -10,6 +10,11 @@ publishedAt: 2026-10-31
 lang: en
 translationKey: shopping-centres
 draft: false
+inlineImages:
+  - src: "../../../assets/images/services/neoslide/usecases/totems-shopping-centres-wayfinding.jpg"
+    alt: "Digital wayfinding totem inside a shopping centre"
+    afterParagraph: 2
+    paragraphCount: 2
 ---
 
 Help visitors find shops, discover offers, and see what’s happening throughout your shopping centre. Digital totems and interactive displays put useful information where people need it, while giving stores and brands space to promote their latest news.

@@ -12,6 +12,12 @@ const createEditorialCollection = (base: string) => defineCollection({
     inlineImage: z.string().optional(), inlineImageAlt: z.string().optional(),
     inlineImageAfterParagraph: z.number().int().positive().optional(),
     inlineImageLayout: z.enum(['paired']).optional(),
+    inlineImages: z.array(z.object({
+      src: z.string(),
+      alt: z.string().optional(),
+      afterParagraph: z.number().int().positive(),
+      paragraphCount: z.number().int().positive().optional(),
+    })).optional(),
   }),
 });
 

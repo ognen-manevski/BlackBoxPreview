@@ -7,9 +7,15 @@ import healthcareImage from '../../../assets/images/services/neoslide/usecases/h
 import hospitalityImage from '../../../assets/images/services/neoslide/usecases/hospitality-2.jpg';
 import publicAdvertisingImage from '../../../assets/images/services/neoslide/usecases/public.jpg';
 import restaurantsImage from '../../../assets/images/services/neoslide/usecases/restaurants.jpg';
-import retailImage from '../../../assets/images/services/neoslide/usecases/storefront.jpg';
+import retailMarketImage from '../../../assets/images/services/neoslide/usecases/retail-market.jpg';
+import storefrontImage from '../../../assets/images/services/neoslide/usecases/storefront.jpg';
+import totemsRetailImage from '../../../assets/images/services/neoslide/usecases/totems-retail-boutique.jpg';
+import totemsShoppingCentresImage from '../../../assets/images/services/neoslide/usecases/totems-shopping-centres-wayfinding.jpg';
 import sportsImage from '../../../assets/images/services/neoslide/usecases/sports.jpg';
 import transportationImage from '../../../assets/images/services/neoslide/usecases/transport.jpg';
+import totemsCorporateImage from '../../../content/blog/corporate/digital-totem-office.webp';
+
+export { storefrontImage, totemsCorporateImage, totemsRetailImage, totemsShoppingCentresImage };
 
 export interface IndustrySolutionItem {
   number: string;
@@ -31,8 +37,8 @@ export const industrySolutions: IndustrySolutionItem[] = [
     title: 'Retail & Shopping',
     excerpt:
       'Promote offers, new arrivals and in-store campaigns while guiding customers through stores, malls and shopping destinations.',
-    imageSrc: retailImage.src,
-    imageAlt: 'Digital signage display in a retail shopping environment',
+    imageSrc: retailMarketImage.src,
+    imageAlt: 'Digital signage totem promoting fresh produce in a market',
     caseStudySlug: 'retail',
   },
   {
@@ -164,7 +170,7 @@ export const industryMetrics: IndustryMetricItem[] = [
 ];
 
 const mkIndustryCopy = [
-  ['Малопродажба и трговски центри','Промовирајте понуди, нови производи и кампањи, а истовремено насочувајте ги купувачите низ продавниците и трговските центри.','Digital signage дисплеј во малопродажна средина'],
+  ['Малопродажба и трговски центри','Промовирајте понуди, нови производи и кампањи, а истовремено насочувајте ги купувачите низ продавниците и трговските центри.','Дигитален тотем со промоција на свежи производи во маркет'],
   ['Хотелиерство','Пречекајте ги гостите со брендирани информации, насоки, распореди и навремени известувања во хотели, ресорти и заеднички простори.','Digital signage дисплеј во хотелски објект'],
   ['Здравство','Насочувајте ги пациентите со информации за термини, редици, ориентација и важни известувања во клиники, болници и чекални.','Digital signage дисплеј во здравствена установа'],
   ['Корпоративни средини','Поврзете ги тимовите со компаниски новости, dashboard-и, информации за состаноци и известувања низ канцелариите.','Digital signage дисплеј во канцелариски простор'],
@@ -182,4 +188,4 @@ export const macedonianIndustryMetrics: IndustryMetricItem[] = [
   {value:'400%',label:'Повеќе внимание од статичното огласување'},{value:'33%',label:'Поголема посетеност во малопродажбата'},{value:'83%',label:'Подобро препознавање на брендот со дигитални дисплеи'},{value:'24/7',label:'Автоматско ажурирање на содржината'},{value:'100%',label:'Централизирана контрола на сите дисплеи'},{value:'Во реално време',label:'Динамична синхронизација на содржината'},
 ];
 
-export const industryImageMetadata = new Map([corporateImage, educationImage, eventsImage, financeImage, governmentImage, healthcareImage, hospitalityImage, publicAdvertisingImage, restaurantsImage, retailImage, sportsImage, transportationImage].map(image => [image.src, image]));
+export const industryImageMetadata = new Map([corporateImage, educationImage, eventsImage, financeImage, governmentImage, healthcareImage, hospitalityImage, publicAdvertisingImage, restaurantsImage, retailMarketImage, storefrontImage, totemsCorporateImage, totemsRetailImage, totemsShoppingCentresImage, sportsImage, transportationImage].map(image => [image.src, image]));

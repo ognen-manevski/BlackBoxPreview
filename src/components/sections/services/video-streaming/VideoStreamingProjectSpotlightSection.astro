@@ -1,6 +1,6 @@
 ---
 import ProgressiveImage from "../../../atoms/ProgressiveImage.astro";
-import spotlightImage from "../../../../assets/images/services/neoslide/real-time content/weather.png";
+import spotlightImage from "../../../../assets/images/services/video-streaming/dancelivetv/dance-live-tv-mockup.png";
 import type { VideoStreamingContent } from "../../../../i18n/pages/services/video-streaming.ts";
 
 interface Props {
@@ -25,12 +25,11 @@ const { content } = Astro.props;
       </div>
 
       <div class="vs-spotlight__media" data-progressive-host="relative">
-        <!-- TODO: Replace the temporary NeoSlide visual and add accurate alt text. -->
         <ProgressiveImage src={spotlightImage} fit="contain">
           <img
             class="vs-spotlight__image"
             src={spotlightImage.src}
-            alt=""
+            alt="DanceLiveTV streaming platform and event media mockups"
             loading="lazy"
             decoding="async"
           />

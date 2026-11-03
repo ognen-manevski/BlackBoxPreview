@@ -10,10 +10,13 @@ publishedAt: 2020-10-18
 lang: en
 translationKey: retail
 draft: false
-inlineImage: "../../../assets/images/services/neoslide/usecases/storefront.jpg"
-inlineImageAlt: "Digital signage display in a retail shopping environment"
-inlineImageAfterParagraph: 3
-inlineImageLayout: "paired"
+inlineImages:
+  - src: "../../../assets/images/services/neoslide/usecases/retail-market.jpg"
+    alt: "Digital totem promoting fresh produce inside a market"
+    afterParagraph: 3
+  - src: "../../../assets/images/services/neoslide/usecases/totems-retail-boutique.jpg"
+    alt: "Digital totem displaying a fashion collection inside a boutique"
+    afterParagraph: 6
 sourceUrl: "https://neoslide.mk/en/blog/retail/"
 ---
 

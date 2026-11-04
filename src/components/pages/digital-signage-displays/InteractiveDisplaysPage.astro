@@ -12,7 +12,15 @@ import ShelfLabelsHardwareDetailsSection from '../../sections/digital-signage-di
 import { digitalSignageContent } from '../../../i18n/pages/services/neoslide';
 import { shelfLabelsContent } from '../../../i18n/pages/digital-signage-displays/electronic-shelf-labels';
 import { interactiveDisplaysContent } from '../../../i18n/pages/digital-signage-displays/interactive-displays';
-import interactiveDisplaysIllustration from '../../../assets/vectors/illustrations/neoslide/how-it-works-interactive-displays.svg?raw';
+import interactiveDisplaysIllustration from '../../../assets/vectors/icons/interactive-displays/interactive-how-it-works-icons/how-it-works-interactive-displays-example.svg?raw';
+import wallMountedImage from '../../../assets/images/services/neoslide/interactive-displays/display-types/01-wall-mounted.jpg';
+import freestandingImage from '../../../assets/images/services/neoslide/interactive-displays/display-types/02-interactive-freestanding.jpg';
+import selfServiceImage from '../../../assets/images/services/neoslide/interactive-displays/display-types/03-self-service-kiosks.jpg';
+import interactiveTableImage from '../../../assets/images/services/neoslide/interactive-displays/display-types/04-interactive-tables.jpg';
+import collaborationImage from '../../../assets/images/services/neoslide/interactive-displays/display-types/05-collaboration-displays.jpg';
+import customSolutionImage from '../../../assets/images/services/neoslide/interactive-displays/display-types/06-custom-interactive-solutions.jpg';
+import heroSmallProduct from '../../../assets/images/services/neoslide/interactive-displays/hero/hero-product-small.png';
+import heroLargeProduct from '../../../assets/images/services/neoslide/interactive-displays/hero/hero-product-large.png';
 import { getTranslations } from '../../../i18n/utils';
 import type { Lang } from '../../../i18n/types';
 
@@ -24,8 +32,23 @@ const { lang } = Astro.props;
 const content = getTranslations(interactiveDisplaysContent, lang);
 const signage = getTranslations(digitalSignageContent, lang);
 const shelfLabels = getTranslations(shelfLabelsContent, lang);
-if (shelfLabels.hardware.features.length !== content.keyFeatures.features.length) {
-  throw new Error('Interactive displays key feature copy must match the hardware image count.');
+const interactiveDisplaysIllustrationMarkup = Object.entries(content.howItWorks.illustrationText).reduce(
+  (markup, [key, value]) => markup.replaceAll(`__${key}__`, value),
+  interactiveDisplaysIllustration,
+);
+const interactiveDisplayTypeImages = [
+  wallMountedImage,
+  freestandingImage,
+  selfServiceImage,
+  interactiveTableImage,
+  collaborationImage,
+  customSolutionImage,
+];
+if (
+  shelfLabels.hardware.features.length !== content.keyFeatures.features.length
+  || interactiveDisplayTypeImages.length !== content.keyFeatures.features.length
+) {
+  throw new Error('Interactive display type copy and images must match the hardware card count.');
 }
 const hardwareContent = {
   ...shelfLabels.hardware,
@@ -35,9 +58,13 @@ const hardwareContent = {
   ariaLabel: content.keyFeatures.ariaLabel,
   features: shelfLabels.hardware.features.map((feature, index) => {
     const featureCopy = content.keyFeatures.features[index];
+    const featureImage = interactiveDisplayTypeImages[index];
 
     if (!featureCopy) {
       throw new Error(`Missing interactive displays key feature copy at index ${index}.`);
+    }
+    if (!featureImage) {
+      throw new Error(`Missing interactive displays key feature image at index ${index}.`);
     }
 
     return {
@@ -45,6 +72,8 @@ const hardwareContent = {
       counter: featureCopy.counter,
       title: featureCopy.title,
       description: featureCopy.description,
+      imageSrc: featureImage.src,
+      imageAlt: featureCopy.imageAlt,
     };
   }),
 };
@@ -84,17 +113,29 @@ const interactiveDisplaysIndustryContent = {
 ---
 
 <BaseLayout lang={lang} title={content.seo.title} description={content.seo.description}>
-  <TotemsHeroSection content={content.hero} wideHeading />
+  <TotemsHeroSection
+    content={content.hero}
+    wideHeading
+    productImages={[heroSmallProduct, heroLargeProduct]}
+    decorativeChips={content.hero.decorativeChips}
+  />
   <TotemsHowItWorksSection
     content={content.howItWorks}
     lang={lang}
-    illustration={interactiveDisplaysIllustration}
+    illustration={interactiveDisplaysIllustrationMarkup}
     iconSet="interactive-displays"
   />
   <TotemsWhySection content={content.whyTotems} iconSet="interactive-displays" />
-  <TotemsProductOverviewSection content={content.productOverview} />
+  <TotemsProductOverviewSection
+    content={content.productOverview}
+    modelContent={content.productOverview}
+  />
   <ShelfLabelsHardwareDetailsSection content={hardwareContent} />
-  <TotemsTechnicalDetailsSection content={content.technicalDetails} iconSet="interactive-displays" />
+  <TotemsTechnicalDetailsSection
+    content={content.technicalDetails}
+    iconSet="interactive-displays"
+    decorativeChips={content.technicalDetails.decorativeChips}
+  />
   <DigitalSignagePurchaseSection
     content={content.purchase}
     lang={lang}

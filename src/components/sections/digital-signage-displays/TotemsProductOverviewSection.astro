@@ -1,14 +1,34 @@
 ---
 import type { TotemsContent } from '../../../i18n/pages/digital-signage-displays/totems';
+import InteractiveDisplayModelViewer from '../../molecules/digital-signage-displays/InteractiveDisplayModelViewer.astro';
+import TotemModelViewer from '../../molecules/digital-signage-displays/TotemModelViewer.astro';
 
 interface Props {
-  content: TotemsContent['productOverview'];
+  content: Omit<TotemsContent['productOverview'], 'viewer'> & {
+    viewer?: TotemsContent['productOverview']['viewer'];
+  };
+  modelContent?: {
+    ariaLabel: string;
+    loadingLabel: string;
+    errorLabel: string;
+  };
+  totemModelContent?: TotemsContent['productOverview']['viewer'];
 }
 
-const { content } = Astro.props;
+const { content, modelContent, totemModelContent } = Astro.props;
 ---
 
-<section class="section totems-product" aria-labelledby="totems-product-heading">
+<section
+  class:list={[
+    "section",
+    "totems-product",
+    {
+      "totems-product--interactive": Boolean(modelContent),
+      "totems-product--totem": Boolean(totemModelContent),
+    },
+  ]}
+  aria-labelledby="totems-product-heading"
+>
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="blue-light" aria-hidden="true"></div>
 
@@ -25,8 +45,19 @@ const { content } = Astro.props;
       </div>
     </header>
 
-    <div class="totems-product__model" aria-hidden="true">
-      <!-- TODO: Add the digital totem 3D model here. -->
+    <div class="totems-product__model">
+      {totemModelContent && (
+        <div class="totems-product__aurora" aria-hidden="true"></div>
+      )}
+      {totemModelContent ? (
+        <TotemModelViewer content={totemModelContent} />
+      ) : modelContent ? (
+        <InteractiveDisplayModelViewer content={modelContent} />
+      ) : (
+        <div aria-hidden="true">
+          <!-- TODO: Add the digital totem 3D model here. -->
+        </div>
+      )}
     </div>
   </div>
 </section>
@@ -37,6 +68,10 @@ const { content } = Astro.props;
     overflow: hidden;
     background: var(--bg);
     border-bottom: 1px solid var(--border-color);
+  }
+
+  .totems-product--totem {
+    background: var(--bg);
   }
 
   .totems-product__container {
@@ -60,6 +95,12 @@ const { content } = Astro.props;
     align-items: start;
   }
 
+  .totems-product--interactive .totems-product__title-group,
+  .totems-product--totem .totems-product__title-group {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+  }
+
   .totems-product__heading,
   .totems-product__copy p {
     margin: 0;
@@ -80,6 +121,46 @@ const { content } = Astro.props;
     width: 100%;
     aspect-ratio: 16 / 10;
     background: transparent;
+  }
+
+  .totems-product__aurora {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
+    width: min(80%, 24rem);
+    height: min(88%, 28rem);
+    transform: translate(-50%, -50%) scale(2.2);
+    border-radius: 50%;
+    background: radial-gradient(
+      ellipse at center,
+      color-mix(in srgb, var(--color-aurora) 30%, transparent) 0%,
+      color-mix(in srgb, var(--color-aurora) 10%, transparent) 50%,
+      transparent 90%
+    );
+    filter: blur(30px);
+    pointer-events: none;
+  }
+
+  .totems-product--interactive .totems-product__model {
+    aspect-ratio: 12 / 10;
+  }
+
+  .totems-product--totem .totems-product__model {
+    aspect-ratio: 4 / 5;
+  }
+
+  @media (min-width: 851px) {
+    .totems-product--interactive .totems-product__container,
+    .totems-product--totem .totems-product__container {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: center;
+      gap: var(--sp-8);
+    }
+
+    .totems-product--totem .totems-product__model {
+      aspect-ratio: 1 / 1;
+    }
   }
 
   .blue-light {
@@ -105,5 +186,10 @@ const { content } = Astro.props;
     .totems-product__model {
       aspect-ratio: 12 / 10;
     }
+
+    .totems-product--totem .totems-product__model {
+      aspect-ratio: 4 / 5;
+    }
+
   }
 </style>

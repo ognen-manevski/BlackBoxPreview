@@ -1,0 +1,147 @@
+---
+interface Props {
+  chips: string[];
+  placement: 'hero' | 'technical';
+}
+
+const { chips, placement } = Astro.props;
+const behindIndexes = placement === 'hero' ? [0] : [0, 2, 4];
+---
+
+{chips.length > 0 && (
+  <div class:list={['decorative-chip-cloud', `decorative-chip-cloud--${placement}`]} aria-hidden="true">
+    {chips.map((chip, index) => (
+      <span class:list={['decorative-chip-cloud__chip', behindIndexes.includes(index) && 'decorative-chip-cloud__chip--behind']}>
+        {chip}
+      </span>
+    ))}
+  </div>
+)}
+
+<style>
+  .decorative-chip-cloud {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .decorative-chip-cloud__chip {
+    position: absolute;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.38rem 0.62rem;
+    border: 1px solid color-mix(in srgb, var(--color-brand) 55%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--bg-secondary) 90%, transparent);
+    color: var(--color-brand);
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .decorative-chip-cloud__chip--behind {
+    z-index: 0;
+    opacity: 0.82;
+  }
+
+  .decorative-chip-cloud--hero .decorative-chip-cloud__chip:nth-child(1) {
+    top: 4%;
+    left: 2%;
+    transform: rotate(-5deg);
+  }
+
+  .decorative-chip-cloud--hero .decorative-chip-cloud__chip:nth-child(2) {
+    top: 33%;
+    right: -4%;
+    transform: rotate(4deg);
+  }
+
+  .decorative-chip-cloud--hero .decorative-chip-cloud__chip:nth-child(3) {
+    top: 46%;
+    left: -12%;
+    transform: rotate(-3deg);
+  }
+
+  .decorative-chip-cloud--hero .decorative-chip-cloud__chip:nth-child(4) {
+    right: -4%;
+    bottom: 30%;
+    transform: rotate(4deg);
+  }
+
+  .decorative-chip-cloud--hero .decorative-chip-cloud__chip:nth-child(5) {
+    top: 3%;
+    left: 60%;
+    transform: rotate(-3deg);
+  }
+
+  .decorative-chip-cloud--technical .decorative-chip-cloud__chip:nth-child(1) {
+    top: 6%;
+    left: -24%;
+    transform: rotate(-5deg);
+  }
+
+  .decorative-chip-cloud--technical .decorative-chip-cloud__chip:nth-child(2) {
+    top: 18%;
+    right: -24%;
+    transform: rotate(4deg);
+  }
+
+  .decorative-chip-cloud--technical .decorative-chip-cloud__chip:nth-child(3) {
+    top: 50%;
+    left: -24%;
+    transform: rotate(-3deg);
+  }
+
+  .decorative-chip-cloud--technical .decorative-chip-cloud__chip:nth-child(4) {
+    top: 62%;
+    right: -24%;
+    transform: rotate(4deg);
+  }
+
+  .decorative-chip-cloud--technical .decorative-chip-cloud__chip:nth-child(5) {
+    top: 78%;
+    left: -24%;
+    transform: rotate(-3deg);
+  }
+
+  @media (max-width: 720px) {
+    .decorative-chip-cloud__chip {
+      padding: 0.3rem 0.5rem;
+      font-size: 0.625rem;
+    }
+
+    .decorative-chip-cloud--hero .decorative-chip-cloud__chip:nth-child(1) {
+      top: 3%;
+    }
+
+    .decorative-chip-cloud--hero .decorative-chip-cloud__chip:nth-child(2) {
+      top: 33%;
+    }
+
+    .decorative-chip-cloud--hero .decorative-chip-cloud__chip:nth-child(3) {
+      top: 46%;
+    }
+
+    .decorative-chip-cloud--hero .decorative-chip-cloud__chip:nth-child(4) {
+      bottom: 30%;
+    }
+
+    .decorative-chip-cloud--hero .decorative-chip-cloud__chip:nth-child(5) {
+      top: 0;
+    }
+
+    .decorative-chip-cloud--technical .decorative-chip-cloud__chip:nth-child(1),
+    .decorative-chip-cloud--technical .decorative-chip-cloud__chip:nth-child(3),
+    .decorative-chip-cloud--technical .decorative-chip-cloud__chip:nth-child(5) {
+      left: -24%;
+    }
+
+    .decorative-chip-cloud--technical .decorative-chip-cloud__chip:nth-child(2),
+    .decorative-chip-cloud--technical .decorative-chip-cloud__chip:nth-child(4) {
+      right: -24%;
+    }
+  }
+</style>

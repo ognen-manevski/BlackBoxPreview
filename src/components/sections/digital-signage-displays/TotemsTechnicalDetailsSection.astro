@@ -1,16 +1,20 @@
 ---
 import ShelfLabelsDsCard from '../../atoms/ShelfLabelsDsCard.astro';
+import DecorativeChipCloud from '../../atoms/DecorativeChipCloud.astro';
 import SectionTitleGroup from '../../molecules/SectionTitleGroup.astro';
 import iconScreenSizes from '../../../assets/vectors/icons/shelf-labels/ico_screen-sizes.svg?raw';
-import totemsDisplayImage from '../../../assets/images/services/neoslide/display-types/totems.jpg';
+import interactiveTechnicalImage from '../../../assets/images/services/neoslide/interactive-displays/technical-details/technical-details.png';
+import technicalLeftProduct from '../../../assets/images/services/neoslide/totems/technical-details/td-left.png';
+import technicalRightProduct from '../../../assets/images/services/neoslide/totems/technical-details/td-right.png';
 import type { TotemsContent } from '../../../i18n/pages/digital-signage-displays/totems';
 
 interface Props {
   content: TotemsContent['technicalDetails'];
   iconSet?: 'totems' | 'interactive-displays';
+  decorativeChips?: string[];
 }
 
-const { content, iconSet = 'totems' } = Astro.props;
+const { content, iconSet = 'totems', decorativeChips = [] } = Astro.props;
 const totemsSpecificationIconModules = import.meta.glob<string>(
   '../../../assets/vectors/icons/totems/totem-specification-icons/*.svg',
   { query: '?raw', import: 'default' },
@@ -71,7 +75,10 @@ const features = content.features.map((feature, index) => {
 });
 ---
 
-<section class="section totems-technical" aria-labelledby="totems-technical-heading">
+<section
+  class:list={['section totems-technical', iconSet === 'totems' && 'totems-technical--totems']}
+  aria-labelledby="totems-technical-heading"
+>
   <div class="container totems-technical__frame u-section-title-stack">
     <SectionTitleGroup
       class="totems-technical__intro"
@@ -94,16 +101,52 @@ const features = content.features.map((feature, index) => {
         ))}
       </div>
 
-      <div class="totems-technical__image">
-        <img
-          src={totemsDisplayImage.src}
-          alt={content.imageAlt}
-          width={totemsDisplayImage.width}
-          height={totemsDisplayImage.height}
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
+      {iconSet === 'totems' ? (
+        <div class="totems-technical__image totems-technical__image--totems">
+          <div
+            class="totems-technical__visual"
+            data-animate
+            role="img"
+            aria-label={content.imageAlt}
+          >
+            <img
+              src={technicalLeftProduct.src}
+              alt=""
+              width={technicalLeftProduct.width}
+              height={technicalLeftProduct.height}
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src={technicalRightProduct.src}
+              alt=""
+              width={technicalRightProduct.width}
+              height={technicalRightProduct.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+      ) : (
+        <div class="totems-technical__image totems-technical__image--interactive">
+          <div
+            class="totems-technical__visual totems-technical__visual--interactive"
+            data-animate
+            role="img"
+            aria-label={content.imageAlt}
+          >
+            <img
+              src={interactiveTechnicalImage.src}
+              alt=""
+              width={interactiveTechnicalImage.width}
+              height={interactiveTechnicalImage.height}
+              loading="lazy"
+              decoding="async"
+            />
+            <DecorativeChipCloud chips={decorativeChips} placement="technical" />
+          </div>
+        </div>
+      )}
     </div>
   </div>
 </section>
@@ -153,11 +196,53 @@ const features = content.features.map((feature, index) => {
     align-items: center;
   }
 
+  .totems-technical__image--totems {
+    justify-items: center;
+  }
+
+  .totems-technical__visual {
+    position: relative;
+    width: min(100%, 24rem);
+    aspect-ratio: 768 / 1042;
+  }
+
+  .totems-technical__image--totems .totems-technical__visual img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
   .totems-technical__image img {
     display: block;
     width: 100%;
     height: auto;
     object-fit: contain;
+  }
+
+  .totems-technical__image--interactive {
+    justify-items: center;
+  }
+
+  .totems-technical__visual--interactive {
+    position: relative;
+    width: min(100%, 18rem);
+    aspect-ratio: 768 / 1433;
+  }
+
+  .totems-technical__visual--interactive img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 720px) {
+    .totems-technical__visual--interactive {
+      width: min(18rem, 58vw);
+    }
   }
 
   @media (max-width: 1024px) {
@@ -181,6 +266,65 @@ const features = content.features.map((feature, index) => {
   @media (max-width: 640px) {
     .totems-technical__cards {
       grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+    }
+  }
+
+  .totems-technical--totems .totems-technical__body {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+
+  .totems-technical--totems .totems-technical__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-4);
+  }
+
+  @media (max-width: 1100px) {
+    .totems-technical--totems .totems-technical__body {
+      grid-template-columns: minmax(0, 1.3fr) minmax(14rem, 0.7fr);
+    }
+
+    .totems-technical--totems .totems-technical__cards {
+      gap: var(--sp-3);
+    }
+
+    .totems-technical--totems .totems-technical__visual {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .totems-technical--totems .totems-technical__body {
+      grid-template-columns: 1fr;
+      gap: var(--sp-7);
+    }
+
+    .totems-technical--totems .totems-technical__image--totems {
+      width: 100%;
+      justify-items: center;
+    }
+
+    .totems-technical--totems .totems-technical__visual {
+      width: min(24rem, 72vw);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .totems-technical--totems .totems-technical__cards {
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+    }
+
+    .totems-technical--totems .totems-technical__visual {
+      width: min(22rem, 72vw);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .totems-technical .totems-technical__visual[data-animate] {
+      opacity: 1;
+      transform: none;
+      transition: none;
     }
   }
 </style>

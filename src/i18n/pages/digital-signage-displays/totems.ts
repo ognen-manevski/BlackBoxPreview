@@ -7,8 +7,8 @@ const englishTotemsContent = {
   },
   hero: {
     ariaLabel: 'Digital totems',
-    headingStart: 'Put your message where ',
-    headingHighlight: 'people notice.',
+    headingStart: 'Give your space a ',
+    headingHighlight: 'stronger presence.',
     headingEnd: '',
     lead: 'Freestanding digital displays for promotions, announcements, and visitor information. Make better use of entrances, reception areas, and shared spaces with content you can update as your business needs change.',
   },
@@ -44,6 +44,11 @@ const englishTotemsContent = {
   productOverview: {
     label: 'Product Overview',
     heading: 'A dedicated display with a clear purpose.',
+    viewer: {
+      ariaLabel: 'Interactive 3D model of a digital totem',
+      loadingLabel: 'Loading digital totem model…',
+      errorLabel: 'The digital totem model or its screen video could not be loaded.',
+    },
     paragraphs: [
       'A digital totem is a freestanding display that businesses use to promote products, guide visitors, and share information. It replaces static posters with images, videos, and announcements that can be managed remotely and updated across multiple locations. In stores, reception areas, and other commercial spaces, digital totems help teams keep content current without repeatedly printing and replacing signage.',
       'Digital totems typically feature one or two vertically mounted screens, with designs that can be adapted to different spaces and business needs. Outdoor models use enclosures suited to local conditions and installation requirements.',
@@ -92,7 +97,7 @@ const englishTotemsContent = {
     heading: 'The right specifications for your business.',
     copy: 'Choose a digital totem that fits your location, content, and daily operating requirements. Display quality, connectivity, and software compatibility all play a role in selecting a configuration that works for your business.',
     listAriaLabel: 'Digital totem technical details',
-    imageAlt: 'Three freestanding digital totem displays in different orientations.',
+    imageAlt: 'Two freestanding digital totems, one with a dark screen and one with a light screen.',
     features: [
       {
         title: 'Display & Resolution',
@@ -194,6 +199,11 @@ const macedonianTotemsContent = {
   productOverview: {
     label: 'Преглед на производот',
     heading: 'Дисплеј со јасна намена.',
+    viewer: {
+      ariaLabel: 'Интерактивен 3D модел на дигитален тотем',
+      loadingLabel: 'Се вчитува моделот на дигиталниот тотем…',
+      errorLabel: 'Моделот на дигиталниот тотем или видеото на екранот не може да се вчита.',
+    },
     paragraphs: [
       'Дигиталниот тотем е самостоен дисплеј што бизнисите го користат за промоција на производи, насочување на посетители и споделување информации. Ги заменува статичните постери со слики, видеа и известувања со кои може да се управува од далечина и да се ажурираат на повеќе локации. Во продавници, приемни простории и други деловни објекти, дигиталните тотеми им овозможуваат на тимовите да ја одржуваат содржината актуелна, без постојано печатење и замена на постери.',
       'Дигиталните тотеми најчесто имаат еден или два вертикално поставени екрани, со дизајн што може да се приспособи на различни простори и деловни потреби. Моделите за надворешна употреба имаат куќишта приспособени на условите на локацијата и барањата за поставување.',
@@ -242,7 +252,7 @@ const macedonianTotemsContent = {
     heading: 'Соодветни спецификации за вашиот бизнис.',
     copy: 'Изберете дигитален тотем што одговара на вашата локација, содржината и секојдневните работни потреби. Квалитетот на приказот, поврзувањето и софтверската компатибилност се важни при изборот на конфигурација што ќе одговара на вашиот бизнис.',
     listAriaLabel: 'Технички детали за дигитални тотеми',
-    imageAlt: 'Три самостојни дигитални тотеми со различни ориентации на екранот.',
+    imageAlt: 'Два самостојни дигитални тотеми, едниот со темен, а другиот со светол екран.',
     features: [
       {
         title: 'Дисплеј и резолуција',

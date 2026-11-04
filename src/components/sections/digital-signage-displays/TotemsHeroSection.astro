@@ -1,28 +1,49 @@
 ---
-import darkBlurBg from '../../../assets/images/services/shelf-labels/hero/dark-bg-blur.jpg';
-import darkRotatedCover from '../../../assets/images/services/shelf-labels/hero/dark-rotated-loop.jpg';
-import videoMask from '../../../assets/images/services/shelf-labels/hero/video-mask.svg';
+import heroLeftProduct from '../../../assets/images/services/neoslide/totems/hero/hero-left.png';
+import heroRightProduct from '../../../assets/images/services/neoslide/totems/hero/hero-right.png';
+import DecorativeChipCloud from '../../atoms/DecorativeChipCloud.astro';
 import type { TotemsContent } from '../../../i18n/pages/digital-signage-displays/totems';
 
 interface Props {
   content: TotemsContent['hero'] & { headingHighlightEnd?: string };
   wideHeading?: boolean;
+  productImages?: [typeof heroLeftProduct, typeof heroRightProduct];
+  decorativeChips?: string[];
 }
 
-const { content, wideHeading = false } = Astro.props;
+const {
+  content,
+  wideHeading = false,
+  productImages = [heroLeftProduct, heroRightProduct],
+  decorativeChips = [],
+} = Astro.props;
 ---
 
-<section class:list={['totems-hero', wideHeading && 'totems-hero--wide-heading']} aria-label={content.ariaLabel} style={`--totems-video-mask: url(${videoMask.src});`}>
-  <div class="totems-hero__media" aria-hidden="true">
-    <img
-      class="totems-hero__background"
-      src={darkBlurBg.src}
-      alt=""
-      width={darkBlurBg.width}
-      height={darkBlurBg.height}
-      loading="eager"
-      decoding="async"
-    />
+<section class:list={['totems-hero', wideHeading && 'totems-hero--wide-heading']} aria-label={content.ariaLabel}>
+  <div class="totems-hero__bg-lights" aria-hidden="true">
+    <svg class="totems-hero__noise" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <filter id="totems-hero-noise">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.8"
+          numOctaves="2"
+          stitchTiles="stitch"
+        />
+        <feColorMatrix
+          type="matrix"
+          values="
+            0 0 0 0 0
+            0 0 0 0 0
+            0 0 0 0 0
+            0.2126 0.7152 0.0722 0 0
+          "
+        />
+        <feComponentTransfer>
+          <feFuncA type="gamma" amplitude="1" exponent="2" offset="0" />
+        </feComponentTransfer>
+      </filter>
+      <rect width="100%" height="100%" filter="url(#totems-hero-noise)" />
+    </svg>
   </div>
 
   <div class="container totems-hero__inner">
@@ -47,18 +68,19 @@ const { content, wideHeading = false } = Astro.props;
       <p class="section-copy totems-hero__lead">{content.lead}</p>
     </div>
     <div class="totems-hero__stage" aria-hidden="true">
-      <div class="totems-hero__video-mask">
-        <video
-          class="totems-hero__video"
-          autoplay
-          loop
-          muted
-          playsinline
-          preload="auto"
-          poster={darkRotatedCover.src}
-          src={`${import.meta.env.BASE_URL}videos/shelf-labels/dark-rotated-loop.mp4`}
-        ></video>
-      </div>
+      <DecorativeChipCloud chips={decorativeChips} placement="hero" />
+      {productImages.map((product, index) => (
+        <img
+          class="totems-hero__product"
+          src={product.src}
+          alt=""
+          width={product.width}
+          height={product.height}
+          loading="eager"
+          decoding="async"
+          fetchpriority={index === 0 ? 'high' : undefined}
+        />
+      ))}
     </div>
   </div>
 </section>
@@ -67,6 +89,7 @@ const { content, wideHeading = false } = Astro.props;
   .totems-hero {
     position: relative;
     overflow: clip;
+    isolation: isolate;
     width: 100%;
     min-height: min(56rem, calc(60svh + var(--navbar-height)));
     background: var(--bg);
@@ -74,7 +97,7 @@ const { content, wideHeading = false } = Astro.props;
 
   .totems-hero__inner {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(22rem, 1.1fr);
     align-items: center;
@@ -86,7 +109,7 @@ const { content, wideHeading = false } = Astro.props;
 
   .totems-hero__content {
     position: relative;
-    z-index: 3;
+    z-index: 1;
     max-width: 38rem;
   }
 
@@ -94,7 +117,7 @@ const { content, wideHeading = false } = Astro.props;
     margin: 0;
   }
 
-  @media (min-width: 769px) and (max-width: 1199px) {
+  @media (min-width: 769px) and (max-width: 1024px) {
     .totems-hero--wide-heading .totems-hero__inner {
       grid-template-columns: 1fr;
     }
@@ -109,12 +132,7 @@ const { content, wideHeading = false } = Astro.props;
       margin-inline: auto;
     }
 
-    .totems-hero--wide-heading .totems-hero__stage {
-      width: min(36rem, 90vw);
-      justify-self: center;
-    }
-
-    .totems-hero--wide-heading h1 {
+    .totems-hero--wide-heading     .totems-hero--wide-heading h1 {
       font-size: clamp(3.25rem, 4.2vw, 3.5rem);
       line-height: 1.1;
     }
@@ -148,58 +166,71 @@ const { content, wideHeading = false } = Astro.props;
     margin-top: var(--sp-4);
   }
 
-  .totems-hero__media {
+  .totems-hero__bg-lights {
     position: absolute;
     inset: 0;
-    z-index: 1;
-    overflow: hidden;
-    background: var(--bg);
-  }
-
-  .totems-hero__background {
-    position: absolute;
-    inset: 0;
-    display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: 62% center;
+    z-index: 0;
+    overflow: visible;
+    background:
+      radial-gradient(
+        circle at 0% -20%,
+        color-mix(in srgb, var(--color-brand) 30%, transparent) 0,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at -20% -130%,
+        color-mix(in srgb, var(--color-brand) 100%, transparent) 0,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse at 50% 120%,
+        color-mix(in srgb, var(--color-aurora) 40%, transparent) 0,
+        transparent 40%
+      );
+    pointer-events: none;
+    filter: contrast(2) saturate(1.3);
   }
 
-  .totems-hero__media::after {
+  .totems-hero__noise {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--bg) 82%, transparent),
-      color-mix(in srgb, var(--bg) 46%, transparent) 42%,
-      color-mix(in srgb, var(--bg) 14%, transparent)
-    );
-    content: "";
+    width: 100%;
+    height: 100%;
+    opacity: 0.16;
     mix-blend-mode: multiply;
     pointer-events: none;
   }
 
   .totems-hero__stage {
     position: relative;
-    z-index: 3;
-    width: min(42rem, 100%);
+    width: min(30rem, 100%);
+    aspect-ratio: 768 / 862;
     justify-self: end;
+    animation: totems-hero-enter 900ms cubic-bezier(0.2, 0.75, 0.25, 1) 120ms both;
   }
 
-  .totems-hero__video-mask {
-    width: 100%;
-    aspect-ratio: 1920 / 1362;
-    overflow: hidden;
-    -webkit-mask: var(--totems-video-mask) center / 100% 100% no-repeat;
-    mask: var(--totems-video-mask) center / 100% 100% no-repeat;
-  }
-
-  .totems-hero__video {
+  .totems-hero__product {
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    z-index: 1;
+  }
+
+  @keyframes totems-hero-enter {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 1.25rem, 0) scale(0.98);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
   }
 
   @media (max-width: 1024px) {
@@ -207,9 +238,23 @@ const { content, wideHeading = false } = Astro.props;
       min-height: 0;
     }
 
+    .totems-hero__bg-lights {
+      background:
+        radial-gradient(
+          ellipse 90% 42% at 0% 0%,
+          color-mix(in srgb, var(--color-brand) 38%, transparent) 0,
+          transparent 100%
+        ),
+        radial-gradient(
+          ellipse 90% 42% at 50% 112%,
+          color-mix(in srgb, var(--color-aurora) 42%, transparent) 0,
+          transparent 100%
+        );
+    }
+
     .totems-hero__inner {
       grid-template-columns: 1fr;
-      gap: var(--sp-4);
+      gap: var(--sp-7);
       padding-top: var(--navbar-height);
       padding-bottom: calc(var(--navbar-height) + var(--sp-4));
     }
@@ -226,14 +271,34 @@ const { content, wideHeading = false } = Astro.props;
     }
 
     .totems-hero__stage {
-      width: min(36rem, 90vw);
+      width: min(26rem, 82vw);
       justify-self: center;
     }
   }
 
   @media (max-width: 720px) {
+    .totems-hero__bg-lights {
+      background:
+        radial-gradient(
+          ellipse 68% 34% at 0% 0%,
+          color-mix(in srgb, var(--color-brand) 38%, transparent) 0,
+          transparent 100%
+        ),
+        radial-gradient(
+          ellipse 68% 34% at 50% 115%,
+          color-mix(in srgb, var(--color-aurora) 42%, transparent) 0,
+          transparent 100%
+        );
+    }
+
     .totems-hero__stage {
-      width: min(30rem, 100%);
+      width: min(22rem, 72%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .totems-hero__stage {
+      animation: none;
     }
   }
 </style>

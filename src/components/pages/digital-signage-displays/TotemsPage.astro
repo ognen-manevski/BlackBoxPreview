@@ -15,6 +15,12 @@ import { totemsContent } from '../../../i18n/pages/digital-signage-displays/tote
 import { storefrontImage, totemsCorporateImage, totemsRetailImage, totemsShoppingCentresImage } from '../../../i18n/pages/data/industrySolutions';
 import { getTranslations } from '../../../i18n/utils';
 import type { Lang } from '../../../i18n/types';
+import featureDisplayImage from '../../../assets/images/services/neoslide/totems/features/01-quality-displays.jpg';
+import featureTouchscreenImage from '../../../assets/images/services/neoslide/totems/features/02-optional-touchscreens.jpg';
+import featureIndoorOutdoorImage from '../../../assets/images/services/neoslide/totems/features/03-indoor-outdoor.jpg';
+import featureContentManagementImage from '../../../assets/images/services/neoslide/totems/features/04-remote content-management.jpg';
+import featureModularImage from '../../../assets/images/services/neoslide/totems/features/05-Exploded modular digital totem.jpg';
+import featureDoubleSidedImage from '../../../assets/images/services/neoslide/totems/features/06-double-sided.jpg';
 
 interface Props {
   lang: Lang;
@@ -24,6 +30,32 @@ const { lang } = Astro.props;
 const content = getTranslations(totemsContent, lang);
 const signage = getTranslations(digitalSignageContent, lang);
 const shelfLabels = getTranslations(shelfLabelsContent, lang);
+const totemFeatureImages = [
+  {
+    image: featureDisplayImage,
+    alt: { en: 'Layered screen construction for a digital signage display.', mk: 'Слоевита изработка на екран за дигитална сигнализација.' },
+  },
+  {
+    image: featureTouchscreenImage,
+    alt: { en: 'Visitor using an interactive digital totem.', mk: 'Посетител користи интерактивен дигитален тотем.' },
+  },
+  {
+    image: featureIndoorOutdoorImage,
+    alt: { en: 'Digital totems shown in indoor and outdoor settings.', mk: 'Дигитални тотеми поставени во внатрешен и надворешен простор.' },
+  },
+  {
+    image: featureContentManagementImage,
+    alt: { en: 'Laptop managing content across multiple digital totems.', mk: 'Лаптоп управува со содржината на повеќе дигитални тотеми.' },
+  },
+  {
+    image: featureModularImage,
+    alt: { en: 'Exploded view of modular digital totem components.', mk: 'Разложен приказ на модуларните компоненти на дигитален тотем.' },
+  },
+  {
+    image: featureDoubleSidedImage,
+    alt: { en: 'Single-sided and double-sided digital totems.', mk: 'Едностран и двостран дигитален тотем.' },
+  },
+];
 if (shelfLabels.hardware.features.length !== content.keyFeatures.features.length) {
   throw new Error('Digital totems key feature copy must match the hardware image count.');
 }
@@ -35,9 +67,13 @@ const hardwareContent = {
   ariaLabel: content.keyFeatures.ariaLabel,
   features: shelfLabels.hardware.features.map((feature, index) => {
     const featureCopy = content.keyFeatures.features[index];
+    const featureImage = totemFeatureImages[index];
 
     if (!featureCopy) {
       throw new Error(`Missing digital totems key feature copy at index ${index}.`);
+    }
+    if (!featureImage) {
+      throw new Error(`Missing digital totems key feature image at index ${index}.`);
     }
 
     return {
@@ -45,6 +81,8 @@ const hardwareContent = {
       counter: featureCopy.counter,
       title: featureCopy.title,
       description: featureCopy.description,
+      imageSrc: featureImage.image.src,
+      imageAlt: featureImage.alt[lang],
     };
   }),
 };
@@ -98,7 +136,10 @@ const totemsIndustryContent = {
   <TotemsHeroSection content={content.hero} />
   <TotemsHowItWorksSection content={content.howItWorks} lang={lang} iconSet="totems" />
   <TotemsWhySection content={content.whyTotems} />
-  <TotemsProductOverviewSection content={content.productOverview} />
+  <TotemsProductOverviewSection
+    content={content.productOverview}
+    totemModelContent={content.productOverview.viewer}
+  />
   <ShelfLabelsHardwareDetailsSection content={hardwareContent} />
   <TotemsTechnicalDetailsSection content={content.technicalDetails} />
   <DigitalSignagePurchaseSection

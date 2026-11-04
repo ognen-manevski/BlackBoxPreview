@@ -6,6 +6,6 @@ const isGitHubPagesPreview = siteHostname === 'ognen-manevski.github.io';
 export const cookiebotDomainGroupId =
   configuredDomainGroupId || (isGitHubPagesPreview ? previewDomainGroupId : undefined);
 
-if (import.meta.env.PROD && !cookiebotDomainGroupId) {
+if (import.meta.env.PROD && import.meta.env.PUBLIC_COOKIEBOT_REQUIRED === 'true' && !cookiebotDomainGroupId) {
   throw new Error('Set PUBLIC_COOKIEBOT_CBID to the production Cookiebot domain group ID before building.');
 }

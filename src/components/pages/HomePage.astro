@@ -23,7 +23,7 @@ const content = getTranslations(homePageContent, lang);
 
 <BaseLayout lang={lang} title={content.seo.title} description={content.seo.description}>
   <HomeHeroPreview content={content.hero} lang={lang} />
-  <OurServicesSection content={content.services} />
+  <OurServicesSection content={content.services} lang={lang} />
   <CaseStudiesSection content={content.caseStudies} lang={lang} />
   <WhyChooseUsSection content={content.whyChoose} />
   <HomeAboutSection content={content.about} />

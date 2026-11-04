@@ -8,9 +8,11 @@ import type { HomePageContent } from '../../i18n/pages/home';
 import ArrowForwardIcon from '../icons/ArrowForwardIcon.astro';
 import ArrowOutwardIcon from '../icons/ArrowOutwardIcon.astro';
 import SectionTitleGroup from '../molecules/SectionTitleGroup.astro';
+import { getLocalizedPath } from '../../i18n/utils';
+import type { Lang } from '../../i18n/types';
 
-interface Props { content: HomePageContent['services']; }
-const { content } = Astro.props;
+interface Props { content: HomePageContent['services']; lang: Lang; }
+const { content, lang } = Astro.props;
 const images = [neoslideDark, shelfLabelsDark, videoStreamingDark, softwareDevelopmentDark];
 const splitTitle = (title: string) => {
   const words = title.trim().split(/\s+/);
@@ -92,7 +94,7 @@ const services = content.items.map((item, index) => ({
             <div class="services-card__details" aria-hidden={index === 0 ? 'false' : 'true'}>
               <div class="services-card__details-inner">
                 <p class="services-card__description">{service.description}</p>
-                <a class="services-card__cta" href={service.href}>
+                <a class="services-card__cta" href={getLocalizedPath(service.href, lang)}>
                   {content.learnMore}
                   <ArrowForwardIcon />
                 </a>
@@ -100,7 +102,7 @@ const services = content.items.map((item, index) => ({
             </div>
           </div>
 
-          <a class="services-card__hitarea" href={service.href} aria-label={`${content.openPrefix} ${service.title}`}></a>
+          <a class="services-card__hitarea" href={getLocalizedPath(service.href, lang)} aria-label={`${content.openPrefix} ${service.title}`}></a>
         </article>
       ))}
     </div>

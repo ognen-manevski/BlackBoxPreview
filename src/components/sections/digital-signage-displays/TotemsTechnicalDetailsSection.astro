@@ -1,17 +1,20 @@
 ---
+import { Image } from 'astro:assets';
 import ShelfLabelsDsCard from '../../atoms/ShelfLabelsDsCard.astro';
 import DecorativeChipCloud from '../../atoms/DecorativeChipCloud.astro';
+import ProgressiveImage from '../../atoms/ProgressiveImage.astro';
 import SectionTitleGroup from '../../molecules/SectionTitleGroup.astro';
 import iconScreenSizes from '../../../assets/vectors/icons/shelf-labels/ico_screen-sizes.svg?raw';
 import interactiveTechnicalImage from '../../../assets/images/services/neoslide/interactive-displays/technical-details/technical-details.png';
 import technicalLeftProduct from '../../../assets/images/services/neoslide/totems/technical-details/td-left.png';
 import technicalRightProduct from '../../../assets/images/services/neoslide/totems/technical-details/td-right.png';
 import type { TotemsContent } from '../../../i18n/pages/digital-signage-displays/totems';
+import { getImageOutputWidth, getResponsiveImageWidths } from '../../../utils/images';
 
 interface Props {
   content: TotemsContent['technicalDetails'];
   iconSet?: 'totems' | 'interactive-displays';
-  decorativeChips?: string[];
+  decorativeChips?: readonly string[];
 }
 
 const { content, iconSet = 'totems', decorativeChips = [] } = Astro.props;
@@ -105,44 +108,58 @@ const features = content.features.map((feature, index) => {
         <div class="totems-technical__image totems-technical__image--totems">
           <div
             class="totems-technical__visual"
+            data-progressive-host="relative"
             data-animate
             role="img"
             aria-label={content.imageAlt}
           >
-            <img
-              src={technicalLeftProduct.src}
-              alt=""
-              width={technicalLeftProduct.width}
-              height={technicalLeftProduct.height}
-              loading="lazy"
-              decoding="async"
-            />
-            <img
-              src={technicalRightProduct.src}
-              alt=""
-              width={technicalRightProduct.width}
-              height={technicalRightProduct.height}
-              loading="lazy"
-              decoding="async"
-            />
+            <ProgressiveImage src={technicalLeftProduct} fit="contain">
+              <Image
+                src={technicalLeftProduct}
+                alt=""
+                widths={getResponsiveImageWidths(technicalLeftProduct)}
+                width={getImageOutputWidth(technicalLeftProduct)}
+                sizes="auto, (min-width: 64rem) 40vw, 100vw"
+                format="webp"
+                loading="lazy"
+                decoding="async"
+              />
+            </ProgressiveImage>
+            <ProgressiveImage src={technicalRightProduct} fit="contain">
+              <Image
+                src={technicalRightProduct}
+                alt=""
+                widths={getResponsiveImageWidths(technicalRightProduct)}
+                width={getImageOutputWidth(technicalRightProduct)}
+                sizes="auto, (min-width: 64rem) 40vw, 100vw"
+                format="webp"
+                loading="lazy"
+                decoding="async"
+              />
+            </ProgressiveImage>
           </div>
         </div>
       ) : (
         <div class="totems-technical__image totems-technical__image--interactive">
           <div
             class="totems-technical__visual totems-technical__visual--interactive"
+            data-progressive-host="relative"
             data-animate
             role="img"
             aria-label={content.imageAlt}
           >
-            <img
-              src={interactiveTechnicalImage.src}
-              alt=""
-              width={interactiveTechnicalImage.width}
-              height={interactiveTechnicalImage.height}
-              loading="lazy"
-              decoding="async"
-            />
+            <ProgressiveImage src={interactiveTechnicalImage} fit="contain">
+              <Image
+                src={interactiveTechnicalImage}
+                alt=""
+                widths={getResponsiveImageWidths(interactiveTechnicalImage)}
+                width={getImageOutputWidth(interactiveTechnicalImage)}
+                sizes="auto, (min-width: 64rem) 40vw, 100vw"
+                format="webp"
+                loading="lazy"
+                decoding="async"
+              />
+            </ProgressiveImage>
             <DecorativeChipCloud chips={decorativeChips} placement="technical" />
           </div>
         </div>

@@ -1,7 +1,9 @@
 ---
 import codeDarkPoster from '../../../../assets/images/services/development/code-dark-loop-poster.jpg';
+import { getOptimizedImageUrl } from '../../../../utils/images';
 import type { SoftwareDevelopmentContent } from '../../../../i18n/pages/services/software-development.ts';
 interface Props { content: SoftwareDevelopmentContent['hero'] } const { content } = Astro.props;
+const optimizedPoster = await getOptimizedImageUrl(codeDarkPoster, 1600);
 ---
 <section class="sd-hero" aria-label={content.ariaLabel}>
     <div class="sd-hero__media" aria-hidden="true">
@@ -22,7 +24,7 @@ interface Props { content: SoftwareDevelopmentContent['hero'] } const { content 
             muted
             playsinline
             preload="auto"
-            poster={codeDarkPoster.src}>
+            poster={optimizedPoster}>
             <source src={`${import.meta.env.BASE_URL}videos/development/code-dark-2-loop.webm`} type="video/webm" />
             <source src={`${import.meta.env.BASE_URL}videos/development/code-dark-2-loop.mp4`} type="video/mp4" />
         </video>

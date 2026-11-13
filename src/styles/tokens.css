@@ -57,7 +57,6 @@
   --sp-10: 8rem;      /* 128px */
 
   /* --- Typography --- */
-  /* TODO: replace Google Fonts with self-hosted from /public/fonts/ */
   --font-display: 'Inter', sans-serif;
   --font-body:    'Roboto', sans-serif;
   --font-ui:      'Roboto', sans-serif;

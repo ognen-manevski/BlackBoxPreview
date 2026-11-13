@@ -3,6 +3,7 @@ import IconBadge from "../atoms/IconBadge.astro";
 import Checkmark from '../atoms/Checkmark.astro';
 import LeadForm from './LeadForm.astro';
 import gradient1DarkPoster from '../../assets/images/video-thumbnails/gradients/dark/gradient-1-grain-0.jpg';
+import { getOptimizedImageUrl } from '../../utils/images';
 import type { DemoContent } from '../../i18n/pages/demo';
 import type { Lang } from '../../i18n/types';
 
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const { content, interestGroups, interestSummary, lang } = Astro.props;
+const optimizedPoster = await getOptimizedImageUrl(gradient1DarkPoster, 1600);
 ---
 
 <section
@@ -28,7 +30,7 @@ const { content, interestGroups, interestSummary, lang } = Astro.props;
         muted
         playsinline
         preload="metadata"
-        poster={gradient1DarkPoster.src}
+        poster={optimizedPoster}
         aria-hidden="true"
     >
         <source

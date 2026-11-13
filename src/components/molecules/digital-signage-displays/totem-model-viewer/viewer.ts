@@ -230,6 +230,9 @@ export function initTotemModelViewer(
 ): void {
   const canvas = container.querySelector("canvas");
   const status = container.querySelector<HTMLElement>("[data-model-status]");
+  const loadingOverlay = container.querySelector<HTMLElement>(
+    "[data-model-loading]",
+  );
   const errorLabel =
     canvas?.getAttribute("data-error-label") ?? "The 3D model could not be loaded.";
 
@@ -437,6 +440,10 @@ export function initTotemModelViewer(
           scene.add(model);
           frameModel();
           setStatus(status, "", true);
+          if (loadingOverlay) {
+            loadingOverlay.hidden = true;
+            loadingOverlay.setAttribute("aria-hidden", "true");
+          }
           if (isVisible) startRendering();
         } catch (error) {
           console.error("Could not prepare the totem model.", error);

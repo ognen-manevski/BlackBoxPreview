@@ -1,0 +1,115 @@
+---
+import missionIcon from '../../assets/vectors/icons/mission-vision/mission-icon.svg?raw';
+import visionIcon from '../../assets/vectors/icons/mission-vision/vision-icon.svg?raw';
+import IconBadge from '../atoms/IconBadge.astro';
+import SectionTitleGroup from '../molecules/SectionTitleGroup.astro';
+import type { HomePageContent } from '../../i18n/pages/home';
+
+const missionIconMarkup = missionIcon as unknown as string;
+const visionIconMarkup = visionIcon as unknown as string;
+
+interface Props {
+  content: HomePageContent['about'];
+}
+
+const { content } = Astro.props;
+---
+
+<section class="section about-mission-vision" aria-labelledby="about-mission-vision-heading">
+  <div class="container about-mission-vision__inner">
+    <SectionTitleGroup
+      class="about-mission-vision__header"
+      label={content.purposeEyebrow}
+      heading={content.purposeHeading}
+      headingId="about-mission-vision-heading"
+      headlineWidth="18ch"
+      copy={content.purposeCopy}
+    />
+
+    <div class="about-mission-vision__cards" aria-label={content.cardsAriaLabel}>
+      <article class="mk-card about-mission-vision__card">
+        <IconBadge
+          class="about-mission-vision__icon"
+          aria-hidden="true"
+          style="--icon-badge-size: 2.5rem; --icon-badge-border: var(--color-brand); --icon-badge-bg: var(--color-brand-bg); --icon-badge-color: var(--color-brand); margin-bottom: var(--sp-1);"
+        >
+          <span class="about-mission-vision__svg" set:html={missionIconMarkup}></span>
+        </IconBadge>
+        <h3 class="about-mission-vision__title">{content.missionTitle}</h3>
+        <p class="about-mission-vision__text">{content.missionCopy}</p>
+      </article>
+
+      <article class="mk-card about-mission-vision__card">
+        <IconBadge
+          class="about-mission-vision__icon"
+          aria-hidden="true"
+          style="--icon-badge-size: 2.5rem; --icon-badge-border: var(--color-brand); --icon-badge-bg: var(--color-brand-bg); --icon-badge-color: var(--color-brand); margin-bottom: var(--sp-1);"
+        >
+          <span class="about-mission-vision__svg" set:html={visionIconMarkup}></span>
+        </IconBadge>
+        <h3 class="about-mission-vision__title">{content.visionTitle}</h3>
+        <p class="about-mission-vision__text">{content.visionCopy}</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-mission-vision {
+    background: var(--bg);
+  }
+
+  .about-mission-vision__inner {
+    display: grid;
+    gap: var(--sp-6);
+  }
+
+  .about-mission-vision .about-mission-vision__header :global(.section-title-group__content) {
+    row-gap: var(--sp-3);
+  }
+
+  .about-mission-vision__cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-4);
+  }
+
+  .about-mission-vision__card {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    gap: var(--sp-3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-5);
+    background: var(--surface, var(--bg-secondary));
+  }
+
+  .about-mission-vision__svg {
+    display: block;
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .about-mission-vision__svg :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .about-mission-vision__title {
+    font-size: var(--text-lg);
+    line-height: 1.2;
+  }
+
+  .about-mission-vision__text {
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  @media (max-width: 600px) {
+    .about-mission-vision__cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

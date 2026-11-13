@@ -1,14 +1,19 @@
 ---
+import { Image } from 'astro:assets';
 import type { VideoStreamingContent } from "../../../../i18n/pages/services/video-streaming.ts";
+import ProgressiveImage from "../../../../components/atoms/ProgressiveImage.astro";
 import horizontalPoster from "../../../../assets/images/video-thumbnails/video-streaming/hero/horisontal-poster.jpg";
 import verticalPoster from "../../../../assets/images/video-thumbnails/video-streaming/hero/mobile-poster.jpg";
 import heroProductImage from "../../../../assets/images/services/video-streaming/hero/video-hero-product.png";
+import { getImageOutputWidth, getOptimizedImageUrl, getResponsiveImageWidths } from "../../../../utils/images";
 
 interface Props {
   content: VideoStreamingContent["hero"];
 }
 
 const { content } = Astro.props;
+const optimizedHorizontalPoster = await getOptimizedImageUrl(horizontalPoster, 1600);
+const optimizedVerticalPoster = await getOptimizedImageUrl(verticalPoster, 1200);
 ---
 
 <section class="vs-hero" aria-label={content.ariaLabel} data-vs-hero>
@@ -18,7 +23,7 @@ const { content } = Astro.props;
       muted
       playsinline
       preload="none"
-      poster={horizontalPoster.src}
+      poster={optimizedHorizontalPoster}
       aria-hidden="true"
     >
       <source src={`${import.meta.env.BASE_URL}videos/video-streaming/hero/horisontal.mp4`} type="video/mp4" />
@@ -28,7 +33,7 @@ const { content } = Astro.props;
       muted
       playsinline
       preload="none"
-      poster={verticalPoster.src}
+      poster={optimizedVerticalPoster}
       aria-hidden="true"
     >
       <source src={`${import.meta.env.BASE_URL}videos/video-streaming/hero/vertical.mp4`} type="video/mp4" />
@@ -45,13 +50,21 @@ const { content } = Astro.props;
       <p class="section-copy vs-hero__lead">{content.lead}</p>
     </div>
     <figure class="vs-hero__preview">
-      <div class="vs-hero__screen">
-        <img
-          class="vs-hero__screen-image"
-          src={heroProductImage.src}
-          alt="Live-streaming dance performance preview"
-          decoding="async"
-        />
+      <div class="vs-hero__screen" data-progressive-host="relative">
+        <ProgressiveImage src={heroProductImage} fit="contain">
+          <Image
+            class="vs-hero__screen-image"
+            src={heroProductImage}
+            alt="Live-streaming dance performance preview"
+            widths={getResponsiveImageWidths(heroProductImage)}
+            width={getImageOutputWidth(heroProductImage)}
+            sizes="(min-width: 64rem) 38vw, (min-width: 40rem) 90vw, 94vw"
+            format="webp"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </ProgressiveImage>
       </div>
       <figcaption class="vs-hero__caption">{content.previewLabel}</figcaption>
     </figure>

@@ -9,7 +9,7 @@ The existing media container receives data-progressive-host (isolation only), or
 ## Files changed for this task
 
 - Added the atom and shared script above.
-- Applied the atom in components/blog/BlogCard.astro; components/molecules/CaseStudyCard.astro, IndustrySolutionCard.astro, Footer.astro; components/sections/DigitalSignageDisplayTypesSection.astro, ShelfLabelsHardwareDetailsSection.astro; layouts/BlogPostLayout.astro.
+- Applied the atom in components/blog/BlogCard.astro; components/molecules/CaseStudyCard.astro, Footer.astro; components/sections/DigitalSignageDisplayTypesSection.astro, ShelfLabelsHardwareDetailsSection.astro; layouts/BlogPostLayout.astro.
 - Added source-metadata maps in i18n/pages/data/industrySolutions.ts and shelfLabelHardwareFeatures.ts, preserving their existing string image APIs.
 - Paths above are relative to src. Existing unrelated working-tree changes were retained.
 
@@ -20,7 +20,6 @@ The existing media container receives data-progressive-host (isolation only), or
 | Blog/news cards, article header and previous/next cards | Applied; preserved Astro Image output and view-transition styles. |
 | CaseStudyCard Picture | Applied; source/picture/img hierarchy unchanged. |
 | Display types, shelf-label hardware cards | Applied; existing aspect-ratio media containers reserve space. |
-| IndustrySolutionCard | Applied when its source exists in the metadata map; unknown sources remain unchanged. |
 | Footer maps | Applied with separate dark/light proxies; link and CTA unchanged. |
 | HeroSection carousel | Skipped: runtime slide clones, theme opacity, and image-loading mutation require dedicated synchronization. |
 | OurServicesSection | Skipped: responsive animated image bounds, per-card transforms, and theme opacity. |
@@ -28,7 +27,7 @@ The existing media container receives data-progressive-host (isolation only), or
 | DisclosureItem industry images | Skipped: direct grid children inside animated disclosures; adding siblings or containing blocks risks grid/animation behavior. |
 | BlogPostLayout sidebar Pictures | Skipped: overlapping theme- and breakpoint-specific image composition. |
 | Markdown images, including remark-inline-editorial-image.mjs | Skipped: Astro-generated Markdown output bypasses the component; floated inline editorial layout needs a separate renderer adaptation. |
-| DigitalSignageRealtimeContentSection, VideoStreamingHotelSolutionsSection | Skipped: intrinsic-height native images lack reserved bounds before the source loads; adding dimensions/aspect-ratio would change existing markup/layout behavior. |
+| DigitalSignageRealtimeContentSection | Skipped: intrinsic-height native images lack reserved bounds before the source loads; adding dimensions/aspect-ratio would change existing markup/layout behavior. |
 | ShelfLabelsHeroSection backgrounds | Skipped: already-blurred decorative backgrounds behind the video composition. |
 | SectionGradientBackground, TechnologySection Pictures | Skipped: decorative background/mobile video-replacement artwork. |
 | DigitalSignageDashboardSection teaser image | Skipped: custom animated video handoff; video and poster behavior left intact. |

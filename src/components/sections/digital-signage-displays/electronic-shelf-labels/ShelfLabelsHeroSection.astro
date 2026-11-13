@@ -1,8 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import darkBlurBg from "../../../../assets/images/services/shelf-labels/hero/dark-bg-blur.jpg";
 import darkRotatedCover from "../../../../assets/images/services/shelf-labels/hero/dark-rotated-loop.jpg";
 import videoMask from "../../../../assets/images/services/shelf-labels/hero/video-mask.svg";
+import { getImageOutputWidth, getOptimizedImageUrl, getResponsiveImageWidths } from "../../../../utils/images";
 import type{ShelfLabelsContent}from'../../../../i18n/pages/digital-signage-displays/electronic-shelf-labels.ts'; interface Props{content:ShelfLabelsContent['hero']} const{content}=Astro.props;
+const optimizedPoster = await getOptimizedImageUrl(darkRotatedCover, 1200);
 ---
 
 <section
@@ -11,12 +14,14 @@ import type{ShelfLabelsContent}from'../../../../i18n/pages/digital-signage-displ
     style={`--sl-video-mask: url(${videoMask.src});`}
 >
     <div class="sl-hero__media" aria-hidden="true">
-        <img
+        <Image
             class="sl-hero__bg-image"
-            src={darkBlurBg.src}
+            src={darkBlurBg}
             alt=""
-            width={darkBlurBg.width}
-            height={darkBlurBg.height}
+            widths={getResponsiveImageWidths(darkBlurBg)}
+            width={getImageOutputWidth(darkBlurBg)}
+            sizes="100vw"
+            format="webp"
             loading="eager"
             decoding="async"
         />
@@ -55,7 +60,7 @@ import type{ShelfLabelsContent}from'../../../../i18n/pages/digital-signage-displ
                     muted
                     playsinline
                     preload="auto"
-                    poster={darkRotatedCover.src}
+                    poster={optimizedPoster}
                     src={`${import.meta.env.BASE_URL}videos/shelf-labels/dark-rotated-loop.mp4`}></video>
             </div>
         </div>

@@ -11,11 +11,13 @@ import BlogTag from '../components/blog/BlogTag.astro';
 import ShareLinks from '../components/blog/ShareLinks.astro';
 import BaseLayout from './BaseLayout.astro';
 import { getLocalizedPath } from '../i18n/utils';
+import { getImageOutputWidth, getOptimizedImageUrl, getResponsiveImageWidths } from '../utils/images';
 import '../styles/blog.css';
 type EditorialEntry = CollectionEntry<'blog'> | CollectionEntry<'news'>;
 interface Props { post: EditorialEntry }
 const { post } = Astro.props;
 const { data } = post;
+const optimizedOgImage = await getOptimizedImageUrl(data.cover, 1200);
 const slug = post.id.split('/')[0];
 const imageTransitionName = `editorial-image-${post.collection}-${slug}`;
 const dateLabel = data.lang === 'mk' ? 'Датум на објава' : 'Published date';
@@ -48,7 +50,7 @@ const labels = data.lang === 'mk' ? {
 };
 const collectionLabel = post.collection === 'blog' ? labels.blog : labels.news;
 ---
-<BaseLayout lang={data.lang} title={data.seoTitle ?? data.title} description={data.seoDescription ?? data.description} ogImage={data.cover.src}>
+<BaseLayout lang={data.lang} title={data.seoTitle ?? data.title} description={data.seoDescription ?? data.description} ogImage={optimizedOgImage}>
   <article class="blog-post">
     <nav class="container blog-post__breadcrumbs" aria-label={labels.breadcrumb}>
       <ol>
@@ -62,7 +64,7 @@ const collectionLabel = post.collection === 'blog' ? labels.blog : labels.news;
         <div class="blog-post__main">
           <header class="blog-post__header" style={`view-transition-name: ${imageTransitionName}`}>
             <div class="blog-post__header-media" data-progressive-host aria-hidden="true">
-              <ProgressiveImage src={data.cover}><Image class="blog-post__header-image" src={data.cover} alt="" widths={[768, 1200, 1600]} sizes="(max-width: 48rem) 100vw, 70vw" /></ProgressiveImage>
+              <ProgressiveImage src={data.cover}><Image class="blog-post__header-image" src={data.cover} alt="" widths={getResponsiveImageWidths(data.cover)} width={getImageOutputWidth(data.cover)} sizes="(max-width: 48rem) 100vw, 70vw" /></ProgressiveImage>
             </div>
             <div class="blog-post__header-content">
               <h1 class="blog-post__title">{data.title}</h1>
@@ -81,7 +83,7 @@ const collectionLabel = post.collection === 'blog' ? labels.blog : labels.news;
           <nav class="blog-post__post-nav" aria-label={data.lang === 'mk' ? 'Навигација низ статии' : 'Article navigation'}>
             {nextPost && (
               <section class="blog-post__nav-card" data-progressive-host>
-                <ProgressiveImage src={nextPost.data.cover} bounds="top: 0; right: 0; bottom: 0; width: 60%;"><Image class="blog-post__nav-image" src={nextPost.data.cover} alt="" widths={[320, 480]} sizes="20rem" loading="lazy" /></ProgressiveImage>
+                <ProgressiveImage src={nextPost.data.cover} bounds="top: 0; right: 0; bottom: 0; width: 60%;"><Image class="blog-post__nav-image" src={nextPost.data.cover} alt="" widths={getResponsiveImageWidths(nextPost.data.cover, 480)} width={getImageOutputWidth(nextPost.data.cover, 480)} sizes="20rem" loading="lazy" /></ProgressiveImage>
                 <div class="blog-post__nav-content">
                   <h3>{nextPost.data.title}</h3>
                   <ArrowButton class="blog-post__nav-button" href={entryPath(nextPost)} variant="outline" size="sm">{labels.next}</ArrowButton>
@@ -90,7 +92,7 @@ const collectionLabel = post.collection === 'blog' ? labels.blog : labels.news;
             )}
             {previousPost && (
               <section class="blog-post__nav-card" data-progressive-host>
-                <ProgressiveImage src={previousPost.data.cover} bounds="top: 0; right: 0; bottom: 0; width: 60%;"><Image class="blog-post__nav-image" src={previousPost.data.cover} alt="" widths={[320, 480]} sizes="20rem" loading="lazy" /></ProgressiveImage>
+                <ProgressiveImage src={previousPost.data.cover} bounds="top: 0; right: 0; bottom: 0; width: 60%;"><Image class="blog-post__nav-image" src={previousPost.data.cover} alt="" widths={getResponsiveImageWidths(previousPost.data.cover, 480)} width={getImageOutputWidth(previousPost.data.cover, 480)} sizes="20rem" loading="lazy" /></ProgressiveImage>
                 <div class="blog-post__nav-content">
                   <h3>{previousPost.data.title}</h3>
                   <ArrowButton class="blog-post__nav-button blog-post__nav-button--previous" href={entryPath(previousPost)} variant="outline" size="sm">{labels.previous}</ArrowButton>
@@ -125,9 +127,9 @@ const collectionLabel = post.collection === 'blog' ? labels.blog : labels.news;
                 <ArrowButton href={localizedPath('/book-a-free-demo/')} variant="primary" size="sm">{labels.bookDemo}</ArrowButton>
               </div>
               <div class="blog-post__neoslide-media" aria-hidden="true">
-                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--thin blog-post__neoslide-picture--dark" src={neoslideTotemThinDark} alt="" formats={['avif', 'webp']} widths={[160, 240]} sizes="14rem" loading="lazy" />
-                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--medium blog-post__neoslide-picture--dark" src={neoslideTotemDark} alt="" formats={['avif', 'webp']} widths={[240, 400]} sizes="20rem" loading="lazy" />
-                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--wide blog-post__neoslide-picture--dark" src={neoslideTotemWideDark} alt="" formats={['avif', 'webp']} widths={[480, 768, 1024]} sizes="60cqw" loading="lazy" />
+                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--thin blog-post__neoslide-picture--dark" src={neoslideTotemThinDark} alt="" formats={['avif', 'webp']} widths={getResponsiveImageWidths(neoslideTotemThinDark, 240)} width={getImageOutputWidth(neoslideTotemThinDark, 240)} sizes="14rem" loading="lazy" />
+                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--medium blog-post__neoslide-picture--dark" src={neoslideTotemDark} alt="" formats={['avif', 'webp']} widths={getResponsiveImageWidths(neoslideTotemDark, 400)} width={getImageOutputWidth(neoslideTotemDark, 400)} sizes="20rem" loading="lazy" />
+                <Picture class="blog-post__neoslide-picture blog-post__neoslide-picture--wide blog-post__neoslide-picture--dark" src={neoslideTotemWideDark} alt="" formats={['avif', 'webp']} widths={getResponsiveImageWidths(neoslideTotemWideDark, 1024)} width={getImageOutputWidth(neoslideTotemWideDark, 960)} sizes="60cqw" loading="lazy" />
               </div>
             </section>
           </div>

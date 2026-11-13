@@ -8,6 +8,7 @@ interface Props {
 }
 
 const { content } = Astro.props;
+import placeholderSvg from "../../../assets/vectors/illustrations/totems/totem-3d-placeholder.svg?raw";
 ---
 
 <div class="totem-model-viewer" data-totem-model-viewer>
@@ -16,9 +17,16 @@ const { content } = Astro.props;
     data-error-label={content.errorLabel}
     tabindex="0"
   ></canvas>
-  <p class="totem-model-viewer__status" data-model-status aria-live="polite">
-    {content.loadingLabel}
-  </p>
+  <div class="totem-model-viewer__loading" data-model-loading>
+    <div
+      class="totem-model-viewer__placeholder"
+      aria-hidden="true"
+      set:html={placeholderSvg}
+    ></div>
+    <p class="totem-model-viewer__status" data-model-status aria-live="polite">
+      {content.loadingLabel}
+    </p>
+  </div>
 </div>
 
 <script>
@@ -56,14 +64,40 @@ const { content } = Astro.props;
     height: 100%;
   }
 
+  .totem-model-viewer__loading {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    grid-template: 1fr / 1fr;
+    place-items: center;
+    pointer-events: none;
+  }
+
+  .totem-model-viewer__placeholder,
+  .totem-model-viewer__status {
+    grid-area: 1 / 1;
+  }
+
+  .totem-model-viewer__placeholder {
+    height: min(100%, 40rem);
+    max-width: 100%;
+    color: var(--color-brand);
+  }
+
+  .totem-model-viewer__placeholder :global(svg) {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+  }
+
   .totem-model-viewer canvas:focus-visible {
     outline: 2px solid var(--color-brand);
     outline-offset: -2px;
   }
 
   .totem-model-viewer__status {
-    position: absolute;
-    inset: auto 0 0;
     z-index: 2;
     margin: 0;
     color: var(--text-secondary);
@@ -71,7 +105,7 @@ const { content } = Astro.props;
     pointer-events: none;
   }
 
-  .totem-model-viewer__status:empty,
+  .totem-model-viewer__loading[hidden],
   .totem-model-viewer__status[hidden] {
     display: none;
   }

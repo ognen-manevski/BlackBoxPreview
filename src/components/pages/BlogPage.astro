@@ -2,7 +2,8 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogGrid from '../blog/BlogGrid.astro';
-import EditorialListingHero from '../blog/EditorialListingHero.astro';
+import PageHero from '../sections/PageHero.astro';
+import glassCubesDarkPoster from '../../assets/images/video-thumbnails/gradients/dark/glass-cubes-1-0.jpg';
 import { blogContent } from '../../i18n/pages/blog';
 import { getTranslations } from '../../i18n/utils';
 import type { Lang } from '../../i18n/types';
@@ -12,8 +13,13 @@ const { lang, posts } = Astro.props;
 const content = getTranslations(blogContent, lang);
 ---
 <BaseLayout lang={lang} title={content.seo.title} description={content.seo.description}>
-  <section class="blog-page" aria-labelledby="blog-heading">
-    <EditorialListingHero kind="blog" fullWidth headingId="blog-heading" label={content.label} heading={content.heading} copy={content.copy} />
+  <section class="blog-page blog-page--use-cases">
+    <PageHero
+      eyebrow={content.label}
+      title={content.heading}
+      subtitle={content.copy}
+      background={{ video: 'glass-cubes-loop.mp4', poster: glassCubesDarkPoster }}
+    />
     <div class="container blog-page__inner">
       <h2 class="section-headline blog-page__grid-heading">{content.industryHeading}</h2>
       <BlogGrid posts={posts} />

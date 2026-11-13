@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import ProgressiveImage from "../../../atoms/ProgressiveImage.astro";
+import { getImageOutputWidth, getResponsiveImageWidths } from "../../../../utils/images";
 import SectionTitleGroup from "../../../molecules/SectionTitleGroup.astro";
 import liveConcertImage from "../../../../assets/images/services/video-streaming/categories/live-concert-1.png";
 import liveSportImage from "../../../../assets/images/services/video-streaming/categories/live-sport-2.png";
@@ -39,9 +41,13 @@ const images = [
         <article class="vs-how-it-works__card u-border-interactive">
           <figure class="vs-how-it-works__media" data-progressive-host="relative">
             <ProgressiveImage src={images[index]}>
-              <img
-                src={images[index].src}
+              <Image
+                src={images[index]}
                 alt=""
+                widths={getResponsiveImageWidths(images[index])}
+                width={getImageOutputWidth(images[index])}
+                sizes="auto, (min-width: 64rem) 30vw, (min-width: 48rem) 45vw, 100vw"
+                format="webp"
                 loading={index === 0 ? "eager" : "lazy"}
                 decoding="async"
                 class="vs-how-it-works__image"

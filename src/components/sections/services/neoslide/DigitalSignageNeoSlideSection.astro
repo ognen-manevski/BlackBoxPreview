@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import neoSlideLogo from '../../../../assets/vectors/brand/neoslide-logo-solid.svg';
 import neoSlideGlow from '../../../../assets/images/services/neoslide/neoslide-section/ns-section-lights.jpg';
 import type { DigitalSignageContent } from '../../../../i18n/pages/services/neoslide.ts';
+import { getImageOutputWidth, getResponsiveImageWidths } from '../../../../utils/images';
 interface Props { content: DigitalSignageContent['neoSlide'] } const { content } = Astro.props;
 ---
 <section class="ds-neoslide" aria-labelledby="ds-neoslide-heading" data-ds-neoslide>
@@ -16,10 +18,14 @@ interface Props { content: DigitalSignageContent['neoSlide'] } const { content }
             </p>
         </div>
         <div class="ds-neoslide__visual" data-ds-neoslide-visual aria-hidden="true">
-            <img
+            <Image
                 class="ds-neoslide__glow ds-neoslide__glow--top"
-                src={neoSlideGlow.src}
+                src={neoSlideGlow}
                 alt=""
+                widths={getResponsiveImageWidths(neoSlideGlow)}
+                width={getImageOutputWidth(neoSlideGlow)}
+                sizes="(min-width: 64rem) 40vw, 100vw"
+                format="webp"
                 loading="eager"
                 decoding="async"
             />
@@ -30,10 +36,14 @@ interface Props { content: DigitalSignageContent['neoSlide'] } const { content }
                 loading="eager"
                 decoding="async"
             />
-            <img
+            <Image
                 class="ds-neoslide__glow ds-neoslide__glow--bottom"
-                src={neoSlideGlow.src}
+                src={neoSlideGlow}
                 alt=""
+                widths={getResponsiveImageWidths(neoSlideGlow)}
+                width={getImageOutputWidth(neoSlideGlow)}
+                sizes="(min-width: 64rem) 40vw, 100vw"
+                format="webp"
                 loading="eager"
                 decoding="async"
             />

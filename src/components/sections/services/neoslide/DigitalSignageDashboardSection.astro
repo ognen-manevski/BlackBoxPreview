@@ -1,7 +1,9 @@
 ---
 import adminVideoThumbnail from "../../../../assets/images/services/neoslide/admin-video/NS_THUMBNAIL.jpg";
+import { getOptimizedImageUrl } from "../../../../utils/images";
 import type { DigitalSignageContent } from '../../../../i18n/pages/services/neoslide.ts';
 interface Props { content: DigitalSignageContent['dashboard'] } const { content } = Astro.props;
+const optimizedPoster = await getOptimizedImageUrl(adminVideoThumbnail, 1200);
 ---
 
 <section
@@ -31,7 +33,7 @@ interface Props { content: DigitalSignageContent['dashboard'] } const { content 
                         muted
                         playsinline
                         preload="none"
-                        poster={adminVideoThumbnail.src}
+                        poster={optimizedPoster}
                         aria-label={content.laptopAriaLabel}
                         src={`${import.meta.env.BASE_URL}videos/digital-signage/admin-video/laptop-onscroll-60frames.mp4`}
                     >
@@ -60,7 +62,7 @@ interface Props { content: DigitalSignageContent['dashboard'] } const { content 
                             controls
                             playsinline
                             preload="metadata"
-                            poster={adminVideoThumbnail.src}
+                            poster={optimizedPoster}
                             aria-label={content.videoAriaLabel}
                             src={`${import.meta.env.BASE_URL}videos/digital-signage/admin-video/NS_ADMIN_VIDEO.mp4`}
                         >

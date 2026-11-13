@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import type { VideoStreamingContent } from '../../../../i18n/pages/services/video-streaming.ts';
 import ProgressiveImage from '../../../atoms/ProgressiveImage.astro';
+import { getImageOutputWidth, getOptimizedImageUrl, getResponsiveImageWidths } from '../../../../utils/images';
 import streamingEventsDashboardImage from '../../../../assets/images/services/video-streaming/how-it-works/streaming-events-dashboard.jpg';
 import checkoutImage from '../../../../assets/images/services/video-streaming/how-it-works/checkout.jpg';
 import eventGalleryImage from '../../../../assets/images/services/video-streaming/how-it-works/event-gallery.jpg';
@@ -23,6 +25,7 @@ const featureIcons = [
   brandAtTheCentreIcon,
 ].map(prepareIcon);
 const cardImages = [streamingEventsDashboardImage, checkoutImage, eventGalleryImage];
+const optimizedLivePerformancePoster = await getOptimizedImageUrl(livePerformancePoster, 960);
 ---
 
 <section class="section vs-consulting" aria-labelledby="vs-consulting-heading">
@@ -69,17 +72,21 @@ const cardImages = [streamingEventsDashboardImage, checkoutImage, eventGalleryIm
                 muted
                 playsinline
                 preload="none"
-                poster={livePerformancePoster.src}
+                poster={optimizedLivePerformancePoster}
                 aria-hidden="true"
               >
                 <source src={`${import.meta.env.BASE_URL}videos/video-streaming/how-it-works/live-performance.mp4`} type="video/mp4" />
               </video>
             ) : (
               <ProgressiveImage src={cardImages[index < 2 ? index : 2]}>
-                <img
+                <Image
                   class="vs-consulting__card-visual"
-                  src={cardImages[index < 2 ? index : 2].src}
+                  src={cardImages[index < 2 ? index : 2]}
                   alt=""
+                  widths={getResponsiveImageWidths(cardImages[index < 2 ? index : 2])}
+                  width={getImageOutputWidth(cardImages[index < 2 ? index : 2])}
+                  sizes="auto, (min-width: 64rem) 40vw, 100vw"
+                  format="webp"
                   loading={index === 0 ? 'eager' : 'lazy'}
                   decoding="async"
                   aria-hidden="true"

@@ -1,26 +1,28 @@
 ---
+import { Image } from 'astro:assets';
 import ShelfLabelViewer from "../../../molecules/digital-signage-displays/electronic-shelf-labels/shelf-label-viewer/ShelfLabelViewer.astro";
 import SectionTitleGroup from "../../../molecules/SectionTitleGroup.astro";
 import textureBlack from "../../../../assets/images/services/shelf-labels/texture-black.png";
 import textureWhite from "../../../../assets/images/services/shelf-labels/texture-wh.png";
 import textureWood from "../../../../assets/images/services/shelf-labels/texture-wood.png";
 import type{ShelfLabelsContent}from'../../../../i18n/pages/digital-signage-displays/electronic-shelf-labels.ts'; interface Props{content:ShelfLabelsContent['overview'];viewerContent:ShelfLabelsContent['viewer']} const{content,viewerContent}=Astro.props;
+import { getImageOutputWidth } from '../../../../utils/images';
 
 const frameOptions = [
     {
         value: "black",
         label: content.colors[0],
-        textureSrc: textureBlack.src,
+        texture: textureBlack,
     },
     {
         value: "white",
         label: content.colors[1],
-        textureSrc: textureWhite.src,
+        texture: textureWhite,
     },
     {
         value: "wood",
         label: content.colors[2],
-        textureSrc: textureWood.src,
+        texture: textureWood,
     },
 ] as const;
 ---
@@ -67,9 +69,11 @@ const frameOptions = [
                                 class="sl-hardware__control-chip"
                                 aria-hidden="true"
                             >
-                                <img
-                                    src={option.textureSrc}
+                                <Image
+                                    src={option.texture}
                                     alt=""
+                                    width={getImageOutputWidth(option.texture, 64)}
+                                    format="webp"
                                     loading="lazy"
                                     decoding="async"
                                 />

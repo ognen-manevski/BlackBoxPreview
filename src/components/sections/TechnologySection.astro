@@ -4,10 +4,12 @@ import TechnologyGrid from "../molecules/TechnologyGrid.astro";
 import SectionTitleGroup from "../molecules/SectionTitleGroup.astro";
 import orbDarkPoster from "../../assets/images/video-thumbnails/bg-videos/orb.jpg";
 import type { HomePageContent } from "../../i18n/pages/home";
+import { getImageOutputWidth, getOptimizedImageUrl, getResponsiveImageWidths } from "../../utils/images";
 interface Props {
   content: HomePageContent["technology"];
 }
 const { content } = Astro.props;
+const optimizedPoster = await getOptimizedImageUrl(orbDarkPoster, 1600);
 ---
 
 <section
@@ -34,7 +36,7 @@ const { content } = Astro.props;
             <video
               class="technology__bg-video"
               src={`${import.meta.env.BASE_URL}videos/bg-videos/orb.mp4`}
-              poster={orbDarkPoster.src}
+              poster={optimizedPoster}
               autoplay
               muted
               loop
@@ -53,7 +55,7 @@ const { content } = Astro.props;
     <video
       class="technology__bg-video"
       src={`${import.meta.env.BASE_URL}videos/bg-videos/orb.mp4`}
-      poster={orbDarkPoster.src}
+      poster={optimizedPoster}
       autoplay
       muted
       loop
@@ -64,7 +66,8 @@ const { content } = Astro.props;
     <Picture
       class="technology__bg-poster"
       src={orbDarkPoster}
-      widths={[480, 800, 1200]}
+      widths={getResponsiveImageWidths(orbDarkPoster)}
+      width={getImageOutputWidth(orbDarkPoster)}
       sizes="100vw"
       alt=""
       loading="lazy"
@@ -76,7 +79,8 @@ const { content } = Astro.props;
     <Picture
       class="technology__corner-img"
       src={orbDarkPoster}
-      widths={[240, 360]}
+      widths={getResponsiveImageWidths(orbDarkPoster, 360)}
+      width={getImageOutputWidth(orbDarkPoster, 360)}
       sizes="9rem"
       alt=""
       loading="lazy"

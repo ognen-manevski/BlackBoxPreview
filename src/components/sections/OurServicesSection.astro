@@ -3,6 +3,7 @@ import neoslideDark from '../../assets/images/home/neoslide-dark.jpg';
 import shelfLabelsDark from '../../assets/images/home/labels-dark.jpg';
 import videoStreamingDark from '../../assets/images/home/video-dark.jpg';
 import softwareDevelopmentDark from '../../assets/images/home/code-dark.jpg';
+import { Image } from 'astro:assets';
 import ProgressiveImage from '../atoms/ProgressiveImage.astro';
 import type { HomePageContent } from '../../i18n/pages/home';
 import ArrowForwardIcon from '../icons/ArrowForwardIcon.astro';
@@ -10,6 +11,7 @@ import ArrowOutwardIcon from '../icons/ArrowOutwardIcon.astro';
 import SectionTitleGroup from '../molecules/SectionTitleGroup.astro';
 import { getLocalizedPath } from '../../i18n/utils';
 import type { Lang } from '../../i18n/types';
+import { getImageOutputWidth, getResponsiveImageWidths } from '../../utils/images';
 
 interface Props { content: HomePageContent['services']; lang: Lang; }
 const { content, lang } = Astro.props;
@@ -69,10 +71,14 @@ const services = content.items.map((item, index) => ({
               bounds="top: var(--preview-top); right: auto; bottom: auto; left: var(--preview-left); width: var(--preview-width); height: var(--preview-height); transform: var(--preview-transform);"
               fit="contain"
             >
-              <img
+              <Image
                 class="services-card__image"
-                src={service.image.src}
+                src={service.image}
                 alt=""
+                widths={getResponsiveImageWidths(service.image)}
+                width={getImageOutputWidth(service.image)}
+                sizes="(min-width: 64rem) 25vw, 100vw"
+                format="webp"
                 loading={index === 0 ? 'eager' : 'lazy'}
                 decoding="async"
               />

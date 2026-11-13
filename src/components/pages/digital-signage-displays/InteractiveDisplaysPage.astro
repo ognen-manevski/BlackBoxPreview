@@ -12,6 +12,7 @@ import ShelfLabelsHardwareDetailsSection from '../../sections/digital-signage-di
 import { digitalSignageContent } from '../../../i18n/pages/services/neoslide';
 import { shelfLabelsContent } from '../../../i18n/pages/digital-signage-displays/electronic-shelf-labels';
 import { interactiveDisplaysContent } from '../../../i18n/pages/digital-signage-displays/interactive-displays';
+import { totemsCorporateImage, totemsRetailImage, totemsShoppingCentresImage } from '../../../i18n/pages/data/industrySolutions';
 import interactiveDisplaysIllustration from '../../../assets/vectors/icons/interactive-displays/interactive-how-it-works-icons/how-it-works-interactive-displays-example.svg?raw';
 import wallMountedImage from '../../../assets/images/services/neoslide/interactive-displays/display-types/01-wall-mounted.jpg';
 import freestandingImage from '../../../assets/images/services/neoslide/interactive-displays/display-types/02-interactive-freestanding.jpg';
@@ -73,6 +74,7 @@ const hardwareContent = {
       title: featureCopy.title,
       description: featureCopy.description,
       imageSrc: featureImage.src,
+      image: featureImage,
       imageAlt: featureCopy.imageAlt,
     };
   }),
@@ -101,11 +103,22 @@ const interactiveDisplaysIndustryContent = {
 
     return {
       ...imageSource,
+      imageSrc: card.caseStudySlug === 'retail'
+        ? totemsRetailImage.src
+        : card.caseStudySlug === 'shopping-centres'
+          ? totemsShoppingCentresImage.src
+          : card.caseStudySlug === 'corporate'
+            ? totemsCorporateImage.src
+            : imageSource.imageSrc,
       title: card.title,
       excerpt: card.text,
-      imageAlt: card.caseStudySlug === 'shopping-centres'
-        ? (lang === 'mk' ? 'Дигитален тотем во трговски центар' : 'Digital totem display in a shopping centre')
-        : imageSource.imageAlt,
+      imageAlt: card.caseStudySlug === 'retail'
+        ? (lang === 'mk' ? 'Дигитален тотем во бутик со модна колекција' : 'Digital signage totem displaying a fashion collection in a boutique')
+        : card.caseStudySlug === 'shopping-centres'
+          ? (lang === 'mk' ? 'Дигитален тотем во трговски центар' : 'Digital wayfinding totem inside a shopping centre')
+          : card.caseStudySlug === 'corporate'
+            ? (lang === 'mk' ? 'Самостоен дигитален тотем во модерен деловен простор' : 'Freestanding digital signage totem in a modern office')
+            : imageSource.imageAlt,
       caseStudySlug: card.caseStudySlug,
     };
   }),
@@ -118,6 +131,7 @@ const interactiveDisplaysIndustryContent = {
     wideHeading
     productImages={[heroSmallProduct, heroLargeProduct]}
     decorativeChips={content.hero.decorativeChips}
+    instanceId="interactive-displays-hero"
   />
   <TotemsHowItWorksSection
     content={content.howItWorks}

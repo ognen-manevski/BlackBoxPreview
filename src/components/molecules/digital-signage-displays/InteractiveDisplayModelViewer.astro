@@ -8,6 +8,7 @@ interface Props {
 }
 
 const { content } = Astro.props;
+import placeholderSvg from "../../../assets/vectors/illustrations/interactive/interactive-3d-placeholder.svg?raw";
 ---
 
 <div
@@ -15,9 +16,16 @@ const { content } = Astro.props;
   data-interactive-display-viewer
 >
   <canvas aria-label={content.ariaLabel} data-error-label={content.errorLabel} tabindex="0"></canvas>
-  <p class="interactive-display-viewer__status" data-model-status aria-live="polite">
-    {content.loadingLabel}
-  </p>
+  <div class="interactive-display-viewer__loading" data-model-loading>
+    <div
+      class="interactive-display-viewer__placeholder"
+      aria-hidden="true"
+      set:html={placeholderSvg}
+    ></div>
+    <p class="interactive-display-viewer__status" data-model-status aria-live="polite">
+      {content.loadingLabel}
+    </p>
+  </div>
 </div>
 
 <script>
@@ -48,9 +56,39 @@ const { content } = Astro.props;
   }
 
   .interactive-display-viewer canvas {
+    position: relative;
+    z-index: 1;
     display: block;
     width: 100%;
     height: 100%;
+  }
+
+  .interactive-display-viewer__loading {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    grid-template: 1fr / 1fr;
+    place-items: center;
+    pointer-events: none;
+  }
+
+  .interactive-display-viewer__placeholder,
+  .interactive-display-viewer__status {
+    grid-area: 1 / 1;
+  }
+
+  .interactive-display-viewer__placeholder {
+    height: min(100%, 40rem);
+    max-width: 100%;
+    color: var(--color-brand);
+  }
+
+  .interactive-display-viewer__placeholder :global(svg) {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: 100%;
   }
 
   .interactive-display-viewer canvas:focus-visible {
@@ -59,15 +97,14 @@ const { content } = Astro.props;
   }
 
   .interactive-display-viewer__status {
-    position: absolute;
-    inset: auto 0 0;
+    z-index: 1;
     margin: 0;
     color: var(--text-secondary);
     text-align: center;
     pointer-events: none;
   }
 
-  .interactive-display-viewer__status:empty {
+  .interactive-display-viewer__loading[hidden] {
     display: none;
   }
 

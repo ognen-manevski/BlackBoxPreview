@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import ArrowButton from "../atoms/ArrowButton.astro";
 import ProgressiveImage from "../atoms/ProgressiveImage.astro";
 import HeroTrust from "../molecules/HeroTrust.astro";
@@ -11,6 +12,7 @@ import arrowForwardSvg from '../../assets/vectors/icons/material/custom/arrow_fo
 import { getLocalizedPath } from '../../i18n/utils';
 import type { HomePageContent } from '../../i18n/pages/home';
 import type { Lang } from '../../i18n/types';
+import { getImageOutputWidth, getOptimizedImageUrl, getResponsiveImageWidths } from '../../utils/images';
 interface Props { content: HomePageContent['hero']; lang: Lang; }
 const { content, lang } = Astro.props;
 const slides = [
@@ -20,6 +22,7 @@ const slides = [
   { image: softwareDevelopmentTransparent, href: '/services/software-development/' },
 ];
 const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${content.slides.length}: ${label}`;
+const optimizedBackgroundPoster = await getOptimizedImageUrl(bgGradient2DarkPoster, 1600);
 ---
 
 <section class="hero" id="hero-v2" aria-label={content.ariaLabel}>
@@ -27,7 +30,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
     <video
       class="hero__bg-video"
       src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-2.mp4`}
-      poster={bgGradient2DarkPoster.src}
+      poster={optimizedBackgroundPoster}
       autoplay
       muted
       loop
@@ -119,7 +122,7 @@ const slideAriaLabel = (index: number, label: string) => `${index + 1} of ${cont
               >
                 <div class="carousel__media-host" data-progressive-host="relative">
                   <ProgressiveImage src={slide.image} fit="contain">
-                    <img class="carousel__media" src={slide.image.src} width={slide.image.width} height={slide.image.height} alt="" loading={i === 0 ? 'eager' : 'lazy'} decoding="async" draggable="false" />
+                    <Image class="carousel__media" src={slide.image} alt="" widths={getResponsiveImageWidths(slide.image)} width={getImageOutputWidth(slide.image)} sizes="auto, (min-width: 64rem) 40vw, 100vw" format="webp" loading="lazy" decoding="async" draggable="false" />
                   </ProgressiveImage>
                 </div>
                 <div class="carousel__field-title-row">

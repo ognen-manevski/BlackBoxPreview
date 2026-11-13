@@ -1,14 +1,18 @@
 ---
+import { Image } from 'astro:assets';
 import heroLeftProduct from '../../../assets/images/services/neoslide/totems/hero/hero-left.png';
 import heroRightProduct from '../../../assets/images/services/neoslide/totems/hero/hero-right.png';
 import DecorativeChipCloud from '../../atoms/DecorativeChipCloud.astro';
+import ProgressiveImage from '../../atoms/ProgressiveImage.astro';
 import type { TotemsContent } from '../../../i18n/pages/digital-signage-displays/totems';
+import { getImageOutputWidth, getResponsiveImageWidths } from '../../../utils/images';
 
 interface Props {
   content: TotemsContent['hero'] & { headingHighlightEnd?: string };
   wideHeading?: boolean;
   productImages?: [typeof heroLeftProduct, typeof heroRightProduct];
-  decorativeChips?: string[];
+  decorativeChips?: readonly string[];
+  instanceId?: string;
 }
 
 const {
@@ -16,13 +20,21 @@ const {
   wideHeading = false,
   productImages = [heroLeftProduct, heroRightProduct],
   decorativeChips = [],
+  instanceId = 'totems-hero',
 } = Astro.props;
+const noiseFilterId = `${instanceId}-noise`;
 ---
 
-<section class:list={['totems-hero', wideHeading && 'totems-hero--wide-heading']} aria-label={content.ariaLabel}>
+<section
+  class:list={[
+    'totems-hero',
+    wideHeading && 'totems-hero--wide-heading',
+  ]}
+  aria-label={content.ariaLabel}
+>
   <div class="totems-hero__bg-lights" aria-hidden="true">
     <svg class="totems-hero__noise" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <filter id="totems-hero-noise">
+      <filter id={noiseFilterId}>
         <feTurbulence
           type="fractalNoise"
           baseFrequency="0.8"
@@ -42,7 +54,7 @@ const {
           <feFuncA type="gamma" amplitude="1" exponent="2" offset="0" />
         </feComponentTransfer>
       </filter>
-      <rect width="100%" height="100%" filter="url(#totems-hero-noise)" />
+      <rect width="100%" height="100%" filter={`url(#${noiseFilterId})`} />
     </svg>
   </div>
 
@@ -67,19 +79,23 @@ const {
       </h1>
       <p class="section-copy totems-hero__lead">{content.lead}</p>
     </div>
-    <div class="totems-hero__stage" aria-hidden="true">
+    <div class="totems-hero__stage" data-progressive-host="relative" aria-hidden="true">
       <DecorativeChipCloud chips={decorativeChips} placement="hero" />
       {productImages.map((product, index) => (
-        <img
-          class="totems-hero__product"
-          src={product.src}
-          alt=""
-          width={product.width}
-          height={product.height}
-          loading="eager"
-          decoding="async"
-          fetchpriority={index === 0 ? 'high' : undefined}
-        />
+        <ProgressiveImage src={product} fit="contain">
+          <Image
+            class="totems-hero__product"
+            src={product}
+            alt=""
+            widths={getResponsiveImageWidths(product)}
+            width={getImageOutputWidth(product)}
+            sizes="(min-width: 64rem) 50vw, 100vw"
+            format="webp"
+            loading="eager"
+            decoding="async"
+            fetchpriority={index === 0 ? 'high' : undefined}
+          />
+        </ProgressiveImage>
       ))}
     </div>
   </div>
@@ -113,7 +129,7 @@ const {
     max-width: 38rem;
   }
 
-  .totems-hero__content h1 {
+  .totems-hero__content :is(h1, h2) {
     margin: 0;
   }
 
@@ -147,7 +163,7 @@ const {
       max-width: 52rem;
     }
 
-    .totems-hero--wide-heading h1 {
+    .totems-hero--wide-heading :is(h1, h2) {
       font-size: clamp(3rem, 4.1vw, 3.75rem);
       line-height: 1.1;
     }
@@ -300,5 +316,6 @@ const {
     .totems-hero__stage {
       animation: none;
     }
+
   }
 </style>

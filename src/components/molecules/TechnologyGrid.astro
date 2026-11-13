@@ -31,18 +31,18 @@ interface Props {
 }
 const { content } = Astro.props;
 const logoSources = [
-  [reactLogo.src, nextjsLogo.src, typescriptLogo.src, vuejsLogo.src],
-  [microsoftDotnetLogo.src, nodejsLogo.src, javaLogo.src],
-  [kotlinLogo.src, swiftLogo.src],
+  [reactLogo, nextjsLogo, typescriptLogo, vuejsLogo],
+  [microsoftDotnetLogo, nodejsLogo, javaLogo],
+  [kotlinLogo, swiftLogo],
   [
-    awsLogo.src,
-    dockerLogo.src,
-    firebaseLogo.src,
-    kubernetesLogo.src,
-    bashLogo.src,
+    awsLogo,
+    dockerLogo,
+    firebaseLogo,
+    kubernetesLogo,
+    bashLogo,
   ],
-  [mysqlLogo.src, postgresqlLogo.src, mongodbLogo.src, redisLogo.src],
-  [openaiLogo.src, anthropicLogo.src, langchainLogo.src, n8nLogo.src],
+  [mysqlLogo, postgresqlLogo, mongodbLogo, redisLogo],
+  [openaiLogo, anthropicLogo, langchainLogo, n8nLogo],
 ];
 const technologyCategories = content.categories.map(
   (category, categoryIndex) => ({

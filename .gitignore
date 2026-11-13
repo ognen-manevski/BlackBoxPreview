@@ -26,3 +26,7 @@ pnpm-debug.log*
 
 # References
 /reference/
+
+# Local-only experiments
+/local-experiments/
+/local-experiments/paper-hero/

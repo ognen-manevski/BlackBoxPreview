@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import ProgressiveImage from '../atoms/ProgressiveImage.astro';
+import { getImageOutputWidth, getResponsiveImageWidths } from '../../utils/images';
 import PhoneIcon from '../icons/PhoneIcon.astro';
 import MailIcon from '../icons/MailIcon.astro';
 import MapPinIcon from '../icons/MapPinIcon.astro';
@@ -75,7 +77,19 @@ const facebookIcon = smFacebookRaw.replace('<svg ', '<svg class="footer__social-
           </ul>
 
           <a class="footer__map u-border-interactive" data-progressive-host href={mapsUrl} target="_blank" rel="noopener noreferrer" aria-label={t.mapTitle}>
-            <ProgressiveImage src={mapsDark}><img class="footer__map-img" src={mapsDark.src} alt="" loading="lazy" decoding="async" /></ProgressiveImage>
+            <ProgressiveImage src={mapsDark}>
+              <Image
+                class="footer__map-img"
+                src={mapsDark}
+                alt=""
+                widths={getResponsiveImageWidths(mapsDark)}
+                width={getImageOutputWidth(mapsDark)}
+                sizes="auto, (min-width: 64rem) 28rem, 100vw"
+                format="webp"
+                loading="lazy"
+                decoding="async"
+              />
+            </ProgressiveImage>
             <span class="btn btn--primary btn--sm btn--with-arrow footer__map-cta">
               <span>{t.openInMaps}</span>
               <Fragment set:html={openInNewIcon} />

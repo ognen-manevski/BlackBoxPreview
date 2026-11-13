@@ -1,6 +1,7 @@
 ---
 import glassCubesDarkPoster from '../../assets/images/video-thumbnails/gradients/dark/glass-cubes-1-0.jpg';
 import glassStreaksDarkPoster from '../../assets/images/video-thumbnails/gradients/dark/glass-streaks-1-0.jpg';
+import { getOptimizedImageUrl } from '../../utils/images';
 
 interface Props {
   kind: 'blog' | 'news';
@@ -15,11 +16,12 @@ const { kind, headingId, label, heading, copy, fullWidth = false } = Astro.props
 const useGlassCubes = kind === 'blog';
 const darkPoster = useGlassCubes ? glassCubesDarkPoster : glassStreaksDarkPoster;
 const videoFile = useGlassCubes ? 'glass-cubes-loop.mp4' : 'glass-streaks-1.mp4';
+const optimizedPoster = await getOptimizedImageUrl(darkPoster, 1600);
 ---
 
 <header class:list={['blog-page__header blog-page__hero', fullWidth && 'blog-page__hero--full-width']}>
   <div class="blog-page__hero-media" aria-hidden="true">
-    <video class="blog-page__hero-video blog-page__hero-video--dark" autoplay loop muted playsinline preload="metadata" poster={darkPoster.src}>
+    <video class="blog-page__hero-video blog-page__hero-video--dark" autoplay loop muted playsinline preload="metadata" poster={optimizedPoster}>
       <source src={`${import.meta.env.BASE_URL}videos/gradients/dark/${videoFile}`} type="video/mp4" />
     </video>
   </div>

@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import ProgressiveImage from '../atoms/ProgressiveImage.astro';
 import ArrowForwardIcon from '../icons/ArrowForwardIcon.astro';
 import baseImage from '../../assets/images/errors/404/static-base.png';
 import chainTopImage from '../../assets/images/errors/404/chain-top.png';
@@ -7,6 +8,7 @@ import chainBottomImage from '../../assets/images/errors/404/chain-bottom.png';
 import { getLocalizedPath } from '../../i18n/utils';
 import type { Lang } from '../../i18n/types';
 import type { NotFoundContent } from '../../i18n/pages/not-found';
+import { getImageOutputWidth, getResponsiveImageWidths } from '../../utils/images';
 
 interface Props { lang: Lang; content: NotFoundContent }
 const { lang, content } = Astro.props;
@@ -16,10 +18,16 @@ const { lang, content } = Astro.props;
 
   <div class="container not-found__container">
     <div class="not-found__content">
-      <div class="not-found__illustration" role="img" aria-label={content.imageAlt}>
-        <Image class="not-found__layer" src={baseImage} alt="" widths={[640, 1024]} sizes="(min-width: 640px) 32rem, 20rem" loading="eager" />
-        <Image class="not-found__layer not-found__layer--chain-bottom" src={chainBottomImage} alt="" widths={[640, 1024]} sizes="(min-width: 640px) 32rem, 20rem" loading="eager" />
-        <Image class="not-found__layer not-found__layer--chain-top" src={chainTopImage} alt="" widths={[640, 1024]} sizes="(min-width: 640px) 32rem, 20rem" loading="eager" />
+      <div class="not-found__illustration" data-progressive-host="relative" role="img" aria-label={content.imageAlt}>
+        <ProgressiveImage src={baseImage} fit="contain">
+          <Image class="not-found__layer" src={baseImage} alt="" widths={getResponsiveImageWidths(baseImage)} width={getImageOutputWidth(baseImage)} sizes="(min-width: 640px) 32rem, 20rem" loading="eager" format="webp" />
+        </ProgressiveImage>
+        <ProgressiveImage src={chainBottomImage} fit="contain">
+          <Image class="not-found__layer not-found__layer--chain-bottom" src={chainBottomImage} alt="" widths={getResponsiveImageWidths(chainBottomImage)} width={getImageOutputWidth(chainBottomImage)} sizes="(min-width: 640px) 32rem, 20rem" loading="eager" format="webp" />
+        </ProgressiveImage>
+        <ProgressiveImage src={chainTopImage} fit="contain">
+          <Image class="not-found__layer not-found__layer--chain-top" src={chainTopImage} alt="" widths={getResponsiveImageWidths(chainTopImage)} width={getImageOutputWidth(chainTopImage)} sizes="(min-width: 640px) 32rem, 20rem" loading="eager" format="webp" />
+        </ProgressiveImage>
       </div>
       <h1 id="not-found-heading" class="section-headline">{content.title}</h1>
       <p class="section-copy">{content.copy}</p>

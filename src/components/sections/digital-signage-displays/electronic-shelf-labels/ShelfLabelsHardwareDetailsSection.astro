@@ -1,8 +1,21 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import ProgressiveImage from '../../../atoms/ProgressiveImage.astro';
 import { hardwareImageMetadata } from '../../../../i18n/pages/data/shelfLabelHardwareFeatures';
 import SectionTitleGroup from '../../../molecules/SectionTitleGroup.astro';
-import type{ShelfLabelsContent}from'../../../../i18n/pages/digital-signage-displays/electronic-shelf-labels.ts'; interface Props{content:ShelfLabelsContent['hardware']} const{content}=Astro.props; const features=content.features;
+import type{ShelfLabelsContent}from'../../../../i18n/pages/digital-signage-displays/electronic-shelf-labels.ts';
+import { getImageOutputWidth, getResponsiveImageWidths } from '../../../../utils/images';
+type HardwareFeature = ShelfLabelsContent['hardware']['features'][number] & { image?: ImageMetadata };
+interface Props {
+    content: Omit<ShelfLabelsContent['hardware'], 'features'> & { features: readonly HardwareFeature[] };
+}
+const { content } = Astro.props;
+const features = content.features.map((feature) => {
+    const image = feature.image ?? hardwareImageMetadata.get(feature.imageSrc);
+    if (!image) throw new Error(`Missing shelf-label hardware image metadata for "${feature.imageSrc}".`);
+    return { ...feature, image };
+});
 ---
 
 <section class="section sl-hardware-details" aria-labelledby="hardware-details-heading">
@@ -24,13 +37,19 @@ import type{ShelfLabelsContent}from'../../../../i18n/pages/digital-signage-displ
                 features.map((feature, index) => (
                     <article class="sl-hardware-details__card u-border-interactive">
                         <figure class="sl-hardware-details__media" data-progressive-host="relative">
-                            <ProgressiveImage src={hardwareImageMetadata.get(feature.imageSrc)}><img
-                                src={feature.imageSrc}
+                            <ProgressiveImage src={feature.image}>
+                              <Image
+                                src={feature.image}
                                 alt={feature.imageAlt}
+                                widths={getResponsiveImageWidths(feature.image)}
+                                width={getImageOutputWidth(feature.image)}
+                                sizes="auto, (min-width: 64rem) 30vw, (min-width: 48rem) 45vw, 100vw"
+                                format="webp"
                                 loading={index === 0 ? "eager" : "lazy"}
                                 decoding="async"
                                 class="sl-hardware-details__image"
-                            /></ProgressiveImage>
+                              />
+                            </ProgressiveImage>
                         </figure>
 
                         <div class="sl-hardware-details__details">

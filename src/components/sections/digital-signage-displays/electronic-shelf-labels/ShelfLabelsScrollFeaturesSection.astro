@@ -1,5 +1,6 @@
 ---
 import ShelfLabelsDsCard from "../../../atoms/ShelfLabelsDsCard.astro";
+import ProgressiveImage from "../../../atoms/ProgressiveImage.astro";
 import SectionTitleGroup from "../../../molecules/SectionTitleGroup.astro";
 import type{ShelfLabelsContent}from'../../../../i18n/pages/digital-signage-displays/electronic-shelf-labels.ts'; interface Props{content:ShelfLabelsContent['features']} const{content}=Astro.props; const features=content.items;
 import iconRealtimeSync from "../../../../assets/vectors/icons/shelf-labels/ico_real-time-synch.svg?raw";
@@ -18,6 +19,7 @@ import stackMicroCapsules from "../../../../assets/images/services/shelf-labels/
 import stackTftMatrix from "../../../../assets/images/services/shelf-labels/stack/tft-matrix.png";
 import stackPcb from "../../../../assets/images/services/shelf-labels/stack/pcb.png";
 import stackBot from "../../../../assets/images/services/shelf-labels/stack/bot.png";
+import { getImageOutputWidth, getOptimizedImageUrl, getResponsiveImageSrcSet } from "../../../../utils/images";
 
 const featureIcons = [
     iconRealtimeSync,
@@ -30,11 +32,19 @@ const featureIcons = [
     iconEasyInstall,
 ] as string[];
 
-const stackSources=[stackBot.src,stackPcb.src,stackTftMatrix.src,stackMicroCapsules.src,stackColorFilter.src,stackTouchPanel.src,stackFrontLight.src,stackTop.src];
-const stackLayers = content.layers.map((alt, index) => ({
-    src: stackSources[index],
-    alt,
-    isEndLayer: index === 0 || index === content.layers.length - 1,
+const stackSources = [stackBot, stackPcb, stackTftMatrix, stackMicroCapsules, stackColorFilter, stackTouchPanel, stackFrontLight, stackTop];
+const stackLayers = await Promise.all(content.layers.map(async (alt, index) => {
+    const image = stackSources[index];
+    if (!image) throw new Error(`Missing shelf-label stack image at index ${index}.`);
+    const isEndLayer = index === 0 || index === content.layers.length - 1;
+    return {
+        image,
+        desktopSrcSet: await getResponsiveImageSrcSet(image),
+        mobileSrc: isEndLayer ? await getOptimizedImageUrl(image, 960) : undefined,
+        mobileSrcSet: isEndLayer ? await getResponsiveImageSrcSet(image) : undefined,
+        alt,
+        isEndLayer,
+    };
 }));
 ---
 
@@ -83,18 +93,33 @@ const stackLayers = content.layers.map((alt, index) => ({
                         stackLayers.map((layer, index) => (
                             <div
                                 class="sl-scroll__layer"
-                                style={`--stack-layer-index: ${index};`}
+                                data-progressive-host="relative"
+                                style={`--stack-layer-index: ${index}; --sl-scroll-proxy-ratio: ${layer.image.width} / ${layer.image.height}; --sl-scroll-proxy-offset: ${layer.isEndLayer && index === stackLayers.length - 1 ? "0px" : `calc(${index} * var(--sp-1))`};`}
                             >
-                                <picture class="sl-scroll__layer-picture">
-                                    <source media="(min-width: 885px)" srcset={layer.src} />
-                                    <img
-                                        class="sl-scroll__layer-image"
-                                        src={layer.isEndLayer ? layer.src : undefined}
-                                        alt={layer.alt}
-                                        loading={index === 0 ? "eager" : "lazy"}
-                                        decoding="async"
-                                    />
-                                </picture>
+                                <ProgressiveImage
+                                    src={layer.image}
+                                    fit="contain"
+                                    bounds="inset: 0 auto auto 0; width: 100%; aspect-ratio: var(--sl-scroll-proxy-ratio); margin-top: var(--sl-scroll-proxy-margin, -5%); transform: translateY(var(--sl-scroll-proxy-offset));"
+                                >
+                                    <picture class="sl-scroll__layer-picture">
+                                        <source
+                                            media="(min-width: 885px)"
+                                            srcset={layer.desktopSrcSet}
+                                            sizes="(min-width: 84rem) 42rem, (min-width: 55.3125rem) 50vw, calc(100vw - 3rem)"
+                                        />
+                                        <img
+                                            class="sl-scroll__layer-image"
+                                            src={layer.mobileSrc}
+                                            srcset={layer.mobileSrcSet}
+                                            sizes="(min-width: 84rem) 42rem, (min-width: 55.3125rem) 50vw, calc(100vw - 3rem)"
+                                            width={getImageOutputWidth(layer.image)}
+                                            height={Math.round(layer.image.height * getImageOutputWidth(layer.image) / layer.image.width)}
+                                            alt={layer.alt}
+                                            loading={index === 0 ? "eager" : "lazy"}
+                                            decoding="async"
+                                        />
+                                    </picture>
+                                </ProgressiveImage>
                             </div>
                         ))
                     }
@@ -204,6 +229,10 @@ const stackLayers = content.layers.map((alt, index) => ({
         /* isolation: isolate; */
     }
 
+    .sl-scroll__layer:last-child {
+        --sl-scroll-proxy-offset: 0px;
+    }
+
     .sl-scroll__layer-image {
         position: absolute;
         inset: 0 auto auto 0;
@@ -266,6 +295,8 @@ const stackLayers = content.layers.map((alt, index) => ({
             height: auto;
             grid-area: 1 / 1;
             margin: 0;
+            --sl-scroll-proxy-margin: 0;
+            --sl-scroll-proxy-offset: 0px;
         }
 
         .sl-scroll__layer:last-child {

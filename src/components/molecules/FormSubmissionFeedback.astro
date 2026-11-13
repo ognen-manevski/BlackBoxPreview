@@ -7,6 +7,7 @@ import cableRightImage from '../../assets/images/errors/500/04-cable-right.png';
 import InfoIcon from '../icons/InfoIcon.astro';
 import CheckCircleIcon from '../icons/CheckCircleIcon.astro';
 import type { Lang } from '../../i18n/types';
+import { getImageOutputWidth, getResponsiveImageWidths } from '../../utils/images';
 
 interface Props {
   lang: Lang;
@@ -88,7 +89,8 @@ const previews = await Promise.all(
               class="form-submission-error__image"
               src={layer.src}
               alt=""
-              widths={[256, 384]}
+              widths={getResponsiveImageWidths(layer.src, 384)}
+              width={getImageOutputWidth(layer.src, 384)}
               sizes="(max-width: 40rem) 100vw, 14rem"
               loading="lazy"
               decoding="async"

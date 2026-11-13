@@ -1,5 +1,8 @@
 ---
 import AboutSection from '../sections/AboutSection.astro';
+import AboutMissionVisionSection from '../sections/AboutMissionVisionSection.astro';
+import AboutPageOverviewSection from '../sections/AboutPageOverviewSection.astro';
+import PageHero from '../sections/PageHero.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { homePageContent } from '../../i18n/pages/home';
 import { getTranslations } from '../../i18n/utils';
@@ -11,5 +14,29 @@ const content = getTranslations(homePageContent, lang);
 ---
 
 <BaseLayout lang={lang} title={content.about.heading} description={content.about.copy}>
+  <PageHero
+    class={lang === 'mk' ? 'about-page-hero about-page-hero--mk' : 'about-page-hero'}
+    eyebrow={content.about.heroEyebrow}
+    title={content.about.heroTitle}
+    subtitle={content.about.heroCopy}
+  />
   <AboutSection content={content.about} />
+  <AboutMissionVisionSection content={content.about} />
+  <AboutPageOverviewSection content={content.about} />
 </BaseLayout>
+
+<style>
+  :global(.about-page-hero .page-hero__copy h1 > span) {
+    white-space: pre-line;
+  }
+
+  @media (min-width: 721px) {
+    :global(.about-page-hero--mk .page-hero__copy) {
+      max-width: 64rem;
+    }
+  }
+
+  :global(.about-page-hero--mk .page-hero__subtitle) {
+    max-width: 200ch;
+  }
+</style>

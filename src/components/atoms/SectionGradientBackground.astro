@@ -1,6 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { getImageOutputWidth, getOptimizedImageUrl, getResponsiveImageWidths } from '../../utils/images';
 
 interface Props {
   videoSrc: string;
@@ -25,6 +26,7 @@ const {
   overlayColor = 'transparent',
   videoBlur = '0px',
 } = Astro.props as Props;
+const optimizedPoster = posterSrc ? await getOptimizedImageUrl(posterSrc, 1600) : undefined;
 ---
 
 <div
@@ -35,7 +37,7 @@ const {
   <video
     class="section-gradient-bg__video"
     src={videoSrc}
-    poster={posterSrc?.src}
+    poster={optimizedPoster}
     autoplay
     muted
     loop
@@ -48,7 +50,8 @@ const {
     <Picture
       class="section-gradient-bg__poster"
       src={posterSrc}
-      widths={[480, 800, 1200]}
+      widths={getResponsiveImageWidths(posterSrc)}
+      width={getImageOutputWidth(posterSrc)}
       sizes="100vw"
       alt=""
       loading="lazy"

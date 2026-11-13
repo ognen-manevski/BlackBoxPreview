@@ -1,7 +1,9 @@
 ---
 import ArrowButton from './ArrowButton.astro';
+import { Image } from 'astro:assets';
 import ProgressiveImage from './ProgressiveImage.astro';
 import { industryImageMetadata } from '../../i18n/pages/data/industrySolutions';
+import { getImageOutputWidth, getResponsiveImageWidths } from '../../utils/images';
 
 interface Props {
     counter?: string;
@@ -25,6 +27,9 @@ const {
     ctaLabel,
 } = Astro.props as Props;
 const imageMetadata = imageSrc ? industryImageMetadata.get(imageSrc) : undefined;
+if (imageSrc && !imageMetadata) {
+    throw new Error(`Missing image metadata for disclosure item image "${imageSrc}".`);
+}
 ---
 
 <details
@@ -72,13 +77,17 @@ const imageMetadata = imageSrc ? industryImageMetadata.get(imageSrc) : undefined
                         {href && ctaLabel && <ArrowButton class="disclosure-item__cta" href={href} variant="outline" size="sm">{ctaLabel}</ArrowButton>}
                     </div>
                     {
-                        imageSrc && (
+                        imageSrc && imageMetadata && (
                             <div class="disclosure-item__image-wrap" data-progressive-host="relative">
                                 <ProgressiveImage src={imageMetadata}>
-                                    <img
+                                    <Image
                                         class="disclosure-item__image"
-                                        src={imageSrc}
+                                        src={imageMetadata}
                                         alt={imageAlt}
+                                        widths={getResponsiveImageWidths(imageMetadata)}
+                                        width={getImageOutputWidth(imageMetadata)}
+                                        sizes="auto, (min-width: 90rem) 23rem, (min-width: 61.3125rem) 24vw, (min-width: 56.3125rem) 47vw, (min-width: 37.5625rem) calc(100vw - 10.75rem), 72vw"
+                                        format="webp"
                                         loading="lazy"
                                         decoding="async"
                                     />

@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import ProgressiveImage from '../../../atoms/ProgressiveImage.astro';
 import sizeTotem4Sides from '../../../../assets/images/services/neoslide/sizes/01-4-sides-totem.png';
 import sizePortrait from '../../../../assets/images/services/neoslide/sizes/02-portrait.png';
@@ -7,6 +8,7 @@ import sizeBillboard from '../../../../assets/images/services/neoslide/sizes/04-
 import sizeSmallKiosk from '../../../../assets/images/services/neoslide/sizes/05-small-kiosk.png';
 import sizeLargeKiosk from '../../../../assets/images/services/neoslide/sizes/06-large-kiosk.png';
 import type { DigitalSignageContent } from '../../../../i18n/pages/services/neoslide.ts';
+import { getImageOutputWidth, getResponsiveImageWidths } from '../../../../utils/images';
 interface Props { content: DigitalSignageContent['anyScreen'] } const { content } = Astro.props;
 
 const sizeImages = [
@@ -45,10 +47,14 @@ const sizeImages = [
                         style={`--ds-size-layer: ${image.layer}; --ds-size-index: ${index};`}
                     >
                         <ProgressiveImage src={image.asset} fit="contain">
-                            <img
+                            <Image
                                 class="ds-any-screen__image"
-                                src={image.asset.src}
+                                src={image.asset}
                                 alt=""
+                                widths={getResponsiveImageWidths(image.asset)}
+                                width={getImageOutputWidth(image.asset)}
+                                sizes="auto, (min-width: 64rem) 45vw, 100vw"
+                                format="webp"
                                 loading="lazy"
                                 decoding="async"
                             />

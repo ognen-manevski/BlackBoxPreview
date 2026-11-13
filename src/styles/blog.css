@@ -41,6 +41,14 @@
   max-width: var(--blog-page-width);
 }
 
+.blog-page.blog-page--use-cases {
+  padding-top: 0;
+}
+
+.blog-page--use-cases .blog-page__inner {
+  padding-top: var(--sp-7);
+}
+
 .blog-page__grid-heading {
   margin: 0 0 var(--blog-heading-gap);
 }

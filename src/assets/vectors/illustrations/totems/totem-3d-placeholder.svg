@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 652 1838">
+  <!-- Generator: Adobe Illustrator 29.0.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 186)  -->
+  <defs>
+    <style>
+      .model-placeholder__stroke {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <path class="model-placeholder__stroke" d="M481.71759,263.08853C356.68432,190.4031,223.85383,113.19612,98.81598,40.51452"/>
+  <path class="model-placeholder__stroke" d="M481.71759,263.08853c1.33542,492.19164,2.69506,990.00799,4.02464,1482.26864"/>
+  <polyline class="model-placeholder__stroke" points="550.4993 1707.97965 550.49278 1703.9076 550.27186 1623.78878"/>
+  <path class="model-placeholder__stroke" d="M440.7053,324.62081c-96.68559-56.19843-205.10332-119.23645-301.79106-175.42744"/>
+  <path class="model-placeholder__stroke" d="M138.91424,149.19337c.51344,186.02025,1.04329,384.10518,1.55229,570.12308"/>
+  <path class="model-placeholder__stroke" d="M440.7053,324.62081c.50469,186.02044,1.04067,384.10499,1.55218,570.123"/>
+  <path class="model-placeholder__stroke" d="M550.4993,1707.97965l-64.75706,37.37751c-125.51361-72.95643-258.75669-150.42789-384.27567-223.37425"/>
+  <path class="model-placeholder__stroke" d="M442.25748,894.74381c-96.68766-56.1947-205.10542-119.23261-301.79095-175.42736"/>
+  <path class="model-placeholder__stroke" d="M101.46657,1521.98292c-.00303-.68751-.08948-33.86571-.09493-35.91168"/>
+  <path class="model-placeholder__stroke" d="M648.13752,1682.44016c-66.71615,38.50829-137.20609,79.1948-203.91932,117.7014"/>
+  <path class="model-placeholder__stroke" d="M3.74903,1544.10431c145.72295,84.69256,294.75254,171.33761,440.46917,256.03725"/>
+  <polyline class="model-placeholder__stroke" points="444.25505 1834.06816 444.22205 1801.02841 444.21821 1800.14157"/>
+  <path class="model-placeholder__stroke" d="M550.27186,1623.78878c-1.25625-464.17483-2.53746-933.97036-3.79731-1398.07771"/>
+  <path class="model-placeholder__stroke" d="M97.92949,39.42125c.001-.00058-.49262.28434-.49262.28434L162.19394,2.32807c125.50763,72.97325,258.76959,150.41647,384.28062,223.383l-64.75696,37.37745"/>
+  <path class="model-placeholder__stroke" d="M101.37164,1486.07123c-1.30985-480.32488-2.63097-966.10161-3.93477-1446.36565"/>
+  <path class="model-placeholder__stroke" d="M550.49342,1623.97265c28.41858,16.52314,70.82663,41.15495,99.1164,57.61771"/>
+  <path class="model-placeholder__stroke" d="M649.60982,1681.59036c.00551.76082.04209,34.76386.04751,35.52535"/>
+  <path class="model-placeholder__stroke" d="M2.34495,1543.28771c30.53715-17.63461,68.46091-39.50919,99.03-57.16"/>
+  <path class="model-placeholder__stroke" d="M2.34266,1543.28808c.0054.76081.04211,34.76382.04747,35.52534"/>
+  <path class="model-placeholder__stroke" d="M444.25705,1835.67193c-146.186-84.9839-295.68195-171.87437-441.86692-256.85851"/>
+  <path class="model-placeholder__stroke" d="M649.65734,1717.11571c-67.22449,38.80171-138.17641,79.75487-205.40028,118.55621"/>
+</svg>

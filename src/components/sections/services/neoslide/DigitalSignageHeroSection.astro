@@ -1,5 +1,6 @@
 ---
 import totemDarkPoster from "../../../../assets/images/video-thumbnails/digital-signage/totem-onscroll/video-hero-onscroll-61frames.jpg";
+import { getOptimizedImageUrl } from "../../../../utils/images";
 
 interface Props {
     content: {
@@ -13,6 +14,7 @@ interface Props {
 
 const { content } = Astro.props;
 const headlineStartParts = content.headlineStart.split(' a ');
+const optimizedPoster = await getOptimizedImageUrl(totemDarkPoster, 1200);
 ---
 
 <section class="ds-hero" aria-label={content.ariaLabel}>
@@ -41,7 +43,7 @@ const headlineStartParts = content.headlineStart.split(' a ');
                     muted
                     playsinline
                     preload="none"
-                    poster={totemDarkPoster.src}
+                    poster={optimizedPoster}
                     aria-label={content.videoAriaLabel}
                     src={`${import.meta.env.BASE_URL}videos/digital-signage/totem-onscroll/NS-hero-video.mp4`}
                 ></video>

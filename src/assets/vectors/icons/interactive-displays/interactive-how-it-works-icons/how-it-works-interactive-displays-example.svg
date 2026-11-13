@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="interactive-displays-how-it-works__svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 780 745.93684">
+<svg id="interactive-displays-how-it-works__svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-60 0 900 745.93684">
   <!-- Generator: Adobe Illustrator 29.0.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 186)  -->
   <defs>
     <style>
@@ -139,28 +139,28 @@
     </radialGradient>
   </defs>
   <g>
-    <path id="interactive-displays-how-it-works__connection-path-01" class="interactive-displays-how-it-works__connection" d="M160.07373,87.99821v67.06934c0,5.51416,4.48584,10,10,10h157.95605c16.54199,0,30,13.45801,30,30v67.0708"/>
-    <path id="interactive-displays-how-it-works__connection-path-02" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M338.02979,262.13834v-67.0708c0-5.51416-4.48584-10-10-10h-157.95605c-16.54199,0-30-13.45801-30-30v-67.06934"/>
+    <path id="interactive-displays-how-it-works__connection-path-01" class="interactive-displays-how-it-works__connection" d="M160.07373,87.99821v67.06934c0,5.51416,4.48584,10,10,10h157.95605c16.54199,0,30,13.45801,30,30v92.0708"/>
+    <path id="interactive-displays-how-it-works__connection-path-02" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M338.02979,287.13834v-92.0708c0-5.51416-4.48584-10-10-10h-157.95605c-16.54199,0-30-13.45801-30-30v-67.06934"/>
   </g>
   <g>
-    <path id="interactive-displays-how-it-works__connection-path-03" class="interactive-displays-how-it-works__connection" d="M428.1746,362.96842h157.95605"/>
-    <path id="interactive-displays-how-it-works__connection-path-04" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M586.13066,382.96842h-157.95605"/>
+    <path id="interactive-displays-how-it-works__connection-path-03" class="interactive-displays-how-it-works__connection" d="M470,362.96842h160"/>
+    <path id="interactive-displays-how-it-works__connection-path-04" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M630,382.96842h-160"/>
   </g>
   <g>
-    <path id="interactive-displays-how-it-works__connection-path-05" class="interactive-displays-how-it-works__connection" d="M250,362.96842h101.8254"/>
-    <path id="interactive-displays-how-it-works__connection-path-06" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M351.8254,382.96842h-101.8254"/>
+    <path id="interactive-displays-how-it-works__connection-path-05" class="interactive-displays-how-it-works__connection" d="M150,362.96842h160"/>
+    <path id="interactive-displays-how-it-works__connection-path-06" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M310,382.96842h-160"/>
   </g>
   <g>
-    <path id="interactive-displays-how-it-works__connection-path-07" class="interactive-displays-how-it-works__connection" d="M620.72452,87.99821v67.06934c0,5.51416-4.48584,10-10,10h-157.95605c-16.54199,0-30,13.45801-30,30v67.0708"/>
-    <path id="interactive-displays-how-it-works__connection-path-08" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M442.76847,262.13834v-67.0708c0-5.51416,4.48584-10,10-10h157.95605c16.54199,0,30-13.45801,30-30v-67.06934"/>
+    <path id="interactive-displays-how-it-works__connection-path-07" class="interactive-displays-how-it-works__connection" d="M620.72452,87.99821v67.06934c0,5.51416-4.48584,10-10,10h-157.95605c-16.54199,0-30,13.45801-30,30v92.0708"/>
+    <path id="interactive-displays-how-it-works__connection-path-08" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M442.76847,287.13834v-92.0708c0-5.51416,4.48584-10,10-10h157.95605c16.54199,0,30-13.45801,30-30v-67.06934"/>
   </g>
   <g>
-    <path id="interactive-displays-how-it-works__connection-path-09" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M619.92627,658.58224v-67.06934c0-5.51416-4.48584-10-10-10h-157.95605c-16.54199,0-30-13.45801-30-30v-67.0708"/>
-    <path id="interactive-displays-how-it-works__connection-path-10" class="interactive-displays-how-it-works__connection" d="M441.97021,484.44211v67.0708c0,5.51416,4.48584,10,10,10h157.95605c16.54199,0,30,13.45801,30,30v67.06934"/>
+    <path id="interactive-displays-how-it-works__connection-path-09" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M619.92627,658.58224v-67.06934c0-5.51416-4.48584-10-10-10h-157.95605c-16.54199,0-30-13.45801-30-30v-42.0708"/>
+    <path id="interactive-displays-how-it-works__connection-path-10" class="interactive-displays-how-it-works__connection" d="M441.97021,509.44211v42.0708c0,5.51416,4.48584,10,10,10h157.95605c16.54199,0,30,13.45801,30,30v67.06934"/>
   </g>
   <g>
-    <path id="interactive-displays-how-it-works__connection-path-11" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M159.27548,658.58224v-67.06934c0-5.51416,4.48584-10,10-10h157.95605c16.54199,0,30-13.45801,30-30v-67.0708"/>
-    <path id="interactive-displays-how-it-works__connection-path-12" class="interactive-displays-how-it-works__connection" d="M337.23153,484.44211v67.0708c0,5.51416-4.48584,10-10,10h-157.95605c-16.54199,0-30,13.45801-30,30v67.06934"/>
+    <path id="interactive-displays-how-it-works__connection-path-11" class="interactive-displays-how-it-works__connection interactive-displays-how-it-works__connection-return" d="M160.07373,658.58224v-67.06934c0-5.51416,4.48584-10,10-10h157.95605c16.54199,0,30-13.45801,30-30v-42.0708"/>
+    <path id="interactive-displays-how-it-works__connection-path-12" class="interactive-displays-how-it-works__connection" d="M338.02979,509.44211v42.0708c0,5.51416-4.48584,10-10,10h-157.95605c-16.54199,0-30,13.45801-30,30v67.06934"/>
   </g>
   <g class="interactive-displays-how-it-works__connection-orbs" aria-hidden="true">
     <circle class="interactive-displays-how-it-works__connection-orb" cx="0" cy="0" r="9">
@@ -212,13 +212,13 @@
     </g>
   </g>
   <g>
-    <rect class="interactive-displays-how-it-works__card-frame" x="10" y="313.96842" width="240" height="118" rx="10" ry="10"/>
-    <g>
-      <rect class="interactive-displays-how-it-works__icon-line" x="33.51086" y="346.96842" width="52" height="52" rx="5" ry="5"/>
+    <rect class="interactive-displays-how-it-works__card-frame" x="-50" y="313.96842" width="260" height="118" rx="10" ry="10"/>
+    <g transform="translate(-18 0)">
+      <rect class="interactive-displays-how-it-works__icon-line" x="-8.48914" y="346.96842" width="52" height="52" rx="5" ry="5"/>
       <g>
-        <path class="interactive-displays-how-it-works__icon-line" d="M59.51086,358.2c-5.46925,0-9.57119,4.10194-9.57119,9.57119,0,6.83657,9.57119,16.40776,9.57119,16.40776,0,0,9.57119-9.57119,9.57119-16.40776,0-5.46925-4.10194-9.57119-9.57119-9.57119Z"/>
-        <circle class="interactive-displays-how-it-works__icon-line" cx="59.51086" cy="367.77119" r="2.73463"/>
-        <path class="interactive-displays-how-it-works__icon-line" d="M46.51086,387.73684h26"/>
+        <path class="interactive-displays-how-it-works__icon-line" d="M17.51086,358.2c-5.46925,0-9.57119,4.10194-9.57119,9.57119,0,6.83657,9.57119,16.40776,9.57119,16.40776,0,0,9.57119-9.57119,9.57119-16.40776,0-5.46925-4.10194-9.57119-9.57119-9.57119Z"/>
+        <circle class="interactive-displays-how-it-works__icon-line" cx="17.51086" cy="367.77119" r="2.73463"/>
+        <path class="interactive-displays-how-it-works__icon-line" d="M4.51086,387.73684h26"/>
       </g>
     </g>
   </g>
@@ -259,82 +259,84 @@
     </g>
   </g>
   <g>
-    <rect class="interactive-displays-how-it-works__card-frame" x="530" y="313.96842" width="240" height="118" rx="10" ry="10"/>
-    <g>
-      <rect class="interactive-displays-how-it-works__icon-line" x="553.51086" y="346.96842" width="52" height="52" rx="5" ry="5"/>
+    <rect class="interactive-displays-how-it-works__card-frame" x="570" y="313.96842" width="260" height="118" rx="10" ry="10"/>
+    <g transform="translate(1 0)">
+      <rect class="interactive-displays-how-it-works__icon-line" x="592.51086" y="346.96842" width="52" height="52" rx="5" ry="5"/>
       <g>
         <g>
-          <rect class="interactive-displays-how-it-works__icon-line" x="564.51086" y="360.46842" width="30" height="28"/>
-          <path class="interactive-displays-how-it-works__icon-line" d="M564.51086,368.46842h30M571.51086,357.46842v7M587.51086,357.46842v7"/>
+          <rect class="interactive-displays-how-it-works__icon-line" x="603.51086" y="360.46842" width="30" height="28"/>
+          <path class="interactive-displays-how-it-works__icon-line" d="M603.51086,368.46842h30M610.51086,357.46842v7M626.51086,357.46842v7"/>
         </g>
-        <path class="interactive-displays-how-it-works__icon-line" d="M579.51086,371.49474v13M585.51086,378.49474l-6,6-6-6"/>
+        <path class="interactive-displays-how-it-works__icon-line" d="M618.51086,371.49474v13M624.51086,378.49474l-6,6-6-6"/>
       </g>
     </g>
   </g>
-  <rect class="interactive-displays-how-it-works__card-frame" x="295.69474" y="222.1354" width="188.61053" height="301.66604" rx="11.93684" ry="11.93684"/>
+  <rect class="interactive-displays-how-it-works__card-frame" x="280" y="247.1354" width="220" height="301.66604" rx="11.93684" ry="11.93684"/>
   <g class="interactive-displays-how-it-works__callout-title">
-    <text x="98" y="48">__browseTitle__</text>
-    <text x="578" y="48">__findInformationTitle__</text>
-    <text x="98" y="352">__findWayTitle__</text>
-    <text x="618" y="352">__checkInTitle__</text>
-    <text x="98" y="656">__placeOrderTitle__</text>
-    <text x="578" y="656">__accessServicesTitle__</text>
+    <text x="102.01086" y="48">__browseTitle__</text>
+    <text x="582.01086" y="48">__findInformationTitle__</text>
+    <text x="42.01086" y="352">__findWayTitle__</text>
+    <text x="662.01086" y="352">__checkInTitle__</text>
+    <text x="102.01086" y="656">__placeOrderTitle__</text>
+    <text x="582.01086" y="656">__accessServicesTitle__</text>
   </g>
   <g class="interactive-displays-how-it-works__callout-copy">
-    <text x="98" y="67">
-      <tspan x="98">__browseCopy1__</tspan>
-      <tspan x="98" dy="16">__browseCopy2__</tspan>
-      <tspan x="98" dy="16">__browseCopy3__</tspan>
+    <text x="102.01086" y="67">
+      <tspan x="102.01086">__browseCopy1__</tspan>
+      <tspan x="102.01086" dy="16">__browseCopy2__</tspan>
+      <tspan x="102.01086" dy="16">__browseCopy3__</tspan>
     </text>
-    <text x="578" y="67">
-      <tspan x="578">__findInformationCopy1__</tspan>
-      <tspan x="578" dy="16">__findInformationCopy2__</tspan>
-      <tspan x="578" dy="16">__findInformationCopy3__</tspan>
+    <text x="582.01086" y="67">
+      <tspan x="582.01086">__findInformationCopy1__</tspan>
+      <tspan x="582.01086" dy="16">__findInformationCopy2__</tspan>
+      <tspan x="582.01086" dy="16">__findInformationCopy3__</tspan>
     </text>
-    <text x="98" y="371">
-      <tspan x="98">__findWayCopy1__</tspan>
-      <tspan x="98" dy="16">__findWayCopy2__</tspan>
-      <tspan x="98" dy="16">__findWayCopy3__</tspan>
+    <text x="42.01086" y="371">
+      <tspan x="42.01086">__findWayCopy1__</tspan>
+      <tspan x="42.01086" dy="16">__findWayCopy2__</tspan>
+      <tspan x="42.01086" dy="16">__findWayCopy3__</tspan>
     </text>
-    <text x="618" y="371">
-      <tspan x="618">__checkInCopy1__</tspan>
-      <tspan x="618" dy="16">__checkInCopy2__</tspan>
-      <tspan x="618" dy="16">__checkInCopy3__</tspan>
+    <text x="662.01086" y="371">
+      <tspan x="662.01086">__checkInCopy1__</tspan>
+      <tspan x="662.01086" dy="16">__checkInCopy2__</tspan>
+      <tspan x="662.01086" dy="16">__checkInCopy3__</tspan>
     </text>
-    <text x="98" y="675">
-      <tspan x="98">__placeOrderCopy1__</tspan>
-      <tspan x="98" dy="16">__placeOrderCopy2__</tspan>
-      <tspan x="98" dy="16">__placeOrderCopy3__</tspan>
+    <text x="102.01086" y="675">
+      <tspan x="102.01086">__placeOrderCopy1__</tspan>
+      <tspan x="102.01086" dy="16">__placeOrderCopy2__</tspan>
+      <tspan x="102.01086" dy="16">__placeOrderCopy3__</tspan>
     </text>
-    <text x="578" y="675">
-      <tspan x="578">__accessServicesCopy1__</tspan>
-      <tspan x="578" dy="16">__accessServicesCopy2__</tspan>
-      <tspan x="578" dy="16">__accessServicesCopy3__</tspan>
+    <text x="582.01086" y="675">
+      <tspan x="582.01086">__accessServicesCopy1__</tspan>
+      <tspan x="582.01086" dy="16">__accessServicesCopy2__</tspan>
+      <tspan x="582.01086" dy="16">__accessServicesCopy3__</tspan>
     </text>
   </g>
-  <g class="interactive-displays-how-it-works__screen-title">
+  <g class="interactive-displays-how-it-works__screen-title" transform="translate(0 30)">
     <text x="390" y="254">
       <tspan x="390">__centerTitle1__</tspan>
       <tspan x="390" dy="20">__centerTitle2__</tspan>
       <tspan x="390" dy="20">__centerTitle3__</tspan>
     </text>
   </g>
-  <g class="interactive-displays-how-it-works__screen-copy">
+  <g class="interactive-displays-how-it-works__screen-copy" transform="translate(0 42)">
     <text x="390" y="313">
       <tspan x="390">__centerCopy1__</tspan>
       <tspan x="390" dy="16">__centerCopy2__</tspan>
       <tspan x="390" dy="16">__centerCopy3__</tspan>
     </text>
   </g>
-  <rect class="interactive-displays-how-it-works__screen-row" x="322.3158" y="355.5" width="135.3684" height="16"/>
-  <rect class="interactive-displays-how-it-works__screen-row" x="322.3158" y="377" width="135.3684" height="16"/>
-  <rect class="interactive-displays-how-it-works__screen-row" x="322.3158" y="398.5" width="135.3684" height="16"/>
-  <rect class="interactive-displays-how-it-works__screen-row" x="322.3158" y="420" width="135.3684" height="16"/>
-  <rect class="interactive-displays-how-it-works__screen-row" x="322.3158" y="441.5" width="135.3684" height="16"/>
-  <rect class="interactive-displays-how-it-works__screen-row" x="322.3158" y="463" width="135.3684" height="16"/>
-  <circle class="interactive-displays-how-it-works__touch-pulse" cx="436.15789" cy="398.81053" r="10"/>
-  <circle class="interactive-displays-how-it-works__touch-core" cx="436.15789" cy="398.81053" r="3"/>
-  <polygon id="interactive-displays-how-it-works__hand" class="interactive-displays-how-it-works__hand" points="501.23158 442.26316 495.9376 427.37384 483.3644 412.48453 454.34627 413.77846 440.8454 394.36831 430.79515 401.35882 455.83779 437.3625 456.09225 439.34725 444.04242 429.83181 436.45535 439.43975 456.04967 454.91277 474.26538 465.25888 481.04829 475.35052 509.83429 454.00917 501.23158 442.26316"/>
+  <g transform="translate(0 50)">
+    <rect class="interactive-displays-how-it-works__screen-row" x="312.5" y="355.5" width="155" height="16"/>
+    <rect class="interactive-displays-how-it-works__screen-row" x="312.5" y="377" width="155" height="16"/>
+    <rect class="interactive-displays-how-it-works__screen-row" x="312.5" y="398.5" width="155" height="16"/>
+    <rect class="interactive-displays-how-it-works__screen-row" x="312.5" y="420" width="155" height="16"/>
+    <rect class="interactive-displays-how-it-works__screen-row" x="312.5" y="441.5" width="155" height="16"/>
+    <rect class="interactive-displays-how-it-works__screen-row" x="312.5" y="463" width="155" height="16"/>
+    <circle class="interactive-displays-how-it-works__touch-pulse" cx="436.15789" cy="398.81053" r="10"/>
+    <circle class="interactive-displays-how-it-works__touch-core" cx="436.15789" cy="398.81053" r="3"/>
+    <polygon id="interactive-displays-how-it-works__hand" class="interactive-displays-how-it-works__hand" points="501.23158 442.26316 495.9376 427.37384 483.3644 412.48453 454.34627 413.77846 440.8454 394.36831 430.79515 401.35882 455.83779 437.3625 456.09225 439.34725 444.04242 429.83181 436.45535 439.43975 456.04967 454.91277 474.26538 465.25888 481.04829 475.35052 509.83429 454.00917 501.23158 442.26316"/>
+  </g>
 
 
 

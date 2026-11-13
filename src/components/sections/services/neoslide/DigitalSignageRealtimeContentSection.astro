@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import ProgressiveImage from '../../../atoms/ProgressiveImage.astro';
 import realtimeContentImage from '../../../../assets/images/services/neoslide/real-time content/weather.png';
+import { getImageOutputWidth, getResponsiveImageWidths } from '../../../../utils/images';
 import type { DigitalSignageContent } from '../../../../i18n/pages/services/neoslide.ts';
 interface Props { content: DigitalSignageContent['realtime'] } const { content } = Astro.props;
 ---
@@ -20,10 +22,14 @@ interface Props { content: DigitalSignageContent['realtime'] } const { content }
 
             <div class="ds-realtime__media" data-progressive-host="relative">
                 <ProgressiveImage src={realtimeContentImage} fit="contain">
-                    <img
+                    <Image
                         class="ds-realtime__image"
-                        src={realtimeContentImage.src}
+                        src={realtimeContentImage}
                         alt={content.imageAlt}
+                        widths={getResponsiveImageWidths(realtimeContentImage)}
+                        width={getImageOutputWidth(realtimeContentImage)}
+                        sizes="auto, (min-width: 64rem) 45vw, 100vw"
+                        format="webp"
                         loading="lazy"
                         decoding="async"
                     />

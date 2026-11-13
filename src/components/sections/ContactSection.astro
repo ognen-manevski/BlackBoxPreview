@@ -5,11 +5,13 @@ import SubscribeField from '../atoms/SubscribeField.astro';
 import ContactForm from './ContactForm.astro';
 import ContactDetailItem from '../atoms/ContactDetailItem.astro';
 import gradient1DarkPoster from '../../assets/images/video-thumbnails/gradients/dark/gradient-1-grain-0.jpg';
+import { getOptimizedImageUrl } from '../../utils/images';
 import type { HomePageContent } from '../../i18n/pages/home';
 import { commonTranslations } from '../../i18n/common';
 import { getLocaleFromUrl, getLocalizedPath, getTranslations } from '../../i18n/utils';
 interface Props { content: HomePageContent['contact']; }
 const { content } = Astro.props;
+const optimizedPoster = await getOptimizedImageUrl(gradient1DarkPoster, 1600);
 const common = getTranslations(commonTranslations, getLocaleFromUrl(Astro.url));
 const privacyHref = getLocalizedPath('/privacy-policy/', getLocaleFromUrl(Astro.url));
 ---
@@ -22,7 +24,7 @@ const privacyHref = getLocalizedPath('/privacy-policy/', getLocaleFromUrl(Astro.
     muted
     playsinline
     preload="metadata"
-    poster={gradient1DarkPoster.src}
+    poster={optimizedPoster}
     aria-hidden="true"
   >
     <source src={`${import.meta.env.BASE_URL}videos/gradients/dark/base-gradient-1.mp4`} type="video/mp4" media="(min-width: 641px)" />

@@ -1,4 +1,5 @@
 ---
+import { getOptimizedImageUrl } from '../../utils/images';
 import spkLogo from '../../assets/images/company-logos/clients/sm/spk-sm.jpg';
 import halkLogo from '../../assets/images/company-logos/clients/sm/halk-sm.jpg';
 import specLogo from '../../assets/images/company-logos/clients/sm/spec-sm.jpg';
@@ -11,6 +12,9 @@ interface Props {
 }
 
 const { content } = Astro.props;
+const optimizedLogos = await Promise.all(
+  [spkLogo, halkLogo, neotelLogo, specLogo, popovLogo].map((logo) => getOptimizedImageUrl(logo, 128)),
+);
 ---
 
 <div class="hero-proof">
@@ -27,11 +31,11 @@ const { content } = Astro.props;
         </div>
     </span>
     <span class="hero-proof__logos" aria-label="Trusted client logos">
-      <img class="hero-proof__logo hero-proof__logo--front" src={spkLogo.src} alt="Sparkasse Bank" />
-      <img class="hero-proof__logo" src={halkLogo.src} alt="Halkbank" />
-      <img class="hero-proof__logo" src={neotelLogo.src} alt="Neotel" />
-      <img class="hero-proof__logo" src={specLogo.src} alt="SPEC" />
-      <img class="hero-proof__logo" src={popovLogo.src} alt="Popov" />
+      <img class="hero-proof__logo hero-proof__logo--front" src={optimizedLogos[0]} alt="Sparkasse Bank" />
+      <img class="hero-proof__logo" src={optimizedLogos[1]} alt="Halkbank" />
+      <img class="hero-proof__logo" src={optimizedLogos[2]} alt="Neotel" />
+      <img class="hero-proof__logo" src={optimizedLogos[3]} alt="SPEC" />
+      <img class="hero-proof__logo" src={optimizedLogos[4]} alt="Popov" />
     </span>
   </div>
 </div>

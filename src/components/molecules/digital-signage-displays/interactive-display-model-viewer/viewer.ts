@@ -684,6 +684,13 @@ diffuseColor *= sampledDiffuseColor;
 
       isReady = true;
       setStatus(container, "");
+      const loadingOverlay = container.querySelector<HTMLElement>(
+        "[data-model-loading]",
+      );
+      if (loadingOverlay) {
+        loadingOverlay.hidden = true;
+        loadingOverlay.setAttribute("aria-hidden", "true");
+      }
       if (isVisible) startRendering();
     },
     undefined,

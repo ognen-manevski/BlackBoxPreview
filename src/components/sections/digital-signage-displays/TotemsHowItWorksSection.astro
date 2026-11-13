@@ -113,7 +113,14 @@ const illustrationWithTotemIcons = totemIllustrationIcons.reduce(
 );
 ---
 
-<section class="section totems-how" aria-labelledby="totems-how-heading">
+<section
+  class:list={[
+    'section',
+    'totems-how',
+    iconSet === 'interactive-displays' && 'totems-how--interactive',
+  ]}
+  aria-labelledby="totems-how-heading"
+>
   <div class="totems-how__lights" aria-hidden="true"></div>
   <div class="container totems-how__container">
     <div class="totems-how__left">
@@ -195,6 +202,12 @@ const illustrationWithTotemIcons = totemIllustrationIcons.reduce(
     column-gap: clamp(var(--sp-6), 7vw, var(--sp-9));
     row-gap: var(--sp-6);
     align-items: center;
+  }
+
+  @media (min-width: 1025px) {
+    .totems-how--interactive .totems-how__container {
+      column-gap: clamp(var(--sp-6), 8vw, var(--sp-10));
+    }
   }
 
   .totems-how__left {
@@ -317,6 +330,11 @@ const illustrationWithTotemIcons = totemIllustrationIcons.reduce(
     min-height: clamp(16rem, 36vw, 28rem);
   }
 
+  .totems-how--interactive .totems-how__visual {
+    width: min(calc(100% + 10rem), 50rem);
+    margin-left: -5rem;
+  }
+
   .totems-how__illustration {
     display: block;
     width: 100%;
@@ -354,6 +372,12 @@ const illustrationWithTotemIcons = totemIllustrationIcons.reduce(
     .totems-how__visual {
       max-width: 40rem;
       min-height: clamp(14rem, 56vw, 22rem);
+      margin-inline: auto;
+    }
+
+    .totems-how--interactive .totems-how__visual {
+      width: min(calc(100vw - 2rem), 50rem);
+      max-width: none;
       margin-inline: auto;
     }
   }
